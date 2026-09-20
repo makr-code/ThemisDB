@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gocryptfs_bench_fixture" kind="class" language="C++" prot="public">
+    <compoundname>GocryptfsBenchFixture</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">benchmark::Fixture</basecompoundref>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" prot="public" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1plugins_1_1user__storage_1_1_gocryptfs_backend" kindref="compound">GocryptfsBackend</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;GocryptfsBackend&gt; GocryptfsBenchFixture::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>GocryptfsBenchFixture::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="65" column="21" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_gocryptfs_bench_fixture_1aa67267d94a5cd241cfbf5ad797c9396e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GocryptfsBenchFixture::SetUp</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GocryptfsBenchFixture::SetUp</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="56" column="10" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gocryptfs_bench_fixture_1a47f8dc2a2563767e2f374e4acb36a87c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GocryptfsBenchFixture::TearDown</definition>
+        <argsstring>(const benchmark::State &amp;) override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GocryptfsBenchFixture::TearDown</qualifiedname>
+        <param>
+          <type>const benchmark::State &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="61" column="10" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GocryptfsBenchFixture</label>
+        <link refid="class_gocryptfs_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GocryptfsBenchFixture</label>
+        <link refid="class_gocryptfs_bench_fixture"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>benchmark::Fixture</label>
+      </node>
+    </collaborationgraph>
+    <location file="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" line="54" column="1" bodyfile="benchmarks/user_storage_encrypted/bench_user_storage_mount_latency.cpp" bodystart="54" bodyend="66"/>
+    <listofallmembers>
+      <member refid="class_gocryptfs_bench_fixture_1a29f936cbb5ebf32ef2c6e93453bc3227" prot="public" virt="non-virtual"><scope>GocryptfsBenchFixture</scope><name>backend</name></member>
+      <member refid="class_gocryptfs_bench_fixture_1aa67267d94a5cd241cfbf5ad797c9396e" prot="public" virt="non-virtual"><scope>GocryptfsBenchFixture</scope><name>SetUp</name></member>
+      <member refid="class_gocryptfs_bench_fixture_1a47f8dc2a2563767e2f374e4acb36a87c" prot="public" virt="non-virtual"><scope>GocryptfsBenchFixture</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

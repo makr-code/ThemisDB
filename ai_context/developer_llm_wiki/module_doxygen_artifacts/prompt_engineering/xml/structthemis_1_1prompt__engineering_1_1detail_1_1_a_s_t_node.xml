@@ -1,0 +1,180 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::detail::ASTNode</compoundname>
+    <sectiondef kind="public-type">
+      <memberdef kind="enum" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>Kind</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::Kind</qualifiedname>
+        <enumvalue id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30a61a96ffcb251bb9bf0abf8fec19d0ea8" prot="public">
+          <name>TEXT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30a0b688c5f3d542268089da39994214ab8" prot="public">
+          <name>SLOT</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30ade6ee2b5d856295add4d5e3631fbfb93" prot="public">
+          <name>IF</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30a2821bdb7d6a5d4ff84431fa16d01dbcc" prot="public">
+          <name>FOREACH</name>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="31" column="5" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a513a8ecbeedae07a0ca6d4a26b41bedd" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30" kindref="member">Kind</ref></type>
+        <definition>Kind themis::prompt_engineering::detail::ASTNode::kind</definition>
+        <argsstring></argsstring>
+        <name>kind</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::kind</qualifiedname>
+        <initializer>= <ref refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30a61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">Kind::TEXT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="33" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a3f892ea593890cea56dd1fb0982bbf9a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::detail::ASTNode::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="34" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a78798f5233ce93503c32c8b8af78296d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::detail::ASTNode::name</definition>
+        <argsstring></argsstring>
+        <name>name</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="35" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a24262c0df6d81d073da18286a57818aa" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::detail::ASTNode::list_var</definition>
+        <argsstring></argsstring>
+        <name>list_var</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::list_var</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="36" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1acf812b41e92fd91bd3a2df7cc8da42a9" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::detail::ASTNode::required</definition>
+        <argsstring></argsstring>
+        <name>required</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::required</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="37" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a81c3f5b9c2883cc422575a584d61d682" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::detail::ASTNode::default_value</definition>
+        <argsstring></argsstring>
+        <name>default_value</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::default_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="38" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a24dd9ed4f5a7d5fbeb381b9b376c8f59" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" kindref="member">ASTNodePtr</ref> &gt;</type>
+        <definition>std::vector&lt;ASTNodePtr&gt; themis::prompt_engineering::detail::ASTNode::children</definition>
+        <argsstring></argsstring>
+        <name>children</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="40" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a71662641664038685ba8c47ec79c03d1" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1prompt__engineering_1_1detail_1aca4ac9e30beb90e123ecd6ddf5a9c3c4" kindref="member">ASTNodePtr</ref> &gt;</type>
+        <definition>std::vector&lt;ASTNodePtr&gt; themis::prompt_engineering::detail::ASTNode::else_children</definition>
+        <argsstring></argsstring>
+        <name>else_children</name>
+        <qualifiedname>themis::prompt_engineering::detail::ASTNode::else_children</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="41" column="17" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/prompt_template_compiler.cpp" line="30" column="1" bodyfile="src/prompt_engineering/prompt_template_compiler.cpp" bodystart="30" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a24dd9ed4f5a7d5fbeb381b9b376c8f59" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>children</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a81c3f5b9c2883cc422575a584d61d682" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>default_value</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a71662641664038685ba8c47ec79c03d1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>else_children</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a6acd0d9b65f269e51693ab2f3070de30" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>Kind</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a513a8ecbeedae07a0ca6d4a26b41bedd" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>kind</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a24262c0df6d81d073da18286a57818aa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>list_var</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a78798f5233ce93503c32c8b8af78296d" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>name</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1acf812b41e92fd91bd3a2df7cc8da42a9" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>required</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1detail_1_1_a_s_t_node_1a3f892ea593890cea56dd1fb0982bbf9a" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::detail::ASTNode</scope><name>text</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

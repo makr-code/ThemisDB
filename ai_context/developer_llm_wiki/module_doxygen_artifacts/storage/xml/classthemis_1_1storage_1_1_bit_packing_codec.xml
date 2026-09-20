@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1storage_1_1_bit_packing_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::storage::BitPackingCodec</compoundname>
+    <includes refid="columnar__format_8h" local="no">columnar_format.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_bit_packing_codec_1a818a008c935e08ec145e751b9e5c2e73" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::BitPackingCodec::encodeInt32</definition>
+        <argsstring>(const std::vector&lt; int32_t &gt; &amp;data)</argsstring>
+        <name>encodeInt32</name>
+        <qualifiedname>themis::storage::BitPackingCodec::encodeInt32</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int32_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Int32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min_element(), begin(), end(), std::max_element(), calculateBitsRequired(), insert(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="139" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="474" bodyend="529"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_bit_packing_codec_1ab0889456d47e629879fbdb8f7c28f7ca" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; uint8_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; uint8_t &gt; &gt; themis::storage::BitPackingCodec::encodeInt64</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;data)</argsstring>
+        <name>encodeInt64</name>
+        <qualifiedname>themis::storage::BitPackingCodec::encodeInt64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Encode Int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::min_element(), begin(), end(), std::max_element(), calculateBitsRequired(), insert(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="140" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="537" bodyend="591"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_bit_packing_codec_1a903c23ac21b97145f87f63005c9689e0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; int32_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; int32_t &gt; &gt; themis::storage::BitPackingCodec::decodeInt32</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;encoded)</argsstring>
+        <name>decodeInt32</name>
+        <qualifiedname>themis::storage::BitPackingCodec::decodeInt32</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Decode Int32. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="143" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="599" bodyend="666"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_bit_packing_codec_1a96a5f1180a1ff0114aaa06dabf8f8476" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>Result&lt; std::vector&lt; int64_t &gt; &gt;</type>
+        <definition>Result&lt; std::vector&lt; int64_t &gt; &gt; themis::storage::BitPackingCodec::decodeInt64</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;encoded)</argsstring>
+        <name>decodeInt64</name>
+        <qualifiedname>themis::storage::BitPackingCodec::decodeInt64</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>encoded</declname>
+        </param>
+        <briefdescription>
+<para>Decode Int64. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">encoded</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), tl::unexpected(), Error(), std::memcpy(), reserve(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="144" column="19" bodyfile="src/storage/columnar_format.cpp" bodystart="674" bodyend="747"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1storage_1_1_bit_packing_codec_1ab85ae6ab1ab475ed4326a2bcdc515a9d" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::storage::BitPackingCodec::calculateBitsRequired</definition>
+        <argsstring>(int64_t min_val, int64_t max_val)</argsstring>
+        <name>calculateBitsRequired</name>
+        <qualifiedname>themis::storage::BitPackingCodec::calculateBitsRequired</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>min_val</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>max_val</declname>
+        </param>
+        <briefdescription>
+<para>Calculate Bits Required. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">min_val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::swap(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/storage/columnar_format.h" line="148" column="20" bodyfile="src/storage/columnar_format.cpp" bodystart="432" bodyend="466"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Bit-Packing Codec. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/storage/columnar_format.h" line="136" column="1" bodyfile="include/storage/columnar_format.h" bodystart="136" bodyend="149"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1storage_1_1_bit_packing_codec_1ab85ae6ab1ab475ed4326a2bcdc515a9d" prot="private" virt="non-virtual"><scope>themis::storage::BitPackingCodec</scope><name>calculateBitsRequired</name></member>
+      <member refid="classthemis_1_1storage_1_1_bit_packing_codec_1a903c23ac21b97145f87f63005c9689e0" prot="public" virt="non-virtual"><scope>themis::storage::BitPackingCodec</scope><name>decodeInt32</name></member>
+      <member refid="classthemis_1_1storage_1_1_bit_packing_codec_1a96a5f1180a1ff0114aaa06dabf8f8476" prot="public" virt="non-virtual"><scope>themis::storage::BitPackingCodec</scope><name>decodeInt64</name></member>
+      <member refid="classthemis_1_1storage_1_1_bit_packing_codec_1a818a008c935e08ec145e751b9e5c2e73" prot="public" virt="non-virtual"><scope>themis::storage::BitPackingCodec</scope><name>encodeInt32</name></member>
+      <member refid="classthemis_1_1storage_1_1_bit_packing_codec_1ab0889456d47e629879fbdb8f7c28f7ca" prot="public" virt="non-virtual"><scope>themis::storage::BitPackingCodec</scope><name>encodeInt64</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,347 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm__wiki_1_1_workspace_state_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm_wiki::WorkspaceStateManager</compoundname>
+    <includes refid="workspace__state__manager_8h" local="no">workspace_state_manager.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1aed601dd86a52c86cd7fdab98f460b1ed" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::llm_wiki::WorkspaceStateManager::workspace_root_</definition>
+        <argsstring></argsstring>
+        <name>workspace_root_</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::workspace_root_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="205" column="27" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="205" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a1af54fce4e2b904cce4b7dc357d29432" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::llm_wiki::WorkspaceStateManager::state_file_</definition>
+        <argsstring></argsstring>
+        <name>state_file_</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::state_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="206" column="27" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="206" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a69f05e384d509950405c3dfd0d0bc790" prot="private" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path themis::llm_wiki::WorkspaceStateManager::log_file_</definition>
+        <argsstring></argsstring>
+        <name>log_file_</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::log_file_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="207" column="27" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WorkspaceStateManager::WorkspaceStateManager</definition>
+        <argsstring>(const std::filesystem::path &amp;workspace_root)</argsstring>
+        <name>WorkspaceStateManager</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::WorkspaceStateManager</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>workspace_root</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="144" column="14" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a6d7ed2481635c9924ca78ea599c9bf36" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WorkspaceStateManager::~WorkspaceStateManager</definition>
+        <argsstring>()=default</argsstring>
+        <name>~WorkspaceStateManager</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::~WorkspaceStateManager</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="149" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1ac3f631c1f5c72a57085def7b72816637" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm_wiki::WorkspaceStateManager::WorkspaceStateManager</definition>
+        <argsstring>(const WorkspaceStateManager &amp;)=delete</argsstring>
+        <name>WorkspaceStateManager</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::WorkspaceStateManager</qualifiedname>
+        <param>
+          <type>const WorkspaceStateManager &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="152" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a79c5fb2c29f32875f50b20f93f1697be" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref> &amp;</type>
+        <definition>WorkspaceStateManager &amp; themis::llm_wiki::WorkspaceStateManager::operator=</definition>
+        <argsstring>(const WorkspaceStateManager &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" kindref="member">WorkspaceStateManager</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="153" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a457836c232e5da3cff1d72fab52929fa" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>WorkspaceStatus themis::llm_wiki::WorkspaceStateManager::load</definition>
+        <argsstring>(WorkspaceState &amp;out_state) noexcept</argsstring>
+        <name>load</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::load</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref> &amp;</type>
+          <declname>out_state</declname>
+        </param>
+        <briefdescription>
+<para>Load workspace state from disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><orderedlist>
+<listitem><para>Read state.json</para>
+</listitem><listitem><para>Validate SHA-256 checksum embedded in the file</para>
+</listitem><listitem><para>On checksum failure, attempt recovery from state.log</para>
+</listitem><listitem><para>Return error if both fail</para>
+</listitem></orderedlist>
+</para>
+<para><simplesect kind="return"><para>OK if state loaded successfully, or error code otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Read state. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_file_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+json</para>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="165" column="22" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="154" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a403540d19705ab7a040581be09f01481" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>WorkspaceStatus themis::llm_wiki::WorkspaceStateManager::save</definition>
+        <argsstring>(const WorkspaceState &amp;state) noexcept</argsstring>
+        <name>save</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::save</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref> &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Save workspace state to disk atomically. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><orderedlist>
+<listitem><para>Serialize state to JSON</para>
+</listitem><listitem><para>Compute SHA-256 checksum</para>
+</listitem><listitem><para>Write to temporary file</para>
+</listitem><listitem><para>Rename temp file to state.json (atomic on POSIX)</para>
+</listitem><listitem><para>Append to state.log for durability</para>
+</listitem></orderedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>State to persist. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OK on success, error code otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ofs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">temp_file</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Log ofs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">app</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="179" column="22" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="213" bodyend="281"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a9eab3f855b283e3470679fcee574865b" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>WorkspaceStatus themis::llm_wiki::WorkspaceStateManager::recoverFromLog</definition>
+        <argsstring>(WorkspaceState &amp;out_state) noexcept</argsstring>
+        <name>recoverFromLog</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::recoverFromLog</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_state" kindref="compound">WorkspaceState</ref> &amp;</type>
+          <declname>out_state</declname>
+        </param>
+        <briefdescription>
+<para>Attempt recovery from the append-only transaction log. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>If state.json is corrupted, try to reconstruct the state from state.log (which has one JSON object per line).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>out_state</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reconstructed state (best-effort). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OK if recovery succeeds, error otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">log_file_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="202" column="22" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="324" bodyend="379"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a4475be79a777fee1728a0edad0b48c60" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1llm__wiki_1_1_workspace_status" kindref="compound">WorkspaceStatus</ref></type>
+        <definition>WorkspaceStatus themis::llm_wiki::WorkspaceStateManager::validateChecksum</definition>
+        <argsstring>(const std::filesystem::path &amp;file_path) noexcept</argsstring>
+        <name>validateChecksum</name>
+        <qualifiedname>themis::llm_wiki::WorkspaceStateManager::validateChecksum</qualifiedname>
+        <param>
+          <type>const std::filesystem::path &amp;</type>
+          <declname>file_path</declname>
+        </param>
+        <briefdescription>
+<para>Validate the checksum of a state file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the SHA-256 field from the JSON and compares it to the computed hash of the file contents (excluding the checksum field itself).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to state.json. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>OK if checksum matches, ChecksumMismatch otherwise. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Ifs. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the file. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/llm_wiki/workspace_state_manager.h" line="190" column="29" bodyfile="src/llm_wiki/workspace_state_manager.cpp" bodystart="283" bodyend="322"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Manages persistent workspace state with durability and corruption recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Responsibilities:<itemizedlist>
+<listitem><para>Load state.json with checksum validation</para>
+</listitem><listitem><para>Save state atomically (write temp file, rename on success)</para>
+</listitem><listitem><para>Detect and recover from corruption</para>
+</listitem><listitem><para>Maintain append-only transaction log for recovery</para>
+</listitem></itemizedlist>
+</para>
+<para>Thread-safety: Methods are NOT thread-safe by default. Caller must serialize access via external mutex if needed. </para>
+    </detaileddescription>
+    <location file="include/llm_wiki/workspace_state_manager.h" line="142" column="1" bodyfile="include/llm_wiki/workspace_state_manager.h" bodystart="142" bodyend="208"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a457836c232e5da3cff1d72fab52929fa" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>load</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a69f05e384d509950405c3dfd0d0bc790" prot="private" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>log_file_</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a79c5fb2c29f32875f50b20f93f1697be" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a9eab3f855b283e3470679fcee574865b" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>recoverFromLog</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a403540d19705ab7a040581be09f01481" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>save</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a1af54fce4e2b904cce4b7dc357d29432" prot="private" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>state_file_</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a4475be79a777fee1728a0edad0b48c60" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>validateChecksum</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1aed601dd86a52c86cd7fdab98f460b1ed" prot="private" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>workspace_root_</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a68c7bcf18fab23282b02d577926eb0dd" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>WorkspaceStateManager</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1ac3f631c1f5c72a57085def7b72816637" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>WorkspaceStateManager</name></member>
+      <member refid="classthemis_1_1llm__wiki_1_1_workspace_state_manager_1a6d7ed2481635c9924ca78ea599c9bf36" prot="public" virt="non-virtual"><scope>themis::llm_wiki::WorkspaceStateManager</scope><name>~WorkspaceStateManager</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

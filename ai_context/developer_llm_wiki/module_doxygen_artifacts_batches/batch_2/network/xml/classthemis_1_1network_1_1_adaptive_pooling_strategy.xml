@@ -1,0 +1,298 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1network_1_1_adaptive_pooling_strategy" kind="class" language="C++" prot="public">
+    <compoundname>themis::network::AdaptivePoolingStrategy</compoundname>
+    <basecompoundref refid="classthemis_1_1network_1_1_i_pooling_strategy" prot="public" virt="non-virtual">themis::network::IPoolingStrategy</basecompoundref>
+    <includes refid="wire__protocol__connection__pool_8h" local="no">wire_protocol_connection_pool.h</includes>
+    <innerclass refid="structthemis_1_1network_1_1_adaptive_pooling_strategy_1_1_config" prot="public">themis::network::AdaptivePoolingStrategy::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a06e634c05995066c19323606252519dc" prot="private" static="no" mutable="no">
+        <type><ref refid="struct_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::network::AdaptivePoolingStrategy::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="139" column="12" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="139" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1ad419cd0efff53acfaa0e8d33fee75147" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptivePoolingStrategy::AdaptivePoolingStrategy</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>AdaptivePoolingStrategy</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::AdaptivePoolingStrategy</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="117" column="14" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="108" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a7d812b5756c8e1c4c8680801ab636a6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::network::AdaptivePoolingStrategy::AdaptivePoolingStrategy</definition>
+        <argsstring>()</argsstring>
+        <name>AdaptivePoolingStrategy</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::AdaptivePoolingStrategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="118" column="5" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="112" bodyend="114"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1acbb8b1d1f5c889e4ccab77d5fa54ab8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::network::AdaptivePoolingStrategy::getIdealConnectionCount</definition>
+        <argsstring>(size_t current_count, size_t active_count, double load) override</argsstring>
+        <name>getIdealConnectionCount</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::getIdealConnectionCount</qualifiedname>
+        <reimplements refid="classthemis_1_1network_1_1_i_pooling_strategy_1a1cf75c504fcb589058b9cf99eef6d2e7">getIdealConnectionCount</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>active_count</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>load</declname>
+        </param>
+        <briefdescription>
+<para>Get Ideal Connection Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">active_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">load</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="120" column="12" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="123" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a050208446efb081cfa74db57b5fa0851" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::network::AdaptivePoolingStrategy::shouldCreateConnection</definition>
+        <argsstring>(size_t current_count, size_t max_count, size_t available_count) override</argsstring>
+        <name>shouldCreateConnection</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::shouldCreateConnection</qualifiedname>
+        <reimplements refid="classthemis_1_1network_1_1_i_pooling_strategy_1a6ab52c52ee8be17d5280b02509f26d17">shouldCreateConnection</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>max_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_count</declname>
+        </param>
+        <briefdescription>
+<para>Should Create Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="125" column="10" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="151" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a90a20792409236b9dd258bab42327f7a" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::network::AdaptivePoolingStrategy::shouldRemoveConnection</definition>
+        <argsstring>(size_t current_count, size_t min_count, size_t available_count, std::chrono::seconds idle_time) override</argsstring>
+        <name>shouldRemoveConnection</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::shouldRemoveConnection</qualifiedname>
+        <reimplements refid="classthemis_1_1network_1_1_i_pooling_strategy_1aea8ed73d89551cce067e69199fd568e5">shouldRemoveConnection</reimplements>
+        <param>
+          <type>size_t</type>
+          <declname>current_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>min_count</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>available_count</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>idle_time</declname>
+        </param>
+        <briefdescription>
+<para>Should Remove Connection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">min_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">available_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">idle_time</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="130" column="10" bodyfile="src/network/wire_protocol_connection_pool.cpp" bodystart="176" bodyend="190"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1network_1_1_adaptive_pooling_strategy_1abebc7cd226897f64d4f604ba8e1a3b78" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="struct_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::network::AdaptivePoolingStrategy::strategyConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>strategyConfig</name>
+        <qualifiedname>themis::network::AdaptivePoolingStrategy::strategyConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/network/wire_protocol_connection_pool.h" line="136" column="18" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="136" bodyend="136"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Adaptive pool sizing strategy based on utilization thresholds. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><itemizedlist>
+<listitem><para>Scales up when the fraction of idle connections drops below <computeroutput>(1 - scale_up_threshold)</computeroutput>.</para>
+</listitem><listitem><para>Scales down when idle connections have been idle longer than <computeroutput>min_idle_time</computeroutput> and the pool is above <computeroutput>min_count</computeroutput>. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::network::AdaptivePoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_adaptive_pooling_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::network::IPoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_i_pooling_strategy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::network::AdaptivePoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_adaptive_pooling_strategy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::network::IPoolingStrategy</label>
+        <link refid="classthemis_1_1network_1_1_i_pooling_strategy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/network/wire_protocol_connection_pool.h" line="99" column="1" bodyfile="include/network/wire_protocol_connection_pool.h" bodystart="99" bodyend="140"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1ad419cd0efff53acfaa0e8d33fee75147" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>AdaptivePoolingStrategy</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a7d812b5756c8e1c4c8680801ab636a6a" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>AdaptivePoolingStrategy</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a06e634c05995066c19323606252519dc" prot="private" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>config_</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1acbb8b1d1f5c889e4ccab77d5fa54ab8b" prot="public" virt="virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>getIdealConnectionCount</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a050208446efb081cfa74db57b5fa0851" prot="public" virt="virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>shouldCreateConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1a90a20792409236b9dd258bab42327f7a" prot="public" virt="virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>shouldRemoveConnection</name></member>
+      <member refid="classthemis_1_1network_1_1_adaptive_pooling_strategy_1abebc7cd226897f64d4f604ba8e1a3b78" prot="public" virt="non-virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>strategyConfig</name></member>
+      <member refid="classthemis_1_1network_1_1_i_pooling_strategy_1af58960c1ae69b35c44c29eae2ce5a350" prot="public" virt="virtual"><scope>themis::network::AdaptivePoolingStrategy</scope><name>~IPoolingStrategy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

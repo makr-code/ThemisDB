@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::InvalidationReasonUtils</compoundname>
+    <includes refid="src_2distributed__tensor_2include_2artifact__manifest_8h" local="no">artifact_manifest.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils_1a5cfb60ea5a4520c2959bb34b3df2b21a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::InvalidationReasonUtils::reasonToString</definition>
+        <argsstring>(InvalidationReason reason)</argsstring>
+        <name>reasonToString</name>
+        <qualifiedname>themis::distributed_tensor::InvalidationReasonUtils::reasonToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref></type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Reason To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements reasonToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="173" column="24" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="253" bodyend="265"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils_1a2dc24209a9febc1bb5222083fd3d5314" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a853815cf62995a21f7825b79a90ee18b" kindref="member">InvalidationReason</ref> &gt;</type>
+        <definition>std::optional&lt; InvalidationReason &gt; themis::distributed_tensor::InvalidationReasonUtils::stringToReason</definition>
+        <argsstring>(const std::string &amp;reason_str)</argsstring>
+        <name>stringToReason</name>
+        <qualifiedname>themis::distributed_tensor::InvalidationReasonUtils::stringToReason</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason_str</declname>
+        </param>
+        <briefdescription>
+<para>String To Reason. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">reason_str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stringToReason without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/distributed_tensor/include/artifact_manifest.h" line="180" column="26" bodyfile="src/distributed_tensor/src/artifact_manifest.cc" bodystart="273" bodyend="300"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/distributed_tensor/include/artifact_manifest.h" line="167" column="1" bodyfile="src/distributed_tensor/include/artifact_manifest.h" bodystart="167" bodyend="181"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils_1a5cfb60ea5a4520c2959bb34b3df2b21a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::InvalidationReasonUtils</scope><name>reasonToString</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_invalidation_reason_utils_1a2dc24209a9febc1bb5222083fd3d5314" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::InvalidationReasonUtils</scope><name>stringToReason</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="index__error__codes_8h" kind="file" language="C++">
+    <compoundname>index_error_codes.h</compoundname>
+    <includes local="no">cstdint</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>include/index/index_error_codes.h</label>
+        <link refid="index__error__codes_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>stdexcept</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1index_1_1_index_error" prot="public">themis::index::IndexError</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <briefdescription>
+<para>Frozen error taxonomy for the Index module backend, rebuild, and distribution failure classes. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>ThemisDB | File: <ref refid="index__error__codes_8h" kindref="compound">index_error_codes.h</ref> | Version: 1.0.0 Maturity: FROZEN — Q3 2026 gate delivery Author: Copilot | Date: 2026-08-09</para>
+<para>This header defines the canonical error taxonomy for the Index module. All index components (AnnFrontdoor, TieredIndexManager, ShardedIndexProxy, rebuild pipeline) MUST use these codes when returning structured errors.</para>
+<sect1 id="index__error__codes_8h_1autotoc_md0_1s1"><sect2 id="index__error__codes_8h_1autotoc_md0">
+<title>Error Code Ranges</title><para><table rows="4" cols="2"><row>
+<entry thead="yes"><para>Range  </para>
+</entry><entry thead="yes"><para>Class  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>1100–1149  </para>
+</entry><entry thead="no"><para>Backend errors  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>1150–1174  </para>
+</entry><entry thead="no"><para>Rebuild errors  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>1175–1199  </para>
+</entry><entry thead="no"><para>Distribution errors  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="see"><para><ref refid="ann__frontdoor_8h" kindref="compound">include/index/ann_frontdoor.h</ref> — AnnFrontdoor::search() that uses these codes </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="ann__index_8h" kindref="compound">include/index/ann_index.h</ref> — IAnnIndex backend interface </para>
+</simplesect>
+<simplesect kind="see"><para>src/index/ROADMAP.md — Phase 1 contract item </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1index" kindref="compound">themis::index</ref><sp/>{</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>IndexErrorCode<sp/>—<sp/>frozen<sp/>taxonomy</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" kindref="member">IndexErrorCode</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Backend<sp/>errors<sp/>(1100–1149)<sp/>───────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40ac6aff12e3b97d7fa2996b5d64212e640" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40ac6aff12e3b97d7fa2996b5d64212e640" kindref="member">BACKEND_EMPTY_RESULT</ref><sp/>=<sp/>1100,</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a4f3be9ade199ec33518c565018f52032" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a4f3be9ade199ec33518c565018f52032" kindref="member">BACKEND_SEARCH_FAILED</ref><sp/>=<sp/>1101,</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a91f0f92c2cd9986336e2e0829dcdc3ec" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a91f0f92c2cd9986336e2e0829dcdc3ec" kindref="member">BACKEND_BUILD_FAILED</ref><sp/>=<sp/>1102,</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a867885c7e0b9a8aa55296a02caee6bf2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a867885c7e0b9a8aa55296a02caee6bf2" kindref="member">BACKEND_NOT_READY</ref><sp/>=<sp/>1103,</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a278545174145ab292d9b64d1d264a9a4" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a278545174145ab292d9b64d1d264a9a4" kindref="member">BACKEND_STRATEGY_UNAVAILABLE</ref><sp/>=<sp/>1104,</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00a0ff33b33969c391416f4a7f3c0219" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00a0ff33b33969c391416f4a7f3c0219" kindref="member">BACKEND_DIM_MISMATCH</ref><sp/>=<sp/>1105,</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00d3f66d3354b7c45dc0d167b61993e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a00d3f66d3354b7c45dc0d167b61993e1" kindref="member">BACKEND_INVALID_RESULT</ref><sp/>=<sp/>1106,</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40add7ddd9c7d03ffc151b5d3b22631c81b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40add7ddd9c7d03ffc151b5d3b22631c81b" kindref="member">BACKEND_RESOURCE_EXHAUSTED</ref><sp/>=<sp/>1107,</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Rebuild<sp/>/<sp/>compaction<sp/>/<sp/>migration<sp/>errors<sp/>(1150–1174)<sp/>─────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aa8614f93f918222d19727fd0957eab62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aa8614f93f918222d19727fd0957eab62" kindref="member">REBUILD_ALREADY_IN_PROGRESS</ref><sp/>=<sp/>1150,</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6143043783302dfa2966f5d48035a256" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6143043783302dfa2966f5d48035a256" kindref="member">REBUILD_INGEST_FAILED</ref><sp/>=<sp/>1151,</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6c6094fa6224b5e3da3859bd703e0ca5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a6c6094fa6224b5e3da3859bd703e0ca5" kindref="member">REBUILD_COMPACTION_FAILED</ref><sp/>=<sp/>1152,</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a864a1ff45935bd3b8b740a60fd3ea713" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a864a1ff45935bd3b8b740a60fd3ea713" kindref="member">REBUILD_CANCELLED</ref><sp/>=<sp/>1153,</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0615606e25a796c0fcdc8873bb386f1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0615606e25a796c0fcdc8873bb386f1e" kindref="member">REBUILD_SOURCE_UNAVAILABLE</ref><sp/>=<sp/>1154,</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a8b1414fef57bde8a569132f1119925c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a8b1414fef57bde8a569132f1119925c9" kindref="member">REBUILD_TIMEOUT</ref><sp/>=<sp/>1155,</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Distribution<sp/>/<sp/>shard<sp/>/<sp/>fan-out<sp/>errors<sp/>(1175–1199)<sp/>────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="108" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aef2276f9b2f7e6e8c87933f681af37e5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40aef2276f9b2f7e6e8c87933f681af37e5" kindref="member">DISTRIBUTION_ALL_SHARDS_FAILED</ref><sp/>=<sp/>1175,</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0b574ed9f5bf1d7bbd9a511ea84cb068" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a0b574ed9f5bf1d7bbd9a511ea84cb068" kindref="member">DISTRIBUTION_PARTIAL_FAILURE</ref><sp/>=<sp/>1176,</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a2409f39a61cde3a4f70a1ab9a735ec49" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a2409f39a61cde3a4f70a1ab9a735ec49" kindref="member">DISTRIBUTION_TIMEOUT</ref><sp/>=<sp/>1177,</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40afd58d3f1419066408af556e79b424b8a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40afd58d3f1419066408af556e79b424b8a" kindref="member">DISTRIBUTION_NO_SHARDS</ref><sp/>=<sp/>1178,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a5d4d1d65ba3e2153cdaf27899e4aa8fc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40a5d4d1d65ba3e2153cdaf27899e4aa8fc" kindref="member">DISTRIBUTION_REBALANCING</ref><sp/>=<sp/>1179,</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>2<sp/><sp/>IndexError<sp/>—<sp/>structured<sp/>exception</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="classthemis_1_1index_1_1_index_error" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1index_1_1_index_error_1ad2f224e379099ad0b988117413344bcd" kindref="member">IndexError</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>std::runtime_error<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="150" refid="classthemis_1_1index_1_1_index_error_1ad2f224e379099ad0b988117413344bcd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_index_error_1ad2f224e379099ad0b988117413344bcd" kindref="member">IndexError</ref>(<ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" kindref="member">IndexErrorCode</ref><sp/><ref refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" kindref="member">code</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(message),<sp/>code_(<ref refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" kindref="member">code</ref>)<sp/>{}</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="159" refid="classthemis_1_1index_1_1_index_error_1a9d4a4321f57d2f4bed832e5f46dd9079" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1index_1_1_index_error_1a9d4a4321f57d2f4bed832e5f46dd9079" kindref="member">IndexError</ref>(<ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" kindref="member">IndexErrorCode</ref><sp/><ref refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" kindref="member">code</ref>,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>message,</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1index_1_1_index_error_1a5264c6463bd63461d9868d89e7e53d72" kindref="member">correlation_id</ref>)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>std::runtime_error(message),</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>code_(<ref refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" kindref="member">code</ref>),</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>correlation_id_(std::move(<ref refid="classthemis_1_1index_1_1_index_error_1a5264c6463bd63461d9868d89e7e53d72" kindref="member">correlation_id</ref>))<sp/>{}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166" refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" kindref="member">IndexErrorCode</ref><sp/><ref refid="classthemis_1_1index_1_1_index_error_1a7b25d5458bf7cf9d6795a2ca41897ec0" kindref="member">code</ref>()<sp/>const<sp/>noexcept<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>code_;<sp/>}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="169" refid="classthemis_1_1index_1_1_index_error_1a5264c6463bd63461d9868d89e7e53d72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1index_1_1_index_error_1a5264c6463bd63461d9868d89e7e53d72" kindref="member">correlation_id</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>correlation_id_;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="classthemis_1_1index_1_1_index_error_1ab05fc159f9c3b86b1c5836f7bc1b2fba" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>[[nodiscard]]<sp/>uint32_t<sp/><ref refid="classthemis_1_1index_1_1_index_error_1ab05fc159f9c3b86b1c5836f7bc1b2fba" kindref="member">code_value</ref>()<sp/>const<sp/>noexcept<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint32_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code_);</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1index_1a638845e9cbf32fc1aeafcd3ec728fc40" kindref="member">IndexErrorCode</ref><sp/>code_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><sp/><sp/><sp/>correlation_id_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::index</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/index/index_error_codes.h"/>
+  </compounddef>
+</doxygen>

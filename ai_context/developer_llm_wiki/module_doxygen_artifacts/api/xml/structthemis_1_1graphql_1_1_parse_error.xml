@@ -1,0 +1,81 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1graphql_1_1_parse_error" kind="struct" language="C++" prot="public">
+    <compoundname>themis::graphql::ParseError</compoundname>
+    <includes refid="graphql_8h" local="no">graphql.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parse_error_1a1900b895d79ee53041a25942c9846ada" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::ParseError::message</definition>
+        <argsstring></argsstring>
+        <name>message</name>
+        <qualifiedname>themis::graphql::ParseError::message</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="269" column="17" bodyfile="include/api/graphql.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parse_error_1a8137edfeae1680fa2e446679651f1caa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::ParseError::line</definition>
+        <argsstring></argsstring>
+        <name>line</name>
+        <qualifiedname>themis::graphql::ParseError::line</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="270" column="12" bodyfile="include/api/graphql.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1graphql_1_1_parse_error_1a6f6e0720ce19b9c9620a442a5e8bd626" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::graphql::ParseError::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>themis::graphql::ParseError::column</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="271" column="12" bodyfile="include/api/graphql.h" bodystart="271" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1graphql_1_1_parse_error_1ac19b9e440bc6ef01f399b1bc26dad948" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::graphql::ParseError::toString</definition>
+        <argsstring>() const</argsstring>
+        <name>toString</name>
+        <qualifiedname>themis::graphql::ParseError::toString</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql.h" line="273" column="17" bodyfile="include/api/graphql.h" bodystart="273" bodyend="275"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/graphql.h" line="268" column="1" bodyfile="include/api/graphql.h" bodystart="268" bodyend="276"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1graphql_1_1_parse_error_1a6f6e0720ce19b9c9620a442a5e8bd626" prot="public" virt="non-virtual"><scope>themis::graphql::ParseError</scope><name>column</name></member>
+      <member refid="structthemis_1_1graphql_1_1_parse_error_1a8137edfeae1680fa2e446679651f1caa" prot="public" virt="non-virtual"><scope>themis::graphql::ParseError</scope><name>line</name></member>
+      <member refid="structthemis_1_1graphql_1_1_parse_error_1a1900b895d79ee53041a25942c9846ada" prot="public" virt="non-virtual"><scope>themis::graphql::ParseError</scope><name>message</name></member>
+      <member refid="structthemis_1_1graphql_1_1_parse_error_1ac19b9e440bc6ef01f399b1bc26dad948" prot="public" virt="non-virtual"><scope>themis::graphql::ParseError</scope><name>toString</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

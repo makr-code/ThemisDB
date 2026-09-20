@@ -1,0 +1,1636 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1functions" kind="namespace" language="C++">
+    <compoundname>themis::query::functions</compoundname>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_abs_function" prot="public">themis::query::functions::AbsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_acos_function" prot="public">themis::query::functions::AcosFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_age_function" prot="public">themis::query::functions::AgeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_all_function" prot="public">themis::query::functions::AllFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_and_function" prot="public">themis::query::functions::AndFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_any_function" prot="public">themis::query::functions::AnyFunction</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_arg_spec" prot="public">themis::query::functions::ArgSpec</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_array_and_function" prot="public">themis::query::functions::ArrayAndFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_array_constructor_function" prot="public">themis::query::functions::ArrayConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_array_or_function" prot="public">themis::query::functions::ArrayOrFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_array_xor_function" prot="public">themis::query::functions::ArrayXorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_asin_function" prot="public">themis::query::functions::AsinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_atan2_function" prot="public">themis::query::functions::Atan2Function</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_atan_function" prot="public">themis::query::functions::AtanFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_attributes_function" prot="public">themis::query::functions::AttributesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_avg_function" prot="public">themis::query::functions::AvgFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_betweenness_centrality_ext_function" prot="public">themis::query::functions::BetweennessCentralityExtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_cancel_task_function" prot="public">themis::query::functions::CancelTaskFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ceil_function" prot="public">themis::query::functions::CeilFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_chebyshev_distance_function" prot="public">themis::query::functions::ChebyshevDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_checksum_function" prot="public">themis::query::functions::ChecksumFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_choose_function" prot="public">themis::query::functions::ChooseFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_clustering_coefficient_function" prot="public">themis::query::functions::ClusteringCoefficientFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_coalesce_function" prot="public">themis::query::functions::CoalesceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_coefficient_of_variation_function" prot="public">themis::query::functions::CoefficientOfVariationFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_collect_function" prot="public">themis::query::functions::CollectFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_concat_function" prot="public">themis::query::functions::ConcatFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_connected_components_function" prot="public">themis::query::functions::ConnectedComponentsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_contains_function" prot="public">themis::query::functions::ContainsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_cos_function" prot="public">themis::query::functions::CosFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_cosine_similarity_function" prot="public">themis::query::functions::CosineSimilarityFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_count_distinct_function" prot="public">themis::query::functions::CountDistinctFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_count_function" prot="public">themis::query::functions::CountFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_count_if_function" prot="public">themis::query::functions::CountIfFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_crs_is_geographic_function" prot="public">themis::query::functions::CrsIsGeographicFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_crs_is_projected_function" prot="public">themis::query::functions::CrsIsProjectedFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_crs_name_function" prot="public">themis::query::functions::CrsNameFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_current_date_function" prot="public">themis::query::functions::CurrentDateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_current_time_function" prot="public">themis::query::functions::CurrentTimeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_current_timestamp_function" prot="public">themis::query::functions::CurrentTimestampFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_add_function" prot="public">themis::query::functions::DateAddFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_between_function" prot="public">themis::query::functions::DateBetweenFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_compare_function" prot="public">themis::query::functions::DateCompareFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_day_function" prot="public">themis::query::functions::DateDayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_day_of_week_function" prot="public">themis::query::functions::DateDayOfWeekFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_day_of_year_function" prot="public">themis::query::functions::DateDayOfYearFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_days_in_month_function" prot="public">themis::query::functions::DateDaysInMonthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_diff_function" prot="public">themis::query::functions::DateDiffFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_end_of_month_function" prot="public">themis::query::functions::DateEndOfMonthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_format_function" prot="public">themis::query::functions::DateFormatFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_hour_function" prot="public">themis::query::functions::DateHourFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_iso8601_function" prot="public">themis::query::functions::DateIso8601Function</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_leap_year_function" prot="public">themis::query::functions::DateLeapYearFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_millisecond_function" prot="public">themis::query::functions::DateMillisecondFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_minute_function" prot="public">themis::query::functions::DateMinuteFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_month_function" prot="public">themis::query::functions::DateMonthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_now_function" prot="public">themis::query::functions::DateNowFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_quarter_function" prot="public">themis::query::functions::DateQuarterFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_second_function" prot="public">themis::query::functions::DateSecondFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_start_of_week_function" prot="public">themis::query::functions::DateStartOfWeekFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_sub_function" prot="public">themis::query::functions::DateSubFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_subtract_function" prot="public">themis::query::functions::DateSubtractFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_timestamp_function" prot="public">themis::query::functions::DateTimestampFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_trunc_function" prot="public">themis::query::functions::DateTruncFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_week_function" prot="public">themis::query::functions::DateWeekFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_date_year_function" prot="public">themis::query::functions::DateYearFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_days_function" prot="public">themis::query::functions::DaysFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_degree_centrality_function" prot="public">themis::query::functions::DegreeCentralityFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_degrees_function" prot="public">themis::query::functions::DegreesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_dict_constructor_function" prot="public">themis::query::functions::DictConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_document_function" prot="public">themis::query::functions::DocumentFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_dot_product_function" prot="public">themis::query::functions::DotProductFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_double_metaphone_function" prot="public">themis::query::functions::DoubleMetaphoneFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_edges_function" prot="public">themis::query::functions::EdgesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ends_with_function" prot="public">themis::query::functions::EndsWithFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_entries_function" prot="public">themis::query::functions::EntriesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_epoch_ms_function" prot="public">themis::query::functions::EpochMsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_epoch_seconds_function" prot="public">themis::query::functions::EpochSecondsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_estimate_storage_savings_function" prot="public">themis::query::functions::EstimateStorageSavingsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_build_context_function" prot="public">themis::query::functions::EthicsBuildContextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_evaluate_dimension_function" prot="public">themis::query::functions::EthicsEvaluateDimensionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_evaluate_function" prot="public">themis::query::functions::EthicsEvaluateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_find_similar_dilemmas_function" prot="public">themis::query::functions::EthicsFindSimilarDilemmasFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_get_arguments_function" prot="public">themis::query::functions::EthicsGetArgumentsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_initialize_debate_function" prot="public">themis::query::functions::EthicsInitializeDebateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_list_schools_function" prot="public">themis::query::functions::EthicsListSchoolsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_load_profile_function" prot="public">themis::query::functions::EthicsLoadProfileFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_make_decision_function" prot="public">themis::query::functions::EthicsMakeDecisionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_metrics_function" prot="public">themis::query::functions::EthicsMetricsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_stats_function" prot="public">themis::query::functions::EthicsStatsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ethics_traverse_chain_function" prot="public">themis::query::functions::EthicsTraverseChainFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_euclidean_distance_function" prot="public">themis::query::functions::EuclideanDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_exp_function" prot="public">themis::query::functions::ExpFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_file_ext_function" prot="public">themis::query::functions::FileExtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_filename_function" prot="public">themis::query::functions::FilenameFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_filename_without_ext_function" prot="public">themis::query::functions::FilenameWithoutExtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_filter_by_function" prot="public">themis::query::functions::FilterByFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_first_function" prot="public">themis::query::functions::FirstFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_flatten_function" prot="public">themis::query::functions::FlattenFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_floor_function" prot="public">themis::query::functions::FloorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_format_filesize_function" prot="public">themis::query::functions::FormatFilesizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_from_entries_function" prot="public">themis::query::functions::FromEntriesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_from_unix_time_function" prot="public">themis::query::functions::FromUnixTimeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_fulltext_function" prot="public">themis::query::functions::FulltextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_fulltext_snippet_function" prot="public">themis::query::functions::FulltextSnippetFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_function_adapter" prot="public">themis::query::functions::FunctionAdapter</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_function_context" prot="public">themis::query::functions::FunctionContext</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_function_cost" prot="public">themis::query::functions::FunctionCost</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_function_registry" prot="public">themis::query::functions::FunctionRegistry</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_function_signature" prot="public">themis::query::functions::FunctionSignature</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_fuzzy_function" prot="public">themis::query::functions::FuzzyFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_geo_contains_function" prot="public">themis::query::functions::GeoContainsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_geo_distance_function" prot="public">themis::query::functions::GeoDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_get_date_function" prot="public">themis::query::functions::GetDateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_graph_connected_function" prot="public">themis::query::functions::GraphConnectedFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_graph_degree_function" prot="public">themis::query::functions::GraphDegreeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_graph_distance_function" prot="public">themis::query::functions::GraphDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_graph_neighbors_function" prot="public">themis::query::functions::GraphNeighborsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_graph_q_l_function" prot="public">themis::query::functions::GraphQLFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_greatest_function" prot="public">themis::query::functions::GreatestFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_group_concat_function" prot="public">themis::query::functions::GroupConcatFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_has_function" prot="public">themis::query::functions::HasFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_hash_function" prot="public">themis::query::functions::HashFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_has_injection_function" prot="public">themis::query::functions::HasInjectionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_highlight_function" prot="public">themis::query::functions::HighlightFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_holiday_provider" prot="public">themis::query::functions::HolidayProvider</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_holidays_between_function" prot="public">themis::query::functions::HolidaysBetweenFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_holidays_inline_function" prot="public">themis::query::functions::HolidaysInlineFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_hours_function" prot="public">themis::query::functions::HoursFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_if_error_function" prot="public">themis::query::functions::IfErrorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_if_function" prot="public">themis::query::functions::IfFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_if_function___collection" prot="public">themis::query::functions::IfFunction_Collection</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_if_na_function" prot="public">themis::query::functions::IfNaFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ifs_function" prot="public">themis::query::functions::IfsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_i_function" prot="public">themis::query::functions::IFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_inner_join_function" prot="public">themis::query::functions::InnerJoinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_intersection_function" prot="public">themis::query::functions::IntersectionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_interval_function" prot="public">themis::query::functions::IntervalFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_array_function" prot="public">themis::query::functions::IsArrayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_audio_function" prot="public">themis::query::functions::IsAudioFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_bool_function" prot="public">themis::query::functions::IsBoolFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_credit_card_function" prot="public">themis::query::functions::IsCreditCardFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_document_function" prot="public">themis::query::functions::IsDocumentFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_edge_function" prot="public">themis::query::functions::IsEdgeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_email_function" prot="public">themis::query::functions::IsEmailFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_iban_function" prot="public">themis::query::functions::IsIbanFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_image_function" prot="public">themis::query::functions::IsImageFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_ip_function" prot="public">themis::query::functions::IsIpFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_null_function" prot="public">themis::query::functions::IsNullFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_number_function" prot="public">themis::query::functions::IsNumberFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_object_function" prot="public">themis::query::functions::IsObjectFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_phone_function" prot="public">themis::query::functions::IsPhoneFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_string_function" prot="public">themis::query::functions::IsStringFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_url_function" prot="public">themis::query::functions::IsUrlFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_uuid_function" prot="public">themis::query::functions::IsUuidFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_vertex_function" prot="public">themis::query::functions::IsVertexFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_video_function" prot="public">themis::query::functions::IsVideoFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_weekend_function" prot="public">themis::query::functions::IsWeekendFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_is_workday_function" prot="public">themis::query::functions::IsWorkdayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_contains_function" prot="public">themis::query::functions::JsonContainsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_depth_function" prot="public">themis::query::functions::JsonDepthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_extract_function" prot="public">themis::query::functions::JsonExtractFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_parse_function" prot="public">themis::query::functions::JsonParseFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_j_s_o_n_path" prot="public">themis::query::functions::JSONPath</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_remove_function" prot="public">themis::query::functions::JsonRemoveFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_set_function" prot="public">themis::query::functions::JsonSetFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_stringify_function" prot="public">themis::query::functions::JsonStringifyFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_type_function" prot="public">themis::query::functions::JsonTypeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_valid_function" prot="public">themis::query::functions::JsonValidFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_value_parse_function" prot="public">themis::query::functions::JsonValueParseFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_json_value_type_function" prot="public">themis::query::functions::JsonValueTypeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_keep_function" prot="public">themis::query::functions::KeepFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_keys_function" prot="public">themis::query::functions::KeysFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_l2_normalize_function" prot="public">themis::query::functions::L2NormalizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_label_propagation_communities_ext_function" prot="public">themis::query::functions::LabelPropagationCommunitiesExtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_label_propagation_communities_function" prot="public">themis::query::functions::LabelPropagationCommunitiesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lag_function" prot="public">themis::query::functions::LagFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_last_function" prot="public">themis::query::functions::LastFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lead_function" prot="public">themis::query::functions::LeadFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_least_function" prot="public">themis::query::functions::LeastFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_left_join_function" prot="public">themis::query::functions::LeftJoinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_length_function" prot="public">themis::query::functions::LengthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_levenshtein_distance_function" prot="public">themis::query::functions::LevenshteinDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_list_calendars_function" prot="public">themis::query::functions::ListCalendarsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_list_constructor_function" prot="public">themis::query::functions::ListConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_list_scheduled_tasks_function" prot="public">themis::query::functions::ListScheduledTasksFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_load_holidays_function" prot="public">themis::query::functions::LoadHolidaysFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_log10_function" prot="public">themis::query::functions::Log10Function</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_log_function" prot="public">themis::query::functions::LogFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lookup_function" prot="public">themis::query::functions::LookupFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_audit_log_function" prot="public">themis::query::functions::LoraAuditLogFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_lineage_function" prot="public">themis::query::functions::LoraLineageFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_path_function" prot="public">themis::query::functions::LoraPathFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_provenance_function" prot="public">themis::query::functions::LoraProvenanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_query_function" prot="public">themis::query::functions::LoraQueryFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_recommend_function" prot="public">themis::query::functions::LoraRecommendFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_similar_function" prot="public">themis::query::functions::LoraSimilarFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_snapshots_function" prot="public">themis::query::functions::LoraSnapshotsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_stats_function" prot="public">themis::query::functions::LoraStatsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_train_function" prot="public">themis::query::functions::LoraTrainFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lora_verify_chain_function" prot="public">themis::query::functions::LoraVerifyChainFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_louvain_communities_ext_function" prot="public">themis::query::functions::LouvainCommunitiesExtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_louvain_communities_function" prot="public">themis::query::functions::LouvainCommunitiesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_lower_function" prot="public">themis::query::functions::LowerFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_l_trim_function" prot="public">themis::query::functions::LTrimFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_make_date_function" prot="public">themis::query::functions::MakeDateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_make_date_time_function" prot="public">themis::query::functions::MakeDateTimeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_make_time_function" prot="public">themis::query::functions::MakeTimeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_manhattan_distance_function" prot="public">themis::query::functions::ManhattanDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_mask_credit_card_function" prot="public">themis::query::functions::MaskCreditCardFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_mask_email_function" prot="public">themis::query::functions::MaskEmailFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_mask_function" prot="public">themis::query::functions::MaskFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_mask_iban_function" prot="public">themis::query::functions::MaskIbanFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_max_function" prot="public">themis::query::functions::MaxFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_median_function" prot="public">themis::query::functions::MedianFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_merge_function" prot="public">themis::query::functions::MergeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_merge_recursive_function" prot="public">themis::query::functions::MergeRecursiveFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_metaphone_function" prot="public">themis::query::functions::MetaphoneFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_milestone_next_function" prot="public">themis::query::functions::MilestoneNextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_milestone_overdue_function" prot="public">themis::query::functions::MilestoneOverdueFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_milestone_status_function" prot="public">themis::query::functions::MilestoneStatusFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_mime_type_function" prot="public">themis::query::functions::MimeTypeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_min_function" prot="public">themis::query::functions::MinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_min_max_normalize_function" prot="public">themis::query::functions::MinMaxNormalizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_minus_function" prot="public">themis::query::functions::MinusFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_minutes_function" prot="public">themis::query::functions::MinutesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_months_function" prot="public">themis::query::functions::MonthsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ngram_match_function" prot="public">themis::query::functions::NgramMatchFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_none_function" prot="public">themis::query::functions::NoneFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_not_function" prot="public">themis::query::functions::NotFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_now_function" prot="public">themis::query::functions::NowFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_nth_function" prot="public">themis::query::functions::NthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_ntile_function" prot="public">themis::query::functions::NtileFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_null_if_function" prot="public">themis::query::functions::NullIfFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_object_constructor_function" prot="public">themis::query::functions::ObjectConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_or_function" prot="public">themis::query::functions::OrFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_page_rank_function" prot="public">themis::query::functions::PageRankFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pair_constructor_function" prot="public">themis::query::functions::PairConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_parse_filesize_function" prot="public">themis::query::functions::ParseFilesizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_parse_identifier_function" prot="public">themis::query::functions::ParseIdentifierFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_basename_function" prot="public">themis::query::functions::PathBasenameFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_dirname_function" prot="public">themis::query::functions::PathDirnameFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_extension_function" prot="public">themis::query::functions::PathExtensionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_is_absolute_function" prot="public">themis::query::functions::PathIsAbsoluteFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_is_relative_function" prot="public">themis::query::functions::PathIsRelativeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_join_function" prot="public">themis::query::functions::PathJoinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_normalize_function" prot="public">themis::query::functions::PathNormalizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_parent_function" prot="public">themis::query::functions::PathParentFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_path_split_function" prot="public">themis::query::functions::PathSplitFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_percentile_function" prot="public">themis::query::functions::PercentileFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_phrase_function" prot="public">themis::query::functions::PhraseFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pi_function" prot="public">themis::query::functions::PiFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_bottlenecks_function" prot="public">themis::query::functions::PmBottlenecksFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_compare_ideal_function" prot="public">themis::query::functions::PmCompareIdealFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_conformance_function" prot="public">themis::query::functions::PmConformanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_deviations_function" prot="public">themis::query::functions::PmDeviationsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_discover_process_function" prot="public">themis::query::functions::PmDiscoverProcessFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_export_bpmn_function" prot="public">themis::query::functions::PmExportBpmnFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_extract_log_function" prot="public">themis::query::functions::PmExtractLogFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_extract_trace_function" prot="public">themis::query::functions::PmExtractTraceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_find_similar_function" prot="public">themis::query::functions::PmFindSimilarFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_has_pattern_function" prot="public">themis::query::functions::PmHasPatternFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_list_admin_models_function" prot="public">themis::query::functions::PmListAdminModelsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_load_admin_model_function" prot="public">themis::query::functions::PmLoadAdminModelFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_predict_end_function" prot="public">themis::query::functions::PmPredictEndFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pm_variants_function" prot="public">themis::query::functions::PmVariantsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pop_function" prot="public">themis::query::functions::PopFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_position_function" prot="public">themis::query::functions::PositionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_pow_function" prot="public">themis::query::functions::PowFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_process_conformance_function" prot="public">themis::query::functions::ProcessConformanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_process_deviations_function" prot="public">themis::query::functions::ProcessDeviationsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_process_predict_end_function" prot="public">themis::query::functions::ProcessPredictEndFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_process_predict_next_function" prot="public">themis::query::functions::ProcessPredictNextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_push_function" prot="public">themis::query::functions::PushFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_radians_function" prot="public">themis::query::functions::RadiansFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_rand_int_function" prot="public">themis::query::functions::RandIntFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_random_function" prot="public">themis::query::functions::RandomFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_range_constructor_function" prot="public">themis::query::functions::RangeConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_range_function" prot="public">themis::query::functions::RangeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_regex_replace_function" prot="public">themis::query::functions::RegexReplaceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_regex_test_function" prot="public">themis::query::functions::RegexTestFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_repeat_constructor_function" prot="public">themis::query::functions::RepeatConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_replace_function" prot="public">themis::query::functions::ReplaceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_retention_resolution_function" prot="public">themis::query::functions::RetentionResolutionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_reverse_array_function" prot="public">themis::query::functions::ReverseArrayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_reverse_string_function" prot="public">themis::query::functions::ReverseStringFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_round_function" prot="public">themis::query::functions::RoundFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_row_number_function" prot="public">themis::query::functions::RowNumberFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_r_trim_function" prot="public">themis::query::functions::RTrimFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_running_sum_function" prot="public">themis::query::functions::RunningSumFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sanitize_filename_function" prot="public">themis::query::functions::SanitizeFilenameFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sanitize_function" prot="public">themis::query::functions::SanitizeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_schedule_task_function" prot="public">themis::query::functions::ScheduleTaskFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_seconds_function" prot="public">themis::query::functions::SecondsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_set_constructor_function" prot="public">themis::query::functions::SetConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_shift_function" prot="public">themis::query::functions::ShiftFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_shortest_path_function" prot="public">themis::query::functions::ShortestPathFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_similarity_function" prot="public">themis::query::functions::SimilarityFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sin_function" prot="public">themis::query::functions::SinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sla_check_function" prot="public">themis::query::functions::SlaCheckFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sla_remaining_function" prot="public">themis::query::functions::SlaRemainingFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_slice_function" prot="public">themis::query::functions::SliceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sorted_function" prot="public">themis::query::functions::SortedFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_soundex_function" prot="public">themis::query::functions::SoundexFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_split_function" prot="public">themis::query::functions::SplitFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sqrt_function" prot="public">themis::query::functions::SqrtFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_area_function" prot="public">themis::query::functions::StAreaFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_starts_with_function" prot="public">themis::query::functions::StartsWithFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_as_geo_j_s_o_n_function" prot="public">themis::query::functions::StAsGeoJSONFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_as_text_function" prot="public">themis::query::functions::StAsTextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_buffer_function" prot="public">themis::query::functions::StBufferFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_centroid_function" prot="public">themis::query::functions::StCentroidFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_contains_function" prot="public">themis::query::functions::StContainsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_stddev_function" prot="public">themis::query::functions::StddevFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_stddev_sample_function" prot="public">themis::query::functions::StddevSampleFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_difference_function" prot="public">themis::query::functions::StDifferenceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_distance_function" prot="public">themis::query::functions::StDistanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_d_within_function" prot="public">themis::query::functions::StDWithinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_envelope_function" prot="public">themis::query::functions::StEnvelopeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_geom_from_geo_j_s_o_n_function" prot="public">themis::query::functions::StGeomFromGeoJSONFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_geom_from_text_function" prot="public">themis::query::functions::StGeomFromTextFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_has_z_function" prot="public">themis::query::functions::StHasZFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_intersects_function" prot="public">themis::query::functions::StIntersectsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_length_function" prot="public">themis::query::functions::StLengthFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_linestring_function" prot="public">themis::query::functions::StLinestringFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_make_point_utm_function" prot="public">themis::query::functions::StMakePointUtmFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_point_function" prot="public">themis::query::functions::StPointFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_polygon_function" prot="public">themis::query::functions::StPolygonFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_set_srid_function" prot="public">themis::query::functions::StSetSridFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_srid_function" prot="public">themis::query::functions::StSridFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_transform_function" prot="public">themis::query::functions::StTransformFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_union_function" prot="public">themis::query::functions::StUnionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_within_function" prot="public">themis::query::functions::StWithinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_x_function" prot="public">themis::query::functions::StXFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_y_function" prot="public">themis::query::functions::StYFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_st_z_function" prot="public">themis::query::functions::StZFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_substring_function" prot="public">themis::query::functions::SubstringFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sum_function" prot="public">themis::query::functions::SumFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sum_if_function" prot="public">themis::query::functions::SumIfFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_switch_function" prot="public">themis::query::functions::SwitchFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_sysdate_function" prot="public">themis::query::functions::SysdateFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tan_function" prot="public">themis::query::functions::TanFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_compress_function" prot="public">themis::query::functions::TensorCompressFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_contract_function" prot="public">themis::query::functions::TensorContractFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_decompose_function" prot="public">themis::query::functions::TensorDecomposeFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_info_function" prot="public">themis::query::functions::TensorInfoFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_norm_function" prot="public">themis::query::functions::TensorNormFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_project_function" prot="public">themis::query::functions::TensorProjectFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_similarity_function" prot="public">themis::query::functions::TensorSimilarityFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tensor_slice_function" prot="public">themis::query::functions::TensorSliceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_to_array_function" prot="public">themis::query::functions::ToArrayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_to_bool_function" prot="public">themis::query::functions::ToBoolFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_today_function" prot="public">themis::query::functions::TodayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_to_json_function" prot="public">themis::query::functions::ToJsonFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tokens_function" prot="public">themis::query::functions::TokensFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tomorrow_function" prot="public">themis::query::functions::TomorrowFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_to_number_function" prot="public">themis::query::functions::ToNumberFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_to_string_function" prot="public">themis::query::functions::ToStringFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_trim_function" prot="public">themis::query::functions::TrimFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_tuple_constructor_function" prot="public">themis::query::functions::TupleConstructorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_typename_function" prot="public">themis::query::functions::TypenameFunction</innerclass>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1_udf_definition" prot="public">themis::query::functions::UdfDefinition</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_udf_function" prot="public">themis::query::functions::UdfFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_udf_registry" prot="public">themis::query::functions::UdfRegistry</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_union_function" prot="public">themis::query::functions::UnionFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_unique_function" prot="public">themis::query::functions::UniqueFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_unix_timestamp_function" prot="public">themis::query::functions::UnixTimestampFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_unset_function" prot="public">themis::query::functions::UnsetFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_unshift_function" prot="public">themis::query::functions::UnshiftFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_unzip_function" prot="public">themis::query::functions::UnzipFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_upper_function" prot="public">themis::query::functions::UpperFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_utm_epsg_function" prot="public">themis::query::functions::UtmEpsgFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_utm_zone_function" prot="public">themis::query::functions::UtmZoneFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_values_function" prot="public">themis::query::functions::ValuesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_variance_function" prot="public">themis::query::functions::VarianceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_variance_level_function" prot="public">themis::query::functions::VarianceLevelFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_add_function" prot="public">themis::query::functions::VectorAddFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_avg_function" prot="public">themis::query::functions::VectorAvgFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_concat_function" prot="public">themis::query::functions::VectorConcatFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_dim_function" prot="public">themis::query::functions::VectorDimFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_max_function" prot="public">themis::query::functions::VectorMaxFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_min_function" prot="public">themis::query::functions::VectorMinFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_mul_function" prot="public">themis::query::functions::VectorMulFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_norm_function" prot="public">themis::query::functions::VectorNormFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_ones_function" prot="public">themis::query::functions::VectorOnesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_random_function" prot="public">themis::query::functions::VectorRandomFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_scale_function" prot="public">themis::query::functions::VectorScaleFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_slice_function" prot="public">themis::query::functions::VectorSliceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_sub_function" prot="public">themis::query::functions::VectorSubFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_sum_function" prot="public">themis::query::functions::VectorSumFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vector_zeros_function" prot="public">themis::query::functions::VectorZerosFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_vertices_function" prot="public">themis::query::functions::VerticesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_weeks_function" prot="public">themis::query::functions::WeeksFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_workdays_add_function" prot="public">themis::query::functions::WorkdaysAddFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_workdays_function" prot="public">themis::query::functions::WorkdaysFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_workflow_advance_function" prot="public">themis::query::functions::WorkflowAdvanceFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_workflow_variables_function" prot="public">themis::query::functions::WorkflowVariablesFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_xor_function" prot="public">themis::query::functions::XorFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_years_function" prot="public">themis::query::functions::YearsFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_yesterday_function" prot="public">themis::query::functions::YesterdayFunction</innerclass>
+    <innerclass refid="classthemis_1_1query_1_1functions_1_1_zip_function" prot="public">themis::query::functions::ZipFunction</innerclass>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions_1_1crs">themis::query::functions::crs</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions_1_1geo__helpers">themis::query::functions::geo_helpers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions_1_1graph__helpers">themis::query::functions::graph_helpers</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions_1_1mime__types">themis::query::functions::mime_types</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query_1_1functions_1_1vector__helpers">themis::query::functions::vector_helpers</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ArgType</name>
+        <qualifiedname>themis::query::functions::ArgType</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8e1bde3c3d303163521522cf1d62f21f" prot="public">
+          <name>ANY</name>
+          <briefdescription>
+<para>Any type accepted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a63b588d5559f64f89a416e656880b949" prot="public">
+          <name>STRING</name>
+          <briefdescription>
+<para>String required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a34f55eca38e0605a84f169ff61a2a396" prot="public">
+          <name>NUMBER</name>
+          <briefdescription>
+<para>Number (int or double) required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a5d5cd46919fa987731fb2edefe0f2a0c" prot="public">
+          <name>INTEGER</name>
+          <briefdescription>
+<para>Integer required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac48d5da12d702e73d6966069f2687376" prot="public">
+          <name>BOOLEAN</name>
+          <briefdescription>
+<para>Boolean required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" prot="public">
+          <name>ARRAY</name>
+          <briefdescription>
+<para>Array required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a8eee8e217391199668cbac89472ace53" prot="public">
+          <name>OBJECT</name>
+          <briefdescription>
+<para>Object required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab22957ad8078e8d73de61aef53d13a74" prot="public">
+          <name>GEOMETRY</name>
+          <briefdescription>
+<para>GeoJSON geometry required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a87752381b583740610f1dfeb07fdad7e" prot="public">
+          <name>VECTOR</name>
+          <briefdescription>
+<para>Numeric array (vector) required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ac231fa48df3ee393c92dccac4dba5e7d" prot="public">
+          <name>DOCUMENT</name>
+          <briefdescription>
+<para>Document reference required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a21a19c7b85ebfb987f64f2c48217e973" prot="public">
+          <name>NULLABLE</name>
+          <briefdescription>
+<para>Can be null. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aed36a1ef76a59ee3f15180e0441188ad" prot="public">
+          <name>Any</name>
+          <initializer>= ANY</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27118326006d3829667a400ad23d5d98" prot="public">
+          <name>String</name>
+          <initializer>= STRING</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ab2ee912b91d69b435159c7c3f6df7f5f" prot="public">
+          <name>Number</name>
+          <initializer>= NUMBER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19aa0faef0851b4294c06f2b94bb1cb2044" prot="public">
+          <name>Integer</name>
+          <initializer>= INTEGER</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a27226c864bac7454a8504f8edb15d95b" prot="public">
+          <name>Boolean</name>
+          <initializer>= BOOLEAN</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a4410ec34d9e6c1a68100ca0ce033fb17" prot="public">
+          <name>Array</name>
+          <initializer>= ARRAY</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a497031794414a552435f90151ac3b54b" prot="public">
+          <name>Object</name>
+          <initializer>= OBJECT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19ad9c6333623e6357515fcbf17be806273" prot="public">
+          <name>Geometry</name>
+          <initializer>= GEOMETRY</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a57dea6f5039281b7fee517fc43bf3110" prot="public">
+          <name>Vector</name>
+          <initializer>= VECTOR</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a0945359809dad1fbf3dea1c95a0da951" prot="public">
+          <name>Document</name>
+          <initializer>= DOCUMENT</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19a46ad517b8b7aa4e368a7cc226533bfb6" prot="public">
+          <name>Nullable</name>
+          <initializer>= NULLABLE</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="44" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="44" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>CostComplexity</name>
+        <qualifiedname>themis::query::functions::CostComplexity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a8d6b5cada83510220f59e00ce86d4d92" prot="public">
+          <name>CONSTANT</name>
+          <briefdescription>
+<para>O(1) - LENGTH, NOW, simple math. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aaac544aacc3615aada24897a215f5046" prot="public">
+          <name>LINEAR</name>
+          <briefdescription>
+<para>O(n) - SUM, FLATTEN, UNIQUE. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a46f142e73ca1c88db3d4d801caa37588" prot="public">
+          <name>LINEARITHMIC</name>
+          <briefdescription>
+<para>O(n log n) - SORTED, MEDIAN. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0aa6ef2e8b7424bfa9d56315aca733861c" prot="public">
+          <name>QUADRATIC</name>
+          <briefdescription>
+<para>O(n²) - LEVENSHTEIN on long strings. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a7480c2820154d14ec47fdf08bb008aeb" prot="public">
+          <name>INDEXED</name>
+          <briefdescription>
+<para>Uses index - DOCUMENT, GEO_DISTANCE with spatial index. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1query_1_1functions_1ae51e075dcf326cd33c3497f38fa9e3b0a3932d629fb5e2be9d09b3a4485b3cc9d" prot="public">
+          <name>EXTERNAL</name>
+          <briefdescription>
+<para>External I/O - HOLIDAYS (calendar loading). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/function_registry.h" line="80" column="1" bodyfile="include/query/functions/function_registry.h" bodystart="80" bodyend="87"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::query::functions::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::query::functions::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/lora_functions.h" line="24" column="1" bodyfile="include/query/functions/lora_functions.h" bodystart="24" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a426d214d2b0813a2ced9d9c143720ba6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerArrayFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerArrayFunctions</name>
+        <qualifiedname>themis::query::functions::registerArrayFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Array Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/array_functions.h" line="704" column="13" bodyfile="include/query/functions/array_functions.h" bodystart="704" bodyend="723"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a5a8791c94b01ba0947dfc1a7608a5635" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::tryParseJson</definition>
+        <argsstring>(const std::string &amp;str, nlohmann::json &amp;out)</argsstring>
+        <name>tryParseJson</name>
+        <qualifiedname>themis::query::functions::tryParseJson</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>str</declname>
+        </param>
+        <param>
+          <type>nlohmann::json &amp;</type>
+          <declname>out</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Collection Constructor Functions with JSON-Native Support ============================================================================ <bold>IMPORTANT: Native Syntax vs Function Aliases</bold> AQL supports native literal syntax for creating collections: LET arr = [1, 2, 3] <ndash/> Native array literal LET obj = { name: &quot;Alice&quot; } <ndash/> Native object literal LET nested = [1, [2, 3]] <ndash/> Native nested structures The functions <ref refid="namespacethemis_1_1query_1_1functions_1ad5b2d08ec1f592571d500b3dcd2bfc19acb4fb1757fb37c43cded35d3eb857c43" kindref="member">ARRAY()</ref>, DICT(), TUPLE(), <ref refid="namespacethemis_1_1query_1a4a64d98c66d201cc2e5b35f71a6543f3a8c52684db8f49511e9b44471716bf164" kindref="member">SET()</ref> are <bold>ALIASES</bold> that provide: 1. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">str</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">out</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<bold>JSON-Native Parsing</bold> - Parse JSON strings into collections ARRAY(&apos;[1, 2, 3]&apos;) =&gt; [1, 2, 3] (parses JSON string) 2. <bold>Explicit Type Coercion</bold> - Ensure a value is a specific type ARRAY(singleValue) =&gt; [singleValue] (wrap in array) 3. <bold>Dynamic Construction</bold> - Build from function results DICT(ENTRIES(otherObj)) =&gt; reconstructed object <bold>Recommendation:</bold> - Use native syntax <computeroutput>[...]</computeroutput> and <computeroutput>{...}</computeroutput> for static literals - Use functions when parsing JSON strings or need type coercion <bold>Equivalence <ref refid="structthemis_1_1_table" kindref="compound">Table</ref>:</bold> | Native Syntax | Function Alias | |----------------------<mdash/>|--------------------------------<mdash/>| | [1, 2, 3] | ARRAY(1, 2, 3) | | { name: &quot;Alice&quot; } | DICT(&quot;name&quot;, &quot;Alice&quot;) | | [[1], [2]] | ARRAY([1], [2]) | | (JSON string) | ARRAY(&apos;[1,2,3]&apos;) - parses string! | ============================================================================ Calls: empty(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="31" column="13" bodyfile="include/query/functions/collection_functions.h" bodystart="31" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a9b7fe4d0fdf1e979d4a8d1c2a3429c0c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerCollectionFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerCollectionFunctions</name>
+        <qualifiedname>themis::query::functions::registerCollectionFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Register Collection Functions ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/collection_functions.h" line="2021" column="13" bodyfile="include/query/functions/collection_functions.h" bodystart="2021" bodyend="2072"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a8d73af4482c1d1db09f5cbd99370d5f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerCrsFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerCrsFunctions</name>
+        <qualifiedname>themis::query::functions::registerCrsFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Crs Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="889" column="13" bodyfile="include/query/functions/crs_functions.h" bodystart="889" bodyend="899"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1aeb73dd698a4016f7e4194539a44ee23c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>time_t</type>
+        <definition>time_t themis::query::functions::portable_timegm</definition>
+        <argsstring>(struct tm *tm)</argsstring>
+        <name>portable_timegm</name>
+        <qualifiedname>themis::query::functions::portable_timegm</qualifiedname>
+        <param>
+          <type>struct tm *</type>
+          <declname>tm</declname>
+        </param>
+        <briefdescription>
+<para>Portable timegm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">tm</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: timegm(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/date_functions.h" line="44" column="15" bodyfile="include/query/functions/date_functions.h" bodystart="44" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1adc1002cbe0053c2adba1d333623ad7da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerDateFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerDateFunctions</name>
+        <qualifiedname>themis::query::functions::registerDateFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Date Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/date_functions.h" line="1916" column="13" bodyfile="include/query/functions/date_functions.h" bodystart="1916" bodyend="1986"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1ae26c3e3a19d080e0a578a37e149a2603" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerDocumentFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerDocumentFunctions</name>
+        <qualifiedname>themis::query::functions::registerDocumentFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Document Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/document_functions.h" line="617" column="13" bodyfile="include/query/functions/document_functions.h" bodystart="617" bodyend="642"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a1eb402bcd51af2edc9f4a462c9664216" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerEthicsFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerEthicsFunctions</name>
+        <qualifiedname>themis::query::functions::registerEthicsFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Ethics Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/ethics_functions.h" line="404" column="13" bodyfile="include/query/functions/ethics_functions.h" bodystart="404" bodyend="428"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a7ecf9e13ce908410dcdf90592c467448" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerFileFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerFileFunctions</name>
+        <qualifiedname>themis::query::functions::registerFileFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register File Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/file_functions.h" line="961" column="13" bodyfile="include/query/functions/file_functions.h" bodystart="961" bodyend="991"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1aca5c3501e5d47138f3fbe2fb91d2e520" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerFulltextFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerFulltextFunctions</name>
+        <qualifiedname>themis::query::functions::registerFulltextFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Fulltext Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/fulltext_functions.cpp" line="945" column="6" bodyfile="src/query/functions/fulltext_functions.cpp" bodystart="945" bodyend="956" declfile="include/query/functions/fulltext_functions.h" declline="24" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1af8ad580507df1f9d7f896e7c833e95a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerBuiltinFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>registerBuiltinFunctions</name>
+        <qualifiedname>themis::query::functions::registerBuiltinFunctions</qualifiedname>
+        <briefdescription>
+<para>Register Builtin Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1a37b6f945a12a258f4abcf4b4b7a2860f" kindref="member">registerStringFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1a2bc5bd473c68f64f706a088b6dcfa2ae" kindref="member">registerMathFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1a426d214d2b0813a2ced9d9c143720ba6" kindref="member">registerArrayFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1adc1002cbe0053c2adba1d333623ad7da" kindref="member">registerDateFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1ae26c3e3a19d080e0a578a37e149a2603" kindref="member">registerDocumentFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1aee7cffbd2c087856232146b3e3c6d54f" kindref="member">registerJsonPathFunctions()</ref>, <ref refid="namespacethemis_1_1query_1_1functions_1adbbc51a4b49079229f6c30c23f4b810b" kindref="member">registerGeoFunctions()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/function_registry.cpp" line="49" column="6" bodyfile="src/query/functions/function_registry.cpp" bodystart="49" bodyend="120" declfile="include/query/functions/function_registry.h" declline="618" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1adbbc51a4b49079229f6c30c23f4b810b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerGeoFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerGeoFunctions</name>
+        <qualifiedname>themis::query::functions::registerGeoFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Geo Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(), registerAlias(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="1256" column="13" bodyfile="include/query/functions/geo_functions.h" bodystart="1256" bodyend="1293"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a14210737bd96007ce211cf4140f139ba" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerGraphQLFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerGraphQLFunctions</name>
+        <qualifiedname>themis::query::functions::registerGraphQLFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Graph QLFunctions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graphql_functions.h" line="203" column="13" bodyfile="include/query/functions/graphql_functions.h" bodystart="203" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1ae4bc8ef97aa15ef05eb0217a99e5dfa7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerGraphExtensions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerGraphExtensions</name>
+        <qualifiedname>themis::query::functions::registerGraphExtensions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Graph Extensions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_extensions.h" line="1004" column="13" bodyfile="include/query/functions/graph_extensions.h" bodystart="1004" bodyend="1011"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a99bab123faaf261aac0137b73ab1812f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerGraphFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerGraphFunctions</name>
+        <qualifiedname>themis::query::functions::registerGraphFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Graph Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/graph_functions.h" line="1194" column="13" bodyfile="include/query/functions/graph_functions.h" bodystart="1194" bodyend="1226"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1aee7cffbd2c087856232146b3e3c6d54f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerJsonPathFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerJsonPathFunctions</name>
+        <qualifiedname>themis::query::functions::registerJsonPathFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Json Path Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/json_path_functions.h" line="624" column="13" bodyfile="include/query/functions/json_path_functions.h" bodystart="624" bodyend="633"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a96a18a454540459f68498e5545929cf4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerLoRAFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerLoRAFunctions</name>
+        <qualifiedname>themis::query::functions::registerLoRAFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Lo RAFunctions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/lora_functions.cpp" line="1084" column="6" bodyfile="src/query/functions/lora_functions.cpp" bodystart="1084" bodyend="1096" declfile="include/query/functions/lora_functions.h" declline="190" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1ae935ee56c19be9c1fcd9b2af065b065c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; themis::llm::lora::ILoRAOrchestrator &gt;</type>
+        <definition>std::shared_ptr&lt; themis::llm::lora::ILoRAOrchestrator &gt; themis::query::functions::getLoRAOrchestrator</definition>
+        <argsstring>()</argsstring>
+        <name>getLoRAOrchestrator</name>
+        <qualifiedname>themis::query::functions::getLoRAOrchestrator</qualifiedname>
+        <briefdescription>
+<para>Get Lo RAOrchestrator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), themis::llm::createLoRAOrchestrator(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/lora_functions.cpp" line="46" column="17" bodyfile="src/query/functions/lora_functions.cpp" bodystart="46" bodyend="50" declfile="include/query/functions/lora_functions.h" declline="196" declcolumn="17"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a2bc5bd473c68f64f706a088b6dcfa2ae" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerMathFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerMathFunctions</name>
+        <qualifiedname>themis::query::functions::registerMathFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Math Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/math_functions.h" line="743" column="13" bodyfile="include/query/functions/math_functions.h" bodystart="743" bodyend="769"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1aacd6b71cf61ad07c46875f010144563e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerProcessFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerProcessFunctions</name>
+        <qualifiedname>themis::query::functions::registerProcessFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Process Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_functions.h" line="487" column="13" bodyfile="include/query/functions/process_functions.h" bodystart="487" bodyend="506"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1ad4498136ac81b91936c92696c4a12417" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerProcessMiningFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerProcessMiningFunctions</name>
+        <qualifiedname>themis::query::functions::registerProcessMiningFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Process Mining Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/process_mining_functions.h" line="480" column="13" bodyfile="include/query/functions/process_mining_functions.h" bodystart="480" bodyend="508"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a247a8c18ffd53533d2a1c8ce3aaf8ddf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerRelationalFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerRelationalFunctions</name>
+        <qualifiedname>themis::query::functions::registerRelationalFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Relational Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/relational_functions.h" line="949" column="13" bodyfile="include/query/functions/relational_functions.h" bodystart="949" bodyend="978"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a8755fd2d85ea6af19e5c22e6adbd51fb" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerRetentionFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerRetentionFunctions</name>
+        <qualifiedname>themis::query::functions::registerRetentionFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register Retention Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/retention_functions.h" line="438" column="13" bodyfile="include/query/functions/retention_functions.h" bodystart="438" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1add0c96e958303ec62fc4cb4b4dc55261" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerSecurityFunctions</definition>
+        <argsstring>()</argsstring>
+        <name>registerSecurityFunctions</name>
+        <qualifiedname>themis::query::functions::registerSecurityFunctions</qualifiedname>
+        <briefdescription>
+<para>Register Security Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: <ref refid="classthemis_1_1query_1_1functions_1_1_function_registry_1a78b3dc8d65e16781b09347f86702f33c" kindref="member">FunctionRegistry::instance()</ref>, registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/security_functions.h" line="911" column="13" bodyfile="include/query/functions/security_functions.h" bodystart="911" bodyend="936"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a37b6f945a12a258f4abcf4b4b7a2860f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerStringFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;reg)</argsstring>
+        <name>registerStringFunctions</name>
+        <qualifiedname>themis::query::functions::registerStringFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>reg</declname>
+        </param>
+        <briefdescription>
+<para>Register String Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">reg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/string_functions.h" line="633" column="13" bodyfile="include/query/functions/string_functions.h" bodystart="633" bodyend="651"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a3e09f2c1eb657a99cd7b3257a5f72479" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerTensorFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerTensorFunctions</name>
+        <qualifiedname>themis::query::functions::registerTensorFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Tensor Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="615" column="6" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="615" bodyend="624" declfile="include/query/functions/tensor_functions.h" declline="23" declcolumn="6"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1ac969629d17cd80effe7dd2e223cbfbb1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::query::functions::registerVectorFunctions</definition>
+        <argsstring>(FunctionRegistry &amp;registry)</argsstring>
+        <name>registerVectorFunctions</name>
+        <qualifiedname>themis::query::functions::registerVectorFunctions</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1functions_1_1_function_registry" kindref="compound">FunctionRegistry</ref> &amp;</type>
+          <declname>registry</declname>
+        </param>
+        <briefdescription>
+<para>Register Vector Functions. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">registry</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: registerFunction(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/vector_functions.h" line="1005" column="13" bodyfile="include/query/functions/vector_functions.h" bodystart="1005" bodyend="1038"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a410be76c1f3dee573bf8a22c211506dc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>static std::vector&lt; float &gt; themis::query::functions::jsonToFloats</definition>
+        <argsstring>(const json &amp;arr)</argsstring>
+        <name>jsonToFloats</name>
+        <qualifiedname>themis::query::functions::jsonToFloats</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref> &amp;</type>
+          <declname>arr</declname>
+        </param>
+        <briefdescription>
+<para>Json To Floats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: reserve(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="38" column="20" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="38" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a0dd5bd090fcb0e4851c109d229a498c1" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::query::functions::isAllDigits</definition>
+        <argsstring>(const std::string &amp;token)</argsstring>
+        <name>isAllDigits</name>
+        <qualifiedname>themis::query::functions::isAllDigits</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>token</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="48" column="14" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="48" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a82b37fc7dfb3287c6b9807a0f47afb44" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref> *</type>
+        <definition>static const json * themis::query::functions::resolvePathSegments</definition>
+        <argsstring>(const json &amp;root, const std::string &amp;path)</argsstring>
+        <name>resolvePathSegments</name>
+        <qualifiedname>themis::query::functions::resolvePathSegments</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref> &amp;</type>
+          <declname>root</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="57" column="20" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="57" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a2a941e9e3fbaa5087ad3f699497765f4" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref></type>
+        <definition>static json themis::query::functions::resolveTensorArg</definition>
+        <argsstring>(const json &amp;arg, const FunctionContext &amp;ctx)</argsstring>
+        <name>resolveTensorArg</name>
+        <qualifiedname>themis::query::functions::resolveTensorArg</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="99" column="14" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="99" bodyend="167"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a7880b8f57f10d5be965fdf34a410d076" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>TTTrain</type>
+        <definition>static TTTrain themis::query::functions::buildTrain</definition>
+        <argsstring>(const json &amp;arg, const FunctionContext &amp;ctx)</argsstring>
+        <name>buildTrain</name>
+        <qualifiedname>themis::query::functions::buildTrain</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref> &amp;</type>
+          <declname>arg</declname>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1query_1_1functions_1_1_function_context" kindref="compound">FunctionContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Build Train. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">arg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: resolveTensorArg(), at(), jsonToFloats(), push_back(), value(), decompose(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/tensor_functions.cpp" line="176" column="16" bodyfile="src/query/functions/tensor_functions.cpp" bodystart="176" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1a2f69f8810615458f4542d3c04ec3cd05" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::query::functions::utcNow</definition>
+        <argsstring>()</argsstring>
+        <name>utcNow</name>
+        <qualifiedname>themis::query::functions::utcNow</qualifiedname>
+        <briefdescription>
+<para>Utc Now. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::system_clock::now(), std::chrono::system_clock::to_time_t(), gmtime_s(), gmtime_r(), std::put_time(), str(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/functions/udf_registry.cpp" line="32" column="20" bodyfile="src/query/functions/udf_registry.cpp" bodystart="32" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/array_functions.h" line="21" column="1"/>
+  </compounddef>
+</doxygen>

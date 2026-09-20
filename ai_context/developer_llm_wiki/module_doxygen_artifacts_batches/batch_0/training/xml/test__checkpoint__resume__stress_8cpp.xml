@@ -1,0 +1,835 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__checkpoint__resume__stress_8cpp" kind="file" language="C++">
+    <compoundname>test_checkpoint_resume_stress.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="lora__adapter_8h" local="yes">training/lora_adapter.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">cmath</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>training/lora_adapter.h</label>
+        <link refid="lora__adapter_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/training/test_checkpoint_resume_stress.cpp</label>
+        <link refid="test__checkpoint__resume__stress_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>algorithm</label>
+      </node>
+      <node id="13">
+        <label>chrono</label>
+      </node>
+      <node id="12">
+        <label>cmath</label>
+      </node>
+      <node id="4">
+        <label>cstddef</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>map</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="15">
+        <label>numeric</label>
+      </node>
+      <node id="16">
+        <label>random</label>
+      </node>
+      <node id="6">
+        <label>stdexcept</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>utility</label>
+      </node>
+      <node id="10">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_simple_checkpoint_manager" prot="public">SimpleCheckpointManager</innerclass>
+    <innerclass refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" prot="public">SimpleCheckpointManager::CheckpointData</innerclass>
+    <innerclass refid="class_checkpoint_resume_stress_test" prot="public">CheckpointResumeStressTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, BasicCheckpointResume_Cycle)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>BasicCheckpointResume_Cycle</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="145" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="145" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1a6e8b734967e0d1bf3b00f21298531328" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, RepeatedCycles_StatePreserved)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>RepeatedCycles_StatePreserved</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="179" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="179" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1af61f32304d1cfa72198bdad3ce52f06d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, ResumeThenTrain_Deterministic)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>ResumeThenTrain_Deterministic</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="208" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="208" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1a311c5145cebff04612e49f3eb9843035" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, WeightConsistency_AcrossResume)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>WeightConsistency_AcrossResume</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="248" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="248" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1a7b76e7679e011a3b99fafa0edf81fb96" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, PerformanceUnderRepeatedCycles)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>PerformanceUnderRepeatedCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="286" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="286" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1a980f998471c6bfaf4af4bed5dd0bd5e5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, MultipleResumptions_Consistent)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>MultipleResumptions_Consistent</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="312" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="312" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1af9cf877867dd869614991e1f97141a03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, ExtendedSessionSimulation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>ExtendedSessionSimulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="343" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="343" bodyend="387"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1adc5037e470e6e1494e43adf78d9cf1f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, MultiLayerCheckpointCycles)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>MultiLayerCheckpointCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="393" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="393" bodyend="420"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1ae6d7cab52a5c4e7bf451edffcb7b20dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, MetadataTracking_AcrossCycles)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>MetadataTracking_AcrossCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="426" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="426" bodyend="454"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1aeafd521906dbeadb2e4a19a4ec216835" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, RollbackSimulation)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>RollbackSimulation</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="460" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="460" bodyend="489"/>
+      </memberdef>
+      <memberdef kind="function" id="test__checkpoint__resume__stress_8cpp_1aa98db0bb1653aa45b0223c84e5ee470c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(CheckpointResumeStressTest, LargeScaleCycleStress)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref></type>
+        </param>
+        <param>
+          <type>LargeScaleCycleStress</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/training/test_checkpoint_resume_stress.cpp" line="495" column="1" bodyfile="tests/training/test_checkpoint_resume_stress.cpp" bodystart="495" bodyend="511"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 4 checkpoint-resume cycle stress tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Tests verify:<itemizedlist>
+<listitem><para>Repeated checkpoint-resume cycles</para>
+</listitem><listitem><para>State preservation across save/load</para>
+</listitem><listitem><para>Weight consistency validation</para>
+</listitem><listitem><para>Deterministic behavior with resumption</para>
+</listitem><listitem><para>Performance under repeated cycles</para>
+</listitem><listitem><para>Corruption recovery during resume</para>
+</listitem><listitem><para>Manifest consistency through cycles</para>
+</listitem><listitem><para>Extended session simulation </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">//<sp/>SPDX-License-Identifier:<sp/>Apache-2.0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Copyright<sp/>(c)<sp/>2026<sp/>ThemisDB<sp/>Contributors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lora__adapter_8h" kindref="compound">training/lora_adapter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1training" kindref="compound">themis::training</ref>;</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Simplified<sp/>checkpoint<sp/>manager<sp/>for<sp/>stress<sp/>testing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="class_simple_checkpoint_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="40" refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" kindref="compound">CheckpointData</ref><sp/>{</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;LoRAWeightEntry&gt;<sp/><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a097e8dbc838b31ceebcdb5e04692441e" kindref="member">weights</ref>;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a42dcd9ab214a4b9d7ffae9027aca7e1c" kindref="member">epoch</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a2de08a8cd55c1a964b2f54371d37b471" kindref="member">step</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1aab04912fac847ba8b0892632d0119c7f" kindref="member">loss</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref>&amp;<sp/>adapter,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>epoch,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>step,<sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>loss)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data" kindref="compound">CheckpointData</ref><sp/>data;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.<ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a097e8dbc838b31ceebcdb5e04692441e" kindref="member">weights</ref><sp/>=<sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1adc363b50242a858715508f721b1db435" kindref="member">exportWeights</ref>();</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.<ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a42dcd9ab214a4b9d7ffae9027aca7e1c" kindref="member">epoch</ref><sp/>=<sp/>epoch;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.<ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a2de08a8cd55c1a964b2f54371d37b471" kindref="member">step</ref><sp/>=<sp/>step;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>data.<ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1aab04912fac847ba8b0892632d0119c7f" kindref="member">loss</ref><sp/>=<sp/>loss;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpoints_[current_id_++]<sp/>=<sp/>data;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latest_checkpoint_id_<sp/>=<sp/>current_id_<sp/>-<sp/>1;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref>&amp;<sp/>adapter)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>data<sp/>=<sp/>checkpoints_[latest_checkpoint_id_];</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1adcecf9269e2b75ede049b6616c69d10c" kindref="member">importWeights</ref>(data.<ref refid="struct_simple_checkpoint_manager_1_1_checkpoint_data_1a097e8dbc838b31ceebcdb5e04692441e" kindref="member">weights</ref>);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checkpoints_.at(latest_checkpoint_id_).epoch;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checkpoints_.at(latest_checkpoint_id_).step;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1aad942448b11acd22c769249bd2e09574" kindref="member">getLastLoss</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(!<ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>())<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0.0;</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checkpoints_.at(latest_checkpoint_id_).loss;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>!checkpoints_.empty();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" kindref="member">getCheckpointCount</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>checkpoints_.size();</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_simple_checkpoint_manager_1a9bc9706b7629e89af7ada5a664fbbb4b" kindref="member">clear</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpoints_.clear();</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>current_id_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>latest_checkpoint_id_<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>std::map&lt;int,<sp/>CheckpointData&gt;<sp/>checkpoints_;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>current_id_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>latest_checkpoint_id_<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Checkpoint-Resume<sp/>Stress<sp/>Test<sp/>Fixture</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113" refid="class_checkpoint_resume_stress_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1aa0427735de42744bfd6cab969103a238" kindref="member">RANK</ref><sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1a615a32445c00fffa3ea7edd09d3d848b" kindref="member">ALPHA</ref><sp/>=<sp/>8.0f;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1a6a10fff71edbea9e6b45981cd6d5c08d" kindref="member">IN_DIM</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1ab4995e198c27ef93f13109d2158e677e" kindref="member">OUT_DIM</ref><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">unsigned</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1aabae0aea6caab112275588d7519cf229" kindref="member">SEED</ref><sp/>=<sp/>12345;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>std::mt19937<sp/><ref refid="class_checkpoint_resume_stress_test_1a361d4c8fe9afc2f0fdaa026d6c21af08" kindref="member">rng_</ref>{<ref refid="class_checkpoint_resume_stress_test_1aabae0aea6caab112275588d7519cf229" kindref="member">SEED</ref>};</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="class_checkpoint_resume_stress_test_1a36a3c36ca9405d8fcff11c39276eb7b9" kindref="member">generateRandomDelta</ref>(</highlight><highlight class="keywordtype">float</highlight><highlight class="normal"><sp/>scale<sp/>=<sp/>0.01f)<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::uniform_real_distribution&lt;float&gt;<sp/>dist(-scale,<sp/>scale);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/>delta(<ref refid="class_checkpoint_resume_stress_test_1a6a10fff71edbea9e6b45981cd6d5c08d" kindref="member">IN_DIM</ref><sp/>*<sp/><ref refid="class_checkpoint_resume_stress_test_1aa0427735de42744bfd6cab969103a238" kindref="member">RANK</ref>);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>d<sp/>:<sp/>delta)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>d<sp/>=<sp/>dist(<ref refid="class_checkpoint_resume_stress_test_1a361d4c8fe9afc2f0fdaa026d6c21af08" kindref="member">rng_</ref>);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>delta;</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_checkpoint_resume_stress_test_1a6f8fc90e79b8b3bd40ffb9b08405f8b5" kindref="member">trainAdapter</ref>(<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref>&amp;<sp/>adapter,<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>steps,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>layer_name)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>step<sp/>=<sp/>0;<sp/>step<sp/>&lt;<sp/>steps;<sp/>++step)<sp/>{</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dB<sp/>=<sp/><ref refid="class_checkpoint_resume_stress_test_1a36a3c36ca9405d8fcff11c39276eb7b9" kindref="member">generateRandomDelta</ref>();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>dA<sp/>=<sp/><ref refid="class_checkpoint_resume_stress_test_1a36a3c36ca9405d8fcff11c39276eb7b9" kindref="member">generateRandomDelta</ref>();</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1ab028c996e3bb3cc41e3c1fc0797b2ef2" kindref="member">applyUpdate</ref>(layer_name,<sp/>dB,<sp/>dA);</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>checkpoint-resume<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>BasicCheckpointResume_Cycle)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter1(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter1.addLayer(</highlight><highlight class="stringliteral">&quot;test_layer&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>and<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter1,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;test_layer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter1,<sp/>1,<sp/>10,<sp/>0.5);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="class_simple_checkpoint_manager_1aeb5aaa752e255a55dce4543989bd62d6" kindref="member">hasCheckpoint</ref>());</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>(),<sp/>1u);</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>(),<sp/>10u);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aad942448b11acd22c769249bd2e09574" kindref="member">getLastLoss</ref>(),<sp/>0.5);</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume<sp/>into<sp/>new<sp/>adapter</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter2(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter2.addLayer(</highlight><highlight class="stringliteral">&quot;test_layer&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(adapter2));</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>weights<sp/>match</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w1<sp/>=<sp/>adapter1.getWeights(</highlight><highlight class="stringliteral">&quot;test_layer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w2<sp/>=<sp/>adapter2.getWeights(</highlight><highlight class="stringliteral">&quot;test_layer&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(w1.B.size(),<sp/>w2.B.size());</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>w1.B.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(w1.B[i],<sp/>w2.B[i]);</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Repeated<sp/>checkpoint-resume<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>RepeatedCycles_StatePreserved)<sp/>{</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;cycle_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_cycles<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>steps_per_cycle<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>num_cycles;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>steps_per_cycle,<sp/></highlight><highlight class="stringliteral">&quot;cycle_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>cycle<sp/>+<sp/>1,<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>steps_per_cycle,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>1.0<sp/>/<sp/>(cycle<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>checkpoint<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>(),<sp/>cycle<sp/>+<sp/>1);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>(),<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>steps_per_cycle);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" kindref="member">getCheckpointCount</ref>(),<sp/>num_cycles);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Resume-train-checkpoint-resume<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>ResumeThenTrain_Deterministic)<sp/>{</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"></highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter1(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter1.addLayer(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>First<sp/>phase:<sp/>train<sp/>and<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter1,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter1,<sp/>1,<sp/>10,<sp/>0.5);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>w1_phase1<sp/>=<sp/>adapter1.getWeights(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Second<sp/>phase:<sp/>train<sp/>more</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter1,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>w1_phase2<sp/>=<sp/>adapter1.getWeights(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>test<sp/>resuming<sp/>from<sp/>checkpoint<sp/>and<sp/>training</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter2(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter2.addLayer(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(adapter2);</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>we&apos;re<sp/>at<sp/>same<sp/>point<sp/>as<sp/>adapter1<sp/>after<sp/>phase<sp/>1</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>w2_resumed<sp/>=<sp/>adapter2.getWeights(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>w1_phase1.B.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(w1_phase1.B[i],<sp/>w2_resumed.B[i]);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Now<sp/>train<sp/>the<sp/>same<sp/>10<sp/>steps</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter2,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>w2_phase2<sp/>=<sp/>adapter2.getWeights(</highlight><highlight class="stringliteral">&quot;det_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>match<sp/>adapter1<sp/>phase<sp/>2<sp/>(deterministic<sp/>training)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>w1_phase2.B.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_NEAR(w1_phase2.B[i],<sp/>w2_phase2.B[i],<sp/>1e-5f);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Weight<sp/>consistency<sp/>validation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>WeightConsistency_AcrossResume)<sp/>{</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;consistency&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>both<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>20,<sp/></highlight><highlight class="stringliteral">&quot;consistency&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>20,<sp/></highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snapshot1<sp/>=<sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1adc363b50242a858715508f721b1db435" kindref="member">exportWeights</ref>();</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>1,<sp/>40,<sp/>0.3);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter2(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter2.addLayer(</highlight><highlight class="stringliteral">&quot;consistency&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter2.addLayer(</highlight><highlight class="stringliteral">&quot;other&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(adapter2);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Export<sp/>and<sp/>compare</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>snapshot2<sp/>=<sp/>adapter2.exportWeights();</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot1.size(),<sp/>snapshot2.size());</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>snapshot1.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot1[i].B.size(),<sp/>snapshot2[i].B.size());</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(snapshot1[i].A.size(),<sp/>snapshot2[i].A.size());</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>snapshot1[i].B.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(snapshot1[i].B[j],<sp/>snapshot2[i].B[j]);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="280"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Performance<sp/>under<sp/>repeated<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>PerformanceUnderRepeatedCycles)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;perf_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::high_resolution_clock::now();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_cycles<sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>num_cycles;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>5,<sp/></highlight><highlight class="stringliteral">&quot;perf_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>cycle<sp/>+<sp/>1,<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>5,<sp/>1.0<sp/>/<sp/>(cycle<sp/>+<sp/>1));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>elapsed<sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::milliseconds&gt;(</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::high_resolution_clock::now()<sp/>-<sp/>start).count();</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>complete<sp/>in<sp/>reasonable<sp/>time</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(elapsed,<sp/>60000);<sp/><sp/></highlight><highlight class="comment">//<sp/>60<sp/>seconds<sp/>for<sp/>50<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" kindref="member">getCheckpointCount</ref>(),<sp/>num_cycles);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>State<sp/>consistency<sp/>across<sp/>multiple<sp/>resumptions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>MultipleResumptions_Consistent)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"></highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>original(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/>original.addLayer(</highlight><highlight class="stringliteral">&quot;multi_resume&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(original,<sp/>20,<sp/></highlight><highlight class="stringliteral">&quot;multi_resume&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>original_weights<sp/>=<sp/>original.exportWeights();</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(original,<sp/>1,<sp/>20,<sp/>0.4);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resume<sp/>multiple<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>resume_idx<sp/>=<sp/>0;<sp/>resume_idx<sp/>&lt;<sp/>5;<sp/>++resume_idx)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>resumed(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>resumed.addLayer(</highlight><highlight class="stringliteral">&quot;multi_resume&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(resumed));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>resumed_weights<sp/>=<sp/>resumed.exportWeights();</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(original_weights.size(),<sp/>resumed_weights.size());</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>original_weights.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>original_weights[i].B.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(original_weights[i].B[j],<sp/>resumed_weights[i].B[j]);</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Extended<sp/>session<sp/>simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>ExtendedSessionSimulation)<sp/>{</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_phases<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>steps_per_phase<sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Phase<sp/>0:<sp/>Create<sp/>and<sp/>train</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>session(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>session.addLayer(</highlight><highlight class="stringliteral">&quot;phase_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>phase<sp/>=<sp/>0;<sp/>phase<sp/>&lt;<sp/>num_phases;<sp/>++phase)<sp/>{</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(session,<sp/>steps_per_phase,<sp/></highlight><highlight class="stringliteral">&quot;phase_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(session,<sp/>phase<sp/>+<sp/>1,<sp/>(phase<sp/>+<sp/>1)<sp/>*<sp/>steps_per_phase,</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>2.0<sp/>-<sp/>phase<sp/>*<sp/>0.2);<sp/><sp/></highlight><highlight class="comment">//<sp/>Decreasing<sp/>loss</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal"></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>session<sp/>crash<sp/>and<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="362"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(phase<sp/>&lt;<sp/>num_phases<sp/>-<sp/>1)<sp/>{</highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Save<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>checkpoint_weights<sp/>=<sp/>session.exportWeights();</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>crash<sp/>-<sp/>create<sp/>new<sp/>session<sp/>from<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>recovered(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recovered.addLayer(</highlight><highlight class="stringliteral">&quot;phase_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(recovered);</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"></highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recovered_weights<sp/>=<sp/>recovered.exportWeights();</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>checkpoint_weights.size();<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>j<sp/>=<sp/>0;<sp/>j<sp/>&lt;<sp/>checkpoint_weights[i].B.size();<sp/>++j)<sp/>{</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(checkpoint_weights[i].B[j],</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>recovered_weights[i].B[j]);</highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"></highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Continue<sp/>with<sp/>recovered<sp/>session</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>session<sp/>=<sp/>std::move(recovered);</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" kindref="member">getCheckpointCount</ref>(),<sp/>num_phases);</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>(),<sp/>num_phases);</highlight></codeline>
+<codeline lineno="387"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Multi-layer<sp/>checkpoint<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>MultiLayerCheckpointCycles)<sp/>{</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"></highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_layers<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_layers;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;layer_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="401"><highlight class="normal"></highlight></codeline>
+<codeline lineno="402"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>num_cycles<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="403"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>num_cycles;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="404"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Train<sp/>all<sp/>layers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="405"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_layers;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="406"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>5,<sp/></highlight><highlight class="stringliteral">&quot;layer_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="407"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="408"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>cycle<sp/>+<sp/>1,<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>5<sp/>*<sp/>num_layers,<sp/>0.5<sp/>-<sp/>cycle<sp/>*<sp/>0.01);</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="412"><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>final<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>final_adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>num_layers;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>final_adapter.addLayer(</highlight><highlight class="stringliteral">&quot;layer_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(final_adapter));</highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(final_adapter.layerCount(),<sp/>num_layers);</highlight></codeline>
+<codeline lineno="420"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"></highlight></codeline>
+<codeline lineno="422"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="423"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Checkpoint<sp/>metadata<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>MetadataTracking_AcrossCycles)<sp/>{</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"></highlight></codeline>
+<codeline lineno="429"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;meta_test&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="431"><highlight class="normal"></highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>epochs;</highlight></codeline>
+<codeline lineno="433"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>steps;</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;double&gt;<sp/>losses;</highlight></codeline>
+<codeline lineno="435"><highlight class="normal"></highlight></codeline>
+<codeline lineno="436"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>20;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="437"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;meta_test&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="438"><highlight class="normal"></highlight></codeline>
+<codeline lineno="439"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>epoch<sp/>=<sp/>cycle<sp/>+<sp/>1;</highlight></codeline>
+<codeline lineno="440"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>step<sp/>=<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>10;</highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>loss<sp/>=<sp/>2.0<sp/>-<sp/>cycle<sp/>*<sp/>0.05;</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"></highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>epoch,<sp/>step,<sp/>loss);</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"></highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>epochs.push_back(epoch);</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>steps.push_back(step);</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>losses.push_back(loss);</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"></highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>metadata<sp/>was<sp/>preserved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>(),<sp/>epochs.back());</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>(),<sp/>steps.back());</highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FLOAT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aad942448b11acd22c769249bd2e09574" kindref="member">getLastLoss</ref>(),<sp/>losses.back());</highlight></codeline>
+<codeline lineno="454"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="455"><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="457"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Rollback<sp/>simulation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"></highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>RollbackSimulation)<sp/>{</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="462"><highlight class="normal"></highlight></codeline>
+<codeline lineno="463"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="464"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="465"><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>checkpoints<sp/>at<sp/>different<sp/>points</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;size_t&gt;<sp/>checkpoint_steps<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="468"><highlight class="normal"></highlight></codeline>
+<codeline lineno="469"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cp<sp/>=<sp/>0;<sp/>cp<sp/>&lt;<sp/>5;<sp/>++cp)<sp/>{</highlight></codeline>
+<codeline lineno="470"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>20,<sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="471"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>cp<sp/>+<sp/>1,<sp/>(cp<sp/>+<sp/>1)<sp/>*<sp/>20,<sp/>2.0<sp/>-<sp/>cp<sp/>*<sp/>0.1);</highlight></codeline>
+<codeline lineno="472"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>checkpoint_steps.push_back((cp<sp/>+<sp/>1)<sp/>*<sp/>20);</highlight></codeline>
+<codeline lineno="473"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="474"><highlight class="normal"></highlight></codeline>
+<codeline lineno="475"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>rollback<sp/>to<sp/>earlier<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="476"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>rolled_back(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="477"><highlight class="normal"><sp/><sp/><sp/><sp/>rolled_back.addLayer(</highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="478"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a0982a3b8aa29028452dd11c77f80d632" kindref="member">resumeCheckpoint</ref>(rolled_back);</highlight></codeline>
+<codeline lineno="479"><highlight class="normal"></highlight></codeline>
+<codeline lineno="480"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>be<sp/>at<sp/>latest<sp/>checkpoint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="481"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>(),<sp/>checkpoint_steps.back());</highlight></codeline>
+<codeline lineno="482"><highlight class="normal"></highlight></codeline>
+<codeline lineno="483"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Continue<sp/>training<sp/>from<sp/>rollback<sp/>point</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="484"><highlight class="normal"><sp/><sp/><sp/><sp/>trainAdapter(rolled_back,<sp/>10,<sp/></highlight><highlight class="stringliteral">&quot;rollback&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="485"><highlight class="normal"></highlight></codeline>
+<codeline lineno="486"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Can<sp/>still<sp/>checkpoint<sp/>from<sp/>rolled<sp/>back<sp/>state</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="487"><highlight class="normal"><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(rolled_back,<sp/>6,<sp/>checkpoint_steps.back()<sp/>+<sp/>10,<sp/>1.3);</highlight></codeline>
+<codeline lineno="488"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1aef59e4d713279eebd218f46d8c992070" kindref="member">getLastStep</ref>(),<sp/>checkpoint_steps.back()<sp/>+<sp/>10);</highlight></codeline>
+<codeline lineno="489"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="490"><highlight class="normal"></highlight></codeline>
+<codeline lineno="491"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="492"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Large-scale<sp/>cycle<sp/>stress</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="493"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="494"><highlight class="normal"></highlight></codeline>
+<codeline lineno="495"><highlight class="normal"><ref refid="test__checkpoint__resume__stress_8cpp_1abd6eae99ea9112f230cac19e6dce7e27" kindref="member">TEST_F</ref>(<ref refid="class_checkpoint_resume_stress_test" kindref="compound">CheckpointResumeStressTest</ref>,<sp/>LargeScaleCycleStress)<sp/>{</highlight></codeline>
+<codeline lineno="496"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_simple_checkpoint_manager" kindref="compound">SimpleCheckpointManager</ref><sp/>mgr;</highlight></codeline>
+<codeline lineno="497"><highlight class="normal"></highlight></codeline>
+<codeline lineno="498"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1training_1_1_lo_r_a_adapter" kindref="compound">LoRAAdapter</ref><sp/>adapter(RANK,<sp/>ALPHA);</highlight></codeline>
+<codeline lineno="499"><highlight class="normal"><sp/><sp/><sp/><sp/>adapter.<ref refid="classthemis_1_1training_1_1_lo_r_a_adapter_1a8015084ffc1688291e1222498c1cd8ac" kindref="member">addLayer</ref>(</highlight><highlight class="stringliteral">&quot;large_scale&quot;</highlight><highlight class="normal">,<sp/>IN_DIM,<sp/>OUT_DIM);</highlight></codeline>
+<codeline lineno="500"><highlight class="normal"></highlight></codeline>
+<codeline lineno="501"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>large_num_cycles<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="502"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>steps_per_cycle<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="503"><highlight class="normal"></highlight></codeline>
+<codeline lineno="504"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>cycle<sp/>=<sp/>0;<sp/>cycle<sp/>&lt;<sp/>large_num_cycles;<sp/>++cycle)<sp/>{</highlight></codeline>
+<codeline lineno="505"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>trainAdapter(adapter,<sp/>steps_per_cycle,<sp/></highlight><highlight class="stringliteral">&quot;large_scale&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="506"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mgr.<ref refid="class_simple_checkpoint_manager_1a56fe6890a7c9a70f08ace050b482a578" kindref="member">saveCheckpoint</ref>(adapter,<sp/>cycle<sp/>+<sp/>1,<sp/>(cycle<sp/>+<sp/>1)<sp/>*<sp/>steps_per_cycle,<sp/>1.0<sp/>/<sp/>(cycle<sp/>+<sp/>2));</highlight></codeline>
+<codeline lineno="507"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="508"><highlight class="normal"></highlight></codeline>
+<codeline lineno="509"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1ab191dabea04e78ca8065eb6316256a3b" kindref="member">getCheckpointCount</ref>(),<sp/>large_num_cycles);</highlight></codeline>
+<codeline lineno="510"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(mgr.<ref refid="class_simple_checkpoint_manager_1af76ee50374cc12ee7b176c81d6f1646b" kindref="member">getLastEpoch</ref>(),<sp/>large_num_cycles);</highlight></codeline>
+<codeline lineno="511"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/training/test_checkpoint_resume_stress.cpp"/>
+  </compounddef>
+</doxygen>

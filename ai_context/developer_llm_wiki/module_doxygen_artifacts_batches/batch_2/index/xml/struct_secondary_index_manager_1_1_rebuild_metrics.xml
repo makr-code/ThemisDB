@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_secondary_index_manager_1_1_rebuild_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>SecondaryIndexManager::RebuildMetrics</compoundname>
+    <includes refid="secondary__index_8h" local="no">secondary_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_rebuild_metrics_1a894036635c6b3511b70d9ef3f04a1227" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SecondaryIndexManager::RebuildMetrics::rebuild_count</definition>
+        <argsstring></argsstring>
+        <name>rebuild_count</name>
+        <qualifiedname>SecondaryIndexManager::RebuildMetrics::rebuild_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="348" column="21" bodyfile="include/index/secondary_index.h" bodystart="348" bodyend="348"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_rebuild_metrics_1ad24055ccc3d23e8c3ee7da78ff3a11bd" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SecondaryIndexManager::RebuildMetrics::rebuild_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>rebuild_duration_ms</name>
+        <qualifiedname>SecondaryIndexManager::RebuildMetrics::rebuild_duration_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="349" column="21" bodyfile="include/index/secondary_index.h" bodystart="349" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_rebuild_metrics_1a12fbbece9ceaee772ac7a7c877f7c71c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SecondaryIndexManager::RebuildMetrics::rebuild_entities_processed</definition>
+        <argsstring></argsstring>
+        <name>rebuild_entities_processed</name>
+        <qualifiedname>SecondaryIndexManager::RebuildMetrics::rebuild_entities_processed</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="350" column="21" bodyfile="include/index/secondary_index.h" bodystart="350" bodyend="350"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_secondary_index_manager_1_1_rebuild_metrics_1a6e30b6100ac0fcd7fd9a223ebe971f9c" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; themis::SecondaryIndexManager::RebuildMetrics::online_rebuild_count</definition>
+        <argsstring></argsstring>
+        <name>online_rebuild_count</name>
+        <qualifiedname>SecondaryIndexManager::RebuildMetrics::online_rebuild_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/secondary_index.h" line="351" column="21" bodyfile="include/index/secondary_index.h" bodystart="351" bodyend="351"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/index/secondary_index.h" line="347" column="5" bodyfile="include/index/secondary_index.h" bodystart="347" bodyend="352"/>
+    <listofallmembers>
+      <member refid="struct_secondary_index_manager_1_1_rebuild_metrics_1a6e30b6100ac0fcd7fd9a223ebe971f9c" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::RebuildMetrics</scope><name>online_rebuild_count</name></member>
+      <member refid="struct_secondary_index_manager_1_1_rebuild_metrics_1a894036635c6b3511b70d9ef3f04a1227" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::RebuildMetrics</scope><name>rebuild_count</name></member>
+      <member refid="struct_secondary_index_manager_1_1_rebuild_metrics_1ad24055ccc3d23e8c3ee7da78ff3a11bd" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::RebuildMetrics</scope><name>rebuild_duration_ms</name></member>
+      <member refid="struct_secondary_index_manager_1_1_rebuild_metrics_1a12fbbece9ceaee772ac7a7c877f7c71c" prot="public" virt="non-virtual"><scope>SecondaryIndexManager::RebuildMetrics</scope><name>rebuild_entities_processed</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

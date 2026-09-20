@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_c_p_u_vector_invalid_input_test" kind="class" language="C++" prot="public">
+    <compoundname>CPUVectorInvalidInputTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_c_p_u_vector_invalid_input_test_1a174c8d35053ab0271e19d5e5d804509a" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend" kindref="compound">CPUVectorBackend</ref></type>
+        <definition>CPUVectorBackend CPUVectorInvalidInputTest::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>CPUVectorInvalidInputTest::backend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="46" column="22" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="46" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_c_p_u_vector_invalid_input_test_1ab54ed5e1370b75753e19bcbbfb2b3134" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CPUVectorInvalidInputTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>CPUVectorInvalidInputTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="47" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_c_p_u_vector_invalid_input_test_1a8ba8ea3647639972981b4fb82c029c49" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void CPUVectorInvalidInputTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>CPUVectorInvalidInputTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/acceleration/test_acceleration_regression.cpp" line="48" column="10" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>CPUVectorInvalidInputTest</label>
+        <link refid="class_c_p_u_vector_invalid_input_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>CPUVectorInvalidInputTest</label>
+        <link refid="class_c_p_u_vector_invalid_input_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::CPUVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_c_p_u_vector_backend"/>
+        <childnode refid="4" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="5">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="6" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::acceleration::IVectorBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_vector_backend"/>
+        <childnode refid="5" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/acceleration/test_acceleration_regression.cpp" line="44" column="1" bodyfile="tests/acceleration/test_acceleration_regression.cpp" bodystart="44" bodyend="49"/>
+    <listofallmembers>
+      <member refid="class_c_p_u_vector_invalid_input_test_1a174c8d35053ab0271e19d5e5d804509a" prot="protected" virt="non-virtual"><scope>CPUVectorInvalidInputTest</scope><name>backend</name></member>
+      <member refid="class_c_p_u_vector_invalid_input_test_1ab54ed5e1370b75753e19bcbbfb2b3134" prot="protected" virt="non-virtual"><scope>CPUVectorInvalidInputTest</scope><name>SetUp</name></member>
+      <member refid="class_c_p_u_vector_invalid_input_test_1a8ba8ea3647639972981b4fb82c029c49" prot="protected" virt="non-virtual"><scope>CPUVectorInvalidInputTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

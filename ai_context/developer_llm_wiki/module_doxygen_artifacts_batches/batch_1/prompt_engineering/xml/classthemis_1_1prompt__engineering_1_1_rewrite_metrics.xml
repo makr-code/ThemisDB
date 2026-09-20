@@ -1,0 +1,260 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::RewriteMetrics</compoundname>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics" prot="public">themis::prompt_engineering::RewriteMetrics::PerPhaseMetrics</innerclass>
+    <innerclass refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics" prot="public">themis::prompt_engineering::RewriteMetrics::PerRuleMetrics</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1acd7856c3095f8844cb02fde379f1a467" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; int, <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics" kindref="compound">PerPhaseMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt;int, PerPhaseMetrics&gt; themis::prompt_engineering::RewriteMetrics::phase_metrics_</definition>
+        <argsstring></argsstring>
+        <name>phase_metrics_</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::phase_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="158" column="24" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a42832486d57e8cc069ffb59e5f0f1d0d" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, <ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics" kindref="compound">PerRuleMetrics</ref> &gt;</type>
+        <definition>std::unordered_map&lt;std::string, PerRuleMetrics&gt; themis::prompt_engineering::RewriteMetrics::rule_metrics_</definition>
+        <argsstring></argsstring>
+        <name>rule_metrics_</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::rule_metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="159" column="24" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a5cd0345969ddc950326b242feb9fba4e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::RewriteMetrics::RewriteMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>RewriteMetrics</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::RewriteMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="43" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a482902b3a968abb7b59a0e3f26a731b2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RewriteMetrics::record_rule_match</definition>
+        <argsstring>(const std::string &amp;rule_id, RewritePhase phase)</argsstring>
+        <name>record_rule_match</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::record_rule_match</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+<para>Record rule match. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_rule_match without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="51" column="10" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="51" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a096054ffb034ee9b2b47ea860f8a806f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RewriteMetrics::record_rule_apply</definition>
+        <argsstring>(const std::string &amp;rule_id, RewritePhase phase, uint64_t latency_micros)</argsstring>
+        <name>record_rule_apply</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::record_rule_apply</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_micros</declname>
+        </param>
+        <briefdescription>
+<para>Record rule apply. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">phase</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_micros</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::max(), std::min(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="63" column="10" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a77e9cfba3cee413043f6048a3e40ce22" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RewriteMetrics::record_rule_error</definition>
+        <argsstring>(const std::string &amp;rule_id)</argsstring>
+        <name>record_rule_error</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::record_rule_error</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+<para>Record rule error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the rule.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements record_rule_error without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="81" column="10" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="81" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a531bbfb88c7bd62d6c20919d45227508" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_phase_metrics" kindref="compound">PerPhaseMetrics</ref></type>
+        <definition>PerPhaseMetrics themis::prompt_engineering::RewriteMetrics::get_phase_metrics</definition>
+        <argsstring>(RewritePhase phase) const</argsstring>
+        <name>get_phase_metrics</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::get_phase_metrics</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1prompt__engineering_1a0e0489332fbdaaab49373ca37e69bd29" kindref="member">RewritePhase</ref></type>
+          <declname>phase</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="85" column="21" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="85" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a99012d2de5eed5047b7f0c0ca489da60" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1prompt__engineering_1_1_rewrite_metrics_1_1_per_rule_metrics" kindref="compound">PerRuleMetrics</ref></type>
+        <definition>PerRuleMetrics themis::prompt_engineering::RewriteMetrics::get_rule_metrics</definition>
+        <argsstring>(const std::string &amp;rule_id) const</argsstring>
+        <name>get_rule_metrics</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::get_rule_metrics</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rule_id</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="93" column="20" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="93" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a586ba62183d8c3e2e248ceed0aa84fa1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::RewriteMetrics::export_json</definition>
+        <argsstring>() const</argsstring>
+        <name>export_json</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::export_json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="100" column="17" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="100" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1aeacf155a6434f809033149a2858749f4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::prompt_engineering::RewriteMetrics::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::prompt_engineering::RewriteMetrics::reset</qualifiedname>
+        <briefdescription>
+<para>Reset the modification detection flag. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/prompt_engineering/rewrite_metrics.cpp" line="152" column="10" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="152" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/prompt_engineering/rewrite_metrics.cpp" line="25" column="1" bodyfile="src/prompt_engineering/rewrite_metrics.cpp" bodystart="25" bodyend="160"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a586ba62183d8c3e2e248ceed0aa84fa1" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>export_json</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a531bbfb88c7bd62d6c20919d45227508" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>get_phase_metrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a99012d2de5eed5047b7f0c0ca489da60" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>get_rule_metrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1acd7856c3095f8844cb02fde379f1a467" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>phase_metrics_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a096054ffb034ee9b2b47ea860f8a806f" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>record_rule_apply</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a77e9cfba3cee413043f6048a3e40ce22" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>record_rule_error</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a482902b3a968abb7b59a0e3f26a731b2" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>record_rule_match</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1aeacf155a6434f809033149a2858749f4" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>reset</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a5cd0345969ddc950326b242feb9fba4e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>RewriteMetrics</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_rewrite_metrics_1a42832486d57e8cc069ffb59e5f0f1d0d" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::RewriteMetrics</scope><name>rule_metrics_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

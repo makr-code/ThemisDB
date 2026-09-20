@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::security::RSA_SHA256_Verifier</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier" prot="public" virt="non-virtual">themis::llm::security::ISignatureVerifier</basecompoundref>
+    <includes refid="signature__verifier_8h" local="no">signature_verifier.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1aa7e008fcb7c49fa50ed76257f5d71166" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::security::RSA_SHA256_Verifier::RSA_SHA256_Verifier</definition>
+        <argsstring>()=default</argsstring>
+        <name>RSA_SHA256_Verifier</name>
+        <qualifiedname>themis::llm::security::RSA_SHA256_Verifier::RSA_SHA256_Verifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="89" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a8d723e47f118ebf2e40f44110715927b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::security::RSA_SHA256_Verifier::~RSA_SHA256_Verifier</definition>
+        <argsstring>() override=default</argsstring>
+        <name>~RSA_SHA256_Verifier</name>
+        <qualifiedname>themis::llm::security::RSA_SHA256_Verifier::~RSA_SHA256_Verifier</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="90" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a48e8863a3756ab1070e505e81817b700" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1security_1_1_signature_verification_result" kindref="compound">SignatureVerificationResult</ref></type>
+        <definition>SignatureVerificationResult themis::llm::security::RSA_SHA256_Verifier::verify</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data, const std::vector&lt; uint8_t &gt; &amp;signature, const std::string &amp;cert_pem) override</argsstring>
+        <name>verify</name>
+        <qualifiedname>themis::llm::security::RSA_SHA256_Verifier::verify</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1ada1e97b2ca0c01f67f7be08f9abd3139">verify</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>signature</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+<para>===== <ref refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier" kindref="compound">RSA_SHA256_Verifier</ref> ===== </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">signature</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">cert_pem</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Verification result.</para>
+</simplesect>
+Calls: empty(), spdlog::error(), loadCertificate(), extractPublicKey(), get(), EVP_PKEY_bits(), EVP_PKEY_id(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="92" column="33" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="61" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a52de0de4c0ef0f4df0b168c621d62963" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; X509, decltype(&amp;X509_free)&gt;</type>
+        <definition>std::unique_ptr&lt; X509, decltype(&amp;X509_free)&gt; themis::llm::security::RSA_SHA256_Verifier::loadCertificate</definition>
+        <argsstring>(const std::string &amp;cert_pem)</argsstring>
+        <name>loadCertificate</name>
+        <qualifiedname>themis::llm::security::RSA_SHA256_Verifier::loadCertificate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cert_pem</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="100" column="9" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="213" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a3dfd80405bd03f68701ed0abc1e70032" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::unique_ptr&lt; <ref refid="raii__wrappers_8h_1a2fca4fef9e4c7a2a739b1ea04acb56ce" kindref="member">EVP_PKEY</ref>, decltype(&amp;EVP_PKEY_free)&gt;</type>
+        <definition>std::unique_ptr&lt; EVP_PKEY, decltype(&amp;EVP_PKEY_free)&gt; themis::llm::security::RSA_SHA256_Verifier::extractPublicKey</definition>
+        <argsstring>(X509 *cert)</argsstring>
+        <name>extractPublicKey</name>
+        <qualifiedname>themis::llm::security::RSA_SHA256_Verifier::extractPublicKey</qualifiedname>
+        <param>
+          <type>X509 *</type>
+          <declname>cert</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/security/signature_verifier.h" line="103" column="9" bodyfile="src/llm/security/signature_verifier.cpp" bodystart="243" bodyend="278"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::security::ISignatureVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::security::RSA_SHA256_Verifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::security::ISignatureVerifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::security::RSA_SHA256_Verifier</label>
+        <link refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/security/signature_verifier.h" line="87" column="1" bodyfile="include/llm/security/signature_verifier.h" bodystart="87" bodyend="104"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a3dfd80405bd03f68701ed0abc1e70032" prot="private" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>extractPublicKey</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a52de0de4c0ef0f4df0b168c621d62963" prot="private" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>loadCertificate</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1ad5833d6841cdbffb5f8751852d04f97a" prot="protected" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>next_</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a87aa27793e40fb53af607bb717efd56f" prot="protected" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>passToNext</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1aa7e008fcb7c49fa50ed76257f5d71166" prot="public" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>RSA_SHA256_Verifier</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a594ea8849b227f38c1b988a503862ea3" prot="public" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>setNext</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a48e8863a3756ab1070e505e81817b700" prot="public" virt="virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>verify</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_i_signature_verifier_1a3c0e71a6114beeffd099739471fc24e0" prot="public" virt="virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>~ISignatureVerifier</name></member>
+      <member refid="classthemis_1_1llm_1_1security_1_1_r_s_a___s_h_a256___verifier_1a8d723e47f118ebf2e40f44110715927b" prot="public" virt="non-virtual"><scope>themis::llm::security::RSA_SHA256_Verifier</scope><name>~RSA_SHA256_Verifier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

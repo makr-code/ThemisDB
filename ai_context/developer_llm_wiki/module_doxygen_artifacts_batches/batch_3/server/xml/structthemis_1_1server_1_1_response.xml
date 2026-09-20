@@ -1,0 +1,95 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_response" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::Response</compoundname>
+    <includes refid="error__api__handler_8h" local="no">error_api_handler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_response_1a561843fcb658291616236bbc788a356c" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::server::Response::status_code</definition>
+        <argsstring></argsstring>
+        <name>status_code</name>
+        <qualifiedname>themis::server::Response::status_code</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="32" column="9" bodyfile="include/server/error_api_handler.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_response_1a2fa91d6b61bee9d9fa36f53a9a510564" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::server::Response::body</definition>
+        <argsstring></argsstring>
+        <name>body</name>
+        <qualifiedname>themis::server::Response::body</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="33" column="20" bodyfile="include/server/error_api_handler.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_response_1a2c7331e6e41e7ab8d7d3a765333d7ff1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::Response::content_type</definition>
+        <argsstring></argsstring>
+        <name>content_type</name>
+        <qualifiedname>themis::server::Response::content_type</qualifiedname>
+        <initializer>= &quot;application/json&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="34" column="17" bodyfile="include/server/error_api_handler.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1server_1_1_response_1ae549e9a6707657ecaed880fba678a01d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::Response::setJSON</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>setJSON</name>
+        <qualifiedname>themis::server::Response::setJSON</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Set JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setJSON without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/error_api_handler.h" line="41" column="10" bodyfile="include/server/error_api_handler.h" bodystart="41" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/error_api_handler.h" line="31" column="1" bodyfile="include/server/error_api_handler.h" bodystart="31" bodyend="45"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_response_1a2fa91d6b61bee9d9fa36f53a9a510564" prot="public" virt="non-virtual"><scope>themis::server::Response</scope><name>body</name></member>
+      <member refid="structthemis_1_1server_1_1_response_1a2c7331e6e41e7ab8d7d3a765333d7ff1" prot="public" virt="non-virtual"><scope>themis::server::Response</scope><name>content_type</name></member>
+      <member refid="structthemis_1_1server_1_1_response_1ae549e9a6707657ecaed880fba678a01d" prot="public" virt="non-virtual"><scope>themis::server::Response</scope><name>setJSON</name></member>
+      <member refid="structthemis_1_1server_1_1_response_1a561843fcb658291616236bbc788a356c" prot="public" virt="non-virtual"><scope>themis::server::Response</scope><name>status_code</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

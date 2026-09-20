@@ -1,0 +1,419 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1functions_1_1geo__helpers" kind="namespace" language="C++">
+    <compoundname>themis::query::functions::geo_helpers</compoundname>
+    <innerclass refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" prot="public">themis::query::functions::geo_helpers::MBR</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a97ec5383ad752e5fe4c37b74455b16db" prot="public" static="no" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::EARTH_RADIUS_M</definition>
+        <argsstring></argsstring>
+        <name>EARTH_RADIUS_M</name>
+        <qualifiedname>themis::query::functions::geo_helpers::EARTH_RADIUS_M</qualifiedname>
+        <initializer>= 6371000.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="41" column="18" bodyfile="include/query/functions/geo_functions.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a166c738a830032ab4aed77d8e4109ad9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::deg2rad</definition>
+        <argsstring>(double deg)</argsstring>
+        <name>deg2rad</name>
+        <qualifiedname>themis::query::functions::geo_helpers::deg2rad</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>deg</declname>
+        </param>
+        <briefdescription>
+<para>Deg2rad. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">deg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements deg2rad without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="69" column="15" bodyfile="include/query/functions/geo_functions.h" bodystart="69" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a6d0366ec6e18e22cb5935a495810ece4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::rad2deg</definition>
+        <argsstring>(double rad)</argsstring>
+        <name>rad2deg</name>
+        <qualifiedname>themis::query::functions::geo_helpers::rad2deg</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>rad</declname>
+        </param>
+        <briefdescription>
+<para>Rad2deg. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rad</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements rad2deg without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="79" column="15" bodyfile="include/query/functions/geo_functions.h" bodystart="79" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a9e89c40d43dd9539dc09b22e712516da" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::haversineDistance</definition>
+        <argsstring>(double lon1, double lat1, double lon2, double lat2)</argsstring>
+        <name>haversineDistance</name>
+        <qualifiedname>themis::query::functions::geo_helpers::haversineDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lon2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat2</declname>
+        </param>
+        <briefdescription>
+<para>Haversine Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lon1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lon2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a166c738a830032ab4aed77d8e4109ad9" kindref="member">deg2rad()</ref>, std::sin(), std::cos(), std::atan2(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="92" column="15" bodyfile="include/query/functions/geo_functions.h" bodystart="92" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a502bcf06eb8a4bb75f669031640f22bd" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::euclideanDistance</definition>
+        <argsstring>(double x1, double y1, double x2, double y2)</argsstring>
+        <name>euclideanDistance</name>
+        <qualifiedname>themis::query::functions::geo_helpers::euclideanDistance</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y2</declname>
+        </param>
+        <briefdescription>
+<para>Euclidean Distance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="111" column="15" bodyfile="include/query/functions/geo_functions.h" bodystart="111" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1ad57c6bd2f984372689da5e5dc46788c3" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::query::functions::geo_helpers::euclideanDistance3D</definition>
+        <argsstring>(double x1, double y1, double z1, double x2, double y2, double z2)</argsstring>
+        <name>euclideanDistance3D</name>
+        <qualifiedname>themis::query::functions::geo_helpers::euclideanDistance3D</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>x1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z1</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>x2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>y2</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>z2</declname>
+        </param>
+        <briefdescription>
+<para>Euclidean Distance3 D. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">x1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">z1</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">x2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">y2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">z2</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="128" column="15" bodyfile="include/query/functions/geo_functions.h" bodystart="128" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a2cfb02e31ebe27d232299c00a945a78d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::tuple&lt; double, double, double &gt;</type>
+        <definition>std::tuple&lt; double, double, double &gt; themis::query::functions::geo_helpers::extractPoint</definition>
+        <argsstring>(const nlohmann::json &amp;geojson)</argsstring>
+        <name>extractPoint</name>
+        <qualifiedname>themis::query::functions::geo_helpers::extractPoint</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>geojson</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="136" column="19" bodyfile="include/query/functions/geo_functions.h" bodystart="136" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a0be121abe9d2080d267a3b2bdbb7eed2" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" kindref="compound">MBR</ref></type>
+        <definition>MBR themis::query::functions::geo_helpers::extractMBR</definition>
+        <argsstring>(const nlohmann::json &amp;geojson)</argsstring>
+        <name>extractMBR</name>
+        <qualifiedname>themis::query::functions::geo_helpers::extractMBR</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>geojson</declname>
+        </param>
+        <briefdescription>
+<para>Extract <ref refid="structthemis_1_1query_1_1functions_1_1geo__helpers_1_1_m_b_r" kindref="compound">MBR</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">geojson</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: is_object(), contains(), max(), lowest(), std::min(), std::max(), <ref refid="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1a2cfb02e31ebe27d232299c00a945a78d" kindref="member">extractPoint()</ref>, updateBounds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="157" column="12" bodyfile="include/query/functions/geo_functions.h" bodystart="157" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1functions_1_1geo__helpers_1ac55c0c3e54b470cb0e9161e7c50773b1" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::functions::geo_helpers::looksLikeDegrees</definition>
+        <argsstring>(double lon, double lat)</argsstring>
+        <name>looksLikeDegrees</name>
+        <qualifiedname>themis::query::functions::geo_helpers::looksLikeDegrees</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>lon</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>lat</declname>
+        </param>
+        <briefdescription>
+<para>Looks Like Degrees. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">lon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">lat</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements looksLikeDegrees without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/geo_functions.h" line="208" column="13" bodyfile="include/query/functions/geo_functions.h" bodystart="208" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/geo_functions.h" line="38" column="1"/>
+  </compounddef>
+</doxygen>

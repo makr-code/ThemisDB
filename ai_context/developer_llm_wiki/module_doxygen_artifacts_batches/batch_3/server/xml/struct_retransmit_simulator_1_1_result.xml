@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_retransmit_simulator_1_1_result" kind="struct" language="C++" prot="public">
+    <compoundname>RetransmitSimulator::Result</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_retransmit_simulator_1_1_result_1aae2b67cd49bafaf00ed2b3b911408725" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool RetransmitSimulator::Result::completed</definition>
+        <argsstring></argsstring>
+        <name>completed</name>
+        <qualifiedname>RetransmitSimulator::Result::completed</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="125" column="18" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_retransmit_simulator_1_1_result_1a42fedf552e8b3dfc2f4c1ceaf0e0bb04" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t RetransmitSimulator::Result::observed_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>observed_latency_ms</name>
+        <qualifiedname>RetransmitSimulator::Result::observed_latency_ms</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_http3_stress_focused.cpp" line="126" column="18" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/server/test_server_http3_stress_focused.cpp" line="124" column="5" bodyfile="tests/server/test_server_http3_stress_focused.cpp" bodystart="124" bodyend="127"/>
+    <listofallmembers>
+      <member refid="struct_retransmit_simulator_1_1_result_1aae2b67cd49bafaf00ed2b3b911408725" prot="public" virt="non-virtual"><scope>RetransmitSimulator::Result</scope><name>completed</name></member>
+      <member refid="struct_retransmit_simulator_1_1_result_1a42fedf552e8b3dfc2f4c1ceaf0e0bb04" prot="public" virt="non-virtual"><scope>RetransmitSimulator::Result</scope><name>observed_latency_ms</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

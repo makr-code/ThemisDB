@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::ingestion::DatabaseConnector::Impl</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1abb2f9cc8822dc7f71a6fde68f8959974" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref></type>
+        <definition>SourceConfig themis::ingestion::DatabaseConnector::Impl::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="808" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="808" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1abe9cf4916d62bb01a15f9aec0dc4bd39" prot="private" static="no" mutable="no">
+        <type>JdbcUrl</type>
+        <definition>JdbcUrl themis::ingestion::DatabaseConnector::Impl::jdbc_</definition>
+        <argsstring></argsstring>
+        <name>jdbc_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::jdbc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="809" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="809" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a348874405824ace4877f9fc614711620" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::username_</definition>
+        <argsstring></argsstring>
+        <name>username_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::username_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="810" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="810" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a769f48dacdbe532500d2e350250950fe" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::password_</definition>
+        <argsstring></argsstring>
+        <name>password_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::password_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="811" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="811" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a6ce093293903e56f5a1e818f67a05135" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::driver_</definition>
+        <argsstring></argsstring>
+        <name>driver_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::driver_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="812" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="812" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1acbc20b4648d29133321f3dc20fa3c0b5" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::table_</definition>
+        <argsstring></argsstring>
+        <name>table_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::table_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="813" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="813" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a18aa779a8887623fb18e9b3e7001b195" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::user_query_</definition>
+        <argsstring></argsstring>
+        <name>user_query_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::user_query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="814" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="814" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aa3f6debc9aa94fa642a97988e2ed56a6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::effective_query_</definition>
+        <argsstring></argsstring>
+        <name>effective_query_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::effective_query_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="815" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="815" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a81c60e5621c45933840cf89e3e3ced2b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::ingestion::DatabaseConnector::Impl::odbc_conn_str_</definition>
+        <argsstring></argsstring>
+        <name>odbc_conn_str_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::odbc_conn_str_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="816" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="816" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a0f2a97487d0495788c8d4f276379e131" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::ingestion::DatabaseConnector::Impl::text_columns_</definition>
+        <argsstring></argsstring>
+        <name>text_columns_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::text_columns_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="817" column="19" bodyfile="src/ingestion/database_connector.cpp" bodystart="817" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a21c50c64e3b6efcbf4ba95edb7970c9f" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::DatabaseConnector::Impl::batch_size_</definition>
+        <argsstring></argsstring>
+        <name>batch_size_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::batch_size_</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="818" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="818" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aec68b594b40ebaf117d773b2f30d2a27" prot="private" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::DatabaseConnector::Impl::max_rows_</definition>
+        <argsstring></argsstring>
+        <name>max_rows_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::max_rows_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="819" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="819" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a547b28645b05ea6086e175fc6ea8d143" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ingestion::DatabaseConnector::Impl::timeout_s_</definition>
+        <argsstring></argsstring>
+        <name>timeout_s_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::timeout_s_</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="820" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="820" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af52c57ae9122221c4f7633ebe06e53b2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref></type>
+        <definition>RetryConfig themis::ingestion::DatabaseConnector::Impl::retry_config_</definition>
+        <argsstring></argsstring>
+        <name>retry_config_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::retry_config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="821" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="821" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aaa93937edeb4b3b85579fe03162a5e62" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" kindref="member">RowFetchFn</ref></type>
+        <definition>RowFetchFn themis::ingestion::DatabaseConnector::Impl::row_fetch_fn_</definition>
+        <argsstring></argsstring>
+        <name>row_fetch_fn_</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::row_fetch_fn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="822" column="32" bodyfile="src/ingestion/database_connector.cpp" bodystart="822" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a3eb17e6d213a30b13ab756b84f73954d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DatabaseConnector::Impl::Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="319" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a9cb994fd52f45773624bb00b58ef9b6a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ingestion::DatabaseConnector::Impl::~Impl</definition>
+        <argsstring>()=default</argsstring>
+        <name>~Impl</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::~Impl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="320" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1afc0341f202250d1bf272163492cfdf03" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DatabaseConnector::Impl::initialize</definition>
+        <argsstring>(const SourceConfig &amp;config)</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::initialize</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_source_config" kindref="compound">SourceConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Initialize. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: find(), end(), parseJdbcUrl(), opt(), empty(), splitComma(), std::stoull(), std::stoi(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="328" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="328" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1adace5519279e6300fa517c93ed7e4025" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::ingestion::DatabaseConnector::Impl::isAvailable</definition>
+        <argsstring>() const</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::isAvailable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="377" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="377" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af9cbd738e104dbb6f1058be2c6653440" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::ingestion::DatabaseConnector::Impl::getDocumentCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDocumentCount</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::getDocumentCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="418" column="12" bodyfile="src/ingestion/database_connector.cpp" bodystart="418" bodyend="459"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1afa3769415ed37f831ddaa67a63302f9e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref></type>
+        <definition>IngestionStats themis::ingestion::DatabaseConnector::Impl::ingest</definition>
+        <argsstring>(const std::string &amp;, ProgressCallback progress_callback)</argsstring>
+        <name>ingest</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::ingest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref></type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::steady_clock::now(), empty(), addError(), finaliseStats(), ingestFromMock(), ingestFromOdbc(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="468" column="20" bodyfile="src/ingestion/database_connector.cpp" bodystart="468" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1ae2ef1596e2583dc79d48e3aa95b54f65" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::Impl::setRetryConfig</definition>
+        <argsstring>(const RetryConfig &amp;c)</argsstring>
+        <name>setRetryConfig</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::setRetryConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1ingestion_1_1_retry_config" kindref="compound">RetryConfig</ref> &amp;</type>
+          <declname>c</declname>
+        </param>
+        <briefdescription>
+<para>Set Retry Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">c</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements setRetryConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="511" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="511" bodyend="511"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af0f411ac44becdebac9c0170625e8a3e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::Impl::setRowFetchForTesting</definition>
+        <argsstring>(RowFetchFn fn)</argsstring>
+        <name>setRowFetchForTesting</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::setRowFetchForTesting</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1ingestion_1_1_database_connector_1ab282e1025e93ee6e087d35ef7047943d" kindref="member">RowFetchFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Row Fetch For Testing. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="517" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="517" bodyend="517"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aa18cd203a9a24e97e1b5725404500836" prot="private" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ingestion::DatabaseConnector::Impl::ingestFromMock</definition>
+        <argsstring>(IngestionStats &amp;stats, ProgressCallback &amp;progress_callback)</argsstring>
+        <name>ingestFromMock</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::ingestFromMock</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1ingestion_1a08c45a80d5fd20fa7f8af7fd52290e94" kindref="member">ProgressCallback</ref> &amp;</type>
+          <declname>progress_callback</declname>
+        </param>
+        <briefdescription>
+<para>Ingest From Mock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="inout">progress_callback</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: row_fetch_fn_(), empty(), rowToText(), rowToJson(), size(), addError(), progress_callback(), std::to_string(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="538" column="10" bodyfile="src/ingestion/database_connector.cpp" bodystart="538" bodyend="586"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a8529631347fab9a79dd8a35e7f8f20f3" prot="private" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::ingestion::DatabaseConnector::Impl::finaliseStats</definition>
+        <argsstring>(IngestionStats &amp;stats, const std::chrono::steady_clock::time_point &amp;start)</argsstring>
+        <name>finaliseStats</name>
+        <qualifiedname>themis::ingestion::DatabaseConnector::Impl::finaliseStats</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1ingestion_1_1_ingestion_stats" kindref="compound">IngestionStats</ref> &amp;</type>
+          <declname>stats</declname>
+        </param>
+        <param>
+          <type>const std::chrono::steady_clock::time_point &amp;</type>
+          <declname>start</declname>
+        </param>
+        <briefdescription>
+<para>Finalise Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">stats</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::steady_clock::now(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/ingestion/database_connector.cpp" line="800" column="17" bodyfile="src/ingestion/database_connector.cpp" bodystart="800" bodyend="805"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/ingestion/database_connector.cpp" line="317" column="1" bodyfile="src/ingestion/database_connector.cpp" bodystart="317" bodyend="823"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a21c50c64e3b6efcbf4ba95edb7970c9f" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>batch_size_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1abb2f9cc8822dc7f71a6fde68f8959974" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a6ce093293903e56f5a1e818f67a05135" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>driver_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aa3f6debc9aa94fa642a97988e2ed56a6" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>effective_query_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a8529631347fab9a79dd8a35e7f8f20f3" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>finaliseStats</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af9cbd738e104dbb6f1058be2c6653440" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>getDocumentCount</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a3eb17e6d213a30b13ab756b84f73954d" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>Impl</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1afa3769415ed37f831ddaa67a63302f9e" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>ingest</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aa18cd203a9a24e97e1b5725404500836" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>ingestFromMock</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1afc0341f202250d1bf272163492cfdf03" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1adace5519279e6300fa517c93ed7e4025" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1abe9cf4916d62bb01a15f9aec0dc4bd39" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>jdbc_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aec68b594b40ebaf117d773b2f30d2a27" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>max_rows_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a81c60e5621c45933840cf89e3e3ced2b" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>odbc_conn_str_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a769f48dacdbe532500d2e350250950fe" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>password_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af52c57ae9122221c4f7633ebe06e53b2" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>retry_config_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1aaa93937edeb4b3b85579fe03162a5e62" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>row_fetch_fn_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1ae2ef1596e2583dc79d48e3aa95b54f65" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>setRetryConfig</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1af0f411ac44becdebac9c0170625e8a3e" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>setRowFetchForTesting</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1acbc20b4648d29133321f3dc20fa3c0b5" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>table_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a0f2a97487d0495788c8d4f276379e131" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>text_columns_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a547b28645b05ea6086e175fc6ea8d143" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>timeout_s_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a18aa779a8887623fb18e9b3e7001b195" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>user_query_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a348874405824ace4877f9fc614711620" prot="private" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>username_</name></member>
+      <member refid="classthemis_1_1ingestion_1_1_database_connector_1_1_impl_1a9cb994fd52f45773624bb00b58ef9b6a" prot="public" virt="non-virtual"><scope>themis::ingestion::DatabaseConnector::Impl</scope><name>~Impl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,152 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_health_check_system_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::HealthCheckSystem::Config</compoundname>
+    <includes refid="health__check_8h" local="no">health_check.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a7ca348ca2474e0afaf7969d516a276fe" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::check_interval_ms</definition>
+        <argsstring></argsstring>
+        <name>check_interval_ms</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::check_interval_ms</qualifiedname>
+        <initializer>= 30000</initializer>
+        <briefdescription>
+<para>Interval between periodic health-check rounds in milliseconds. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="97" column="13" bodyfile="include/sharding/health_check.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a6fa98905911040a3dfa226874c98ade1" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::cert_expiry_warning_days</definition>
+        <argsstring></argsstring>
+        <name>cert_expiry_warning_days</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::cert_expiry_warning_days</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+<para>Warning threshold for certificate expiry (in days). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="99" column="13" bodyfile="include/sharding/health_check.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a1b8bfb023b3b43e9c6f6355f354b85ce" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::storage_warning_percent</definition>
+        <argsstring></argsstring>
+        <name>storage_warning_percent</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::storage_warning_percent</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+<para>Storage usage threshold for DEGRADED status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="101" column="13" bodyfile="include/sharding/health_check.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a61c5343b9016d09027dcddf5858b647a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::storage_critical_percent</definition>
+        <argsstring></argsstring>
+        <name>storage_critical_percent</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::storage_critical_percent</qualifiedname>
+        <initializer>= 95</initializer>
+        <briefdescription>
+<para>Storage usage threshold for CRITICAL status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="103" column="13" bodyfile="include/sharding/health_check.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a17532ea7dd868b2427465f5bcdcba95e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::response_time_degraded_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_degraded_ms</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::response_time_degraded_ms</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Response-time threshold for DEGRADED status (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="105" column="13" bodyfile="include/sharding/health_check.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a9a70e1e22bf74b4b46191a6ab2f9a0a5" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::HealthCheckSystem::Config::response_time_unhealthy_ms</definition>
+        <argsstring></argsstring>
+        <name>response_time_unhealthy_ms</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::response_time_unhealthy_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Response-time threshold for UNHEALTHY status (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="107" column="13" bodyfile="include/sharding/health_check.h" bodystart="107" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1aec1f29ec3857fc352412a5a5b284b0fb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::HealthCheckSystem::Config::enable_auto_remediation</definition>
+        <argsstring></argsstring>
+        <name>enable_auto_remediation</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::enable_auto_remediation</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Enable optional auto-remediation hooks (if implemented). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="109" column="14" bodyfile="include/sharding/health_check.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1ad64b656a8b15b2d53021a14b6e17b496" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::HealthCheckSystem::Config::ca_cert_path</definition>
+        <argsstring></argsstring>
+        <name>ca_cert_path</name>
+        <qualifiedname>themis::sharding::HealthCheckSystem::Config::ca_cert_path</qualifiedname>
+        <briefdescription>
+<para>CA certificate path used by mTLS client probes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/health_check.h" line="111" column="21" bodyfile="include/sharding/health_check.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime configuration for periodic health checks and thresholds. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/health_check.h" line="95" column="5" bodyfile="include/sharding/health_check.h" bodystart="95" bodyend="112"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1ad64b656a8b15b2d53021a14b6e17b496" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>ca_cert_path</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a6fa98905911040a3dfa226874c98ade1" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>cert_expiry_warning_days</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a7ca348ca2474e0afaf7969d516a276fe" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>check_interval_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1aec1f29ec3857fc352412a5a5b284b0fb" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>enable_auto_remediation</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a17532ea7dd868b2427465f5bcdcba95e" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>response_time_degraded_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a9a70e1e22bf74b4b46191a6ab2f9a0a5" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>response_time_unhealthy_ms</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a61c5343b9016d09027dcddf5858b647a" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>storage_critical_percent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_health_check_system_1_1_config_1a1b8bfb023b3b43e9c6f6355f354b85ce" prot="public" virt="non-virtual"><scope>themis::sharding::HealthCheckSystem::Config</scope><name>storage_warning_percent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

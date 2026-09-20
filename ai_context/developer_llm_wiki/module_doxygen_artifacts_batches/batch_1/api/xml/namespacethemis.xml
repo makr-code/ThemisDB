@@ -1,0 +1,45 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis" kind="namespace" language="C++">
+    <compoundname>themis</compoundname>
+    <innernamespace refid="namespacethemis_1_1api">themis::api</innernamespace>
+    <innernamespace refid="namespacethemis_1_1graphql">themis::graphql</innernamespace>
+    <innernamespace refid="namespacethemis_1_1index">themis::index</innernamespace>
+    <innernamespace refid="namespacethemis_1_1query">themis::query</innernamespace>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1a2fc17512a57c687fa92b431087cbecd2" prot="public" static="no">
+        <type>query::QueryEngine</type>
+        <definition>using themis::QueryEngine = query::QueryEngine</definition>
+        <argsstring></argsstring>
+        <name>QueryEngine</name>
+        <qualifiedname>themis::QueryEngine</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/graphql_aql_resolver.h" line="93" column="1" bodyfile="include/api/graphql_aql_resolver.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1a4495a00daed741d574aacee334acfb7e" prot="public" static="no">
+        <type>std::shared_ptr&lt; IQueryEngine &gt;</type>
+        <definition>using themis::IQueryEnginePtr = std::shared_ptr&lt;IQueryEngine&gt;</definition>
+        <argsstring></argsstring>
+        <name>IQueryEnginePtr</name>
+        <qualifiedname>themis::IQueryEnginePtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/api/themisdb_grpc_service.h" line="33" column="1" bodyfile="include/api/themisdb_grpc_service.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/api/api_error_taxonomy.h" line="35" column="1"/>
+  </compounddef>
+</doxygen>

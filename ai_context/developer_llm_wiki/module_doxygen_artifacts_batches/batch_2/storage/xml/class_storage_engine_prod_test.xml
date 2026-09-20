@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_storage_engine_prod_test" kind="class" language="C++" prot="public">
+    <compoundname>StorageEngineProdTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string StorageEngineProdTest::db_path_</definition>
+        <argsstring></argsstring>
+        <name>db_path_</name>
+        <qualifiedname>StorageEngineProdTest::db_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="57" column="36" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="57" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1_storage_engine" kindref="compound">StorageEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;StorageEngine&gt; StorageEngineProdTest::engine_</definition>
+        <argsstring></argsstring>
+        <name>engine_</name>
+        <qualifiedname>StorageEngineProdTest::engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="58" column="21" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_storage_engine_prod_test_1af4bcfdc83f56defa94db7671dd312a71" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageEngineProdTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StorageEngineProdTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="29" column="10" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="29" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_engine_prod_test_1acc04d7d15d833acaca87a51a990aa5a2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageEngineProdTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StorageEngineProdTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="42" column="10" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="42" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="function" id="class_storage_engine_prod_test_1a66035334d48c17a6d879bab558f8e272" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StorageEngineProdTest::insertRange</definition>
+        <argsstring>(const std::string &amp;prefix, int from, int to)</argsstring>
+        <name>insertRange</name>
+        <qualifiedname>StorageEngineProdTest::insertRange</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>prefix</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/storage/test_storage_engine_prod.cpp" line="50" column="10" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="50" bodyend="55"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StorageEngineProdTest</label>
+        <link refid="class_storage_engine_prod_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StorageEngineProdTest</label>
+        <link refid="class_storage_engine_prod_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/storage/test_storage_engine_prod.cpp" line="27" column="1" bodyfile="tests/storage/test_storage_engine_prod.cpp" bodystart="27" bodyend="59"/>
+    <listofallmembers>
+      <member refid="class_storage_engine_prod_test_1a0d3a5168fbb7df5cf6a23086675e121c" prot="protected" virt="non-virtual"><scope>StorageEngineProdTest</scope><name>db_path_</name></member>
+      <member refid="class_storage_engine_prod_test_1a9129b45f9f4c3856ed4c9fe40188c218" prot="protected" virt="non-virtual"><scope>StorageEngineProdTest</scope><name>engine_</name></member>
+      <member refid="class_storage_engine_prod_test_1a66035334d48c17a6d879bab558f8e272" prot="protected" virt="non-virtual"><scope>StorageEngineProdTest</scope><name>insertRange</name></member>
+      <member refid="class_storage_engine_prod_test_1af4bcfdc83f56defa94db7671dd312a71" prot="protected" virt="non-virtual"><scope>StorageEngineProdTest</scope><name>SetUp</name></member>
+      <member refid="class_storage_engine_prod_test_1acc04d7d15d833acaca87a51a990aa5a2" prot="protected" virt="non-virtual"><scope>StorageEngineProdTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,463 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_remediation_hint" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::RemediationHint</compoundname>
+    <includes refid="operator__remediation__engine_8h" local="no">operator_remediation_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a2e64b56e6147fe5e4e90f43497161c25" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref></type>
+        <definition>ProblemCategory themis::observability::RemediationHint::category_</definition>
+        <argsstring></argsstring>
+        <name>category_</name>
+        <qualifiedname>themis::observability::RemediationHint::category_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="245" column="21" bodyfile="include/observability/operator_remediation_engine.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1aa5670f9359e430463c4366f7c3d52b95" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationHint::title_</definition>
+        <argsstring></argsstring>
+        <name>title_</name>
+        <qualifiedname>themis::observability::RemediationHint::title_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="246" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="246" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1aecff61fc3df03e61a0de575d2e26f6a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationHint::description_</definition>
+        <argsstring></argsstring>
+        <name>description_</name>
+        <qualifiedname>themis::observability::RemediationHint::description_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="247" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="247" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a2ae23ffe60d0c5b5ca7ca54d7485e2b7" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref></type>
+        <definition>RemediationSeverity themis::observability::RemediationHint::severity_</definition>
+        <argsstring></argsstring>
+        <name>severity_</name>
+        <qualifiedname>themis::observability::RemediationHint::severity_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="248" column="25" bodyfile="include/observability/operator_remediation_engine.h" bodystart="248" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1aa959c5aecd299f682f53ef3516468d47" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::observability::RemediationHint::confidence_score_</definition>
+        <argsstring></argsstring>
+        <name>confidence_score_</name>
+        <qualifiedname>themis::observability::RemediationHint::confidence_score_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="249" column="12" bodyfile="include/observability/operator_remediation_engine.h" bodystart="249" bodyend="249"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a161bcd667216e530fb4c6b6830929684" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::RemediationHint::generated_at_</definition>
+        <argsstring></argsstring>
+        <name>generated_at_</name>
+        <qualifiedname>themis::observability::RemediationHint::generated_at_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="250" column="43" bodyfile="include/observability/operator_remediation_engine.h" bodystart="250" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a030550c6ab9a9b7983828ad50cdcc0f1" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::RemediationHint::detection_window_</definition>
+        <argsstring></argsstring>
+        <name>detection_window_</name>
+        <qualifiedname>themis::observability::RemediationHint::detection_window_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="251" column="26" bodyfile="include/observability/operator_remediation_engine.h" bodystart="251" bodyend="251"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a08b2b1f43f8b63b98b7b8def6546017c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_remediation_action" kindref="compound">RemediationAction</ref> &gt;</type>
+        <definition>std::vector&lt;RemediationAction&gt; themis::observability::RemediationHint::actions_</definition>
+        <argsstring></argsstring>
+        <name>actions_</name>
+        <qualifiedname>themis::observability::RemediationHint::actions_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="252" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a6be10ddcec58a50b2457f6c7ad6c7e97" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, double &gt;</type>
+        <definition>std::map&lt;std::string, double&gt; themis::observability::RemediationHint::metrics_</definition>
+        <argsstring></argsstring>
+        <name>metrics_</name>
+        <qualifiedname>themis::observability::RemediationHint::metrics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="253" column="14" bodyfile="include/observability/operator_remediation_engine.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a034d295b334c234265e739e31c591f79" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationHint::doc_link_</definition>
+        <argsstring></argsstring>
+        <name>doc_link_</name>
+        <qualifiedname>themis::observability::RemediationHint::doc_link_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="254" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1aa0723f0b0b80a85b1ee7a8089fc8d6fd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationHint::example_link_</definition>
+        <argsstring></argsstring>
+        <name>example_link_</name>
+        <qualifiedname>themis::observability::RemediationHint::example_link_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="255" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a6d66a08b9eb527f9d9335ed980f8992a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::RemediationHint::hint_id_</definition>
+        <argsstring></argsstring>
+        <name>hint_id_</name>
+        <qualifiedname>themis::observability::RemediationHint::hint_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="256" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_remediation_hint_1a9704f553c107fcfaf9619226521ca650" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::RemediationHint::tags_</definition>
+        <argsstring></argsstring>
+        <name>tags_</name>
+        <qualifiedname>themis::observability::RemediationHint::tags_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="257" column="17" bodyfile="include/observability/operator_remediation_engine.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a7b4b6826bbb627d6e9e98f5a21bd76b9" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a854c5d12634ebcab07b87bc85d768ca8" kindref="member">ProblemCategory</ref></type>
+        <definition>ProblemCategory themis::observability::RemediationHint::problemCategory</definition>
+        <argsstring>() const</argsstring>
+        <name>problemCategory</name>
+        <qualifiedname>themis::observability::RemediationHint::problemCategory</qualifiedname>
+        <briefdescription>
+<para>Get the problem category. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="182" column="21" bodyfile="include/observability/operator_remediation_engine.h" bodystart="182" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a6e73f5f750bafe9f4d756680063bb626" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::RemediationHint::problemTitle</definition>
+        <argsstring>() const</argsstring>
+        <name>problemTitle</name>
+        <qualifiedname>themis::observability::RemediationHint::problemTitle</qualifiedname>
+        <briefdescription>
+<para>Get human-readable problem title. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="187" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="187" bodyend="187"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a3595b3aa6dacc70c901510d7178a450b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::RemediationHint::problemDescription</definition>
+        <argsstring>() const</argsstring>
+        <name>problemDescription</name>
+        <qualifiedname>themis::observability::RemediationHint::problemDescription</qualifiedname>
+        <briefdescription>
+<para>Get detailed problem description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="192" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="192" bodyend="192"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a25870b619ce45ea76a1f773bfd6d4062" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1observability_1a02c9e396e407655d28f41c1cb93b17b2" kindref="member">RemediationSeverity</ref></type>
+        <definition>RemediationSeverity themis::observability::RemediationHint::severity</definition>
+        <argsstring>() const</argsstring>
+        <name>severity</name>
+        <qualifiedname>themis::observability::RemediationHint::severity</qualifiedname>
+        <briefdescription>
+<para>Get severity level. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="197" column="25" bodyfile="include/observability/operator_remediation_engine.h" bodystart="197" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1abfbfaefdb65cfcb54271d3b5e914cfb8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::RemediationHint::confidenceScore</definition>
+        <argsstring>() const</argsstring>
+        <name>confidenceScore</name>
+        <qualifiedname>themis::observability::RemediationHint::confidenceScore</qualifiedname>
+        <briefdescription>
+<para>Get confidence in the diagnosis (0.0 - 1.0). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="202" column="12" bodyfile="include/observability/operator_remediation_engine.h" bodystart="202" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1ad44d4a663f2b14d04dfc875560c3f6e2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::observability::RemediationHint::generatedAt</definition>
+        <argsstring>() const</argsstring>
+        <name>generatedAt</name>
+        <qualifiedname>themis::observability::RemediationHint::generatedAt</qualifiedname>
+        <briefdescription>
+<para>Get timestamp when hint was generated. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="207" column="43" bodyfile="include/observability/operator_remediation_engine.h" bodystart="207" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a25f86faffb922c14bb47da9a95e03148" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::RemediationHint::detectionWindow</definition>
+        <argsstring>() const</argsstring>
+        <name>detectionWindow</name>
+        <qualifiedname>themis::observability::RemediationHint::detectionWindow</qualifiedname>
+        <briefdescription>
+<para>Get the time window over which the problem was detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="212" column="26" bodyfile="include/observability/operator_remediation_engine.h" bodystart="212" bodyend="212"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1ad97dafac9be255fd3f76dbc088a72913" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_remediation_action" kindref="compound">RemediationAction</ref> &gt; &amp;</type>
+        <definition>const std::vector&lt; RemediationAction &gt; &amp; themis::observability::RemediationHint::suggestedActions</definition>
+        <argsstring>() const</argsstring>
+        <name>suggestedActions</name>
+        <qualifiedname>themis::observability::RemediationHint::suggestedActions</qualifiedname>
+        <briefdescription>
+<para>Get list of recommended remediation actions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="217" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="217" bodyend="217"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1af1c21478aa554d25724165f9c54ecb68" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::map&lt; std::string, double &gt; &amp;</type>
+        <definition>const std::map&lt; std::string, double &gt; &amp; themis::observability::RemediationHint::diagnosticMetrics</definition>
+        <argsstring>() const</argsstring>
+        <name>diagnosticMetrics</name>
+        <qualifiedname>themis::observability::RemediationHint::diagnosticMetrics</qualifiedname>
+        <briefdescription>
+<para>Get reference metrics that support the diagnosis. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="222" column="20" bodyfile="include/observability/operator_remediation_engine.h" bodystart="222" bodyend="222"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a7c3a48f9abaf6060a19aa323d10d5ab2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::RemediationHint::documentationLink</definition>
+        <argsstring>() const</argsstring>
+        <name>documentationLink</name>
+        <qualifiedname>themis::observability::RemediationHint::documentationLink</qualifiedname>
+        <briefdescription>
+<para>Get link to documentation or runbook. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="227" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a5bf563407bf0c97feb30770741ad3377" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::RemediationHint::exampleLink</definition>
+        <argsstring>() const</argsstring>
+        <name>exampleLink</name>
+        <qualifiedname>themis::observability::RemediationHint::exampleLink</qualifiedname>
+        <briefdescription>
+<para>Get link to example of the problem or solution. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="232" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a2a4c98bcb4260f27abfbfb33c6802a06" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::observability::RemediationHint::hintId</definition>
+        <argsstring>() const</argsstring>
+        <name>hintId</name>
+        <qualifiedname>themis::observability::RemediationHint::hintId</qualifiedname>
+        <briefdescription>
+<para>Get unique hint ID for tracking and deduplication. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="237" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_remediation_hint_1a52f465c016d8b979b4b2d3dc11386956" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const std::vector&lt; std::string &gt; &amp;</type>
+        <definition>const std::vector&lt; std::string &gt; &amp; themis::observability::RemediationHint::tags</definition>
+        <argsstring>() const</argsstring>
+        <name>tags</name>
+        <qualifiedname>themis::observability::RemediationHint::tags</qualifiedname>
+        <briefdescription>
+<para>Get tags for categorization and filtering. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/operator_remediation_engine.h" line="242" column="23" bodyfile="include/observability/operator_remediation_engine.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Remediation hint containing problem diagnosis and suggestions. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>A <ref refid="classthemis_1_1observability_1_1_remediation_hint" kindref="compound">RemediationHint</ref> is generated by the <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine" kindref="compound">OperatorRemediationEngine</ref> when it detects an observability problem. It includes:<itemizedlist>
+<listitem><para>Problem category and diagnosis</para>
+</listitem><listitem><para>Severity level and confidence</para>
+</listitem><listitem><para>Actionable remediation suggestions</para>
+</listitem><listitem><para>Links to documentation and examples</para>
+</listitem></itemizedlist>
+</para>
+<sect1 id="classthemis_1_1observability_1_1_remediation_hint_1hint_lifecycle">
+<title>Hint Lifecycle</title><para><orderedlist>
+<listitem><para><bold>Generation:</bold> Engine detects pattern match, generates hint with unique ID</para>
+</listitem><listitem><para><bold>Deduplication:</bold> Identical hints within deduplication window (default 5min) are filtered</para>
+</listitem><listitem><para><bold>Listener Notification:</bold> Listeners notified via onNewHint() callback</para>
+</listitem><listitem><para><bold>Tracking:</bold> <ref refid="structthemis_1_1observability_1_1_hint" kindref="compound">Hint</ref> added to active hint set</para>
+</listitem><listitem><para><bold>Resolution:</bold> Operator resolves issue, calls resolveHint()</para>
+</listitem><listitem><para><bold>Closure:</bold> Listeners notified via onHintResolved() callback</para>
+</listitem></orderedlist>
+</para>
+</sect1>
+<sect1 id="classthemis_1_1observability_1_1_remediation_hint_1deduplication">
+<title>Deduplication Semantics</title><para>Hints are deduplicated if they match on:<itemizedlist>
+<listitem><para>Problem category</para>
+</listitem><listitem><para>Problem title</para>
+</listitem><listitem><para>Generated within deduplication window</para>
+</listitem></itemizedlist>
+</para>
+<para>Duplicate detection is deterministic even with clock skew (±1 minute tolerance). Only the first hint in a deduplication window is emitted; subsequent duplicates increment a counter but don&apos;t trigger new listener notifications.</para>
+</sect1>
+<sect1 id="classthemis_1_1observability_1_1_remediation_hint_1confidence_score">
+<title>Confidence Score</title><para>Ranges 0.0–1.0:<itemizedlist>
+<listitem><para>0.9–1.0: High confidence (deterministic pattern detected)</para>
+</listitem><listitem><para>0.7–0.9: Medium confidence (heuristic pattern detected)</para>
+</listitem><listitem><para>0.5–0.7: Low confidence (potential issue, needs human verification)</para>
+</listitem><listitem><para>&lt; 0.5: Suppressed (not emitted to listeners)</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="note"><para>This class is not directly instantiated by users; instances are created by <ref refid="classthemis_1_1observability_1_1_operator_remediation_engine" kindref="compound">OperatorRemediationEngine</ref> and returned via callback or query API. </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="include/observability/operator_remediation_engine.h" line="177" column="1" bodyfile="include/observability/operator_remediation_engine.h" bodystart="177" bodyend="258"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a08b2b1f43f8b63b98b7b8def6546017c" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>actions_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a2e64b56e6147fe5e4e90f43497161c25" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>category_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1aa959c5aecd299f682f53ef3516468d47" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>confidence_score_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1abfbfaefdb65cfcb54271d3b5e914cfb8" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>confidenceScore</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1aecff61fc3df03e61a0de575d2e26f6a4" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>description_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a030550c6ab9a9b7983828ad50cdcc0f1" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>detection_window_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a25f86faffb922c14bb47da9a95e03148" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>detectionWindow</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1af1c21478aa554d25724165f9c54ecb68" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>diagnosticMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a034d295b334c234265e739e31c591f79" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>doc_link_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a7c3a48f9abaf6060a19aa323d10d5ab2" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>documentationLink</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1aa0723f0b0b80a85b1ee7a8089fc8d6fd" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>example_link_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a5bf563407bf0c97feb30770741ad3377" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>exampleLink</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a161bcd667216e530fb4c6b6830929684" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>generated_at_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1ad44d4a663f2b14d04dfc875560c3f6e2" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>generatedAt</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a6d66a08b9eb527f9d9335ed980f8992a" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>hint_id_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a2a4c98bcb4260f27abfbfb33c6802a06" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>hintId</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a6be10ddcec58a50b2457f6c7ad6c7e97" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>metrics_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a7b4b6826bbb627d6e9e98f5a21bd76b9" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>problemCategory</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a3595b3aa6dacc70c901510d7178a450b" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>problemDescription</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a6e73f5f750bafe9f4d756680063bb626" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>problemTitle</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a25870b619ce45ea76a1f773bfd6d4062" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>severity</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a2ae23ffe60d0c5b5ca7ca54d7485e2b7" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>severity_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1ad97dafac9be255fd3f76dbc088a72913" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>suggestedActions</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a52f465c016d8b979b4b2d3dc11386956" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>tags</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1a9704f553c107fcfaf9619226521ca650" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>tags_</name></member>
+      <member refid="classthemis_1_1observability_1_1_remediation_hint_1aa5670f9359e430463c4366f7c3d52b95" prot="public" virt="non-virtual"><scope>themis::observability::RemediationHint</scope><name>title_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

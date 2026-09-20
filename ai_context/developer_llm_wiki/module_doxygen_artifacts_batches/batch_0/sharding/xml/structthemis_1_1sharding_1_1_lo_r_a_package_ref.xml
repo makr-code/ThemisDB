@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_lo_r_a_package_ref" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::LoRAPackageRef</compoundname>
+    <includes refid="lora__artifact__distribution_8h" local="no">lora_artifact_distribution.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1aec8ddfc9b30fe66822ab9222f96b48b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoRAPackageRef::adapter_id</definition>
+        <argsstring></argsstring>
+        <name>adapter_id</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::adapter_id</qualifiedname>
+        <briefdescription>
+<para>Stable adapter identifier (must not be empty). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="82" column="17" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a367ff8f576e76fc4528e9544df6180ea" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoRAPackageRef::version</definition>
+        <argsstring></argsstring>
+        <name>version</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::version</qualifiedname>
+        <briefdescription>
+<para>Semantic version string (e.g., &quot;1.2.0&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="85" column="17" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a91e0cb97b8d74d239951077faff6a5b1" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1sharding_1ae8cace9a147d3cf348735db907c9d1b7" kindref="member">AdapterArtifactType</ref></type>
+        <definition>AdapterArtifactType themis::sharding::LoRAPackageRef::artifact_type</definition>
+        <argsstring></argsstring>
+        <name>artifact_type</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::artifact_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1sharding_1ae8cace9a147d3cf348735db907c9d1b7a9fb724116db5fff0a98322e691f5d9e0" kindref="member">AdapterArtifactType::LoRAPackage</ref>}</initializer>
+        <briefdescription>
+<para>Artifact kind. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="88" column="25" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="88" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1accd703c1b962661fcc26a6051d4c44d3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoRAPackageRef::content_hash</definition>
+        <argsstring></argsstring>
+        <name>content_hash</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::content_hash</qualifiedname>
+        <briefdescription>
+<para>SHA-256 hex digest of the artifact bytes (64 hex chars, lowercase). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="91" column="17" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1afe87f4c79b0bf040ad0c61a698925cb2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::LoRAPackageRef::base_model</definition>
+        <argsstring></argsstring>
+        <name>base_model</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::base_model</qualifiedname>
+        <briefdescription>
+<para>Base model this adapter was trained against. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="94" column="17" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a8239f9e02812a8c07bf167ae3dc143fa" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::LoRAPackageRef::size_bytes</definition>
+        <argsstring></argsstring>
+        <name>size_bytes</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::size_bytes</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Approximate artifact size in bytes (used for routing cost estimation). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="97" column="14" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="97" bodyend="97"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a878e5ad62fdfe6631883f4edc1f31b4a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::LoRAPackageRef::isValid</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>true if all required fields are populated. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="100" column="11" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="100" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a637b4b41b117709156ffebfe5caa06a8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::sharding::LoRAPackageRef::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::sharding::LoRAPackageRef::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/lora_artifact_distribution.h" line="104" column="21" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="104" bodyend="113"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Lightweight reference to a LoRA/Adapter artifact. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Carries only enough information for routing and integrity checking; does not include the artifact bytes themselves. </para>
+    </detaileddescription>
+    <location file="include/sharding/lora_artifact_distribution.h" line="80" column="1" bodyfile="include/sharding/lora_artifact_distribution.h" bodystart="80" bodyend="114"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1aec8ddfc9b30fe66822ab9222f96b48b8" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>adapter_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a91e0cb97b8d74d239951077faff6a5b1" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>artifact_type</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1afe87f4c79b0bf040ad0c61a698925cb2" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>base_model</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1accd703c1b962661fcc26a6051d4c44d3" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>content_hash</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a878e5ad62fdfe6631883f4edc1f31b4a" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a8239f9e02812a8c07bf167ae3dc143fa" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>size_bytes</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a637b4b41b117709156ffebfe5caa06a8" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1sharding_1_1_lo_r_a_package_ref_1a367ff8f576e76fc4528e9544df6180ea" prot="public" virt="non-virtual"><scope>themis::sharding::LoRAPackageRef</scope><name>version</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

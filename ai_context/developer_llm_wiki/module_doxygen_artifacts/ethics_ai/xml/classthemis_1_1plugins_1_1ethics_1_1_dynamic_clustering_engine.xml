@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::ethics::DynamicClusteringEngine</compoundname>
+    <includes refid="ethics__ai__types_8h" local="no">ethics_ai_types.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af04c51a040ce658fba80448beb36f068" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::plugins::ethics::DynamicClusteringEngine::target_cluster_count_</definition>
+        <argsstring></argsstring>
+        <name>target_cluster_count_</name>
+        <qualifiedname>themis::plugins::ethics::DynamicClusteringEngine::target_cluster_count_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="559" column="17" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="559" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af507fc5a472590bf1cde181645e8a67a" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::ethics::DynamicClusteringEngine::DynamicClusteringEngine</definition>
+        <argsstring>(std::size_t target_cluster_count=0) noexcept</argsstring>
+        <name>DynamicClusteringEngine</name>
+        <qualifiedname>themis::plugins::ethics::DynamicClusteringEngine::DynamicClusteringEngine</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>target_cluster_count</declname>
+          <defval>0</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="553" column="14" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="553" bodyend="554"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1a62cfe7828aea45e9f0ec7deccef91a04" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1ethics_1_1_cluster_assignment" kindref="compound">ClusterAssignment</ref></type>
+        <definition>ClusterAssignment themis::plugins::ethics::DynamicClusteringEngine::cluster</definition>
+        <argsstring>(const CrossSchoolTensionGraph &amp;graph) const</argsstring>
+        <name>cluster</name>
+        <qualifiedname>themis::plugins::ethics::DynamicClusteringEngine::cluster</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1ethics_1_1_cross_school_tension_graph" kindref="compound">CrossSchoolTensionGraph</ref> &amp;</type>
+          <declname>graph</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/ethics_ai/ethics_ai_types.h" line="556" column="24" bodyfile="src/ethics_ai/ethics_ai_types.cpp" bodystart="123" bodyend="168"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/ethics_ai/ethics_ai_types.h" line="551" column="1" bodyfile="include/ethics_ai/ethics_ai_types.h" bodystart="551" bodyend="560"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1a62cfe7828aea45e9f0ec7deccef91a04" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DynamicClusteringEngine</scope><name>cluster</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af507fc5a472590bf1cde181645e8a67a" prot="public" virt="non-virtual"><scope>themis::plugins::ethics::DynamicClusteringEngine</scope><name>DynamicClusteringEngine</name></member>
+      <member refid="classthemis_1_1plugins_1_1ethics_1_1_dynamic_clustering_engine_1af04c51a040ce658fba80448beb36f068" prot="private" virt="non-virtual"><scope>themis::plugins::ethics::DynamicClusteringEngine</scope><name>target_cluster_count_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,630 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1sharding_1_1_hardware_migration_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::sharding::HardwareMigrationManager</compoundname>
+    <includes refid="hardware__migration__manager_8h" local="no">hardware_migration_manager.h</includes>
+    <innerclass refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" prot="public">themis::sharding::HardwareMigrationManager::DrainGuard</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1aa214f2b96960a4f012d5e850359dda8a" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_hardware_migration_config" kindref="compound">HardwareMigrationConfig</ref></type>
+        <definition>HardwareMigrationConfig themis::sharding::HardwareMigrationManager::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="303" column="37" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="303" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a18e0dadafac865fc553e686b61fba820" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ShardTopology&gt; themis::sharding::HardwareMigrationManager::topology_</definition>
+        <argsstring></argsstring>
+        <name>topology_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::topology_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="304" column="22" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="304" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab65e95c3427b3418c24f44a1694cee05" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ConsistentHashRing&gt; themis::sharding::HardwareMigrationManager::ring_</definition>
+        <argsstring></argsstring>
+        <name>ring_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::ring_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="305" column="21" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="305" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a8ebd4832c2d0983c0dc82be4352b628b" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HardwareMigrationManager::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="306" column="37" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="306" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a436487e53268f84c8eb88960e5fd8967" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::sharding::HardwareMigrationManager::drain_mutex_</definition>
+        <argsstring></argsstring>
+        <name>drain_mutex_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::drain_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="309" column="37" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="309" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a081b6b127d70090b69a66f9fc6bd5ad2" prot="private" static="no" mutable="yes">
+        <type>std::condition_variable</type>
+        <definition>std::condition_variable themis::sharding::HardwareMigrationManager::drain_cv_</definition>
+        <argsstring></argsstring>
+        <name>drain_cv_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::drain_cv_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="310" column="37" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="310" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a4d8c6538306108bf8357ba6799ae251c" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::sharding::HardwareMigrationManager::in_flight_counts_</definition>
+        <argsstring></argsstring>
+        <name>in_flight_counts_</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::in_flight_counts_</qualifiedname>
+        <briefdescription>
+<para>shard_id → number of in-flight requests on the old endpoint </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="312" column="16" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="312" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1ace691477e38580772f77eddcf206d3da" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::sharding::HardwareMigrationManager::HardwareMigrationManager</definition>
+        <argsstring>(const HardwareMigrationConfig &amp;config, std::shared_ptr&lt; ShardTopology &gt; topology, std::shared_ptr&lt; ConsistentHashRing &gt; ring)</argsstring>
+        <name>HardwareMigrationManager</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::HardwareMigrationManager</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1sharding_1_1_hardware_migration_config" kindref="compound">HardwareMigrationConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_shard_topology" kindref="compound">ShardTopology</ref> &gt;</type>
+          <declname>topology</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1sharding_1_1_consistent_hash_ring" kindref="compound">ConsistentHashRing</ref> &gt;</type>
+          <declname>ring</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Construct manager.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Migration configuration. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>topology</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared shard topology (modified atomically). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>ring</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared consistent-hash ring (read-only during migration). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="142" column="5" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="153" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a5d06102c797c6d737783998e1389fc20" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_node_identity" kindref="compound">NodeIdentity</ref> &gt;</type>
+        <definition>std::optional&lt; NodeIdentity &gt; themis::sharding::HardwareMigrationManager::loadIdentity</definition>
+        <argsstring>() const</argsstring>
+        <name>loadIdentity</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::loadIdentity</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Load the node identity from the identity file. Returns nullopt if the file does not exist. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="154" column="19" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="164" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab9b94ab09acbb569b6fe6271345b1af1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1sharding_1_1_node_identity" kindref="compound">NodeIdentity</ref> &gt;</type>
+        <definition>std::optional&lt; NodeIdentity &gt; themis::sharding::HardwareMigrationManager::createAndSaveIdentity</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;cluster_name, uint64_t token_start, uint64_t token_end) const</argsstring>
+        <name>createAndSaveIdentity</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::createAndSaveIdentity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>cluster_name</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_start</declname>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>token_end</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Create a new node identity for the given shard and persist it to disk. Fails if an identity file already exists (use <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a5d06102c797c6d737783998e1389fc20" kindref="member">loadIdentity()</ref> first).</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Logical shard identifier. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cluster_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Cluster the shard belongs to. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_start</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token range start. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>token_end</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Token range end. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>The created identity, or nullopt on failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="166" column="19" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="169" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a9bb7b937c49264f68affa395c804cc38" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1sharding_1_1_hardware_migration_result" kindref="compound">HardwareMigrationResult</ref></type>
+        <definition>HardwareMigrationResult themis::sharding::HardwareMigrationManager::replaceEndpoint</definition>
+        <argsstring>(const std::string &amp;shard_id, const std::string &amp;new_endpoint)</argsstring>
+        <name>replaceEndpoint</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::replaceEndpoint</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>new_endpoint</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Replace the primary endpoint of a shard without altering its ring positions or any other topology metadata.</para>
+<para>Preconditions (all must hold; failure logged and returned in result):<itemizedlist>
+<listitem><para>shard_id must exist in the topology.</para>
+</listitem><listitem><para>new_endpoint must not be empty.</para>
+</listitem><listitem><para>If verify_ring_stability is true, the shard must appear in the ring.</para>
+</listitem></itemizedlist>
+</para>
+<para>Postconditions:<itemizedlist>
+<listitem><para><ref refid="structthemis_1_1sharding_1_1_shard_info_1ade615fa13cb2b8a2d82a96af7073d279" kindref="member">ShardInfo::primary_endpoint</ref> updated to new_endpoint.</para>
+</listitem><listitem><para>Ring positions (virtual nodes) for shard_id are UNCHANGED.</para>
+</listitem></itemizedlist>
+</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The logical shard to update. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>new_endpoint</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>New network endpoint (host:port or URL). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Result describing what happened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="192" column="29" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="210" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e224292b013d0f80ca525ccd9601e68" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HardwareMigrationManager::validateRingStability</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;shard_ids, const std::map&lt; std::string, size_t &gt; &amp;before_vnode_counts) const</argsstring>
+        <name>validateRingStability</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::validateRingStability</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>shard_ids</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, size_t &gt; &amp;</type>
+          <declname>before_vnode_counts</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify that every shard listed in shard_ids has the same set of virtual- node token positions in the ring before and after a topology change.</para>
+<para>Compares the ring snapshot taken at construction time of this call (the &quot;before&quot; state, passed as parameter) against the current ring state.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shards to validate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>before_vnode_counts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Map of shard_id → virtual-node count captured before the topology change. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if all shards have the same virtual-node count as before. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="211" column="10" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="317" bodyend="351"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1af7d6dd77ddec7540f7a5e314475e2298" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt; std::string, size_t &gt; themis::sharding::HardwareMigrationManager::captureRingSnapshot</definition>
+        <argsstring>() const</argsstring>
+        <name>captureRingSnapshot</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::captureRingSnapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Capture a ring snapshot: shard_id → virtual-node count for all currently known shards. Useful to record the &quot;before&quot; state prior to calling <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a9bb7b937c49264f68affa395c804cc38" kindref="member">replaceEndpoint()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="221" column="14" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="283" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a8c03b813ba5b0228941ac92a6f3511ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HardwareMigrationManager::addInFlightRequest</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>addInFlightRequest</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::addInFlightRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Increment the in-flight request counter for <computeroutput>shard_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add In Flight Request.</para>
+<para>Call once per new in-flight request arriving on the old endpoint during the drain window. Must be paired with <computeroutput><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7117f22714e08ce95dc2381c574d1aaa" kindref="member">releaseInFlightRequest()</ref></computeroutput>. Prefer <computeroutput><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1acbe23e34471b65449175afef073c1a71" kindref="member">makeRequestGuard()</ref></computeroutput> to avoid mismatched calls.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="263" column="10" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="397" bodyend="400"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7117f22714e08ce95dc2381c574d1aaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::sharding::HardwareMigrationManager::releaseInFlightRequest</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>releaseInFlightRequest</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::releaseInFlightRequest</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Decrement the in-flight request counter for <computeroutput>shard_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Release In Flight Request.</para>
+<para>Notifies <computeroutput><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7097824082c82f356b022b1d5520cd61" kindref="member">waitForDrain()</ref></computeroutput> callers when the counter reaches zero.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the shard.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), erase(), notify_all(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="270" column="10" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="407" bodyend="419"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e8fbfbd54e1443caca7f2e1db2e8903" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::sharding::HardwareMigrationManager::inFlightCount</definition>
+        <argsstring>(const std::string &amp;shard_id) const</argsstring>
+        <name>inFlightCount</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::inFlightCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Return the current in-flight request count for <computeroutput>shard_id</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">drain_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="275" column="12" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="421" bodyend="430"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1acbe23e34471b65449175afef073c1a71" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" kindref="compound">DrainGuard</ref></type>
+        <definition>HardwareMigrationManager::DrainGuard themis::sharding::HardwareMigrationManager::makeRequestGuard</definition>
+        <argsstring>(const std::string &amp;shard_id)</argsstring>
+        <name>makeRequestGuard</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::makeRequestGuard</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <briefdescription>
+<para>Create a RAII <ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1_1_drain_guard" kindref="compound">DrainGuard</ref> that counts one in-flight request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard whose counter to increment/decrement. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="282" column="16" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="433" bodyend="435"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7097824082c82f356b022b1d5520cd61" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::sharding::HardwareMigrationManager::waitForDrain</definition>
+        <argsstring>(const std::string &amp;shard_id, std::chrono::seconds timeout) const</argsstring>
+        <name>waitForDrain</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::waitForDrain</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>shard_id</declname>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>timeout</declname>
+        </param>
+        <briefdescription>
+<para>Block until all in-flight requests for <computeroutput>shard_id</computeroutput> complete, or until <computeroutput>timeout</computeroutput> elapses (whichever comes first). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is called by <computeroutput><ref refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a9bb7b937c49264f68affa395c804cc38" kindref="member">replaceEndpoint()</ref></computeroutput> when <computeroutput>config_.drain_period &gt; 0</computeroutput> and is also available for callers that want to wait before removing an old-endpoint registration from DNS / load balancer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shard to wait for. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>timeout</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum time to wait. Pass <computeroutput>std::chrono::seconds{0}</computeroutput> to skip waiting (proceed immediately regardless of in-flight count). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput>true</computeroutput> if all requests drained within the timeout, <computeroutput>false</computeroutput> if the timeout expired while requests were still active. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">drain_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="299" column="10" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="437" bodyend="453"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab6f234b7816cb00ca04fdcdf14fe7b05" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt; std::string, size_t &gt; themis::sharding::HardwareMigrationManager::captureRingSnapshotLocked</definition>
+        <argsstring>() const</argsstring>
+        <name>captureRingSnapshotLocked</name>
+        <qualifiedname>themis::sharding::HardwareMigrationManager::captureRingSnapshotLocked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Internal helper — captures ring snapshot while mutex_ is already held. Must only be called by methods that hold mutex_. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/hardware_migration_manager.h" line="318" column="14" bodyfile="src/sharding/hardware_migration_manager.cpp" bodystart="294" bodyend="315"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Manages the process of migrating a shard node to new physical hardware.</para>
+<para>Thread-safe. </para>
+    </detaileddescription>
+    <location file="include/sharding/hardware_migration_manager.h" line="133" column="1" bodyfile="include/sharding/hardware_migration_manager.h" bodystart="133" bodyend="319"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a8c03b813ba5b0228941ac92a6f3511ba" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>addInFlightRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1af7d6dd77ddec7540f7a5e314475e2298" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>captureRingSnapshot</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab6f234b7816cb00ca04fdcdf14fe7b05" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>captureRingSnapshotLocked</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1aa214f2b96960a4f012d5e850359dda8a" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>config_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab9b94ab09acbb569b6fe6271345b1af1" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>createAndSaveIdentity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a081b6b127d70090b69a66f9fc6bd5ad2" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>drain_cv_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a436487e53268f84c8eb88960e5fd8967" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>drain_mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ace691477e38580772f77eddcf206d3da" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>HardwareMigrationManager</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a4d8c6538306108bf8357ba6799ae251c" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>in_flight_counts_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e8fbfbd54e1443caca7f2e1db2e8903" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>inFlightCount</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a5d06102c797c6d737783998e1389fc20" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>loadIdentity</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1acbe23e34471b65449175afef073c1a71" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>makeRequestGuard</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a8ebd4832c2d0983c0dc82be4352b628b" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7117f22714e08ce95dc2381c574d1aaa" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>releaseInFlightRequest</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a9bb7b937c49264f68affa395c804cc38" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>replaceEndpoint</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1ab65e95c3427b3418c24f44a1694cee05" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>ring_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a18e0dadafac865fc553e686b61fba820" prot="private" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>topology_</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a3e224292b013d0f80ca525ccd9601e68" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>validateRingStability</name></member>
+      <member refid="classthemis_1_1sharding_1_1_hardware_migration_manager_1a7097824082c82f356b022b1d5520cd61" prot="public" virt="non-virtual"><scope>themis::sharding::HardwareMigrationManager</scope><name>waitForDrain</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

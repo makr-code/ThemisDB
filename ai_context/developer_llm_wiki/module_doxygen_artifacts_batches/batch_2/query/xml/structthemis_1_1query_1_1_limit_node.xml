@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_limit_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::LimitNode</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_limit_node_1a6c47f49c70eb8aaa08e2ac2722591b29" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::LimitNode::offset</definition>
+        <argsstring></argsstring>
+        <name>offset</name>
+        <qualifiedname>themis::query::LimitNode::offset</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="599" column="13" bodyfile="include/query/aql_parser.h" bodystart="599" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_limit_node_1a897c974f5a37bd9fc67b2423dc1af353" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::query::LimitNode::count</definition>
+        <argsstring></argsstring>
+        <name>count</name>
+        <qualifiedname>themis::query::LimitNode::count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="600" column="13" bodyfile="include/query/aql_parser.h" bodystart="600" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_limit_node_1a63a20940dc8be495ba3090ad6b4c98d5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::LimitNode::LimitNode</definition>
+        <argsstring>(int64_t off, int64_t cnt)</argsstring>
+        <name>LimitNode</name>
+        <qualifiedname>themis::query::LimitNode::LimitNode</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>off</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>cnt</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="602" column="5" bodyfile="include/query/aql_parser.h" bodystart="602" bodyend="602"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_limit_node_1a07980cea138d4e3c0f345aaaad07c835" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::LimitNode::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::LimitNode::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="604" column="20" bodyfile="include/query/aql_parser.h" bodystart="604" bodyend="610"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="598" column="1" bodyfile="include/query/aql_parser.h" bodystart="598" bodyend="611"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_limit_node_1a897c974f5a37bd9fc67b2423dc1af353" prot="public" virt="non-virtual"><scope>themis::query::LimitNode</scope><name>count</name></member>
+      <member refid="structthemis_1_1query_1_1_limit_node_1a63a20940dc8be495ba3090ad6b4c98d5" prot="public" virt="non-virtual"><scope>themis::query::LimitNode</scope><name>LimitNode</name></member>
+      <member refid="structthemis_1_1query_1_1_limit_node_1a6c47f49c70eb8aaa08e2ac2722591b29" prot="public" virt="non-virtual"><scope>themis::query::LimitNode</scope><name>offset</name></member>
+      <member refid="structthemis_1_1query_1_1_limit_node_1a07980cea138d4e3c0f345aaaad07c835" prot="public" virt="non-virtual"><scope>themis::query::LimitNode</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

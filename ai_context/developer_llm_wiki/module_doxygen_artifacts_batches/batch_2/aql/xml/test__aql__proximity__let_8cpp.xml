@@ -1,0 +1,88 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__aql__proximity__let_8cpp" kind="file" language="C++">
+    <compoundname>test_aql_proximity_let.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">query/aql_parser.h</includes>
+    <includes local="yes">query/aql_translator.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/aql/test_aql_proximity_let.cpp</label>
+        <link refid="test__aql__proximity__let_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="3">
+        <label>query/aql_parser.h</label>
+      </node>
+      <node id="4">
+        <label>query/aql_translator.h</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__aql__proximity__let_8cpp_1abd7edb8146a9adc3766070ef41b87b1d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(AQLProximityLetTest, DISABLED_ProximityLetLegacy)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>AQLProximityLetTest</type>
+        </param>
+        <param>
+          <type>DISABLED_ProximityLetLegacy</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_aql_proximity_let.cpp" line="28" column="1" bodyfile="tests/aql/test_aql_proximity_let.cpp" bodystart="28" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_parser.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;query/aql_translator.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;<sp/></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">themis::query;</highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Disable<sp/>legacy<sp/>AQL<sp/>PROXIMITY<sp/>LET<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>0</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"><ref refid="test__aql__proximity__let_8cpp_1abd7edb8146a9adc3766070ef41b87b1d" kindref="member">TEST</ref>(AQLProximityLetTest,<sp/>TranslateLetProximitySortVariable)<sp/>{</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref><sp/>=<sp/>R</highlight><highlight class="stringliteral">&quot;(</highlight></codeline>
+<codeline lineno="12"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FOR<sp/>doc<sp/>IN<sp/>places</highlight></codeline>
+<codeline lineno="13"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>FILTER<sp/>FULLTEXT(doc.description,<sp/>&quot;coffee&quot;,<sp/>20)</highlight></codeline>
+<codeline lineno="14"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LET<sp/>prox<sp/>=<sp/>PROXIMITY(doc.location,<sp/>[13.4,52.5])</highlight></codeline>
+<codeline lineno="15"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>SORT<sp/>prox<sp/>ASC</highlight></codeline>
+<codeline lineno="16"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>LIMIT<sp/>10</highlight></codeline>
+<codeline lineno="17"><highlight class="stringliteral"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RETURN<sp/>doc</highlight></codeline>
+<codeline lineno="18"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>)&quot;;</highlight></codeline>
+<codeline lineno="19"><highlight class="stringliteral"><sp/><sp/><sp/><sp/>AQLParser<sp/>p;<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>pr<sp/>=<sp/>p.parse(<ref refid="namespacethemis_1_1aql" kindref="compound">aql</ref>);<sp/>ASSERT_TRUE(pr.success)<sp/>&lt;&lt;<sp/>pr.error.toString();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>tr<sp/>=<sp/>AQLTranslator::translate(pr.query);<sp/>ASSERT_TRUE(tr.success)<sp/>&lt;&lt;<sp/>tr.error_message;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(tr.content_geo.has_value());</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(tr.content_geo-&gt;limit,<sp/>10u);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(tr.content_geo-&gt;center_point.has_value());</highlight></codeline>
+<codeline lineno="24"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#endif<sp/></highlight><highlight class="comment">//<sp/>legacy<sp/>proximity<sp/>LET<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><ref refid="test__aql__proximity__let_8cpp_1abd7edb8146a9adc3766070ef41b87b1d" kindref="member">TEST</ref>(AQLProximityLetTest,<sp/>DISABLED_ProximityLetLegacy)<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>GTEST_SKIP()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Skipping<sp/>legacy<sp/>AQL<sp/>PROXIMITY<sp/>LET<sp/>tests&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/aql/test_aql_proximity_let.cpp"/>
+  </compounddef>
+</doxygen>

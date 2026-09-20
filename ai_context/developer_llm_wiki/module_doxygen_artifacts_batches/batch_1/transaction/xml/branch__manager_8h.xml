@@ -1,0 +1,386 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="branch__manager_8h" kind="file" language="C++">
+    <compoundname>branch_manager.h</compoundname>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">cdc/changefeed.h</includes>
+    <includes refid="snapshot__manager_8h" local="yes">transaction/snapshot_manager.h</includes>
+    <includes refid="merge__engine_8h" local="yes">transaction/merge_engine.h</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includedby refid="bench__branch__manager_8cpp" local="yes">benchmarks/transaction/bench_branch_manager.cpp</includedby>
+    <includedby refid="branch__manager_8cpp" local="yes">src/transaction/branch_manager.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/transaction/branch_manager.h</label>
+        <link refid="branch__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>transaction/merge_engine.h</label>
+        <link refid="merge__engine_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>transaction/snapshot_manager.h</label>
+        <link refid="snapshot__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>analytics/diff_engine.h</label>
+      </node>
+      <node id="3">
+        <label>cdc/changefeed.h</label>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="10">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="7">
+        <label>optional</label>
+      </node>
+      <node id="2">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="2">
+        <label>benchmarks/transaction/bench_branch_manager.cpp</label>
+        <link refid="bench__branch__manager_8cpp"/>
+      </node>
+      <node id="1">
+        <label>include/transaction/branch_manager.h</label>
+        <link refid="branch__manager_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>src/transaction/branch_manager.cpp</label>
+        <link refid="branch__manager_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="classthemis_1_1transaction_1_1_branch_manager" prot="public">themis::transaction::BranchManager</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" prot="public">themis::transaction::BranchManager::Branch</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats" prot="public">themis::transaction::BranchManager::BranchStats</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options" prot="public">themis::transaction::BranchManager::CreateBranchOptions</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options" prot="public">themis::transaction::BranchManager::MergeOptions</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" prot="public">themis::transaction::BranchManager::MergeResult</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry" prot="public">themis::transaction::BranchManager::BranchHistoryEntry</innerclass>
+    <innerclass refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy" prot="public">themis::transaction::BranchManager::BranchGCPolicy</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1transaction">themis::transaction</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;cdc/changefeed.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="snapshot__manager_8h" kindref="compound">transaction/snapshot_manager.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="merge__engine_8h" kindref="compound">transaction/merge_engine.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25" refid="namespacethemis" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27" refid="namespacethemis_1_1transaction" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction" kindref="compound">transaction</ref><sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31" refid="classthemis_1_1transaction_1_1_branch_manager" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref><sp/>{</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref><sp/>{</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1aa054d9ec3038f8f8767012f922866864" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1aa054d9ec3038f8f8767012f922866864" kindref="member">branch_name</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unique<sp/>branch<sp/>identifier</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1afa1db02567dbcc0e0c5185ee8f18143b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1afa1db02567dbcc0e0c5185ee8f18143b" kindref="member">parent_branch</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Parent<sp/>branch<sp/>(empty<sp/>for<sp/>root)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1ae0bed767be33097949a99d0568cdd01f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1ae0bed767be33097949a99d0568cdd01f" kindref="member">creation_sequence</ref>;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Changefeed<sp/>sequence<sp/>at<sp/>creation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a66639a3a7d74b1d2088edbf1de45d647" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a66639a3a7d74b1d2088edbf1de45d647" kindref="member">creation_timestamp_ms</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Unix<sp/>timestamp<sp/>in<sp/>milliseconds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a761e563d178ca1107d49517b32803d3b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a761e563d178ca1107d49517b32803d3b" kindref="member">description</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Human-readable<sp/>description</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a64951a47fe74dbb19ce5bd41cdc1f2e2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a64951a47fe74dbb19ce5bd41cdc1f2e2" kindref="member">created_by</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>User/service<sp/>that<sp/>created<sp/>the<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1ad720ca30d3e79641c3766b37c8662a58" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1ad720ca30d3e79641c3766b37c8662a58" kindref="member">is_active</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Whether<sp/>branch<sp/>is<sp/>currently<sp/>active</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1ad9d3495f5e3204f436bd48f35fd4ad52" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_1a21c713f1a25eb6adedbc43ce8565a648" kindref="member">fromJson</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="55" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats" kindref="compound">BranchStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="56" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab571fc30e4c7fa093d17ba173dfd4430" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab571fc30e4c7fa093d17ba173dfd4430" kindref="member">total_branches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a21472d038eacbfee7adb6787ea5a5bb1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a21472d038eacbfee7adb6787ea5a5bb1" kindref="member">active_branches</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1aaaa8f5079c313e135a4e69d09418d638" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1aaaa8f5079c313e135a4e69d09418d638" kindref="member">oldest_creation_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="59" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ae47f938c0634bb141856424cefc5af3e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ae47f938c0634bb141856424cefc5af3e" kindref="member">newest_creation_timestamp_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab7987851c310c21954275c744ba3703a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1ab7987851c310c21954275c744ba3703a" kindref="member">default_branch</ref>;</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats_1a4955cb6cd8fb2033738b262a2a20f172" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options" kindref="compound">CreateBranchOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1a16cb04465f827d900877f6ea097ab61f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1a16cb04465f827d900877f6ea097ab61f" kindref="member">from_tag</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>from<sp/>named<sp/>snapshot</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1ad20cf6e824113ab9872464a64805ec1e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1ad20cf6e824113ab9872464a64805ec1e" kindref="member">from_sequence</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>from<sp/>specific<sp/>sequence</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1aeabf64c481a4b65989fc21016104327d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1aeabf64c481a4b65989fc21016104327d" kindref="member">from_timestamp</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>from<sp/>timestamp</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1a75e7cc58aefd47a4ceb723cc148ab176" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options_1a75e7cc58aefd47a4ceb723cc148ab176" kindref="member">set_active</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Make<sp/>this<sp/>branch<sp/>active<sp/>immediately</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options" kindref="compound">MergeOptions</ref><sp/>{</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1a5c04b9eac8f2fd275021885a911d50dd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1a5c04b9eac8f2fd275021885a911d50dd" kindref="member">fast_forward</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Allow<sp/>fast-forward<sp/>merges</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1a8aab14977c6f0749c2f26111833c104a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1a8aab14977c6f0749c2f26111833c104a" kindref="member">abort_on_conflict</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stop<sp/>on<sp/>first<sp/>conflict</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1ad8d3438cc68de59b56535cc4bd5b2984" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options_1ad8d3438cc68de59b56535cc4bd5b2984" kindref="member">merge_strategy</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;default&quot;</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Merge<sp/>strategy<sp/>name</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kindref="compound">MergeResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="83" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a1817b074e8ebb441bacc62740890839e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a1817b074e8ebb441bacc62740890839e" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="84" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adb7a7dcde9e97b210b907d87923059c9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adb7a7dcde9e97b210b907d87923059c9" kindref="member">message</ref>;</highlight></codeline>
+<codeline lineno="85" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a8356f9de125f3af12e6722ff86e2e3be" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a8356f9de125f3af12e6722ff86e2e3be" kindref="member">conflicts</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>Keys<sp/>with<sp/>conflicts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a699cae51095b43e6e1a21f44d6d760f1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1a699cae51095b43e6e1a21f44d6d760f1" kindref="member">merged_sequence</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sequence<sp/>after<sp/>merge</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result_1adbb3fc4ce2fef9499d4fb81c4311b102" kindref="member">toJson</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>(</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db,<sp/></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>Changefeed&amp;<sp/>changefeed,</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref>&amp;<sp/>snapshot_manager,</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>*<sp/>merge_engine<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1transaction_1_1_branch_manager_1a41fa6b664e62bfe08cf6d3790ffb2cab" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a41fa6b664e62bfe08cf6d3790ffb2cab" kindref="member">~BranchManager</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Disable<sp/>copy,<sp/>allow<sp/>move</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1transaction_1_1_branch_manager_1a8f2256506f5f6f5c2572558d6edff7fd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a8f2256506f5f6f5c2572558d6edff7fd" kindref="member">BranchManager</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="106" refid="classthemis_1_1transaction_1_1_branch_manager_1a67728badce30316ab68ef5a87c596216" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a67728badce30316ab68ef5a87c596216" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="107" refid="classthemis_1_1transaction_1_1_branch_manager_1adc68377fc15a465baac8c7a00fd3de2a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1adc68377fc15a465baac8c7a00fd3de2a" kindref="member">BranchManager</ref>(<ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="108" refid="classthemis_1_1transaction_1_1_branch_manager_1a1f57cba3312769a49cb84717d0153234" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1transaction_1_1_branch_manager_1acb0a63efb79b926ee49317ab3a4b0058" kindref="member">BranchManager</ref>&amp;&amp;)<sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a54cf07466adca9bdb14d2ee9008c961e" kindref="member">setMergeEngine</ref>(<ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>*<sp/>merge_engine);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref>&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a7b76a2f91ebe4a3cededad1bb38e5344" kindref="member">createBranch</ref>(</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name,</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>parent_branch,</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>description,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>created_by<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;system&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref>&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a7b76a2f91ebe4a3cededad1bb38e5344" kindref="member">createBranch</ref>(</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name,</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>parent_branch,</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>description,</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>created_by,</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_create_branch_options" kindref="compound">CreateBranchOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref>&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a71b84693ab77a48a28600e247a8654fe" kindref="member">getBranch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name)<sp/>const;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch" kindref="compound">Branch</ref>&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1ac7ed9d9c95f790cdef6a2a4f4baede2a" kindref="member">listBranches</ref>(</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>sort_by<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>ascending<sp/>=<sp/>true</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1af2d52e3de8cc387af1999558c9f6c1c2" kindref="member">switchBranch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a5ea27c0ba14b4d52eba5346abb5bea9b" kindref="member">getActiveBranch</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1ac6d467b9089c61245d90bb4449d083e7" kindref="member">deleteBranch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name,<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>force<sp/>=<sp/>false);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a53e9c90f9dad1bccb4378a90ab42423d" kindref="member">mergeBranches</ref>(</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_branch,</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_branch</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a53e9c90f9dad1bccb4378a90ab42423d" kindref="member">mergeBranches</ref>(</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_branch,</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_branch,</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_options" kindref="compound">MergeOptions</ref>&amp;<sp/>options</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>::<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a92ea0e970b83eebe2f375650bf66e1d0" kindref="member">previewBranchMerge</ref>(</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_branch,</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_branch,</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>base_branch<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>)<sp/>const;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>::<ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_merge_result" kindref="compound">MergeResult</ref><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a4a2ad563f58e4c4270f61bede01ba014" kindref="member">resolveAndMergeBranches</ref>(</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>source_branch,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>target_branch,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::vector&lt;<ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>::ConflictResolution&gt;&amp;<sp/>resolutions,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>base_branch<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>);</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a74002361ebea565bc6748078e2b8bf8c" kindref="member">branchExists</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name)<sp/>const;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_stats" kindref="compound">BranchStats</ref><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1ad1eaa6f879e27723ab80ba17d26d076a" kindref="member">getStats</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1aa9efba5b77d76e765a71395dd5ea7d1e" kindref="member">getSequenceForBranch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name)<sp/>const;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;int64_t&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a8155d10c6fc938a806f50ae05526cc14" kindref="member">getTimestampForBranch</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name)<sp/>const;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a48138d19ea1917629e73a4ea79fdf975" kindref="member">isValidBranchName</ref>(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>branch_name);</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>static<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a4a6fe6cea530475c39cf151af188b55e" kindref="member">getDefaultBranch</ref>();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Phase<sp/>5:<sp/>Branch<sp/>History<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry" kindref="compound">BranchHistoryEntry</ref><sp/>{</highlight></codeline>
+<codeline lineno="248" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1a882c7b1c2df79f790643d2fc23de7a1a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1a882c7b1c2df79f790643d2fc23de7a1a" kindref="member">event_type</ref>;<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="249" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1aa9d41b1dd0ac882f19f8e4eed9f0d0ed" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1aa9d41b1dd0ac882f19f8e4eed9f0d0ed" kindref="member">branch_name</ref>;<sp/><sp/></highlight></codeline>
+<codeline lineno="250" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1ae88c39f36475cfb696e0c284cfc56340" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1ae88c39f36475cfb696e0c284cfc56340" kindref="member">details</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="251" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1a0b0c00307a7327383dbc8f0d18b9c8d9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1a0b0c00307a7327383dbc8f0d18b9c8d9" kindref="member">performed_by</ref>;<sp/></highlight></codeline>
+<codeline lineno="252" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1af1445a421c26791496d0daa9a2647b77" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1af1445a421c26791496d0daa9a2647b77" kindref="member">timestamp_ms</ref>{0};</highlight></codeline>
+<codeline lineno="253" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1ae9e82b70ab90a2f3acae206505659f2d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry_1ae9e82b70ab90a2f3acae206505659f2d" kindref="member">sequence</ref>{0};<sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref><sp/>toJson()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_history_entry" kindref="compound">BranchHistoryEntry</ref><sp/>fromJson(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref>&amp;<sp/>j);</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;BranchHistoryEntry&gt;<sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a96f067e8ddb9e1727e2c0a748606f04e" kindref="member">getBranchHistory</ref>(</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch_name,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>limit<sp/>=<sp/>0)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>----<sp/>Phase<sp/>5:<sp/>Branch<sp/>GC<sp/>----</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy" kindref="compound">BranchGCPolicy</ref><sp/>{</highlight></codeline>
+<codeline lineno="274" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a6dcf254d3714c2d71e8f537c9e325228" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>int64_t<sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a6dcf254d3714c2d71e8f537c9e325228" kindref="member">max_age_ms</ref>{0};<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1af0304cae1f7cba921ade90e6ebad4a38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1af0304cae1f7cba921ade90e6ebad4a38" kindref="member">only_merged</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="276" refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a23a4df29618c142ce19cf6aa1058d9c5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1transaction_1_1_branch_manager_1_1_branch_g_c_policy_1a23a4df29618c142ce19cf6aa1058d9c5" kindref="member">protect_default</ref>{</highlight><highlight class="keyword">true</highlight><highlight class="normal">};<sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1abf4b43e191450df84b51f53dc8bf899d" kindref="member">setBranchGCPolicy</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BranchGCPolicy&amp;<sp/>policy);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1transaction_1_1_branch_manager_1a681127c656cec967eaccf6af85c4e6c3" kindref="member">pruneMergedBranches</ref>();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper&amp;<sp/>db_;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>Changefeed&amp;<sp/>changefeed_;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_snapshot_manager" kindref="compound">SnapshotManager</ref>&amp;<sp/>snapshot_manager_;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1transaction_1_1_merge_engine" kindref="compound">MergeEngine</ref>*<sp/>merge_engine_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Optional<sp/>pointer<sp/>for<sp/>3-way<sp/>merge<sp/>support</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>mutex_;</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>active_branch_;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>BranchGCPolicy<sp/>gc_policy_;</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Key<sp/>prefixes<sp/>for<sp/>branch<sp/>storage<sp/>in<sp/>RocksDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>BRANCH_PREFIX<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;branch:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>BRANCH_HIST_PREFIX<sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;branch_hist:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>BRANCH_MERGED_PREFIX<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;branch_merged:&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>ACTIVE_BRANCH_KEY<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;branch:_active&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>DEFAULT_BRANCH<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;main&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>makeKey(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>extractBranchName(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>key)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>serialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>Branch&amp;<sp/>branch)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;Branch&gt;<sp/>deserialize(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>loadActiveBranch();</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>saveActiveBranch(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch_name);</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;uint64_t&gt;<sp/>resolveSequence(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>CreateBranchOptions&amp;<sp/>options)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isBranchMerged(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>branch_name,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_branch)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>recordMergeStatus(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>source_branch,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target_branch);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>appendHistory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BranchHistoryEntry&amp;<sp/>entry);</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>serializeHistory(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>BranchHistoryEntry&amp;<sp/>entry)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"></highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;BranchHistoryEntry&gt;<sp/>deserializeHistory(</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;uint8_t&gt;&amp;<sp/>data)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"></highlight></codeline>
+<codeline lineno="392"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>transaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/transaction/branch_manager.h"/>
+  </compounddef>
+</doxygen>

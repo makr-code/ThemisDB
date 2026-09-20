@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_predicate_eq" kind="struct" language="C++" prot="public">
+    <compoundname>PredicateEq</compoundname>
+    <includes refid="query__engine_8h" local="no">query_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_predicate_eq_1a3d1fb9ace0beda1bf53a03d44c299d1e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicateEq::column</definition>
+        <argsstring></argsstring>
+        <name>column</name>
+        <qualifiedname>PredicateEq::column</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="203" column="17" bodyfile="include/query/query_engine.h" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_predicate_eq_1a173277823e26cc5861a0e5c19dc95568" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PredicateEq::value</definition>
+        <argsstring></argsstring>
+        <name>value</name>
+        <qualifiedname>PredicateEq::value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_engine.h" line="204" column="17" bodyfile="include/query/query_engine.h" bodystart="204" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_engine.h" line="202" column="1" bodyfile="include/query/query_engine.h" bodystart="202" bodyend="205"/>
+    <listofallmembers>
+      <member refid="struct_predicate_eq_1a3d1fb9ace0beda1bf53a03d44c299d1e" prot="public" virt="non-virtual"><scope>PredicateEq</scope><name>column</name></member>
+      <member refid="struct_predicate_eq_1a173277823e26cc5861a0e5c19dc95568" prot="public" virt="non-virtual"><scope>PredicateEq</scope><name>value</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

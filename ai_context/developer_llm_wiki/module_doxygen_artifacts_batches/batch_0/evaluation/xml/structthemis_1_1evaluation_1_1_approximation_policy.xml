@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1evaluation_1_1_approximation_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::evaluation::ApproximationPolicy</compoundname>
+    <includes refid="approximation__rules_8h" local="no">approximation_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a34a5ea3e1e2e82d4cdfa50e7045ad869" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationPolicy::allow_approx_for_advisory</definition>
+        <argsstring></argsstring>
+        <name>allow_approx_for_advisory</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::allow_approx_for_advisory</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="140" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="140" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1ab66f732636ca9ae91006e8eacf1e8ccd" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationPolicy::require_exact_for_acl</definition>
+        <argsstring></argsstring>
+        <name>require_exact_for_acl</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::require_exact_for_acl</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="143" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="143" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1aaa28b668e1120f13d9e2c9b95bf0310f" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationPolicy::require_exact_for_provenance</definition>
+        <argsstring></argsstring>
+        <name>require_exact_for_provenance</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::require_exact_for_provenance</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="144" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a0a3331f3465692e2f760cb1ca6d5af7a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationPolicy::require_exact_for_transactions</definition>
+        <argsstring></argsstring>
+        <name>require_exact_for_transactions</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::require_exact_for_transactions</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="145" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="145" bodyend="145"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a33ff5b893ff08533dc471c33cce23057" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ApproximationPolicy::min_confidence_approx</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_approx</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::min_confidence_approx</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="148" column="12" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a1caa3096e245a76911fa12f93675036d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ApproximationPolicy::min_confidence_bounded</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_bounded</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::min_confidence_bounded</qualifiedname>
+        <initializer>{0.80}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="149" column="12" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1acbee1412901640466e61be0b112d5b0a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::evaluation::ApproximationPolicy::min_confidence_exact</definition>
+        <argsstring></argsstring>
+        <name>min_confidence_exact</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::min_confidence_exact</qualifiedname>
+        <initializer>{1.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="150" column="12" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="150" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a4aee313a7951d31dd5b486eb38e61a50" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::evaluation::ApproximationPolicy::allow_bypass</definition>
+        <argsstring></argsstring>
+        <name>allow_bypass</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::allow_bypass</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="153" column="10" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="153" bodyend="153"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1evaluation_1_1_approximation_policy_1a57f664209a8fbe6f1cfa540303d7c4f2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::evaluation::ApproximationPolicy::policy_version</definition>
+        <argsstring></argsstring>
+        <name>policy_version</name>
+        <qualifiedname>themis::evaluation::ApproximationPolicy::policy_version</qualifiedname>
+        <initializer>{&quot;v0&quot;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/evaluation/include/approximation_rules.h" line="155" column="17" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="155" bodyend="155"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/evaluation/include/approximation_rules.h" line="138" column="1" bodyfile="src/evaluation/include/approximation_rules.h" bodystart="138" bodyend="156"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a34a5ea3e1e2e82d4cdfa50e7045ad869" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>allow_approx_for_advisory</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a4aee313a7951d31dd5b486eb38e61a50" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>allow_bypass</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a33ff5b893ff08533dc471c33cce23057" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>min_confidence_approx</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a1caa3096e245a76911fa12f93675036d" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>min_confidence_bounded</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1acbee1412901640466e61be0b112d5b0a" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>min_confidence_exact</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a57f664209a8fbe6f1cfa540303d7c4f2" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>policy_version</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1ab66f732636ca9ae91006e8eacf1e8ccd" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>require_exact_for_acl</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1aaa28b668e1120f13d9e2c9b95bf0310f" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>require_exact_for_provenance</name></member>
+      <member refid="structthemis_1_1evaluation_1_1_approximation_policy_1a0a3331f3465692e2f760cb1ca6d5af7a" prot="public" virt="non-virtual"><scope>themis::evaluation::ApproximationPolicy</scope><name>require_exact_for_transactions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

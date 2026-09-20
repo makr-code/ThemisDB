@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error" kind="class" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::DspyMissingFieldError</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">std::invalid_argument</basecompoundref>
+    <includes refid="dspy__module_8h" local="no">dspy_module.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a711e118956ebedba0ea45ee87f2b3411" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::DspyMissingFieldError::field_name_</definition>
+        <argsstring></argsstring>
+        <name>field_name_</name>
+        <qualifiedname>themis::prompt_engineering::DspyMissingFieldError::field_name_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="279" column="17" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="279" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a17e2c86c698ff6346345245db823a7d0" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::prompt_engineering::DspyMissingFieldError::DspyMissingFieldError</definition>
+        <argsstring>(const std::string &amp;field_name)</argsstring>
+        <name>DspyMissingFieldError</name>
+        <qualifiedname>themis::prompt_engineering::DspyMissingFieldError::DspyMissingFieldError</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="275" column="14" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="328" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a609fab1295a7337ba6b4c11057bed061" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const std::string &amp;</type>
+        <definition>const std::string &amp; themis::prompt_engineering::DspyMissingFieldError::fieldName</definition>
+        <argsstring>() const</argsstring>
+        <name>fieldName</name>
+        <qualifiedname>themis::prompt_engineering::DspyMissingFieldError::fieldName</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/dspy_module.h" line="276" column="23" bodyfile="src/prompt_engineering/dspy_module.cpp" bodystart="333" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thrown when a required field is missing from the context. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>std::invalid_argument</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyMissingFieldError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>std::invalid_argument</label>
+      </node>
+      <node id="1">
+        <label>themis::prompt_engineering::DspyMissingFieldError</label>
+        <link refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/prompt_engineering/dspy_module.h" line="273" column="1" bodyfile="include/prompt_engineering/dspy_module.h" bodystart="273" bodyend="280"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a17e2c86c698ff6346345245db823a7d0" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyMissingFieldError</scope><name>DspyMissingFieldError</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a711e118956ebedba0ea45ee87f2b3411" prot="private" virt="non-virtual"><scope>themis::prompt_engineering::DspyMissingFieldError</scope><name>field_name_</name></member>
+      <member refid="classthemis_1_1prompt__engineering_1_1_dspy_missing_field_error_1a609fab1295a7337ba6b4c11057bed061" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::DspyMissingFieldError</scope><name>fieldName</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

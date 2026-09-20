@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_multi_modal_infer_request" kind="struct" language="C++" prot="public">
+    <compoundname>themis::aql::MultiModalInferRequest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">llm::InferenceRequest</basecompoundref>
+    <includes refid="multimodal__infer__request_8h" local="no">multimodal_infer_request.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1aql_1_1_multi_modal_infer_request_1a8e1b0108a3903dea89dad4be4620553e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_multi_modal_input" kindref="compound">MultiModalInput</ref> &gt;</type>
+        <definition>std::vector&lt;MultiModalInput&gt; themis::aql::MultiModalInferRequest::inputs</definition>
+        <argsstring></argsstring>
+        <name>inputs</name>
+        <qualifiedname>themis::aql::MultiModalInferRequest::inputs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="166" column="17" bodyfile="include/aql/multimodal_infer_request.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_infer_request_1a5c14788d2a74f740d8c6b50bbcd6d969" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInferRequest::addInput</definition>
+        <argsstring>(const MultiModalInput &amp;input)</argsstring>
+        <name>addInput</name>
+        <qualifiedname>themis::aql::MultiModalInferRequest::addInput</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_multi_modal_input" kindref="compound">MultiModalInput</ref> &amp;</type>
+          <declname>input</declname>
+        </param>
+        <briefdescription>
+<para>Add Input. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">input</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: validate(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="177" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="177" bodyend="180"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_infer_request_1a1e75e7193a94b90a4e70e386337a6795" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::aql::MultiModalInferRequest::validateInputs</definition>
+        <argsstring>() const</argsstring>
+        <name>validateInputs</name>
+        <qualifiedname>themis::aql::MultiModalInferRequest::validateInputs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="182" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="182" bodyend="186"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_multi_modal_infer_request_1a8c06680188bca90c82408aa540846d75" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::aql::MultiModalInferRequest::hasNonTextInputs</definition>
+        <argsstring>() const</argsstring>
+        <name>hasNonTextInputs</name>
+        <qualifiedname>themis::aql::MultiModalInferRequest::hasNonTextInputs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/multimodal_infer_request.h" line="188" column="10" bodyfile="include/aql/multimodal_infer_request.h" bodystart="188" bodyend="195"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>llm::InferenceRequest</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::MultiModalInferRequest</label>
+        <link refid="structthemis_1_1aql_1_1_multi_modal_infer_request"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>llm::InferenceRequest</label>
+      </node>
+      <node id="1">
+        <label>themis::aql::MultiModalInferRequest</label>
+        <link refid="structthemis_1_1aql_1_1_multi_modal_infer_request"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/aql/multimodal_infer_request.h" line="165" column="1" bodyfile="include/aql/multimodal_infer_request.h" bodystart="165" bodyend="196"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_infer_request_1a5c14788d2a74f740d8c6b50bbcd6d969" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInferRequest</scope><name>addInput</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_infer_request_1a8c06680188bca90c82408aa540846d75" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInferRequest</scope><name>hasNonTextInputs</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_infer_request_1a8e1b0108a3903dea89dad4be4620553e" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInferRequest</scope><name>inputs</name></member>
+      <member refid="structthemis_1_1aql_1_1_multi_modal_infer_request_1a1e75e7193a94b90a4e70e386337a6795" prot="public" virt="non-virtual"><scope>themis::aql::MultiModalInferRequest</scope><name>validateInputs</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

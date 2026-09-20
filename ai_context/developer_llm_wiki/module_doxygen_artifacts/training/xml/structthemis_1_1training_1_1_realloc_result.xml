@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_realloc_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::ReallocResult</compoundname>
+    <includes refid="ada__lora__adapter_8h" local="no">ada_lora_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_realloc_result_1a810726b69b80b27bb44f0aa92af89044" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::ReallocResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::training::ReallocResult::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Legacy compatibility flag. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="36" column="10" bodyfile="include/training/ada_lora_adapter.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_realloc_result_1aa52eafa732d8f779019bf307dfe6ea49" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ReallocResult::total_active_rank</definition>
+        <argsstring></argsstring>
+        <name>total_active_rank</name>
+        <qualifiedname>themis::training::ReallocResult::total_active_rank</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Sum of active ranks after reallocation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="37" column="12" bodyfile="include/training/ada_lora_adapter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_realloc_result_1a38889c11ec42aafd5b467820c6ffbaef" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ReallocResult::layers_pruned</definition>
+        <argsstring></argsstring>
+        <name>layers_pruned</name>
+        <qualifiedname>themis::training::ReallocResult::layers_pruned</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Layers whose rank was reduced. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="38" column="12" bodyfile="include/training/ada_lora_adapter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_realloc_result_1a4a959e9b3ef041ff83ea1d024a7732bf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::ReallocResult::layers_expanded</definition>
+        <argsstring></argsstring>
+        <name>layers_expanded</name>
+        <qualifiedname>themis::training::ReallocResult::layers_expanded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Layers whose rank was increased. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/ada_lora_adapter.h" line="39" column="12" bodyfile="include/training/ada_lora_adapter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a rank-reallocation pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/ada_lora_adapter.h" line="35" column="1" bodyfile="include/training/ada_lora_adapter.h" bodystart="35" bodyend="40"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_realloc_result_1a4a959e9b3ef041ff83ea1d024a7732bf" prot="public" virt="non-virtual"><scope>themis::training::ReallocResult</scope><name>layers_expanded</name></member>
+      <member refid="structthemis_1_1training_1_1_realloc_result_1a38889c11ec42aafd5b467820c6ffbaef" prot="public" virt="non-virtual"><scope>themis::training::ReallocResult</scope><name>layers_pruned</name></member>
+      <member refid="structthemis_1_1training_1_1_realloc_result_1a810726b69b80b27bb44f0aa92af89044" prot="public" virt="non-virtual"><scope>themis::training::ReallocResult</scope><name>success</name></member>
+      <member refid="structthemis_1_1training_1_1_realloc_result_1aa52eafa732d8f779019bf307dfe6ea49" prot="public" virt="non-virtual"><scope>themis::training::ReallocResult</scope><name>total_active_rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

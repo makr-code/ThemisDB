@@ -1,0 +1,89 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1concerns_1_1_adapter_validator" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::core::concerns::AdapterValidator</compoundname>
+    <derivedcompoundref refid="class_reject_all_validator" prot="public" virt="non-virtual">RejectAllValidator</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator" prot="public" virt="non-virtual">themis::core::concerns::SignedAdapterValidator</derivedcompoundref>
+    <includes refid="adapter__metadata_8h" local="no">adapter_metadata.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1a7a456e9218f1bb1d5f0d56377225c904" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::core::concerns::AdapterValidator::~AdapterValidator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AdapterValidator</name>
+        <qualifiedname>themis::core::concerns::AdapterValidator::~AdapterValidator</qualifiedname>
+        <briefdescription>
+<para>Adapter Validator. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="61" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1acbe645cbadc888d1fc6d80e51544bc59" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::core::concerns::AdapterValidator::validate</definition>
+        <argsstring>(const AdapterMetadata &amp;m)=0</argsstring>
+        <name>validate</name>
+        <qualifiedname>themis::core::concerns::AdapterValidator::validate</qualifiedname>
+        <reimplementedby refid="class_reject_all_validator_1a50e3d9dbd221b815b59af27085f986be">validate</reimplementedby>
+        <reimplementedby refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator_1a7d6b769b0b4df959eceac644d661c754">validate</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1core_1_1concerns_1_1_adapter_metadata" kindref="compound">AdapterMetadata</ref> &amp;</type>
+          <declname>m</declname>
+        </param>
+        <briefdescription>
+<para>Validate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">m</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/adapter_metadata.h" line="68" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>RejectAllValidator</label>
+        <link refid="class_reject_all_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::AdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator"/>
+      </node>
+      <node id="3">
+        <label>themis::core::concerns::SignedAdapterValidator</label>
+        <link refid="classthemis_1_1core_1_1concerns_1_1_signed_adapter_validator"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/core/concerns/adapter_metadata.h" line="55" column="1" bodyfile="include/core/concerns/adapter_metadata.h" bodystart="55" bodyend="69"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1acbe645cbadc888d1fc6d80e51544bc59" prot="public" virt="pure-virtual"><scope>themis::core::concerns::AdapterValidator</scope><name>validate</name></member>
+      <member refid="classthemis_1_1core_1_1concerns_1_1_adapter_validator_1a7a456e9218f1bb1d5f0d56377225c904" prot="public" virt="virtual"><scope>themis::core::concerns::AdapterValidator</scope><name>~AdapterValidator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

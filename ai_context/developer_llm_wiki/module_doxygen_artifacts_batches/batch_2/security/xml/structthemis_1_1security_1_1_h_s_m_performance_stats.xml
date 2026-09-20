@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1security_1_1_h_s_m_performance_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::security::HSMPerformanceStats</compoundname>
+    <includes refid="hsm__provider_8h" local="no">hsm_provider.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1af84f96ca141e5d5de030e2b309967445" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::sign_count</definition>
+        <argsstring></argsstring>
+        <name>sign_count</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::sign_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="63" column="14" bodyfile="include/security/hsm_provider.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a8457a794aed0566c34986b02196c80a8" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::verify_count</definition>
+        <argsstring></argsstring>
+        <name>verify_count</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::verify_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="64" column="14" bodyfile="include/security/hsm_provider.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2f04b579c0c2071d1bde82e0ac56ff1b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::sign_errors</definition>
+        <argsstring></argsstring>
+        <name>sign_errors</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::sign_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="65" column="14" bodyfile="include/security/hsm_provider.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a3861fb6fb4a1f9aca2a079e55cfcfa53" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::verify_errors</definition>
+        <argsstring></argsstring>
+        <name>verify_errors</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::verify_errors</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="66" column="14" bodyfile="include/security/hsm_provider.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a233c58a56c75082407353203db710897" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::total_sign_time_us</definition>
+        <argsstring></argsstring>
+        <name>total_sign_time_us</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::total_sign_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="67" column="14" bodyfile="include/security/hsm_provider.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a0bfb82f4a3bc2c822ee79c1d58ae6e83" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::total_verify_time_us</definition>
+        <argsstring></argsstring>
+        <name>total_verify_time_us</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::total_verify_time_us</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="68" column="14" bodyfile="include/security/hsm_provider.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2a850a0026afc7e017119a6cc6a56313" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::security::HSMPerformanceStats::pool_size</definition>
+        <argsstring></argsstring>
+        <name>pool_size</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::pool_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="69" column="14" bodyfile="include/security/hsm_provider.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1security_1_1_h_s_m_performance_stats_1a910c6458936647e27ad6c216131dc071" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::security::HSMPerformanceStats::pool_round_robin_hits</definition>
+        <argsstring></argsstring>
+        <name>pool_round_robin_hits</name>
+        <qualifiedname>themis::security::HSMPerformanceStats::pool_round_robin_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/security/hsm_provider.h" line="70" column="14" bodyfile="include/security/hsm_provider.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/security/hsm_provider.h" line="62" column="1" bodyfile="include/security/hsm_provider.h" bodystart="62" bodyend="71"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a910c6458936647e27ad6c216131dc071" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>pool_round_robin_hits</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2a850a0026afc7e017119a6cc6a56313" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>pool_size</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1af84f96ca141e5d5de030e2b309967445" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>sign_count</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a2f04b579c0c2071d1bde82e0ac56ff1b" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>sign_errors</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a233c58a56c75082407353203db710897" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>total_sign_time_us</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a0bfb82f4a3bc2c822ee79c1d58ae6e83" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>total_verify_time_us</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a8457a794aed0566c34986b02196c80a8" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>verify_count</name></member>
+      <member refid="structthemis_1_1security_1_1_h_s_m_performance_stats_1a3861fb6fb4a1f9aca2a079e55cfcfa53" prot="public" virt="non-virtual"><scope>themis::security::HSMPerformanceStats</scope><name>verify_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

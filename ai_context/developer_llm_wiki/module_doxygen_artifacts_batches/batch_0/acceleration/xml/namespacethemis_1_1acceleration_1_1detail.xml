@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1acceleration_1_1detail" kind="namespace" language="C++">
+    <compoundname>themis::acceleration::detail</compoundname>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1acceleration_1_1detail_1a689541ad9891eb7e5a5695a768e607b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename Fn</type>
+          </param>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>int</type>
+        <definition>int themis::acceleration::detail::invokeWithFallback</definition>
+        <argsstring>(Fn primary, Fn fallback, const RetryPolicy &amp;policy, Args... args)</argsstring>
+        <name>invokeWithFallback</name>
+        <qualifiedname>themis::acceleration::detail::invokeWithFallback</qualifiedname>
+        <param>
+          <type>Fn</type>
+          <declname>primary</declname>
+        </param>
+        <param>
+          <type>Fn</type>
+          <declname>fallback</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1acceleration_1_1_retry_policy" kindref="compound">RetryPolicy</ref> &amp;</type>
+          <declname>policy</declname>
+        </param>
+        <param>
+          <type>Args...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/kernel_fallback_dispatcher.h" line="83" column="5" bodyfile="include/acceleration/kernel_fallback_dispatcher.h" bodystart="83" bodyend="126"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/acceleration/kernel_fallback_dispatcher.h" line="80" column="1"/>
+  </compounddef>
+</doxygen>

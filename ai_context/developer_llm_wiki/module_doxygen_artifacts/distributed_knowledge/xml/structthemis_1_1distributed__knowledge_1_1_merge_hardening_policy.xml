@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_knowledge::MergeHardeningPolicy</compoundname>
+    <includes refid="distributed__knowledge__api__contract_8h" local="no">distributed_knowledge_api_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_knowledge::MergeHardeningPolicy::max_merge_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>max_merge_latency_ms</name>
+        <qualifiedname>themis::distributed_knowledge::MergeHardeningPolicy::max_merge_latency_ms</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="214" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="214" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_knowledge::MergeHardeningPolicy::dedup_window_size</definition>
+        <argsstring></argsstring>
+        <name>dedup_window_size</name>
+        <qualifiedname>themis::distributed_knowledge::MergeHardeningPolicy::dedup_window_size</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="215" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="215" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_knowledge::MergeHardeningPolicy::partial_shard_min_count</definition>
+        <argsstring></argsstring>
+        <name>partial_shard_min_count</name>
+        <qualifiedname>themis::distributed_knowledge::MergeHardeningPolicy::partial_shard_min_count</qualifiedname>
+        <initializer>= 0u</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="216" column="14" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="216" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79" kindref="member">TimeoutBehavior</ref></type>
+        <definition>TimeoutBehavior themis::distributed_knowledge::MergeHardeningPolicy::timeout_behavior</definition>
+        <argsstring></argsstring>
+        <name>timeout_behavior</name>
+        <qualifiedname>themis::distributed_knowledge::MergeHardeningPolicy::timeout_behavior</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1distributed__knowledge_1ab4e9e689b6ec887fc0f9de5c6eff4e79ac6d0b87b065348b4bc999742b2efd22c" kindref="member">TimeoutBehavior::BEST_EFFORT</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="217" column="21" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="217" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" prot="public" static="no" nodiscard="yes" constexpr="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::distributed_knowledge::MergeHardeningPolicy::isConstrained</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>isConstrained</name>
+        <qualifiedname>themis::distributed_knowledge::MergeHardeningPolicy::isConstrained</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="219" column="21" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="219" bodyend="224"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="213" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="213" bodyend="225"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1ae77346caff989a6a01868200d6e3315d" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergeHardeningPolicy</scope><name>dedup_window_size</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a426093e9bb2eb4eb5370e6a32f34f6fe" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergeHardeningPolicy</scope><name>isConstrained</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a4189f82f7a705b33b1054cac8acac583" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergeHardeningPolicy</scope><name>max_merge_latency_ms</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1a10aba593154b9638c2e4537919ca21a3" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergeHardeningPolicy</scope><name>partial_shard_min_count</name></member>
+      <member refid="structthemis_1_1distributed__knowledge_1_1_merge_hardening_policy_1aaa25b4e3fde56a2a98c1046ce6e2d841" prot="public" virt="non-virtual"><scope>themis::distributed_knowledge::MergeHardeningPolicy</scope><name>timeout_behavior</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1voice_1_1_session_analytics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::voice::SessionAnalytics</compoundname>
+    <includes refid="voice__session__manager_8h" local="no">voice_session_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1a3fd0b517fac9825e5278e7b30e746ea7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::SessionAnalytics::total_sessions</definition>
+        <argsstring></argsstring>
+        <name>total_sessions</name>
+        <qualifiedname>themis::voice::SessionAnalytics::total_sessions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="96" column="12" bodyfile="include/voice/voice_session_manager.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1a5f8df2f30882c5da454bc9a89e807ac0" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::SessionAnalytics::active_sessions</definition>
+        <argsstring></argsstring>
+        <name>active_sessions</name>
+        <qualifiedname>themis::voice::SessionAnalytics::active_sessions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="97" column="12" bodyfile="include/voice/voice_session_manager.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1adae96a26ce2a4397edee66529972d13b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::voice::SessionAnalytics::expired_sessions</definition>
+        <argsstring></argsstring>
+        <name>expired_sessions</name>
+        <qualifiedname>themis::voice::SessionAnalytics::expired_sessions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="98" column="12" bodyfile="include/voice/voice_session_manager.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1a266995aeb98226ff520ef993927f8413" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SessionAnalytics::avg_session_duration_ms</definition>
+        <argsstring></argsstring>
+        <name>avg_session_duration_ms</name>
+        <qualifiedname>themis::voice::SessionAnalytics::avg_session_duration_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="99" column="12" bodyfile="include/voice/voice_session_manager.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1a07613ef5d98acd85f02e03bb4984a0d4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::voice::SessionAnalytics::avg_turns_per_session</definition>
+        <argsstring></argsstring>
+        <name>avg_turns_per_session</name>
+        <qualifiedname>themis::voice::SessionAnalytics::avg_turns_per_session</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="100" column="12" bodyfile="include/voice/voice_session_manager.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1a5190b339f5ae93ead4bdab4c31f79545" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::voice::SessionAnalytics::sessions_by_device</definition>
+        <argsstring></argsstring>
+        <name>sessions_by_device</name>
+        <qualifiedname>themis::voice::SessionAnalytics::sessions_by_device</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="101" column="14" bodyfile="include/voice/voice_session_manager.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1voice_1_1_session_analytics_1aa70ec3a38862ffcc5e8b939e5b4192cb" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::voice::SessionAnalytics::sessions_by_language</definition>
+        <argsstring></argsstring>
+        <name>sessions_by_language</name>
+        <qualifiedname>themis::voice::SessionAnalytics::sessions_by_language</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/voice/voice_session_manager.h" line="102" column="14" bodyfile="include/voice/voice_session_manager.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/voice/voice_session_manager.h" line="95" column="1" bodyfile="include/voice/voice_session_manager.h" bodystart="95" bodyend="103"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1a5f8df2f30882c5da454bc9a89e807ac0" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>active_sessions</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1a266995aeb98226ff520ef993927f8413" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>avg_session_duration_ms</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1a07613ef5d98acd85f02e03bb4984a0d4" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>avg_turns_per_session</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1adae96a26ce2a4397edee66529972d13b" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>expired_sessions</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1a5190b339f5ae93ead4bdab4c31f79545" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>sessions_by_device</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1aa70ec3a38862ffcc5e8b939e5b4192cb" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>sessions_by_language</name></member>
+      <member refid="structthemis_1_1voice_1_1_session_analytics_1a3fd0b517fac9825e5278e7b30e746ea7" prot="public" virt="non-virtual"><scope>themis::voice::SessionAnalytics</scope><name>total_sessions</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

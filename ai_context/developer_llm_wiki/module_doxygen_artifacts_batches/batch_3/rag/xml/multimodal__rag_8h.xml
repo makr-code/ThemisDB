@@ -1,0 +1,300 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="multimodal__rag_8h" kind="file" language="C++">
+    <compoundname>multimodal_rag.h</compoundname>
+    <includes refid="rag__judge_8h" local="yes">rag/rag_judge.h</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includedby refid="multimodal__rag_8cpp" local="yes">src/rag/multimodal_rag.cpp</includedby>
+    <includedby refid="test__rag__multimodal_8cpp" local="yes">tests/rag/test_rag_multimodal.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/rag/multimodal_rag.h</label>
+        <link refid="multimodal__rag_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>rag/rag_judge.h</label>
+        <link refid="rag__judge_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>chrono</label>
+      </node>
+      <node id="9">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="3">
+        <label>string</label>
+      </node>
+      <node id="6">
+        <label>unordered_map</label>
+      </node>
+      <node id="4">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/rag/multimodal_rag.h</label>
+        <link refid="multimodal__rag_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/rag/multimodal_rag.cpp</label>
+        <link refid="multimodal__rag_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/rag/test_rag_multimodal.cpp</label>
+        <link refid="test__rag__multimodal_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" prot="public">themis::rag::multimodal::ImageDocument</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" prot="public">themis::rag::multimodal::MultiModalQuery</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" prot="public">themis::rag::multimodal::MultiModalSource</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" prot="public">themis::rag::multimodal::MultiModalRAGResult</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" prot="public">themis::rag::multimodal::MultiModalRAGConfig</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" prot="public">themis::rag::multimodal::MultiModalRAG</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory" prot="public">themis::rag::multimodal::MultiModalRAGFactory</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag">themis::rag</innernamespace>
+    <innernamespace refid="namespacethemis_1_1rag_1_1multimodal">themis::rag::multimodal</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 100/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="rag__judge_8h" kindref="compound">rag/rag_judge.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21" refid="namespacethemis_1_1rag_1_1multimodal" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multimodal" kindref="compound">themis::rag::multimodal</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Modality</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fd" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fd" kindref="member">Modality</ref><sp/>{</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda61a96ffcb251bb9bf0abf8fec19d0ea8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">TEXT</ref>,<sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda23a12f67f614b5518c7f1c2465bf95e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda23a12f67f614b5518c7f1c2465bf95e3" kindref="member">IMAGE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda34bbae0aee41ddd6a73697584a20afc6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda34bbae0aee41ddd6a73697584a20afc6" kindref="member">TABLE</ref>,<sp/><sp/></highlight></codeline>
+<codeline lineno="34"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Document<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" kindref="compound">ImageDocument</ref><sp/>{</highlight></codeline>
+<codeline lineno="47" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a63c311e65676c78e890f6cea5f5d2b17" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a63c311e65676c78e890f6cea5f5d2b17" kindref="member">id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="48" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a24bc11aa6aad2d1258f55286960727f0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a24bc11aa6aad2d1258f55286960727f0" kindref="member">image_path</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a5d072568833413b8c317448d020e3b50" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a5d072568833413b8c317448d020e3b50" kindref="member">caption</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="50" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ae595a5620ab5ce8d886cb2a2c79e152f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ae595a5620ab5ce8d886cb2a2c79e152f" kindref="member">embedding</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="51" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a15d3124d9973553aca6d53e8830071c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1a15d3124d9973553aca6d53e8830071c7" kindref="member">relevance_score</ref><sp/>=<sp/>0.0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="52" refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ad07d07857c45f867abb9aa9a1d9d3202" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document_1ad07d07857c45f867abb9aa9a1d9d3202" kindref="member">metadata</ref>;<sp/></highlight></codeline>
+<codeline lineno="53"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Query</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" kindref="compound">MultiModalQuery</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1ae90ac59b25ce3a10777fe26fae8701a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1ae90ac59b25ce3a10777fe26fae8701a1" kindref="member">text</ref>;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1ac1ec383999529d21c2eb744677c35ffd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;float&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1ac1ec383999529d21c2eb744677c35ffd" kindref="member">image_embedding</ref>;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1a96f0061bd00eb0db7249c06f43c4808f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;Modality&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1a96f0061bd00eb0db7249c06f43c4808f" kindref="member">modalities</ref><sp/>=<sp/>{<ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fda61a96ffcb251bb9bf0abf8fec19d0ea8" kindref="member">Modality::TEXT</ref>};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1a576028bfdc1fbecf83e295e54301bf43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query_1a576028bfdc1fbecf83e295e54301bf43" kindref="member">top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="76"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Source<sp/>item</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" kindref="compound">MultiModalSource</ref><sp/>{</highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a38f6d55172d0b141cdc654cd3bbce723" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1rag_1_1multimodal_1a7ae8101076d1bb78778ca596934fa2fd" kindref="member">Modality</ref><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a38f6d55172d0b141cdc654cd3bbce723" kindref="member">modality</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7476b5a86b088cc97b0e6c79d76486c1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7476b5a86b088cc97b0e6c79d76486c1" kindref="member">document_id</ref>;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="93" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1aff7681a5726d48eb0b1b21efc41043bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1aff7681a5726d48eb0b1b21efc41043bc" kindref="member">relevance_score</ref><sp/>=<sp/>0.0;<sp/></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>TEXT<sp/>/<sp/>TABLE<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7d213324a477850742b546c131c64535" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a7d213324a477850742b546c131c64535" kindref="member">content</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a6466eedbd90ced3950520476ca0a7ad7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a6466eedbd90ced3950520476ca0a7ad7" kindref="member">table_data</ref>;<sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>IMAGE<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ab377682b78e0d14fb2c84e3e9a8c6502" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ab377682b78e0d14fb2c84e3e9a8c6502" kindref="member">image_path</ref>;<sp/></highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ae852616afd5c087da3d83b2a10140ee3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1ae852616afd5c087da3d83b2a10140ee3" kindref="member">caption</ref>;<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a390e2a5ea73e85614eccc500c990ed92" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source_1a390e2a5ea73e85614eccc500c990ed92" kindref="member">metadata</ref>;</highlight></codeline>
+<codeline lineno="105"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" kindref="compound">MultiModalRAGResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="116" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3b743c06bc22703da363a0ec3a3eaba9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MultiModalSource&gt;<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3b743c06bc22703da363a0ec3a3eaba9" kindref="member">sources</ref>;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"></highlight></codeline>
+<codeline lineno="120" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3384ff3dde0c015ff93734effbeeb49c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1a3384ff3dde0c015ff93734effbeeb49c" kindref="member">context</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1aed9213efbe22fbd7cb350c29f91fe6c2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result_1aed9213efbe22fbd7cb350c29f91fe6c2" kindref="member">elapsed_ms</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="135" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a6abac16ba96fd9a391c89b7c7eabeda9" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a6abac16ba96fd9a391c89b7c7eabeda9" kindref="member">enable_image_retrieval</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1acb39ea69318c603e26af26864f290e67" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1acb39ea69318c603e26af26864f290e67" kindref="member">enable_table_qa</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1af2227e5c78f6ed93434f5b0f962aefd5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1af2227e5c78f6ed93434f5b0f962aefd5" kindref="member">enable_ocr</ref><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1aba7e1438a646560fd40b25e284143085" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1aba7e1438a646560fd40b25e284143085" kindref="member">text_weight</ref><sp/>=<sp/>0.5;</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a8935f080b21256cbf024ad6c9c17c3ce" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a8935f080b21256cbf024ad6c9c17c3ce" kindref="member">image_weight</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"></highlight></codeline>
+<codeline lineno="154" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a75c79422af27df954e739429f9c4e9c8" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a75c79422af27df954e739429f9c4e9c8" kindref="member">top_k</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1adf3d2dfb6eb6385263aa6a09de585807" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1adf3d2dfb6eb6385263aa6a09de585807" kindref="member">rrf_k</ref><sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160" refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a19f8fbf7edf217fd1e3e486a7a83cc5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config_1a19f8fbf7edf217fd1e3e486a7a83cc5f" kindref="member">max_sources</ref><sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Caller-supplied<sp/>function<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174" refid="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" kindref="member">TextRetrievalFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;judge::RetrievedDocument&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="namespacethemis_1_1query" kindref="compound">query</ref>,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k)&gt;;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184" refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" kindref="member">ImageRetrievalFn</ref><sp/>=<sp/>std::function&lt;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;ImageDocument&gt;(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;&amp;<sp/>embedding,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>top_k)&gt;;</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="195" refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" kindref="member">ImageCaptionFn</ref><sp/>=<sp/>std::function&lt;std::string(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_image_document" kindref="compound">ImageDocument</ref>&amp;<sp/>img)&gt;;</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight><highlight class="comment">//<sp/>MultiModalRAG</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="199"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aaeff43116058cba39e73f2bee9b8e8d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aaeff43116058cba39e73f2bee9b8e8d1" kindref="member">~MultiModalRAG</ref>();</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable,<sp/>movable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="242" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a44bcde51f68b7e79bc0b3059400bfa7f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a44bcde51f68b7e79bc0b3059400bfa7f" kindref="member">MultiModalRAG</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ac0a97e3dfdfa4dae22cc86eb027efc66" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ac0a97e3dfdfa4dae22cc86eb027efc66" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="244" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ab04ee61a9d9261fad175f57dabbb8f2e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ab04ee61a9d9261fad175f57dabbb8f2e" kindref="member">MultiModalRAG</ref>(<ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="245" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a2d0eaf369e632b30253d8b17864c56d7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;<sp/>operator=(<ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1aed77bc71f9180c652740a605f29c6e7e" kindref="member">MultiModalRAG</ref>&amp;&amp;)<sp/><sp/><sp/><sp/><sp/><sp/>noexcept<sp/>=<sp/>default;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Retrieval<sp/>backend<sp/>configuration<sp/>──────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a974a5a180380e7f0566ef1ba07324c80" kindref="member">setTextRetriever</ref>(<ref refid="namespacethemis_1_1rag_1_1multimodal_1aced67b0ff237a36bbdf69d7710a203db" kindref="member">TextRetrievalFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a5d5d0b159b509e4bdc6210fd552c42df" kindref="member">setImageRetriever</ref>(<ref refid="namespacethemis_1_1rag_1_1multimodal_1add039d84424b72e8489ee0b27d00d596" kindref="member">ImageRetrievalFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ae81779da356a7f5eea93fc016fa90a06" kindref="member">setImageCaptioner</ref>(<ref refid="namespacethemis_1_1rag_1_1multimodal_1a8a121875d30235288874351629dd7a5a" kindref="member">ImageCaptionFn</ref><sp/>fn);</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Query<sp/>─────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_result" kindref="compound">MultiModalRAGResult</ref><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a62183aa9a5cb52e0e0e2beb2b7bc3687" kindref="member">query</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_query" kindref="compound">MultiModalQuery</ref>&amp;<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a62183aa9a5cb52e0e0e2beb2b7bc3687" kindref="member">query</ref>)<sp/>const;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Context<sp/>building<sp/>(exposed<sp/>for<sp/>testing)<sp/>────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a9adf302ef23ca363f6ecd5d2258b28c0" kindref="member">buildContext</ref>(const<sp/>std::vector&lt;<ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_source" kindref="compound">MultiModalSource</ref>&gt;&amp;<sp/>sources,</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>question)<sp/>const;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>──<sp/>Configuration<sp/>─────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1a78aa903290de51bbf04400042af0a658" kindref="member">getConfig</ref>()<sp/>const;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1ad71efb6b908cf577c1db47df87fcb956" kindref="member">setConfig</ref>(const<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_config" kindref="compound">MultiModalRAGConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal">private:</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>struct<sp/><ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl" kindref="compound">Impl</ref>;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;<ref refid="structthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_1_1_impl" kindref="compound">Impl</ref>&gt;<sp/>impl_;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Factory</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="334" refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory" refkind="compound"><highlight class="normal">class<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory" kindref="compound">MultiModalRAGFactory</ref><sp/>{</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiModalRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a00948af8317602b9d35a99bc8998aa07" kindref="member">createTextOnly</ref>();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiModalRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1a061fc12c6e8feec7df87fe343546ba21" kindref="member">createTextAndImage</ref>();</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::unique_ptr&lt;MultiModalRAG&gt;<sp/><ref refid="classthemis_1_1rag_1_1multimodal_1_1_multi_modal_r_a_g_factory_1acf72b89947fe77890c66dcbd871e6a6e" kindref="member">createFull</ref>();</highlight></codeline>
+<codeline lineno="358"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"></highlight></codeline>
+<codeline lineno="360"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::rag::multimodal</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/rag/multimodal_rag.h"/>
+  </compounddef>
+</doxygen>

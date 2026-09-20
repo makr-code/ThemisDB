@@ -1,0 +1,144 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1lora_1_1_training_batch" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::lora::TrainingBatch</compoundname>
+    <includes refid="data__loader_8h" local="no">data_loader.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::lora::TrainingBatch::input_ids</definition>
+        <argsstring></argsstring>
+        <name>input_ids</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::input_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="49" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad4894951bda80b283145c2a938194d6c" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::vector&lt; int &gt; &gt;</type>
+        <definition>std::vector&lt;std::vector&lt;int&gt; &gt; themis::llm::lora::TrainingBatch::label_ids</definition>
+        <argsstring></argsstring>
+        <name>label_ids</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::label_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="50" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48d7555924d0ceb856a710816002a9ad" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; size_t &gt;</type>
+        <definition>std::vector&lt;size_t&gt; themis::llm::lora::TrainingBatch::sequence_lengths</definition>
+        <argsstring></argsstring>
+        <name>sequence_lengths</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::sequence_lengths</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="51" column="17" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1a09d8d6fae628275602fbfa63326bdeff" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingBatch::batch_size</definition>
+        <argsstring></argsstring>
+        <name>batch_size</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::batch_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="52" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1a47c3322ef67275b7cdefa9a499d2da6a" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::lora::TrainingBatch::max_sequence_length</definition>
+        <argsstring></argsstring>
+        <name>max_sequence_length</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::max_sequence_length</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="53" column="9" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48e58eb6f9db1946987e61ac1a970b75" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::lora::TrainingBatch::~TrainingBatch</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TrainingBatch</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::~TrainingBatch</qualifiedname>
+        <briefdescription>
+<para>Training Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="48" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1a83636e1d68e9366a940a1da153db2617" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::llm::lora::TrainingBatch::empty</definition>
+        <argsstring>() const</argsstring>
+        <name>empty</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::empty</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="55" column="10" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="55" bodyend="55"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad917579631eee398a3f17a564589fa4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::llm::lora::TrainingBatch::size</definition>
+        <argsstring>() const</argsstring>
+        <name>size</name>
+        <qualifiedname>themis::llm::lora::TrainingBatch::size</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/lora_framework/data_loader.h" line="56" column="12" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/lora_framework/data_loader.h" line="43" column="1" bodyfile="include/llm/lora_framework/data_loader.h" bodystart="43" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a09d8d6fae628275602fbfa63326bdeff" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>batch_size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a83636e1d68e9366a940a1da153db2617" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>empty</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad081af46dc0b9201eb9d6582716cda87" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>input_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad4894951bda80b283145c2a938194d6c" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>label_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a47c3322ef67275b7cdefa9a499d2da6a" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>max_sequence_length</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48d7555924d0ceb856a710816002a9ad" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>sequence_lengths</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1ad917579631eee398a3f17a564589fa4e" prot="public" virt="non-virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>size</name></member>
+      <member refid="structthemis_1_1llm_1_1lora_1_1_training_batch_1a48e58eb6f9db1946987e61ac1a970b75" prot="public" virt="virtual"><scope>themis::llm::lora::TrainingBatch</scope><name>~TrainingBatch</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_subagent_quantization_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentQuantizationConfig</compoundname>
+    <includes refid="subagent__config_8h" local="no">subagent_config.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_quantization_config_1a9c11509b63d4f175a4f982a5b16953b1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentQuantizationConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::SubagentQuantizationConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="74" column="10" bodyfile="include/llm/subagent_config.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_quantization_config_1a8590b7c77e77020f9fd250bab5699731" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::llm::SubagentQuantizationConfig::mode</definition>
+        <argsstring></argsstring>
+        <name>mode</name>
+        <qualifiedname>themis::llm::SubagentQuantizationConfig::mode</qualifiedname>
+        <initializer>= &quot;none&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="75" column="17" bodyfile="include/llm/subagent_config.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_quantization_config_1ad59ead4eeaaad8c8a74374e59de3cccc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::SubagentQuantizationConfig::per_channel</definition>
+        <argsstring></argsstring>
+        <name>per_channel</name>
+        <qualifiedname>themis::llm::SubagentQuantizationConfig::per_channel</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="76" column="10" bodyfile="include/llm/subagent_config.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_subagent_quantization_config_1a2d1e6de681e1c014741f075c88424ca3" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::SubagentQuantizationConfig::group_size</definition>
+        <argsstring></argsstring>
+        <name>group_size</name>
+        <qualifiedname>themis::llm::SubagentQuantizationConfig::group_size</qualifiedname>
+        <initializer>= 128</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/subagent_config.h" line="77" column="9" bodyfile="include/llm/subagent_config.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/subagent_config.h" line="73" column="1" bodyfile="include/llm/subagent_config.h" bodystart="73" bodyend="78"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a9c11509b63d4f175a4f982a5b16953b1" prot="public" virt="non-virtual"><scope>themis::llm::SubagentQuantizationConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a2d1e6de681e1c014741f075c88424ca3" prot="public" virt="non-virtual"><scope>themis::llm::SubagentQuantizationConfig</scope><name>group_size</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_quantization_config_1a8590b7c77e77020f9fd250bab5699731" prot="public" virt="non-virtual"><scope>themis::llm::SubagentQuantizationConfig</scope><name>mode</name></member>
+      <member refid="structthemis_1_1llm_1_1_subagent_quantization_config_1ad59ead4eeaaad8c8a74374e59de3cccc" prot="public" virt="non-virtual"><scope>themis::llm::SubagentQuantizationConfig</scope><name>per_channel</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,61 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy" kind="class" language="C++" prot="public" final="yes">
+    <compoundname>themis::distributed_knowledge::AlwaysPermitTrustPolicy</compoundname>
+    <basecompoundref refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy" prot="public" virt="non-virtual">themis::distributed_knowledge::IFederationTrustPolicy</basecompoundref>
+    <includes refid="distributed__knowledge__api__contract_8h" local="no">distributed_knowledge_api_contract.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1distributed__knowledge_1a4316b8877b7dfec7c517d9ee69aec50b" kindref="member">TrustDecision</ref></type>
+        <definition>TrustDecision themis::distributed_knowledge::AlwaysPermitTrustPolicy::evaluateTrustGate</definition>
+        <argsstring>(const AdapterCapabilityAnnouncement &amp;) const noexcept override</argsstring>
+        <name>evaluateTrustGate</name>
+        <qualifiedname>themis::distributed_knowledge::AlwaysPermitTrustPolicy::evaluateTrustGate</qualifiedname>
+        <reimplements refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1a42cfc6b156e04084bdf3b034fb6378b8">evaluateTrustGate</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1distributed__knowledge_1_1_adapter_capability_announcement" kindref="compound">AdapterCapabilityAnnouncement</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="277" column="20" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="277" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::distributed_knowledge::AlwaysPermitTrustPolicy</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IFederationTrustPolicy</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::distributed_knowledge::AlwaysPermitTrustPolicy</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::distributed_knowledge::IFederationTrustPolicy</label>
+        <link refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/distributed_knowledge/distributed_knowledge_api_contract.h" line="275" column="1" bodyfile="include/distributed_knowledge/distributed_knowledge_api_contract.h" bodystart="275" bodyend="281"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_always_permit_trust_policy_1aa172171a933cf9fdf3621b560648c0ac" prot="public" virt="virtual"><scope>themis::distributed_knowledge::AlwaysPermitTrustPolicy</scope><name>evaluateTrustGate</name></member>
+      <member refid="classthemis_1_1distributed__knowledge_1_1_i_federation_trust_policy_1afc43a98a1a3ef30af21ff749ac2e0078" prot="public" virt="virtual"><scope>themis::distributed_knowledge::AlwaysPermitTrustPolicy</scope><name>~IFederationTrustPolicy</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_concurrent_query_churn_stress" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ConcurrentQueryChurnStress</compoundname>
+    <includes refid="process__stress__scenarios_8h" local="no">process_stress_scenarios.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1abb44d623d6b9d93cfd65b99cfdaf3f37" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ConcurrentQueryChurnStress::query_count</definition>
+        <argsstring></argsstring>
+        <name>query_count</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::query_count</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Number of concurrent queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="420" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="420" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a3e5eb89ac31437fc589818ae1ebc93a2" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ConcurrentQueryChurnStress::expected_latency_p95_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_p95_ms</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::expected_latency_p95_ms</qualifiedname>
+        <initializer>= 500</initializer>
+        <briefdescription>
+<para>Expected P95 latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="423" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="423" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a4b4eebcb292157b61df65c231037a108" prot="public" static="no" mutable="no">
+        <type>int32_t</type>
+        <definition>int32_t themis::process::ConcurrentQueryChurnStress::expected_latency_p99_ms</definition>
+        <argsstring></argsstring>
+        <name>expected_latency_p99_ms</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::expected_latency_p99_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Expected P99 latency (ms). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="426" column="13" bodyfile="include/process/process_stress_scenarios.h" bodystart="426" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1aceae4a71a550479076fe54fbbb3525f8" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::process::ConcurrentQueryChurnStress::generateTestInput</definition>
+        <argsstring>() const</argsstring>
+        <name>generateTestInput</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::generateTestInput</qualifiedname>
+        <briefdescription>
+<para>Generate a test input with concurrent queries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="429" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1ac65a1381c768cb496e780a672a150e08" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::process::ConcurrentQueryChurnStress::isSuccess</definition>
+        <argsstring>(const StressScenarioResult &amp;result) const</argsstring>
+        <name>isSuccess</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::isSuccess</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1process_1_1_stress_scenario_result" kindref="compound">StressScenarioResult</ref> &amp;</type>
+          <declname>result</declname>
+        </param>
+        <briefdescription>
+<para>Check if result is success for this scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="432" column="11"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a5ede1ba45fdee9fb2ec7e035cc8d0b21" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>std::string_view themis::process::ConcurrentQueryChurnStress::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::process::ConcurrentQueryChurnStress::describe</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_stress_scenarios.h" line="434" column="23" bodyfile="include/process/process_stress_scenarios.h" bodystart="434" bodyend="436"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Concurrent query churn scenario for process retriever. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><bold>Input:</bold> 100+ concurrent retrieval queries <linebreak/>
+ <bold>Query Count:</bold> 100+ <linebreak/>
+ <bold>Expected Behavior:</bold> All queries complete within deadline; no silent failures <linebreak/>
+ <bold>Trigger:</bold> Tail latency monitored (P99 &lt; 1000 ms) <linebreak/>
+ <bold>Success Criteria:</bold><itemizedlist>
+<listitem><para>All queries complete successfully</para>
+</listitem><listitem><para>No deadlocks or resource exhaustion</para>
+</listitem><listitem><para>P95 latency &lt;500 ms, P99 &lt;1000 ms</para>
+</listitem><listitem><para>No silent failures or corrupted results </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/process/process_stress_scenarios.h" line="418" column="1" bodyfile="include/process/process_stress_scenarios.h" bodystart="418" bodyend="437"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a5ede1ba45fdee9fb2ec7e035cc8d0b21" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>describe</name></member>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a3e5eb89ac31437fc589818ae1ebc93a2" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>expected_latency_p95_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1a4b4eebcb292157b61df65c231037a108" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>expected_latency_p99_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1aceae4a71a550479076fe54fbbb3525f8" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>generateTestInput</name></member>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1ac65a1381c768cb496e780a672a150e08" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>isSuccess</name></member>
+      <member refid="structthemis_1_1process_1_1_concurrent_query_churn_stress_1abb44d623d6b9d93cfd65b99cfdaf3f37" prot="public" virt="non-virtual"><scope>themis::process::ConcurrentQueryChurnStress</scope><name>query_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

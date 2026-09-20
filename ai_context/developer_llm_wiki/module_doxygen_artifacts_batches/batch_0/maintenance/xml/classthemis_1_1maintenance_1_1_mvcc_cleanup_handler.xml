@@ -1,0 +1,195 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler" kind="class" language="C++" prot="public">
+    <compoundname>themis::maintenance::MvccCleanupHandler</compoundname>
+    <basecompoundref refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler" prot="public" virt="non-virtual">themis::maintenance::IMaintenanceTaskHandler</basecompoundref>
+    <includes refid="maintenance__task__handler__impls_8h" local="no">maintenance_task_handler_impls.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ae7860edb20b0cf17bd1b1fbd765a88a3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MvccCleanupHandler::kDefaultWatermarkMs</definition>
+        <argsstring></argsstring>
+        <name>kDefaultWatermarkMs</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::kDefaultWatermarkMs</qualifiedname>
+        <initializer>= 24LL * 60 * 60 * 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="134" column="30" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1abbcf461ab55d17adb3777dd30ef7224d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; MVCCStore &gt;</type>
+        <definition>std::shared_ptr&lt;MVCCStore&gt; themis::maintenance::MvccCleanupHandler::mvcc_store_</definition>
+        <argsstring></argsstring>
+        <name>mvcc_store_</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::mvcc_store_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="169" column="21" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ab2b3f3e301d97b9454a3b1bf80b63b93" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::maintenance::MvccCleanupHandler::watermark_ms_</definition>
+        <argsstring></argsstring>
+        <name>watermark_ms_</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::watermark_ms_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="170" column="13" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="170" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1a3e4aadfeb7dbaee133aea98b10604aa6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::maintenance::MvccCleanupHandler::MvccCleanupHandler</definition>
+        <argsstring>(std::shared_ptr&lt; MVCCStore &gt; mvcc_store, int64_t watermark_ms=kDefaultWatermarkMs)</argsstring>
+        <name>MvccCleanupHandler</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::MvccCleanupHandler</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; MVCCStore &gt;</type>
+          <declname>mvcc_store</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>watermark_ms</declname>
+          <defval><ref refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ae7860edb20b0cf17bd1b1fbd765a88a3" kindref="member">kDefaultWatermarkMs</ref></defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="136" column="14" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="136" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1acd59a272b176c6ec9862e12c493c77ee" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>Result&lt; std::string &gt;</type>
+        <definition>Result&lt; std::string &gt; themis::maintenance::MvccCleanupHandler::execute</definition>
+        <argsstring>(const std::string &amp;, MaintenanceTaskType) override</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::execute</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a0c02379595c393103648c8cf3191b259">execute</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>job_id</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8" kindref="member">MaintenanceTaskType</ref></type>
+          <declname>task_type</declname>
+        </param>
+        <briefdescription>
+<para>Execute the maintenance task. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>job_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The orchestrator job identifier (for logging/tracing). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The task type being executed. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Ok with a human-readable result summary string on success, or an Error on failure (the orchestrator will propagate the error message to the job&apos;s error_message field). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="142" column="12" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="142" bodyend="162"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1aa14d69fa0b2b35daeb017e70c161fb30" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::maintenance::MvccCleanupHandler::handlerName</definition>
+        <argsstring>() const override</argsstring>
+        <name>handlerName</name>
+        <qualifiedname>themis::maintenance::MvccCleanupHandler::handlerName</qualifiedname>
+        <reimplements refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a944d9bb4ec535eb3b5003129b43157f9">handlerName</reimplements>
+        <briefdescription>
+<para>Human-readable handler name for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returned by GET /api/v1/maintenance/task-handlers. Should be unique and stable across restarts (e.g. &quot;StorageCompactionHandler&quot;). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/maintenance/maintenance_task_handler_impls.h" line="164" column="17" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="164" bodyend="166"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Handles MVCC_CLEANUP by GC-ing all MVCC tombstones older than a configurable watermark. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Registered by the StorageEngine at startup: <programlisting><codeline><highlight class="comment">//<sp/>Retain<sp/>versions<sp/>from<sp/>the<sp/>last<sp/>24<sp/>hours.</highlight><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal">orchestrator.registerTaskHandler(</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1maintenance_1ab547ef77e5b6037445a31f13bf5e2fa8a5daef987791f6d59d0292b235ab51ba3" kindref="member">MaintenanceTaskType::MVCC_CLEANUP</ref>,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::make_shared&lt;MvccCleanupHandler&gt;(mvcc_store,<sp/>86400000));</highlight></codeline>
+</programlisting></para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>watermark_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Versions older than now() - watermark_ms are eligible for garbage collection. Defaults to 24 hours. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::MvccCleanupHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::maintenance::IMaintenanceTaskHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler"/>
+      </node>
+      <node id="1">
+        <label>themis::maintenance::MvccCleanupHandler</label>
+        <link refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/maintenance/maintenance_task_handler_impls.h" line="132" column="1" bodyfile="include/maintenance/maintenance_task_handler_impls.h" bodystart="132" bodyend="171"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1acd59a272b176c6ec9862e12c493c77ee" prot="public" virt="virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>execute</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1aa14d69fa0b2b35daeb017e70c161fb30" prot="public" virt="virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>handlerName</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ae7860edb20b0cf17bd1b1fbd765a88a3" prot="public" virt="non-virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>kDefaultWatermarkMs</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1abbcf461ab55d17adb3777dd30ef7224d" prot="private" virt="non-virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>mvcc_store_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1a3e4aadfeb7dbaee133aea98b10604aa6" prot="public" virt="non-virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>MvccCleanupHandler</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_mvcc_cleanup_handler_1ab2b3f3e301d97b9454a3b1bf80b63b93" prot="private" virt="non-virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>watermark_ms_</name></member>
+      <member refid="classthemis_1_1maintenance_1_1_i_maintenance_task_handler_1a02df22c7fc7ff41510208a7fa0673de9" prot="public" virt="virtual"><scope>themis::maintenance::MvccCleanupHandler</scope><name>~IMaintenanceTaskHandler</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

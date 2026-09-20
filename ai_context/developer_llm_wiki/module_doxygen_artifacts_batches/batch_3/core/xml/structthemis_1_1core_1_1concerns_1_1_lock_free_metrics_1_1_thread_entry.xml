@@ -1,0 +1,57 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry" kind="struct" language="C++" prot="private">
+    <compoundname>themis::core::concerns::LockFreeMetrics::ThreadEntry</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry_1a0efe7c08e32268708ba1ab9d268dbba6" prot="public" static="no" mutable="no">
+        <type>HistoRing</type>
+        <definition>HistoRing themis::core::concerns::LockFreeMetrics::ThreadEntry::ring</definition>
+        <argsstring></argsstring>
+        <name>ring</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::ThreadEntry::ring</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="243" column="27" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="243" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry_1a9f4e0029eb1308d29023f9e45b902afe" prot="public" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::core::concerns::LockFreeMetrics::ThreadEntry::alive</definition>
+        <argsstring></argsstring>
+        <name>alive</name>
+        <qualifiedname>themis::core::concerns::LockFreeMetrics::ThreadEntry::alive</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/core/concerns/lockfree_metrics.h" line="244" column="21" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="244" bodyend="244"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::core::concerns::LockFreeMetrics::SPSCRing&lt; HistoObservation, HISTOGRAM_RING_CAPACITY &gt;</label>
+      </node>
+      <node id="1">
+        <label>themis::core::concerns::LockFreeMetrics::ThreadEntry</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>ring</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/core/concerns/lockfree_metrics.h" line="242" column="5" bodyfile="include/core/concerns/lockfree_metrics.h" bodystart="242" bodyend="245"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry_1a9f4e0029eb1308d29023f9e45b902afe" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::ThreadEntry</scope><name>alive</name></member>
+      <member refid="structthemis_1_1core_1_1concerns_1_1_lock_free_metrics_1_1_thread_entry_1a0efe7c08e32268708ba1ab9d268dbba6" prot="public" virt="non-virtual"><scope>themis::core::concerns::LockFreeMetrics::ThreadEntry</scope><name>ring</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

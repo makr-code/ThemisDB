@@ -1,0 +1,207 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_vision_monitoring_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::VisionMonitoringConfig</compoundname>
+    <includes refid="vision__config_8h" local="no">vision_config.h</includes>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_prometheus_config" prot="public">themis::llm::VisionMonitoringConfig::PrometheusConfig</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config" prot="public">themis::llm::VisionMonitoringConfig::AuditConfig</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1a95214574a755426524451f9d846fd7cb" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Monitoring enabled. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="132" column="10" bodyfile="include/llm/vision_config.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1ae48f8a949ed9db72593d17139719af69" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::track_latency</definition>
+        <argsstring></argsstring>
+        <name>track_latency</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::track_latency</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Track latency metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="133" column="10" bodyfile="include/llm/vision_config.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1a13aa581fec5d52cc9eed6dfa9d83580d" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::track_throughput</definition>
+        <argsstring></argsstring>
+        <name>track_throughput</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::track_throughput</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Track throughput metrics. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="134" column="10" bodyfile="include/llm/vision_config.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1a5d8afc46139b1b4846cfcfa6300a27a4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::track_error_rate</definition>
+        <argsstring></argsstring>
+        <name>track_error_rate</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::track_error_rate</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Track error rates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="135" column="10" bodyfile="include/llm/vision_config.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1acecd2e7907bef110a21ab32437ed680c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::track_resource_usage</definition>
+        <argsstring></argsstring>
+        <name>track_resource_usage</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::track_resource_usage</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Track resource usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="136" column="10" bodyfile="include/llm/vision_config.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1ac4bdd33d50960e57c222910467001713" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::VisionMonitoringConfig::track_model_usage</definition>
+        <argsstring></argsstring>
+        <name>track_model_usage</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::track_model_usage</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Track model usage. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="137" column="10" bodyfile="include/llm/vision_config.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1a1b25ede90e9e69243e6d6b23319b00d9" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::VisionMonitoringConfig::collect_interval</definition>
+        <argsstring></argsstring>
+        <name>collect_interval</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::collect_interval</qualifiedname>
+        <briefdescription>
+<para>Metric collection interval. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="138" column="26" bodyfile="include/llm/vision_config.h" bodystart="138" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1aff9e97ccdce08ad7c10457775929b9cd" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_prometheus_config" kindref="compound">themis::llm::VisionMonitoringConfig::PrometheusConfig</ref></type>
+        <definition>struct themis::llm::VisionMonitoringConfig::PrometheusConfig themis::llm::VisionMonitoringConfig::prometheus</definition>
+        <argsstring></argsstring>
+        <name>prometheus</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::prometheus</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="146" column="16"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_vision_monitoring_config_1af375c49a1cec47498cc081127f8e1613" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config" kindref="compound">themis::llm::VisionMonitoringConfig::AuditConfig</ref></type>
+        <definition>struct themis::llm::VisionMonitoringConfig::AuditConfig themis::llm::VisionMonitoringConfig::audit</definition>
+        <argsstring></argsstring>
+        <name>audit</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::audit</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="156" column="11"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1llm_1_1_vision_monitoring_config_1a3f4f6e357825c03d7dcd3cf2b572389d" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::llm::VisionMonitoringConfig::~VisionMonitoringConfig</definition>
+        <argsstring>()=default</argsstring>
+        <name>~VisionMonitoringConfig</name>
+        <qualifiedname>themis::llm::VisionMonitoringConfig::~VisionMonitoringConfig</qualifiedname>
+        <briefdescription>
+<para>Vision Monitoring Config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/vision_config.h" line="131" column="13"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::llm::VisionMonitoringConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_monitoring_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>prometheus</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>audit</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::llm::VisionMonitoringConfig::AuditConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_audit_config"/>
+      </node>
+      <node id="2">
+        <label>themis::llm::VisionMonitoringConfig::PrometheusConfig</label>
+        <link refid="structthemis_1_1llm_1_1_vision_monitoring_config_1_1_prometheus_config"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/vision_config.h" line="126" column="1" bodyfile="include/llm/vision_config.h" bodystart="126" bodyend="157"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1af375c49a1cec47498cc081127f8e1613" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>audit</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1a1b25ede90e9e69243e6d6b23319b00d9" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>collect_interval</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1a95214574a755426524451f9d846fd7cb" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1aff9e97ccdce08ad7c10457775929b9cd" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>prometheus</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1a5d8afc46139b1b4846cfcfa6300a27a4" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>track_error_rate</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1ae48f8a949ed9db72593d17139719af69" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>track_latency</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1ac4bdd33d50960e57c222910467001713" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>track_model_usage</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1acecd2e7907bef110a21ab32437ed680c" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>track_resource_usage</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1a13aa581fec5d52cc9eed6dfa9d83580d" prot="public" virt="non-virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>track_throughput</name></member>
+      <member refid="structthemis_1_1llm_1_1_vision_monitoring_config_1a3f4f6e357825c03d7dcd3cf2b572389d" prot="public" virt="virtual"><scope>themis::llm::VisionMonitoringConfig</scope><name>~VisionMonitoringConfig</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

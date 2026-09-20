@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1prompt__engineering_1_1_structured_output_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::prompt_engineering::StructuredOutputResult</compoundname>
+    <includes refid="structured__output_8h" local="no">structured_output.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a43b4b07e4384ce738f6027180f25f10c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputResult::raw_output</definition>
+        <argsstring></argsstring>
+        <name>raw_output</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::raw_output</qualifiedname>
+        <briefdescription>
+<para>Original, unmodified output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="69" column="30" bodyfile="include/prompt_engineering/structured_output.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1afcfd65ab12a48f2a312fb4f7a41d736c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::prompt_engineering::StructuredOutputResult::validated_output</definition>
+        <argsstring></argsstring>
+        <name>validated_output</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::validated_output</qualifiedname>
+        <briefdescription>
+<para>Repaired / processed output. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="70" column="30" bodyfile="include/prompt_engineering/structured_output.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a03ec71eaa14a8000880ca7f1426a96fa" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::prompt_engineering::StructuredOutputResult::is_valid</definition>
+        <argsstring></argsstring>
+        <name>is_valid</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::is_valid</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="71" column="30" bodyfile="include/prompt_engineering/structured_output.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1ac9b1e5078ebc8c1eed5dcb2d0e40740e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::prompt_engineering::StructuredOutputResult::validation_errors</definition>
+        <argsstring></argsstring>
+        <name>validation_errors</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::validation_errors</qualifiedname>
+        <briefdescription>
+<para>Non-empty when !is_valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="72" column="17" bodyfile="include/prompt_engineering/structured_output.h" bodystart="72" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a586c8cfdcf9bf9e1fe3372d04c2735ca" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::prompt_engineering::StructuredOutputResult::attempts_used</definition>
+        <argsstring></argsstring>
+        <name>attempts_used</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::attempts_used</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="73" column="30" bodyfile="include/prompt_engineering/structured_output.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a3fd5dceffe57495b30d0e6ce568283eb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::prompt_engineering::StructuredOutputResult::total_latency_ms</definition>
+        <argsstring></argsstring>
+        <name>total_latency_ms</name>
+        <qualifiedname>themis::prompt_engineering::StructuredOutputResult::total_latency_ms</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/prompt_engineering/structured_output.h" line="74" column="30" bodyfile="include/prompt_engineering/structured_output.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of a structured-output enforcement pass. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/prompt_engineering/structured_output.h" line="68" column="1" bodyfile="include/prompt_engineering/structured_output.h" bodystart="68" bodyend="75"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a586c8cfdcf9bf9e1fe3372d04c2735ca" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>attempts_used</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a03ec71eaa14a8000880ca7f1426a96fa" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>is_valid</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a43b4b07e4384ce738f6027180f25f10c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>raw_output</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1a3fd5dceffe57495b30d0e6ce568283eb" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>total_latency_ms</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1afcfd65ab12a48f2a312fb4f7a41d736c" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>validated_output</name></member>
+      <member refid="structthemis_1_1prompt__engineering_1_1_structured_output_result_1ac9b1e5078ebc8c1eed5dcb2d0e40740e" prot="public" virt="non-virtual"><scope>themis::prompt_engineering::StructuredOutputResult</scope><name>validation_errors</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

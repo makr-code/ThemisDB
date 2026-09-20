@@ -1,0 +1,185 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::HTTPMetricsClientConfig</compoundname>
+    <includes refid="http__metrics__client_8h" local="no">http_metrics_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a6dafbd3a2206296f1a38dc173cde06cf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HTTPMetricsClientConfig::endpoint_url</definition>
+        <argsstring></argsstring>
+        <name>endpoint_url</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::endpoint_url</qualifiedname>
+        <briefdescription>
+<para>Base URL for metrics endpoint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="51" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a5317efc7b5b3f3fd3258ab35e42dd6ea" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::HTTPMetricsClientConfig::timeout_ms</definition>
+        <argsstring></argsstring>
+        <name>timeout_ms</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::timeout_ms</qualifiedname>
+        <initializer>= 5000</initializer>
+        <briefdescription>
+<para>Request timeout (5 seconds). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="52" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1adbdb9049afde270e6e700aa624289227" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::HTTPMetricsClientConfig::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+<para>Maximum retry attempts. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="53" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a506055233ca6a4ee3b350ae58c7add4e" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::HTTPMetricsClientConfig::retry_backoff_ms</definition>
+        <argsstring></argsstring>
+        <name>retry_backoff_ms</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::retry_backoff_ms</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+<para>Initial retry backoff (exponential). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="54" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ad9c1eba98b91ac12a560a9c69fd7d407" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::HTTPMetricsClientConfig::verify_ssl</definition>
+        <argsstring></argsstring>
+        <name>verify_ssl</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::verify_ssl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Verify SSL certificates. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="55" column="10" bodyfile="include/rag/http_metrics_client.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a8ea9aea0d7766e7bdc5b255745c79554" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HTTPMetricsClientConfig::auth_token</definition>
+        <argsstring></argsstring>
+        <name>auth_token</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::auth_token</qualifiedname>
+        <briefdescription>
+<para>Optional authentication token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="56" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ae2ff09386eee3ae2c0847a9ac5da1031" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::HTTPMetricsClientConfig::user_agent</definition>
+        <argsstring></argsstring>
+        <name>user_agent</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::user_agent</qualifiedname>
+        <initializer>= &quot;ThemisDB-QC/1.0&quot;</initializer>
+        <briefdescription>
+<para>User agent string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="57" column="17" bodyfile="include/rag/http_metrics_client.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a4b16eb995c3b52beeaba4a41243b1618" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::HTTPMetricsClientConfig::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::enable_compression</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Enable gzip compression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="60" column="10" bodyfile="include/rag/http_metrics_client.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a23307a8224ebe356f782a5f77448a20b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::HTTPMetricsClientConfig::max_batch_size</definition>
+        <argsstring></argsstring>
+        <name>max_batch_size</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::max_batch_size</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Maximum metrics per batch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="61" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a44e5d525852e3100fc9d86207eea2eb2" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::rag::judge::HTTPMetricsClientConfig::connection_pool_size</definition>
+        <argsstring></argsstring>
+        <name>connection_pool_size</name>
+        <qualifiedname>themis::rag::judge::HTTPMetricsClientConfig::connection_pool_size</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>HTTP connection pool size. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/http_metrics_client.h" line="62" column="9" bodyfile="include/rag/http_metrics_client.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>HTTP metrics client configuration. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/http_metrics_client.h" line="50" column="1" bodyfile="include/rag/http_metrics_client.h" bodystart="50" bodyend="63"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a8ea9aea0d7766e7bdc5b255745c79554" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>auth_token</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a44e5d525852e3100fc9d86207eea2eb2" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>connection_pool_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a4b16eb995c3b52beeaba4a41243b1618" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a6dafbd3a2206296f1a38dc173cde06cf" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>endpoint_url</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a23307a8224ebe356f782a5f77448a20b" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>max_batch_size</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1adbdb9049afde270e6e700aa624289227" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a506055233ca6a4ee3b350ae58c7add4e" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>retry_backoff_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1a5317efc7b5b3f3fd3258ab35e42dd6ea" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>timeout_ms</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ae2ff09386eee3ae2c0847a9ac5da1031" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>user_agent</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_h_t_t_p_metrics_client_config_1ad9c1eba98b91ac12a560a9c69fd7d407" prot="public" virt="non-virtual"><scope>themis::rag::judge::HTTPMetricsClientConfig</scope><name>verify_ssl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

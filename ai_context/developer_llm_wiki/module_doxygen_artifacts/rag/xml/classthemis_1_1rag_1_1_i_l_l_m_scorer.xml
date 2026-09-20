@@ -1,0 +1,132 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_i_l_l_m_scorer" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::rag::ILLMScorer</compoundname>
+    <derivedcompoundref refid="class_counting_scorer" prot="public" virt="non-virtual">CountingScorer</derivedcompoundref>
+    <derivedcompoundref refid="class_fixed_scorer" prot="public" virt="non-virtual">FixedScorer</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer" prot="public" virt="non-virtual">themis::rag::HeuristicLLMScorer</derivedcompoundref>
+    <includes refid="replug__retriever_8h" local="no">replug_retriever.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::rag::ILLMScorer::~ILLMScorer</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ILLMScorer</name>
+        <qualifiedname>themis::rag::ILLMScorer::~ILLMScorer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="40" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>double</type>
+        <definition>virtual double themis::rag::ILLMScorer::score</definition>
+        <argsstring>(const std::string &amp;query, const std::string &amp;document) const =0</argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::ILLMScorer::score</qualifiedname>
+        <reimplementedby refid="class_counting_scorer_1af0a48c0218915baf524eab566c247baa">score</reimplementedby>
+        <reimplementedby refid="class_fixed_scorer_1a2f0ad7ee782cad1b0794091cc171788c">score</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer_1ac6e8bb0fa7cdff77bbda8174c1841149">score</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>document</declname>
+        </param>
+        <briefdescription>
+<para>Score how well the document supports the query from the LLM&apos;s perspective (higher = more likely / lower perplexity). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The user&apos;s query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>document</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Candidate document content. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Score in [0, 1]. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="50" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::rag::ILLMScorer::name</definition>
+        <argsstring>() const =0</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::rag::ILLMScorer::name</qualifiedname>
+        <reimplementedby refid="class_counting_scorer_1a31ed56c675a8b5934e62099889634741">name</reimplementedby>
+        <reimplementedby refid="class_fixed_scorer_1a5e1deaf8d570256f9e4f260265f2110c">name</reimplementedby>
+        <reimplementedby refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer_1ac7d62bd98a3a344fd985b433d31144a0">name</reimplementedby>
+        <briefdescription>
+<para>Human-readable name for logging. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/replug_retriever.h" line="54" column="26"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Interface for LLM-based document likelihood scoring. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implement this to integrate any language model&apos;s perplexity signal into the REPLUG fusion pipeline.</para>
+<para>Contract:<itemizedlist>
+<listitem><para>Returns a score in [0, 1] where higher is better.</para>
+</listitem><listitem><para>Must be exception-safe; any failure should return 0.0.</para>
+</listitem><listitem><para>Does NOT need to be thread-safe; <ref refid="classthemis_1_1rag_1_1_replug_retriever" kindref="compound">ReplugRetriever</ref> creates one scorer. </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>CountingScorer</label>
+        <link refid="class_counting_scorer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>FixedScorer</label>
+        <link refid="class_fixed_scorer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::rag::HeuristicLLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_heuristic_l_l_m_scorer"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::rag::ILLMScorer</label>
+        <link refid="classthemis_1_1rag_1_1_i_l_l_m_scorer"/>
+      </node>
+    </inheritancegraph>
+    <location file="include/rag/replug_retriever.h" line="38" column="1" bodyfile="include/rag/replug_retriever.h" bodystart="38" bodyend="55"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1ab1e53805042ea6241d3dadadc581955e" prot="public" virt="pure-virtual"><scope>themis::rag::ILLMScorer</scope><name>name</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a07ee0f571f37c796b89a152f46a230ed" prot="public" virt="pure-virtual"><scope>themis::rag::ILLMScorer</scope><name>score</name></member>
+      <member refid="classthemis_1_1rag_1_1_i_l_l_m_scorer_1a9cc6e7ded3cbd84d6ad17926f31a7d2e" prot="public" virt="virtual"><scope>themis::rag::ILLMScorer</scope><name>~ILLMScorer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

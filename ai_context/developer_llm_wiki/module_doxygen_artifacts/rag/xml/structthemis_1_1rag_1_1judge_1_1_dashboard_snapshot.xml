@@ -1,0 +1,202 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::DashboardSnapshot</compoundname>
+    <includes refid="hallucination__dashboard_8h" local="no">hallucination_dashboard.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a7aa7249e76964d7372ba4c9912ecde8c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::DashboardSnapshot::total_recorded</definition>
+        <argsstring></argsstring>
+        <name>total_recorded</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::total_recorded</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total evaluations ever recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="63" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1acb87f334ac8e3a8ed49c8b6f2f585296" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::DashboardSnapshot::window_size</definition>
+        <argsstring></argsstring>
+        <name>window_size</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::window_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of evaluations in current window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="64" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5bbfc82d3bd07fd70b732259e98ac272" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::rag::judge::DashboardSnapshot::hallucination_count</definition>
+        <argsstring></argsstring>
+        <name>hallucination_count</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::hallucination_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Hallucination events in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="65" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5f0b5c4c829c5c56dfe408a175276a2f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::hallucination_rate</definition>
+        <argsstring></argsstring>
+        <name>hallucination_rate</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::hallucination_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>fraction [0, 1] </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="67" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a032c15f9bb0b94c17cc6d06d58e51eb3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::mean_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>mean_faithfulness</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::mean_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Average faithfulness in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="68" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a37fad00ec32e804473cda756bd3a2bf1" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::min_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>min_faithfulness</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::min_faithfulness</qualifiedname>
+        <initializer>= 1.0</initializer>
+        <briefdescription>
+<para>Minimum faithfulness in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="69" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a55675311373880e62ad8f969633ae89a" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::max_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>max_faithfulness</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::max_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Maximum faithfulness in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="70" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="70" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a2b9f1e3feeb4d3a4a1f69ea3f26e7de5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::std_faithfulness</definition>
+        <argsstring></argsstring>
+        <name>std_faithfulness</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::std_faithfulness</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Std-dev of faithfulness in window. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="71" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1af3b7aae39c3da66b9db5e9ed68757b24" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::DashboardSnapshot::faithfulness_trend</definition>
+        <argsstring></argsstring>
+        <name>faithfulness_trend</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::faithfulness_trend</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Linear-regression slope of faithfulness over the window. Positive = improving, negative = degrading. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="75" column="12" bodyfile="include/rag/hallucination_dashboard.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1ae0b786960c406deb9ea5274f359b80b0" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::judge::DashboardSnapshot::alert_triggered</definition>
+        <argsstring></argsstring>
+        <name>alert_triggered</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::alert_triggered</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether an alert threshold was exceeded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="77" column="10" bodyfile="include/rag/hallucination_dashboard.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a45eb782851614f4b0362a006d24af9b0" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_hallucination_alert" kindref="compound">HallucinationAlert</ref> &gt;</type>
+        <definition>std::vector&lt;HallucinationAlert&gt; themis::rag::judge::DashboardSnapshot::active_alerts</definition>
+        <argsstring></argsstring>
+        <name>active_alerts</name>
+        <qualifiedname>themis::rag::judge::DashboardSnapshot::active_alerts</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hallucination_dashboard.h" line="78" column="17" bodyfile="include/rag/hallucination_dashboard.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Point-in-time snapshot of hallucination dashboard statistics. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/hallucination_dashboard.h" line="62" column="1" bodyfile="include/rag/hallucination_dashboard.h" bodystart="62" bodyend="79"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a45eb782851614f4b0362a006d24af9b0" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>active_alerts</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1ae0b786960c406deb9ea5274f359b80b0" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>alert_triggered</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1af3b7aae39c3da66b9db5e9ed68757b24" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>faithfulness_trend</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5bbfc82d3bd07fd70b732259e98ac272" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>hallucination_count</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a5f0b5c4c829c5c56dfe408a175276a2f" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>hallucination_rate</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a55675311373880e62ad8f969633ae89a" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>max_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a032c15f9bb0b94c17cc6d06d58e51eb3" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>mean_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a37fad00ec32e804473cda756bd3a2bf1" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>min_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a2b9f1e3feeb4d3a4a1f69ea3f26e7de5" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>std_faithfulness</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1a7aa7249e76964d7372ba4c9912ecde8c" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>total_recorded</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_dashboard_snapshot_1acb87f334ac8e3a8ed49c8b6f2f585296" prot="public" virt="non-virtual"><scope>themis::rag::judge::DashboardSnapshot</scope><name>window_size</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1utils_1_1_p_i_i_detection_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::utils::PIIDetectionResult</compoundname>
+    <includes refid="utils__interfaces_8h" local="no">utils_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_detection_result_1ae4de2d2c4a350824db6eb9930eb327b3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::utils::PIIDetectionResult::containsPII</definition>
+        <argsstring></argsstring>
+        <name>containsPII</name>
+        <qualifiedname>themis::utils::PIIDetectionResult::containsPII</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="56" column="10" bodyfile="include/utils/utils_interfaces.h" bodystart="56" bodyend="56"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_detection_result_1aa6160db7043be453fe118c0de6c340fa" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="namespacethemis_1_1utils_1aa03e98c7dcd0b1fa5e59aafc4d581887" kindref="member">PIICategory</ref> &gt;</type>
+        <definition>std::vector&lt;PIICategory&gt; themis::utils::PIIDetectionResult::categories</definition>
+        <argsstring></argsstring>
+        <name>categories</name>
+        <qualifiedname>themis::utils::PIIDetectionResult::categories</qualifiedname>
+        <briefdescription>
+<para>Distinct categories found in the chunk. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="57" column="17" bodyfile="include/utils/utils_interfaces.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1utils_1_1_p_i_i_detection_result_1a747c75ab89a2cd6c270d240f85cee7fe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::PIIDetectionResult::spanCount</definition>
+        <argsstring></argsstring>
+        <name>spanCount</name>
+        <qualifiedname>themis::utils::PIIDetectionResult::spanCount</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Total number of detected PII spans. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/utils_interfaces.h" line="58" column="12" bodyfile="include/utils/utils_interfaces.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para><ref refid="namespacethemis_1a8fb070bff85b6d9e11b92dd7985e2c2b" kindref="member">Result</ref> returned by <ref refid="classthemis_1_1utils_1_1_i_streaming_p_i_i_detector_1a27dd84825ce2226478e0cfe6e1c558ff" kindref="member">IStreamingPIIDetector::detect()</ref>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Never contains original PII values — only category labels and counts. </para>
+    </detaileddescription>
+    <location file="include/utils/utils_interfaces.h" line="55" column="1" bodyfile="include/utils/utils_interfaces.h" bodystart="55" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_detection_result_1aa6160db7043be453fe118c0de6c340fa" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionResult</scope><name>categories</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_detection_result_1ae4de2d2c4a350824db6eb9930eb327b3" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionResult</scope><name>containsPII</name></member>
+      <member refid="structthemis_1_1utils_1_1_p_i_i_detection_result_1a747c75ab89a2cd6c270d240f85cee7fe" prot="public" virt="non-virtual"><scope>themis::utils::PIIDetectionResult</scope><name>spanCount</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,226 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</compoundname>
+    <includes refid="federated__learning_8h" local="no">federated_learning.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a63d5eb707d0986f925f9e554bdf6e28e" prot="private" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::epsilon_spent_</definition>
+        <argsstring></argsstring>
+        <name>epsilon_spent_</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::epsilon_spent_</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="72" column="16" bodyfile="include/importers/federated_learning.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0f8f30b8e0c4494c877323833bf52803" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPrivacy</definition>
+        <argsstring>(const json &amp;statistics, double epsilon=0.1, double delta=1e-5)</argsstring>
+        <name>addDifferentialPrivacy</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::addDifferentialPrivacy</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref> &amp;</type>
+          <declname>statistics</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>epsilon</declname>
+          <defval>0.1</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+          <defval>1e-5</defval>
+        </param>
+        <briefdescription>
+<para>Add Differential Privacy. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">statistics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::sqrt(), std::log(), rng(), rd(), noise(), begin(), end(), value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="49" column="14" bodyfile="src/importers/federated_learning.cpp" bodystart="230" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0d3383ff8aad8df4c81829afc5068fc9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::verifyPrivacyBudget</definition>
+        <argsstring>(double epsilon_total, double delta)</argsstring>
+        <name>verifyPrivacyBudget</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::verifyPrivacyBudget</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>epsilon_total</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>delta</declname>
+        </param>
+        <briefdescription>
+<para>Verify Privacy Budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon_total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon_total</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">delta</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Implements verifyPrivacyBudget without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="61" column="14" bodyfile="src/importers/federated_learning.cpp" bodystart="263" bodyend="267"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1abe0d20d7e38c39cb4159da246ee3d044" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget</definition>
+        <argsstring>(double epsilon_used)</argsstring>
+        <name>spendBudget</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::spendBudget</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>epsilon_used</declname>
+        </param>
+        <briefdescription>
+<para>Spend Budget. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">epsilon_used</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements spendBudget without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="67" column="14" bodyfile="src/importers/federated_learning.cpp" bodystart="275" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a8fed8868606ccbef319a67bda7383a46" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::totalEpsilonSpent</definition>
+        <argsstring>() const</argsstring>
+        <name>totalEpsilonSpent</name>
+        <qualifiedname>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager::totalEpsilonSpent</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/federated_learning.h" line="69" column="16" bodyfile="include/importers/federated_learning.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/federated_learning.h" line="47" column="5" bodyfile="include/importers/federated_learning.h" bodystart="47" bodyend="73"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0f8f30b8e0c4494c877323833bf52803" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</scope><name>addDifferentialPrivacy</name></member>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a63d5eb707d0986f925f9e554bdf6e28e" prot="private" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</scope><name>epsilon_spent_</name></member>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1abe0d20d7e38c39cb4159da246ee3d044" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</scope><name>spendBudget</name></member>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a8fed8868606ccbef319a67bda7383a46" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</scope><name>totalEpsilonSpent</name></member>
+      <member refid="classthemis_1_1importers_1_1_federated_import_coordinator_1_1_differential_privacy_manager_1a0d3383ff8aad8df4c81829afc5068fc9" prot="public" virt="non-virtual"><scope>themis::importers::FederatedImportCoordinator::DifferentialPrivacyManager</scope><name>verifyPrivacyBudget</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

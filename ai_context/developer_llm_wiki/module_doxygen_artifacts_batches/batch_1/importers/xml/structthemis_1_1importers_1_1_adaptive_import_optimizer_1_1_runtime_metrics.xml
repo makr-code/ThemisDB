@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</compoundname>
+    <includes refid="adaptive__import_8h" local="no">adaptive_import.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1a360f254a89081d0ad5abc3d998ca44df" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::cpu_utilization</definition>
+        <argsstring></argsstring>
+        <name>cpu_utilization</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::cpu_utilization</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>[0,100] % </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="44" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="44" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1aaec4a95ff376787944686d16bb78ec96" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::memory_utilization</definition>
+        <argsstring></argsstring>
+        <name>memory_utilization</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::memory_utilization</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+<para>[0,100] % </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="45" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="45" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1ad545dcf8fa93c77ec681c517db1e4ca2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::io_throughput_mbps</definition>
+        <argsstring></argsstring>
+        <name>io_throughput_mbps</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::io_throughput_mbps</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="46" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="46" bodyend="46"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1a9113ea4b7c6fe9a6557b168063098b3f" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::rows_per_second</definition>
+        <argsstring></argsstring>
+        <name>rows_per_second</name>
+        <qualifiedname>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics::rows_per_second</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/adaptive_import.h" line="47" column="16" bodyfile="include/importers/adaptive_import.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/adaptive_import.h" line="43" column="5" bodyfile="include/importers/adaptive_import.h" bodystart="43" bodyend="48"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1a360f254a89081d0ad5abc3d998ca44df" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</scope><name>cpu_utilization</name></member>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1ad545dcf8fa93c77ec681c517db1e4ca2" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</scope><name>io_throughput_mbps</name></member>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1aaec4a95ff376787944686d16bb78ec96" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</scope><name>memory_utilization</name></member>
+      <member refid="structthemis_1_1importers_1_1_adaptive_import_optimizer_1_1_runtime_metrics_1a9113ea4b7c6fe9a6557b168063098b3f" prot="public" virt="non-virtual"><scope>themis::importers::AdaptiveImportOptimizer::RuntimeMetrics</scope><name>rows_per_second</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

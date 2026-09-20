@@ -1,0 +1,246 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_cloud_backup_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::CloudBackupConfig</compoundname>
+    <includes refid="cloud__backup_8h" local="no">cloud_backup.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a4b70bc51bac465a6eef94e3b504e1524" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::provider</definition>
+        <argsstring></argsstring>
+        <name>provider</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::provider</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="37" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a440fa3949f9086128da1f6c1c7baa0f9" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::s3_bucket</definition>
+        <argsstring></argsstring>
+        <name>s3_bucket</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::s3_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="40" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1af3b044ffed5bf51b9e975500b340d775" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::s3_region</definition>
+        <argsstring></argsstring>
+        <name>s3_region</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::s3_region</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="41" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a13cc41b1796406d3b9426c2b00c4aa88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::s3_endpoint</definition>
+        <argsstring></argsstring>
+        <name>s3_endpoint</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::s3_endpoint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="42" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1ae46f33f0e0ca9ac320774e04b76aa5b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::azure_account</definition>
+        <argsstring></argsstring>
+        <name>azure_account</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::azure_account</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="45" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a5911e46f6ee89470bde4eda4e59a7596" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::azure_container</definition>
+        <argsstring></argsstring>
+        <name>azure_container</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::azure_container</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="46" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a53c488288b51d9bd1c5ea8ea895da013" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::gcs_project_id</definition>
+        <argsstring></argsstring>
+        <name>gcs_project_id</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::gcs_project_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="49" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a7eeb16a039949485b657d09035c3dea1" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::gcs_bucket</definition>
+        <argsstring></argsstring>
+        <name>gcs_bucket</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::gcs_bucket</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="50" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a74a5b8a126285b7e116d8cc6078f0cae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::backup_prefix</definition>
+        <argsstring></argsstring>
+        <name>backup_prefix</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::backup_prefix</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="53" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1aef854141a4e5aa9abaf14bce31a78a13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::local_backup_dir</definition>
+        <argsstring></argsstring>
+        <name>local_backup_dir</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::local_backup_dir</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="54" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a7e8d14cf459b25238d87fb25026e6cf4" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::sharding::CloudBackupConfig::max_backups</definition>
+        <argsstring></argsstring>
+        <name>max_backups</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::max_backups</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="57" column="9" bodyfile="include/sharding/cloud_backup.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a47f7c49471d009466813cf9ccddcc3e9" prot="public" static="no" mutable="no">
+        <type>std::chrono::hours</type>
+        <definition>std::chrono::hours themis::sharding::CloudBackupConfig::retention_period</definition>
+        <argsstring></argsstring>
+        <name>retention_period</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::retention_period</qualifiedname>
+        <initializer>{24 * 7}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="58" column="24" bodyfile="include/sharding/cloud_backup.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a57889e27454bff265f8316bc6ff3eca8" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupConfig::enable_compression</definition>
+        <argsstring></argsstring>
+        <name>enable_compression</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::enable_compression</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="65" column="10" bodyfile="include/sharding/cloud_backup.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a94755127c474571ba2d3c4bf4469f870" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::CloudBackupConfig::enable_encryption</definition>
+        <argsstring></argsstring>
+        <name>enable_encryption</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::enable_encryption</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="66" column="10" bodyfile="include/sharding/cloud_backup.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_cloud_backup_config_1a3ab79e231e89f4a470f77a8a92dcb02a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::CloudBackupConfig::encryption_key</definition>
+        <argsstring></argsstring>
+        <name>encryption_key</name>
+        <qualifiedname>themis::sharding::CloudBackupConfig::encryption_key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="67" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Cloud backup configuration </para>
+    </detaileddescription>
+    <location file="include/sharding/cloud_backup.h" line="35" column="1" bodyfile="include/sharding/cloud_backup.h" bodystart="35" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1ae46f33f0e0ca9ac320774e04b76aa5b8" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>azure_account</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a5911e46f6ee89470bde4eda4e59a7596" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>azure_container</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a74a5b8a126285b7e116d8cc6078f0cae" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>backup_prefix</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a57889e27454bff265f8316bc6ff3eca8" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>enable_compression</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a94755127c474571ba2d3c4bf4469f870" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>enable_encryption</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a3ab79e231e89f4a470f77a8a92dcb02a" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>encryption_key</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a7eeb16a039949485b657d09035c3dea1" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>gcs_bucket</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a53c488288b51d9bd1c5ea8ea895da013" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>gcs_project_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1aef854141a4e5aa9abaf14bce31a78a13" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>local_backup_dir</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a7e8d14cf459b25238d87fb25026e6cf4" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>max_backups</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a4b70bc51bac465a6eef94e3b504e1524" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>provider</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a47f7c49471d009466813cf9ccddcc3e9" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>retention_period</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a440fa3949f9086128da1f6c1c7baa0f9" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>s3_bucket</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1a13cc41b1796406d3b9426c2b00c4aa88" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>s3_endpoint</name></member>
+      <member refid="structthemis_1_1sharding_1_1_cloud_backup_config_1af3b044ffed5bf51b9e975500b340d775" prot="public" virt="non-virtual"><scope>themis::sharding::CloudBackupConfig</scope><name>s3_region</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,272 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_hnsw_runtime_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::HnswRuntimeAdapter</compoundname>
+    <includes refid="hnsw__production__defaults_8h" local="no">hnsw_production_defaults.h</includes>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a10b32459f781e263a507c197174b07d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::index::HnswRuntimeAdapter::adjustEfSearch</definition>
+        <argsstring>(int current_ef, double actual_latency_ms, double target_latency_ms, double actual_recall=-1.0, double target_recall=0.95)</argsstring>
+        <name>adjustEfSearch</name>
+        <qualifiedname>themis::index::HnswRuntimeAdapter::adjustEfSearch</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>current_ef</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>actual_latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target_latency_ms</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>actual_recall</declname>
+          <defval>-1.0</defval>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>target_recall</declname>
+          <defval>0.95</defval>
+        </param>
+        <briefdescription>
+<para>Adjust ef_search based on actual vs expected performance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Adjust Ef Search.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_ef</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current ef_search value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actual_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured query latency </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target latency </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>actual_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Measured recall (if available) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>target_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Target recall </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Adjusted ef_search value</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_ef</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_latency_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">actual_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">target_recall</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), std::max(), std::clamp(), spdlog::debug(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="176" column="16" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="464" bodyend="502"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a759ba4274961a6b0097a15ba508e0405" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::HnswRuntimeAdapter::shouldRebuildIndex</definition>
+        <argsstring>(size_t current_size, size_t initial_size)</argsstring>
+        <name>shouldRebuildIndex</name>
+        <qualifiedname>themis::index::HnswRuntimeAdapter::shouldRebuildIndex</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>current_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>initial_size</declname>
+        </param>
+        <briefdescription>
+<para>Determine if index rebuild is recommended. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Should Rebuild Index.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>current_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current index size </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>initial_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size when index was built </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if rebuild recommended</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">current_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">initial_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: spdlog::info(), std::max(), size_t(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="189" column="17" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="511" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a31ebae06c1c0b9f6325ffdeaa7899e57" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::index::HnswRuntimeAdapter::getOverfetchMultiplier</definition>
+        <argsstring>(double filter_selectivity, size_t k)</argsstring>
+        <name>getOverfetchMultiplier</name>
+        <qualifiedname>themis::index::HnswRuntimeAdapter::getOverfetchMultiplier</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>filter_selectivity</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>k</declname>
+        </param>
+        <briefdescription>
+<para>Get overfetch multiplier for post-filtering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Get Overfetch Multiplier.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>filter_selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Fraction of vectors passing filter (0.0-1.0) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Requested number of results </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Recommended k_initial = k * overfetch</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">filter_selectivity</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">k</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/hnsw_production_defaults.h" line="199" column="19" bodyfile="src/index/hnsw_production_defaults.cpp" bodystart="541" bodyend="566"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Runtime HNSW parameter adapter. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Adapts parameters during query execution based on actual performance. </para>
+    </detaileddescription>
+    <location file="include/index/hnsw_production_defaults.h" line="165" column="1" bodyfile="include/index/hnsw_production_defaults.h" bodystart="165" bodyend="202"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a10b32459f781e263a507c197174b07d2" prot="public" virt="non-virtual"><scope>themis::index::HnswRuntimeAdapter</scope><name>adjustEfSearch</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a31ebae06c1c0b9f6325ffdeaa7899e57" prot="public" virt="non-virtual"><scope>themis::index::HnswRuntimeAdapter</scope><name>getOverfetchMultiplier</name></member>
+      <member refid="classthemis_1_1index_1_1_hnsw_runtime_adapter_1a759ba4274961a6b0097a15ba508e0405" prot="public" virt="non-virtual"><scope>themis::index::HnswRuntimeAdapter</scope><name>shouldRebuildIndex</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

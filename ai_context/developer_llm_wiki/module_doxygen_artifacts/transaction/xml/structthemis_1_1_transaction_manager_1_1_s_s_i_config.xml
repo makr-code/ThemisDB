@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_transaction_manager_1_1_s_s_i_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::TransactionManager::SSIConfig</compoundname>
+    <includes refid="transaction__manager_8h" local="no">transaction_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1a76f53a3197bfb2376797d16048595d3e" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::TransactionManager::SSIConfig::enable_predicate_locking</definition>
+        <argsstring></argsstring>
+        <name>enable_predicate_locking</name>
+        <qualifiedname>themis::TransactionManager::SSIConfig::enable_predicate_locking</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="809" column="14" bodyfile="include/transaction/transaction_manager.h" bodystart="809" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1aa8e3f8614e5fc33fcf92b50d0e4cb97b" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TransactionManager::SSIConfig::max_predicate_locks</definition>
+        <argsstring></argsstring>
+        <name>max_predicate_locks</name>
+        <qualifiedname>themis::TransactionManager::SSIConfig::max_predicate_locks</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="811" column="16" bodyfile="include/transaction/transaction_manager.h" bodystart="811" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1ac64b47e1660390291955555fccc70455" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::TransactionManager::SSIConfig::conflict_detection_interval</definition>
+        <argsstring></argsstring>
+        <name>conflict_detection_interval</name>
+        <qualifiedname>themis::TransactionManager::SSIConfig::conflict_detection_interval</qualifiedname>
+        <initializer>{100}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/transaction_manager.h" line="813" column="35" bodyfile="include/transaction/transaction_manager.h" bodystart="813" bodyend="813"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/transaction_manager.h" line="808" column="5" bodyfile="include/transaction/transaction_manager.h" bodystart="808" bodyend="814"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1ac64b47e1660390291955555fccc70455" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SSIConfig</scope><name>conflict_detection_interval</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1a76f53a3197bfb2376797d16048595d3e" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SSIConfig</scope><name>enable_predicate_locking</name></member>
+      <member refid="structthemis_1_1_transaction_manager_1_1_s_s_i_config_1aa8e3f8614e5fc33fcf92b50d0e4cb97b" prot="public" virt="non-virtual"><scope>themis::TransactionManager::SSIConfig</scope><name>max_predicate_locks</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

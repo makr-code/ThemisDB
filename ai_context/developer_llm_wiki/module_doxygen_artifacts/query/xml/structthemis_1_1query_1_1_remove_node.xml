@@ -1,0 +1,165 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_remove_node" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::RemoveNode</compoundname>
+    <basecompoundref refid="structthemis_1_1query_1_1_mutation_node" prot="public" virt="non-virtual">themis::query::MutationNode</basecompoundref>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_remove_node_1a673eca0524da4909b80231fb004bcf7b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::RemoveNode::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::query::RemoveNode::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="456" column="17" bodyfile="include/query/aql_parser.h" bodystart="456" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_remove_node_1a535d0dfcacd1857af5f3bbd32d0f4450" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::RemoveNode::filter</definition>
+        <argsstring></argsstring>
+        <name>filter</name>
+        <qualifiedname>themis::query::RemoveNode::filter</qualifiedname>
+        <briefdescription>
+<para>WHERE / FILTER condition (may be nullptr). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="457" column="21" bodyfile="include/query/aql_parser.h" bodystart="457" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_remove_node_1a4b95bd025732d22f057971f0772b7d0b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="struct_expression" kindref="compound">Expression</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;Expression&gt; themis::query::RemoveNode::doc_expr</definition>
+        <argsstring></argsstring>
+        <name>doc_expr</name>
+        <qualifiedname>themis::query::RemoveNode::doc_expr</qualifiedname>
+        <briefdescription>
+<para>AQL-native document expression. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="458" column="21" bodyfile="include/query/aql_parser.h" bodystart="458" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_remove_node_1a37ffd15ec7bc2e9e59532a8d37896328" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::RemoveNode::return_removed</definition>
+        <argsstring></argsstring>
+        <name>return_removed</name>
+        <qualifiedname>themis::query::RemoveNode::return_removed</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>RETURN OLD (removed document). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="459" column="10" bodyfile="include/query/aql_parser.h" bodystart="459" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_remove_node_1a6833608e6573f142d4f409e93cbc061e" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; int64_t &gt;</type>
+        <definition>std::optional&lt;int64_t&gt; themis::query::RemoveNode::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::RemoveNode::limit</qualifiedname>
+        <briefdescription>
+<para>Optional LIMIT count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="460" column="19" bodyfile="include/query/aql_parser.h" bodystart="460" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_remove_node_1a39424c2f27e42d73f97ca762e4d5cdfe" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1query_1aa72605c7cddd48a75529795469cddc8f" kindref="member">ASTNodeType</ref></type>
+        <definition>ASTNodeType themis::query::RemoveNode::getType</definition>
+        <argsstring>() const override</argsstring>
+        <name>getType</name>
+        <qualifiedname>themis::query::RemoveNode::getType</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9b4bff2190784e1368f6b31a64cf102c">getType</reimplements>
+        <briefdescription>
+<para>Get Type. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="462" column="17" bodyfile="include/query/aql_parser.h" bodystart="462" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1query_1_1_remove_node_1a7b41e4cf23d13e888aaae58426939876" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::RemoveNode::toJSON</definition>
+        <argsstring>() const override</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::RemoveNode::toJSON</qualifiedname>
+        <reimplements refid="structthemis_1_1query_1_1_mutation_node_1a9d3378cb4d267be61a7849f3674d42d4">toJSON</reimplements>
+        <briefdescription>
+<para>To JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="463" column="20" bodyfile="include/query/aql_parser.h" bodystart="463" bodyend="476"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::RemoveNode</label>
+        <link refid="structthemis_1_1query_1_1_remove_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::query::MutationNode</label>
+        <link refid="structthemis_1_1query_1_1_mutation_node"/>
+      </node>
+      <node id="1">
+        <label>themis::query::RemoveNode</label>
+        <link refid="structthemis_1_1query_1_1_remove_node"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/aql_parser.h" line="455" column="1" bodyfile="include/query/aql_parser.h" bodystart="455" bodyend="477"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a673eca0524da4909b80231fb004bcf7b" prot="public" virt="non-virtual"><scope>themis::query::RemoveNode</scope><name>collection</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a4b95bd025732d22f057971f0772b7d0b" prot="public" virt="non-virtual"><scope>themis::query::RemoveNode</scope><name>doc_expr</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a535d0dfcacd1857af5f3bbd32d0f4450" prot="public" virt="non-virtual"><scope>themis::query::RemoveNode</scope><name>filter</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a39424c2f27e42d73f97ca762e4d5cdfe" prot="public" virt="virtual"><scope>themis::query::RemoveNode</scope><name>getType</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a6833608e6573f142d4f409e93cbc061e" prot="public" virt="non-virtual"><scope>themis::query::RemoveNode</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a37ffd15ec7bc2e9e59532a8d37896328" prot="public" virt="non-virtual"><scope>themis::query::RemoveNode</scope><name>return_removed</name></member>
+      <member refid="structthemis_1_1query_1_1_remove_node_1a7b41e4cf23d13e888aaae58426939876" prot="public" virt="virtual"><scope>themis::query::RemoveNode</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1query_1_1_mutation_node_1a7913ed037b1bd83a2ce5c87f4985acd9" prot="public" virt="virtual"><scope>themis::query::RemoveNode</scope><name>~MutationNode</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

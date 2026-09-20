@@ -1,0 +1,306 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend" kind="class" language="C++" prot="public">
+    <compoundname>themis::acceleration::HIPGeoBackend</compoundname>
+    <basecompoundref refid="classthemis_1_1acceleration_1_1_i_geo_backend" prot="public" virt="non-virtual">themis::acceleration::IGeoBackend</basecompoundref>
+    <includes refid="hip__backend_8h" local="no">hip_backend.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a1c71340316cd04901c076dc9ed5e3fda" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPGeoBackend::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="176" column="10" bodyfile="include/acceleration/hip_backend.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a137fb9e5b94a9717446f1253b34b310a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::HIPGeoBackend::HIPGeoBackend</definition>
+        <argsstring>()=default</argsstring>
+        <name>HIPGeoBackend</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::HIPGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="145" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1af0ae0a4840fc529389dd539852f810df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::acceleration::HIPGeoBackend::~HIPGeoBackend</definition>
+        <argsstring>() override</argsstring>
+        <name>~HIPGeoBackend</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::~HIPGeoBackend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="146" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a704a20b9bc47752c408efc9e8d3df5c2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>const char *</type>
+        <definition>const char * themis::acceleration::HIPGeoBackend::name</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>name</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::name</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1aca60979713738bb41faae1df17bf95ab">name</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="148" column="16" bodyfile="include/acceleration/hip_backend.h" bodystart="148" bodyend="148"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a167c3f8f012f6252d8787487106d0419" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type><ref refid="namespacethemis_1_1acceleration_1a114d02fcc6f067b6f2ea4d99c905d0f5" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::acceleration::HIPGeoBackend::type</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>type</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::type</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1afce7fde620b139ede841934eee0b7a22">type</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="149" column="17" bodyfile="include/acceleration/hip_backend.h" bodystart="149" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a97e13573b0db9417e97689c9f98a34af" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPGeoBackend::isAvailable</definition>
+        <argsstring>() const noexcept override</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::isAvailable</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae8b5e9f9fa96ab7961ae4997e2364b6f">isAvailable</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="150" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a18d8c6f204c2892220c6663d9c6b9ab8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_backend_capabilities" kindref="compound">BackendCapabilities</ref></type>
+        <definition>BackendCapabilities themis::acceleration::HIPGeoBackend::getCapabilities</definition>
+        <argsstring>() const override</argsstring>
+        <name>getCapabilities</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::getCapabilities</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6e97c4f28084a2379171a122791f8ae6">getCapabilities</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="152" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a4c6d89d9312bc6ae1d7f18aa0eb646b4" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::acceleration::HIPGeoBackend::initialize</definition>
+        <argsstring>() override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a0c71b239cf3e7171519659059e40d9fa">initialize</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="153" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a986491ee8077838a72337bae16cd0362" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::acceleration::HIPGeoBackend::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a67fbea87cf18ac0c37457c61f30a2c00">shutdown</reimplements>
+        <briefdescription>
+<para>Shutdown. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="154" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a615669af073e9532e8a3621ed3bf9060" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt; float &gt; themis::acceleration::HIPGeoBackend::batchDistances</definition>
+        <argsstring>(const double *latitudes1, const double *longitudes1, const double *latitudes2, const double *longitudes2, size_t count, bool useHaversine=true) override</argsstring>
+        <name>batchDistances</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::batchDistances</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ae34e694d046de8d04e9d4bc5a6f9bf20">batchDistances</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes1</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>latitudes2</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>longitudes2</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>useHaversine</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="156" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a3a08a48b78b47539658dffd175e42a42" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>std::vector&lt; bool &gt;</type>
+        <definition>std::vector&lt; bool &gt; themis::acceleration::HIPGeoBackend::batchPointInPolygon</definition>
+        <argsstring>(const double *pointLats, const double *pointLons, size_t numPoints, const double *polygonCoords, size_t numPolygonVertices) override</argsstring>
+        <name>batchPointInPolygon</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::batchPointInPolygon</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1aa209021f6690e6716d739ce59b6e3b38">batchPointInPolygon</reimplements>
+        <param>
+          <type>const double *</type>
+          <declname>pointLats</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>pointLons</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPoints</declname>
+        </param>
+        <param>
+          <type>const double *</type>
+          <declname>polygonCoords</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>numPolygonVertices</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="165" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1aa1513cabd8187859fd1d7632abb7ea89" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1acceleration_1_1_geo_kernel_dispatch" kindref="compound">GeoKernelDispatch</ref></type>
+        <definition>GeoKernelDispatch themis::acceleration::HIPGeoBackend::populateGeoDispatch</definition>
+        <argsstring>() const override</argsstring>
+        <name>populateGeoDispatch</name>
+        <qualifiedname>themis::acceleration::HIPGeoBackend::populateGeoDispatch</qualifiedname>
+        <reimplements refid="classthemis_1_1acceleration_1_1_i_geo_backend_1add9612e93b771a0133e09e91a7baa0e5">populateGeoDispatch</reimplements>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/acceleration/hip_backend.h" line="173" column="23" bodyfile="src/acceleration/hip_backend.cpp" bodystart="1381" bodyend="1383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::acceleration::HIPGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="4">
+        <label>themis::acceleration::ErrorContext</label>
+        <link refid="structthemis_1_1acceleration_1_1_error_context"/>
+      </node>
+      <node id="1">
+        <label>themis::acceleration::HIPGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::acceleration::IComputeBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_compute_backend"/>
+        <childnode refid="4" relation="usage">
+          <edgelabel>lastError_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::acceleration::IGeoBackend</label>
+        <link refid="classthemis_1_1acceleration_1_1_i_geo_backend"/>
+        <childnode refid="3" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/acceleration/hip_backend.h" line="143" column="1" bodyfile="include/acceleration/hip_backend.h" bodystart="143" bodyend="181"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a615669af073e9532e8a3621ed3bf9060" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>batchDistances</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a3a08a48b78b47539658dffd175e42a42" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>batchPointInPolygon</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1ae0e823eb6033a66fd5d571d4b841ac4c" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>clearError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a18d8c6f204c2892220c6663d9c6b9ab8" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a1a62710d8b6ee25ae1be9b182cb14064" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>getHealthStatus</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a6ecbdaf61153101bf0e7f8f09e0c955a" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a137fb9e5b94a9717446f1253b34b310a" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>HIPGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a4c6d89d9312bc6ae1d7f18aa0eb646b4" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a1c71340316cd04901c076dc9ed5e3fda" prot="private" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a97e13573b0db9417e97689c9f98a34af" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>isAvailable</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a8e66d56d685a8c64ee04d8176f74cd3c" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>lastError_</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a704a20b9bc47752c408efc9e8d3df5c2" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>name</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1aa1513cabd8187859fd1d7632abb7ea89" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>populateGeoDispatch</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a05cf7fbd21111f87807208d87327592b" prot="protected" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>setError</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a986491ee8077838a72337bae16cd0362" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a299cbf558f35506afc464bee7bbc4135" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>submitSimilarityKernel</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1a167c3f8f012f6252d8787487106d0419" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>type</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_h_i_p_geo_backend_1af0ae0a4840fc529389dd539852f810df" prot="public" virt="non-virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>~HIPGeoBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_compute_backend_1a7d830292d3c90abbf3bbc6a54dd01b91" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>~IComputeBackend</name></member>
+      <member refid="classthemis_1_1acceleration_1_1_i_geo_backend_1ab1b7cba05606ee8ec1ae8cf06a24dc8f" prot="public" virt="virtual"><scope>themis::acceleration::HIPGeoBackend</scope><name>~IGeoBackend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,92 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_gpu_backend_production_test" kind="class" language="C++" prot="public">
+    <compoundname>GpuBackendProductionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" prot="protected" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref> *</type>
+        <definition>ISpatialComputeBackend* GpuBackendProductionTest::backend_</definition>
+        <argsstring></argsstring>
+        <name>backend_</name>
+        <qualifiedname>GpuBackendProductionTest::backend_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="29" column="28" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_gpu_backend_production_test_1afd1f94a1192f7f14c37a5205d797bc98" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GpuBackendProductionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>GpuBackendProductionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="20" column="10" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="20" bodyend="23"/>
+      </memberdef>
+      <memberdef kind="function" id="class_gpu_backend_production_test_1a83c208bbda3dfa0529fce59e8ffb1469" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GpuBackendProductionTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>GpuBackendProductionTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_gpu_backend_production.cpp" line="25" column="10" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="25" bodyend="27"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>GpuBackendProductionTest</label>
+        <link refid="class_gpu_backend_production_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>GpuBackendProductionTest</label>
+        <link refid="class_gpu_backend_production_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>backend_</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="3">
+        <label>themis::geo::ISpatialComputeBackend</label>
+        <link refid="classthemis_1_1geo_1_1_i_spatial_compute_backend"/>
+      </node>
+    </collaborationgraph>
+    <location file="tests/geo/test_gpu_backend_production.cpp" line="18" column="1" bodyfile="tests/geo/test_gpu_backend_production.cpp" bodystart="18" bodyend="30"/>
+    <listofallmembers>
+      <member refid="class_gpu_backend_production_test_1aca28f12de660130efdad124053f9ff7f" prot="protected" virt="non-virtual"><scope>GpuBackendProductionTest</scope><name>backend_</name></member>
+      <member refid="class_gpu_backend_production_test_1afd1f94a1192f7f14c37a5205d797bc98" prot="protected" virt="non-virtual"><scope>GpuBackendProductionTest</scope><name>SetUp</name></member>
+      <member refid="class_gpu_backend_production_test_1a83c208bbda3dfa0529fce59e8ffb1469" prot="protected" virt="non-virtual"><scope>GpuBackendProductionTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

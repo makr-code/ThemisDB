@@ -1,0 +1,597 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1_i_edition_policy_plugin" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::plugins::IEditionPolicyPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1_i_themis_plugin" prot="public" virt="non-virtual">themis::plugins::IThemisPlugin</basecompoundref>
+    <includes refid="edition__policy__plugin_8h" local="no">edition_policy_plugin.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2f6ae451be131991c8c6bfbfb72431c5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::shared_ptr&lt; gpu::IVRAMPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; gpu::IVRAMPolicy &gt; themis::plugins::IEditionPolicyPlugin::createVRAMPolicy</definition>
+        <argsstring>()=0</argsstring>
+        <name>createVRAMPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createVRAMPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the VRAM allocation policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IVRAMPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="81" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6ad4d5fb108a3fa64498e9aa88fa1731" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::shared_ptr&lt; sharding::IShardLimitPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; sharding::IShardLimitPolicy &gt; themis::plugins::IEditionPolicyPlugin::createShardPolicy</definition>
+        <argsstring>()=0</argsstring>
+        <name>createShardPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createShardPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the shard-limit policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IShardLimitPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="88" column="30"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af77f22ffad5c4362dd3d87baf9a7c6e6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::plugins::IEditionPolicyPlugin::getLicenseClaim</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getLicenseClaim</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::getLicenseClaim</qualifiedname>
+        <briefdescription>
+<para>License claim string identifying the edition tier being unlocked. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validated against RuntimeLicenseGate during plugin activation. Required JSON fields: <programlisting><codeline><highlight class="normal">{<sp/></highlight><highlight class="stringliteral">&quot;edition&quot;</highlight><highlight class="normal">:<sp/></highlight><highlight class="stringliteral">&quot;&lt;community|enterprise|hyperscaler&gt;&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;vram_gb&quot;</highlight><highlight class="normal">:<sp/>&lt;n&gt;,</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/></highlight><highlight class="stringliteral">&quot;max_nodes&quot;</highlight><highlight class="normal">:<sp/>&lt;n&gt;<sp/>}</highlight></codeline>
+</programlisting></para>
+<para><simplesect kind="return"><para>Non-empty JSON string encoding the license claim. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="103" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a5857a1bb64194f7fb43127095656a87e" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::plugins::IEditionPolicyPlugin::claimedMaxVRAMGB</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>claimedMaxVRAMGB</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxVRAMGB</qualifiedname>
+        <briefdescription>
+<para>Declared maximum GPU VRAM in GiB that this plugin activates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>VRAM limit in GiB; -1 signals &quot;no VRAM policy provided&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="110" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aaee83a5b917d58051b3865d2806e63ab" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" noexcept="yes" virt="pure-virtual">
+        <type>int</type>
+        <definition>virtual int themis::plugins::IEditionPolicyPlugin::claimedMaxNodes</definition>
+        <argsstring>() const noexcept=0</argsstring>
+        <name>claimedMaxNodes</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxNodes</qualifiedname>
+        <briefdescription>
+<para>Declared maximum shard-node count that this plugin activates. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Node limit; -1 signals &quot;no shard policy provided&quot;. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="117" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a20190a7e41a7bfa0b952e606f77499db" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; llm::ILLMResourcePolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; llm::ILLMResourcePolicy &gt; themis::plugins::IEditionPolicyPlugin::createLLMResourcePolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createLLMResourcePolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createLLMResourcePolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the LLM resource policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe ILLMResourcePolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="129" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1afba5fd06d115bce0c3b6cfdd3d254784" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>int64_t</type>
+        <definition>virtual int64_t themis::plugins::IEditionPolicyPlugin::claimedMaxContextTokens</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxContextTokens</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxContextTokens</qualifiedname>
+        <briefdescription>
+<para>Declared maximum context tokens per inference; 0 = unlimited, -1 = not provided. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="134" column="22" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="134" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a4e3fe47e0c362a7ae5567e3a96b2f429" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::plugins::IEditionPolicyPlugin::claimedMaxModelInstances</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxModelInstances</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxModelInstances</qualifiedname>
+        <briefdescription>
+<para>Declared maximum concurrently loaded model instances; -1 = not provided. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="139" column="22" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="139" bodyend="139"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae315fe20ee41c52ce8297493068fea68" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>int64_t</type>
+        <definition>virtual int64_t themis::plugins::IEditionPolicyPlugin::claimedMaxVRAMPerModelMB</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxVRAMPerModelMB</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxVRAMPerModelMB</qualifiedname>
+        <briefdescription>
+<para>Declared maximum VRAM per model instance in MiB; 0 = unlimited, -1 = not provided. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="144" column="22" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="144" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1acdb23e3cb0b3b68807eee52729f5bbe3" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; tenant::ITenantQuotaPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; tenant::ITenantQuotaPolicy &gt; themis::plugins::IEditionPolicyPlugin::createTenantQuotaPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createTenantQuotaPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createTenantQuotaPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the tenant-quota policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe ITenantQuotaPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="156" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3c995367adf24302dec114db5dfd0af9" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedTenantMaxStorageBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedTenantMaxStorageBytes</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedTenantMaxStorageBytes</qualifiedname>
+        <briefdescription>
+<para>Declared max storage bytes per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Return 0 when no tenant-quota policy is provided. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="163" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="163" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a090f43963a7fa56244c660e6cd8951e6" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedTenantMaxDocuments</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedTenantMaxDocuments</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedTenantMaxDocuments</qualifiedname>
+        <briefdescription>
+<para>Declared max documents per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="168" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="168" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9ebcfd8cf2ff17732a4a44f55cafa3f5" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedTenantMaxCollections</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedTenantMaxCollections</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedTenantMaxCollections</qualifiedname>
+        <briefdescription>
+<para>Declared max collections per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="173" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="173" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae4405fe5516fc40299e5f811ea2635e0" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedTenantMaxConcurrentQueries</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedTenantMaxConcurrentQueries</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedTenantMaxConcurrentQueries</qualifiedname>
+        <briefdescription>
+<para>Declared max concurrent queries per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="178" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af9b974a3f5a851e294b31275aeb6aa48" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedTenantMaxRPS</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedTenantMaxRPS</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedTenantMaxRPS</qualifiedname>
+        <briefdescription>
+<para>Declared max requests per second per tenant; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="183" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="183" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1efbb857fab33651427fb03d4b9b16db" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; query::IQueryLimitPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; query::IQueryLimitPolicy &gt; themis::plugins::IEditionPolicyPlugin::createQueryLimitPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createQueryLimitPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createQueryLimitPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the query-limit policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IQueryLimitPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="195" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="195" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aa62a90f82465d4af0af05d49ed279ddd" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxGraphQLDepth</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxGraphQLDepth</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxGraphQLDepth</qualifiedname>
+        <briefdescription>
+<para>Declared max GraphQL/AQL nesting depth; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="200" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="200" bodyend="200"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a25a0c7bd930f621dda228e7dfb2a860d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxGraphQLComplexity</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxGraphQLComplexity</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxGraphQLComplexity</qualifiedname>
+        <briefdescription>
+<para>Declared max query complexity score; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="205" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="205" bodyend="205"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6da51c4c380a90d3fb7d229b6c6220e4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedMaxPayloadBytes</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxPayloadBytes</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxPayloadBytes</qualifiedname>
+        <briefdescription>
+<para>Declared max request payload bytes; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="210" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="210" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3ccb4766c90aead5f6894af0ad99ca0b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedMaxResultRows</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxResultRows</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxResultRows</qualifiedname>
+        <briefdescription>
+<para>Declared max result rows per query; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="215" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="215" bodyend="215"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a667335140a968a2664ce9caef5425ccb" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; network::IConnectionPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; network::IConnectionPolicy &gt; themis::plugins::IEditionPolicyPlugin::createConnectionPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createConnectionPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createConnectionPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the connection policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IConnectionPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="227" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="227" bodyend="227"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9487edf0e69a5ebea9c9650933aed417" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxHttp2Streams</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxHttp2Streams</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxHttp2Streams</qualifiedname>
+        <briefdescription>
+<para>Declared max HTTP/2 streams per connection; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="232" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="232" bodyend="232"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1c12779155e917ff93b5c5d873dbd51a" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxSSEConnections</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxSSEConnections</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxSSEConnections</qualifiedname>
+        <briefdescription>
+<para>Declared max total SSE connections; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="237" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="237" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a57295a938534d95ae93a1990122dad0d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxTotalConnections</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxTotalConnections</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxTotalConnections</qualifiedname>
+        <briefdescription>
+<para>Declared max total server connections; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="242" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2a97eef50779cdeb5df80494ede755da" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint32_t</type>
+        <definition>virtual uint32_t themis::plugins::IEditionPolicyPlugin::claimedMaxSSEEventsPerSec</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxSSEEventsPerSec</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxSSEEventsPerSec</qualifiedname>
+        <briefdescription>
+<para>Declared max SSE events per second; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="247" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="247" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ad876f7ed8b62127954f227dce1e0c44e" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; storage::IStorageOpsPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; storage::IStorageOpsPolicy &gt; themis::plugins::IEditionPolicyPlugin::createStorageOpsPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createStorageOpsPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createStorageOpsPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the storage-operations policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IStorageOpsPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="259" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="259" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a027340184154128315f07555f7fd9591" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::plugins::IEditionPolicyPlugin::claimedMaxBackgroundJobs</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxBackgroundJobs</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxBackgroundJobs</qualifiedname>
+        <briefdescription>
+<para>Declared max concurrent background jobs; -1 = not provided/unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="264" column="22" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="264" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9e11ddd4d8095e243d3f61dd832ab3cb" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedMaxCompactionBytesPerSec</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxCompactionBytesPerSec</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxCompactionBytesPerSec</qualifiedname>
+        <briefdescription>
+<para>Declared max compaction I/O rate in bytes/s; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="269" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="269" bodyend="269"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ab6acaabd536ed7976fa8aca318060e3c" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>int32_t</type>
+        <definition>virtual int32_t themis::plugins::IEditionPolicyPlugin::claimedMaxConcurrentSnapshots</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxConcurrentSnapshots</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxConcurrentSnapshots</qualifiedname>
+        <briefdescription>
+<para>Declared max concurrent snapshots; -1 = not provided/unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="274" column="22" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="274" bodyend="274"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a038d8b29c7b353ab5dfbc8a93e4704c7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::shared_ptr&lt; ratelimit::IRateLimitPolicy &gt;</type>
+        <definition>virtual std::shared_ptr&lt; ratelimit::IRateLimitPolicy &gt; themis::plugins::IEditionPolicyPlugin::createRateLimitPolicy</definition>
+        <argsstring>()</argsstring>
+        <name>createRateLimitPolicy</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::createRateLimitPolicy</qualifiedname>
+        <briefdescription>
+<para>Factory: construct the global rate-limit policy this plugin provides. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Shared pointer to a thread-safe IRateLimitPolicy, or nullptr if not provided. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="286" column="5" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="286" bodyend="286"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a8e9a470106dda9949ace2abac626e457" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" noexcept="yes" virt="virtual">
+        <type>uint64_t</type>
+        <definition>virtual uint64_t themis::plugins::IEditionPolicyPlugin::claimedMaxGlobalRPS</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>claimedMaxGlobalRPS</name>
+        <qualifiedname>themis::plugins::IEditionPolicyPlugin::claimedMaxGlobalRPS</qualifiedname>
+        <briefdescription>
+<para>Declared max global requests per second; 0 = unlimited. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/edition_policy_plugin.h" line="291" column="23" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="291" bodyend="291"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Base interface for edition-upgrade resource-limit plugins. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Plugins of type <ref refid="namespacethemis_1_1plugins_1a69594568f8b761bc4ddc46b693ffcd12ad9792a8eb0e05c9ce9b251fe31003079" kindref="member">PluginType::RESOURCE_LIMIT_POLICY</ref> must implement this interface. After successful signature verification and ceiling validation by PluginManager::activatePolicyPlugin(), the policies returned by the factory methods are installed in EditionManager.</para>
+<para><heading level="3">Security contract</heading>
+</para>
+<para><itemizedlist>
+<listitem><para>All claimed limits must satisfy: claimed ≤ compile-time ceiling, or the ceiling is unlimited (0 or -1), otherwise EditionManager rejects the install.</para>
+</listitem><listitem><para>A null factory return signals &quot;this plugin does not provide this policy&quot;.</para>
+</listitem><listitem><para>PluginManager::activatePolicyPlugin rejects any RESOURCE_LIMIT_POLICY plugin whose manifest entry is absent from <ref refid="classthemis_1_1plugins_1_1_signed_plugin_repository" kindref="compound">SignedPluginRepository</ref> or whose Ed25519 signature fails verification.</para>
+</listitem><listitem><para>WASM sandbox memory (Group 6) must not be part of any plugin policy.</para>
+</listitem></itemizedlist>
+</para>
+<para><heading level="3">Thread safety</heading>
+</para>
+<para>Implementations must be individually thread-safe. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::plugins::IEditionPolicyPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::plugins::IEditionPolicyPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::plugins::IThemisPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1_i_themis_plugin"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/edition_policy_plugin.h" line="70" column="1" bodyfile="include/plugins/edition_policy_plugin.h" bodystart="70" bodyend="292"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a027340184154128315f07555f7fd9591" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxBackgroundJobs</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9e11ddd4d8095e243d3f61dd832ab3cb" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxCompactionBytesPerSec</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ab6acaabd536ed7976fa8aca318060e3c" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxConcurrentSnapshots</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1afba5fd06d115bce0c3b6cfdd3d254784" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxContextTokens</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a8e9a470106dda9949ace2abac626e457" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxGlobalRPS</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a25a0c7bd930f621dda228e7dfb2a860d" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxGraphQLComplexity</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aa62a90f82465d4af0af05d49ed279ddd" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxGraphQLDepth</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9487edf0e69a5ebea9c9650933aed417" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxHttp2Streams</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a4e3fe47e0c362a7ae5567e3a96b2f429" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxModelInstances</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1aaee83a5b917d58051b3865d2806e63ab" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxNodes</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6da51c4c380a90d3fb7d229b6c6220e4" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxPayloadBytes</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3ccb4766c90aead5f6894af0ad99ca0b" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxResultRows</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1c12779155e917ff93b5c5d873dbd51a" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxSSEConnections</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2a97eef50779cdeb5df80494ede755da" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxSSEEventsPerSec</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a57295a938534d95ae93a1990122dad0d" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxTotalConnections</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a5857a1bb64194f7fb43127095656a87e" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxVRAMGB</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae315fe20ee41c52ce8297493068fea68" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedMaxVRAMPerModelMB</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a9ebcfd8cf2ff17732a4a44f55cafa3f5" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedTenantMaxCollections</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ae4405fe5516fc40299e5f811ea2635e0" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedTenantMaxConcurrentQueries</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a090f43963a7fa56244c660e6cd8951e6" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedTenantMaxDocuments</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af9b974a3f5a851e294b31275aeb6aa48" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedTenantMaxRPS</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a3c995367adf24302dec114db5dfd0af9" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>claimedTenantMaxStorageBytes</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a667335140a968a2664ce9caef5425ccb" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createConnectionPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a20190a7e41a7bfa0b952e606f77499db" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createLLMResourcePolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a1efbb857fab33651427fb03d4b9b16db" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createQueryLimitPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a038d8b29c7b353ab5dfbc8a93e4704c7" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createRateLimitPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a6ad4d5fb108a3fa64498e9aa88fa1731" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createShardPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1ad876f7ed8b62127954f227dce1e0c44e" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createStorageOpsPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1acdb23e3cb0b3b68807eee52729f5bbe3" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createTenantQuotaPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1a2f6ae451be131991c8c6bfbfb72431c5" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>createVRAMPolicy</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4568190ca9797eb96a4b16c41316fc31" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getCapabilities</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a51a406edfdfb764244c4d4cab177effc" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getInstance</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_edition_policy_plugin_1af77f22ffad5c4362dd3d87baf9a7c6e6" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getLicenseClaim</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a4da1fa333828ac56c3ed6f16ce3c5aba" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getName</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a345352902f94b962a8f7a06efdd7c209" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getType</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a81e2f78a0da28fd06ecfa101c194a86f" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>getVersion</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a802b81062bdde015f7fbc2961b284035" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1a9fd174de9ca45c407e34e76327ae0691" prot="public" virt="pure-virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1_i_themis_plugin_1abb0d48872b714d51216b8937899152be" prot="public" virt="virtual"><scope>themis::plugins::IEditionPolicyPlugin</scope><name>~IThemisPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

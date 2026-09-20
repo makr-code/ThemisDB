@@ -1,0 +1,138 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1benchmark_1_1wave7" kind="namespace" language="C++">
+    <compoundname>themis::benchmark::wave7</compoundname>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1benchmark_1_1wave7_1ad041d67de9b6fdaa7f4666b2e98fabef" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::benchmark::wave7::kW7CanonicalSeed</definition>
+        <argsstring></argsstring>
+        <name>kW7CanonicalSeed</name>
+        <qualifiedname>themis::benchmark::wave7::kW7CanonicalSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="371" column="27" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="371" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a6d201399fbdd468f395a406a936f0a17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::benchmark::wave7::GenerateTestHistory</definition>
+        <argsstring>(std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history)</argsstring>
+        <name>GenerateTestHistory</name>
+        <qualifiedname>themis::benchmark::wave7::GenerateTestHistory</qualifiedname>
+        <param>
+          <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="373" column="6" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="373" bodyend="393"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a9e69ba2b48bcdd5187839f9c1b7b699b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::benchmark::wave7::BenchmarkCompressionLatency</definition>
+        <argsstring>(State &amp;state)</argsstring>
+        <name>BenchmarkCompressionLatency</name>
+        <qualifiedname>themis::benchmark::wave7::BenchmarkCompressionLatency</qualifiedname>
+        <param>
+          <type>State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RCS-09: Episodic Compression Latency. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="398" column="13" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="398" bodyend="417"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a0763359964fd597f41d63161e88929a2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::benchmark::wave7::UseRealTime</definition>
+        <argsstring>() -&gt; Repetitions(5) -&gt;DisplayAggregatesOnly()</argsstring>
+        <name>UseRealTime</name>
+        <qualifiedname>themis::benchmark::wave7::UseRealTime</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="419" column="5" declfile="tests/aql/test_p2_d06_benchmarks.cpp" declline="419" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a7a2d5d611381c4f98533048d77510cf8" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::benchmark::wave7::BenchmarkTokenReductionRatio</definition>
+        <argsstring>(State &amp;state)</argsstring>
+        <name>BenchmarkTokenReductionRatio</name>
+        <qualifiedname>themis::benchmark::wave7::BenchmarkTokenReductionRatio</qualifiedname>
+        <param>
+          <type>State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RCS-10: Token Reduction Ratio. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="426" column="13" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="426" bodyend="457"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a7c4c7b4d4bbbdf8524547269b706d7a1" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::benchmark::wave7::BenchmarkSemanticSimilarityValidation</definition>
+        <argsstring>(State &amp;state)</argsstring>
+        <name>BenchmarkSemanticSimilarityValidation</name>
+        <qualifiedname>themis::benchmark::wave7::BenchmarkSemanticSimilarityValidation</qualifiedname>
+        <param>
+          <type>State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RCS-11: Semantic Similarity Validation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="466" column="13" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="466" bodyend="495"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1benchmark_1_1wave7_1a1f8633fb4b07eb2c94722516135a6cd9" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::benchmark::wave7::BenchmarkConcurrentCompressionStress</definition>
+        <argsstring>(State &amp;state)</argsstring>
+        <name>BenchmarkConcurrentCompressionStress</name>
+        <qualifiedname>themis::benchmark::wave7::BenchmarkConcurrentCompressionStress</qualifiedname>
+        <param>
+          <type>State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>RCS-12: Concurrent Compression Stress. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="504" column="13" bodyfile="tests/aql/test_p2_d06_benchmarks.cpp" bodystart="504" bodyend="527"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/aql/test_p2_d06_benchmarks.cpp" line="367" column="34"/>
+  </compounddef>
+</doxygen>

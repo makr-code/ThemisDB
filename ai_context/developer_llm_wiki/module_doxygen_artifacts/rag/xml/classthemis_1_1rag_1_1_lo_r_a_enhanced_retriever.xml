@@ -1,0 +1,348 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::LoRAEnhancedRetriever</compoundname>
+    <includes refid="lora__enhanced__retriever_8h" local="no">lora_enhanced_retriever.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab92d48cf533c2eb61fe445113e52fcd7" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;ILoRAScorer&gt; themis::rag::LoRAEnhancedRetriever::scorer_</definition>
+        <argsstring></argsstring>
+        <name>scorer_</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::scorer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="193" column="21" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="193" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a442345438b25d66855634b3cc78c4ede" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref></type>
+        <definition>LoRARetrieverConfig themis::rag::LoRAEnhancedRetriever::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="194" column="34" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="194" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1af4dfac1cd2eb188bc447d22a4f4c65d6" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::rag::LoRAEnhancedRetriever::state_mutex_</definition>
+        <argsstring></argsstring>
+        <name>state_mutex_</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::state_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="195" column="34" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="195" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</definition>
+        <argsstring>(std::shared_ptr&lt; ILoRAScorer &gt; scorer, LoRARetrieverConfig config={})</argsstring>
+        <name>LoRAEnhancedRetriever</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref></type>
+          <declname>config</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Construct with a LoRA scorer and optional config. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>LoRA scorer (must outlive this retriever). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retrieval configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="152" column="14" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a5a7ce9401c087215a61f838d6b72fab2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::LoRAEnhancedRetriever::~LoRAEnhancedRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>~LoRAEnhancedRetriever</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::~LoRAEnhancedRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="155" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aed82531b864d2c5017863521b46dae84" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</definition>
+        <argsstring>(const LoRAEnhancedRetriever &amp;)=delete</argsstring>
+        <name>LoRAEnhancedRetriever</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</qualifiedname>
+        <param>
+          <type>const LoRAEnhancedRetriever &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a02f36897251f74b4b4f3a80568374b17" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref> &amp;</type>
+        <definition>LoRAEnhancedRetriever &amp; themis::rag::LoRAEnhancedRetriever::operator=</definition>
+        <argsstring>(const LoRAEnhancedRetriever &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="158" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a594eddbd9aaadb69d20a336b87040c59" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</definition>
+        <argsstring>(LoRAEnhancedRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>LoRAEnhancedRetriever</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::LoRAEnhancedRetriever</qualifiedname>
+        <param>
+          <type>LoRAEnhancedRetriever &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a344e9d098f14404f2200dd1b6ed583e9" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref> &amp;</type>
+        <definition>LoRAEnhancedRetriever &amp; themis::rag::LoRAEnhancedRetriever::operator=</definition>
+        <argsstring>(LoRAEnhancedRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="160" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a6a92b2701d9df6e77168c6fbcf3a3fb1" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt;</type>
+        <definition>std::vector&lt; judge::RetrievedDocument &gt; themis::rag::LoRAEnhancedRetriever::rerank</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;candidates) const</argsstring>
+        <name>rerank</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::rerank</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>candidates</declname>
+        </param>
+        <briefdescription>
+<para>Re-rank <computeroutput>candidates</computeroutput> using LoRA scoring. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The top <computeroutput>top_k_rerank</computeroutput> documents (by original score) are scored with the LoRA adapter. The remaining documents are appended with their original scores after the re-ranked set.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Original user query. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Initial retrieval results (sorted by score DESC). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Re-ranked document list sorted by fused score DESC. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">state_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="173" column="18" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="146" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab31aa8d52708f9ad2047d8e5d6c31dfb" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref> &amp;</type>
+        <definition>const LoRARetrieverConfig &amp; themis::rag::LoRAEnhancedRetriever::config</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::config</qualifiedname>
+        <briefdescription>
+<para>Return the current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="180" column="31" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="121" bodyend="123"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a149ed26a898d026a64a2f5ab0de75990" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::LoRAEnhancedRetriever::setConfig</definition>
+        <argsstring>(const LoRARetrieverConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_lo_r_a_retriever_config" kindref="compound">LoRARetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Replace configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="185" column="10" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="130" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a8a7fa4949fcabfa39923e8c7f1ff3b88" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::LoRAEnhancedRetriever::setScorer</definition>
+        <argsstring>(std::shared_ptr&lt; ILoRAScorer &gt; scorer)</argsstring>
+        <name>setScorer</name>
+        <qualifiedname>themis::rag::LoRAEnhancedRetriever::setScorer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref> &gt;</type>
+          <declname>scorer</declname>
+        </param>
+        <briefdescription>
+<para>Replace the LoRA scorer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Scorer.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">scorer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/lora_enhanced_retriever.h" line="190" column="10" bodyfile="src/rag/lora_enhanced_retriever.cpp" bodystart="140" bodyend="143"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Re-ranks retrieved documents using a domain-specific LoRA scorer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="par"><title>Overview</title><para>Wraps an <computeroutput><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref></computeroutput> and uses it to compute a domain relevance signal for the top-K retrieved documents. The original retrieval score is fused with the LoRA score via a configurable weight.</para>
+</simplesect>
+Production target: MRR@10 ≥ +5% vs pure RRF baseline (Q2 2027).</para>
+<para><simplesect kind="par"><title>Injection</title><para>The <computeroutput><ref refid="classthemis_1_1rag_1_1_heuristic_lo_r_a_scorer" kindref="compound">HeuristicLoRAScorer</ref></computeroutput> is the default baseline (Jaccard token overlap). Inject a real <computeroutput><ref refid="classthemis_1_1rag_1_1_i_lo_r_a_scorer" kindref="compound">ILoRAScorer</ref></computeroutput> via the constructor or <computeroutput><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a8a7fa4949fcabfa39923e8c7f1ff3b88" kindref="member">setScorer()</ref></computeroutput> to activate model-inferred scoring backed by <computeroutput>MultiLoRAManager</computeroutput>.</para>
+</simplesect>
+<simplesect kind="par"><title>Thread safety</title><para><computeroutput><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a6a92b2701d9df6e77168c6fbcf3a3fb1" kindref="member">rerank()</ref></computeroutput> is const and safe to call concurrently once constructed.</para>
+</simplesect>
+<simplesect kind="par"><title>Usage example</title><para><programlisting filename=".cpp"><codeline><highlight class="normal">LoRARetrieverConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.domain<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;legal&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.lora_weight<sp/>=<sp/>0.35;</highlight></codeline>
+<codeline><highlight class="normal">cfg.top_k_rerank<sp/>=<sp/>20;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>scorer<sp/>=<sp/>std::make_shared&lt;HeuristicLoRAScorer&gt;(</highlight><highlight class="stringliteral">&quot;legal&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" kindref="member">LoRAEnhancedRetriever</ref><sp/>retriever(scorer,<sp/>cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>retriever.rerank(query,<sp/>initial_docs);</highlight></codeline>
+</programlisting> </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <location file="include/rag/lora_enhanced_retriever.h" line="144" column="1" bodyfile="include/rag/lora_enhanced_retriever.h" bodystart="144" bodyend="196"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab31aa8d52708f9ad2047d8e5d6c31dfb" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>config</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a442345438b25d66855634b3cc78c4ede" prot="private" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aba8566e56ae33f3492ffe97eb5356aa1" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>LoRAEnhancedRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1aed82531b864d2c5017863521b46dae84" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>LoRAEnhancedRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a594eddbd9aaadb69d20a336b87040c59" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>LoRAEnhancedRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a02f36897251f74b4b4f3a80568374b17" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a344e9d098f14404f2200dd1b6ed583e9" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a6a92b2701d9df6e77168c6fbcf3a3fb1" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>rerank</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1ab92d48cf533c2eb61fe445113e52fcd7" prot="private" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>scorer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a149ed26a898d026a64a2f5ab0de75990" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a8a7fa4949fcabfa39923e8c7f1ff3b88" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>setScorer</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1af4dfac1cd2eb188bc447d22a4f4c65d6" prot="private" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>state_mutex_</name></member>
+      <member refid="classthemis_1_1rag_1_1_lo_r_a_enhanced_retriever_1a5a7ce9401c087215a61f838d6b72fab2" prot="public" virt="non-virtual"><scope>themis::rag::LoRAEnhancedRetriever</scope><name>~LoRAEnhancedRetriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

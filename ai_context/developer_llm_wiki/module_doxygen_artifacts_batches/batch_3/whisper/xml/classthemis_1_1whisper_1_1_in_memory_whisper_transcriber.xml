@@ -1,0 +1,575 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber" kind="class" language="C++" prot="public">
+    <compoundname>themis::whisper::InMemoryWhisperTranscriber</compoundname>
+    <basecompoundref refid="classthemis_1_1whisper_1_1_i_whisper_transcriber" prot="public" virt="non-virtual">themis::whisper::IWhisperTranscriber</basecompoundref>
+    <includes refid="whisper__transcriber_8h" local="no">whisper_transcriber.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a624561e27a0940668019fa02b16853ea" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::initialized_</definition>
+        <argsstring></argsstring>
+        <name>initialized_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::initialized_</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="538" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="538" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a5480a5c0ad8c415bb747f83dcfee9c6b" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::InMemoryWhisperTranscriber::model_id_</definition>
+        <argsstring></argsstring>
+        <name>model_id_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::model_id_</qualifiedname>
+        <initializer>= &quot;inmemory&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="539" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="539" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a19ba983c4e9b407bddc6aeda02662419" prot="private" static="no" mutable="no">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::InMemoryWhisperTranscriber::next_result_</definition>
+        <argsstring></argsstring>
+        <name>next_result_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::next_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="540" column="36" bodyfile="include/whisper/whisper_transcriber.h" bodystart="540" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a152d726868962327adb26d2dceed6bcc" prot="private" static="no" mutable="no">
+        <type>audio::LanguageDetectionResult</type>
+        <definition>audio::LanguageDetectionResult themis::whisper::InMemoryWhisperTranscriber::next_lang_</definition>
+        <argsstring></argsstring>
+        <name>next_lang_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::next_lang_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="541" column="36" bodyfile="include/whisper/whisper_transcriber.h" bodystart="541" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac444271f81f5d02935a78dbeba08fa54" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; audio::TranscriptionToken &gt;</type>
+        <definition>std::vector&lt;audio::TranscriptionToken&gt; themis::whisper::InMemoryWhisperTranscriber::stream_tokens_</definition>
+        <argsstring></argsstring>
+        <name>stream_tokens_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::stream_tokens_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="542" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="542" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a2e3d638a398ffb47660223bfaf052ad5" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1whisper_1_1_diarisation_result" kindref="compound">DiarisationResult</ref></type>
+        <definition>DiarisationResult themis::whisper::InMemoryWhisperTranscriber::next_diarisation_</definition>
+        <argsstring></argsstring>
+        <name>next_diarisation_</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::next_diarisation_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="543" column="23" bodyfile="include/whisper/whisper_transcriber.h" bodystart="543" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af1116542db16a8941e8f56fbd4e35d2d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::InMemoryWhisperTranscriber::setNextResult</definition>
+        <argsstring>(audio::TranscriptionResult r)</argsstring>
+        <name>setNextResult</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::setNextResult</qualifiedname>
+        <param>
+          <type>audio::TranscriptionResult</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="434" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="434" bodyend="437"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af2d109ec66cd3da190c651d9e195673f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::InMemoryWhisperTranscriber::setNextLanguage</definition>
+        <argsstring>(audio::LanguageDetectionResult r)</argsstring>
+        <name>setNextLanguage</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::setNextLanguage</qualifiedname>
+        <param>
+          <type>audio::LanguageDetectionResult</type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="438" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="438" bodyend="440"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a842cda88a20d32b3c46c102aab7700b4" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::InMemoryWhisperTranscriber::setStreamTokens</definition>
+        <argsstring>(std::vector&lt; audio::TranscriptionToken &gt; tokens)</argsstring>
+        <name>setStreamTokens</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::setStreamTokens</qualifiedname>
+        <param>
+          <type>std::vector&lt; audio::TranscriptionToken &gt;</type>
+          <declname>tokens</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para>Pre-set tokens to emit during <ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25cbe89fcb3bf5f84127758bc504d2c9" kindref="member">transcribeStream()</ref> instead of one bulk token. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="442" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="442" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ad7f80423953face9935f8fdd0a1e1afa" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::initialize</definition>
+        <argsstring>(const WhisperConfig &amp;cfg) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ab70bb83e60352106b03d6fe48d3e36de">initialize</reimplements>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_whisper_config" kindref="compound">WhisperConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="446" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="446" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a252527da0a6d26f985977ccf54c76e83" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::isInitialized</definition>
+        <argsstring>() const override</argsstring>
+        <name>isInitialized</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::isInitialized</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1aa38ea828c26fe586b5e0d5fbf85b882a">isInitialized</reimplements>
+        <briefdescription>
+<para>Checks if the transcriber instance has been successfully initialized. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method provides a quick way to verify whether model loading and configuration steps, like calling <computeroutput><ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ad7f80423953face9935f8fdd0a1e1afa" kindref="member">initialize()</ref></computeroutput>, have completed successfully without runtime errors. It is crucial for robust application flow control within ThemisDB components that rely on basic writability.</para>
+<para><simplesect kind="return"><para>std::true_type true if the transciver is in a usable state; otherwise, false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="451" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="451" bodyend="451"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a332857301ec1b32886668c470fef28a7" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::InMemoryWhisperTranscriber::transcribe</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;, float) override</argsstring>
+        <name>transcribe</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::transcribe</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ae8bd3cfb125f5ff57b2d743af383306c">transcribe</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Transcribes the provided audio input into structured transcription data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This core method uses the underlying Whisper model to process raw audio bytes and generate a comprehensive <computeroutput><ref refid="" kindref="compound">audio::TranscriptionResult</ref></computeroutput> object containing transcribed text, timestamps, and confidence scores for synchronization purposes. The <computeroutput>audioInput</computeroutput> must be correctly formed and contain valid audio data recognized by the system&apos;s backend.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audioInput</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reference to the audio data source; must not be empty or improperly formatted. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::true_type The successful transcription result object containing all necessary details. Throws an exception upon failure. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="453" column="32" bodyfile="include/whisper/whisper_transcriber.h" bodystart="453" bodyend="458"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a7c65ccb248d6dc3abd7b7cdeccba335a" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>audio::LanguageDetectionResult</type>
+        <definition>audio::LanguageDetectionResult themis::whisper::InMemoryWhisperTranscriber::detectLanguage</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;, float) override</argsstring>
+        <name>detectLanguage</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::detectLanguage</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a21a43bab1449c0e21bc01d3edac2e663">detectLanguage</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <briefdescription>
+<para>Detects the language spoken within the audio input bytes before transcription. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This preparatory method analyzes the raw audio data stream to determine the primary natural language, optimizing subsequent transcription calls for accuracy and localization. The detected language code (e.g., &apos;en&apos;, &apos;de&apos;) can be crucial for selecting the appropriate Whisper model variant or pre-processing configuration.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>audioInput</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw byte array stream containing the audio data to analyze. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>std::true_type If a dominant language was successfully identified and configured. Returns <computeroutput><ref refid="" kindref="compound">DetectionError</ref></computeroutput> upon failure or ambiguity. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="459" column="36" bodyfile="include/whisper/whisper_transcriber.h" bodystart="459" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a8854c76c3e5ab16f277ac3e2ea7e7e0d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1whisper_1_1_diarisation_result" kindref="compound">DiarisationResult</ref></type>
+        <definition>DiarisationResult themis::whisper::InMemoryWhisperTranscriber::diarize</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;, float sample_rate, const DiarisationConfig &amp;) override</argsstring>
+        <name>diarize</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::diarize</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a941065d9859b667da351a64caf9f4eed">diarize</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1whisper_1_1_diarisation_config" kindref="compound">DiarisationConfig</ref> &amp;</type>
+        </param>
+        <briefdescription>
+<para>Optional speaker diarisation API. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation returns an empty successful result so existing implementations remain source-compatible. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="462" column="23" bodyfile="include/whisper/whisper_transcriber.h" bodystart="462" bodyend="475"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25b9b46ee1179973e28bdb7a822aae91" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::whisper::InMemoryWhisperTranscriber::setNextDiarisationResult</definition>
+        <argsstring>(DiarisationResult r)</argsstring>
+        <name>setNextDiarisationResult</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::setNextDiarisationResult</qualifiedname>
+        <param>
+          <type><ref refid="structthemis_1_1whisper_1_1_diarisation_result" kindref="compound">DiarisationResult</ref></type>
+          <declname>r</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="476" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="476" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25cbe89fcb3bf5f84127758bc504d2c9" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>audio::TranscriptionResult</type>
+        <definition>audio::TranscriptionResult themis::whisper::InMemoryWhisperTranscriber::transcribeStream</definition>
+        <argsstring>(const std::vector&lt; float &gt; &amp;pcm, float sample_rate, audio::StreamCallback callback) override</argsstring>
+        <name>transcribeStream</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::transcribeStream</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a872868c25446c4d290505775e4ec1228">transcribeStream</reimplements>
+        <param>
+          <type>const std::vector&lt; float &gt; &amp;</type>
+          <declname>pcm</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>sample_rate</declname>
+        </param>
+        <param>
+          <type>audio::StreamCallback</type>
+          <declname>callback</declname>
+        </param>
+        <briefdescription>
+<para>Transcribe with incremental token streaming. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Default implementation calls <ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a332857301ec1b32886668c470fef28a7" kindref="member">transcribe()</ref> and emits the full text as one token. Implementations backed by a real model should call the callback for every word or segment. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="480" column="32" bodyfile="include/whisper/whisper_transcriber.h" bodystart="480" bodyend="494"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1afb21f68eace7f45203a3c37782d3847f" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>std::string themis::whisper::InMemoryWhisperTranscriber::getModelId</definition>
+        <argsstring>() const override</argsstring>
+        <name>getModelId</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::getModelId</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ade250e7750ac847dc0335952fcbddbef">getModelId</reimplements>
+        <briefdescription>
+<para>Retrieves the unique identifier string for the loaded Whisper model. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This model ID determines which specific pre-trained weight set was used for transcription. This information is crucial for external debugging, reproducibility checks, and logging purposes when linking a transcript to its source model version. <simplesect kind="return"><para>std::string The unique identifier string for the initialized Whisper audio model (e.g., &quot;small&quot;, &quot;medium&quot;). </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="496" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="496" bodyend="496"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa18d5e0068159e2ac9a9d37cb8842e48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; char &gt;</type>
+        <definition>std::vector&lt; char &gt; themis::whisper::InMemoryWhisperTranscriber::serialize</definition>
+        <argsstring>() const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a3c843dc58781c27c5d19439b77e5aad4">serialize</reimplements>
+        <briefdescription>
+<para>Serializes the current state of the transcriber. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method generates a compact, self-contained representation of the transcriber&apos;s internal state (e.g., accumulated phrases, metadata). These serialized data structures can be persisted to disk or transmitted over a network and later restored by calling <ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a50804426d349a79809be31dce09fe22e" kindref="member">loadState()</ref>. The format must be strictly defined to ensure reproducibility across different application runs. <simplesect kind="return"><para>A byte buffer containing the entire persistent state of the transcriber. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="497" column="17" bodyfile="include/whisper/whisper_transcriber.h" bodystart="497" bodyend="504"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a50804426d349a79809be31dce09fe22e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::whisper::InMemoryWhisperTranscriber::loadState</definition>
+        <argsstring>(const std::vector&lt; char &gt; &amp;stateData) override</argsstring>
+        <name>loadState</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::loadState</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1aaf9016337e0b36f7750b691b7a855244">loadState</reimplements>
+        <param>
+          <type>const std::vector&lt; char &gt; &amp;</type>
+          <declname>stateData</declname>
+        </param>
+        <briefdescription>
+<para>Loads and restores the internal state of the transcriber from a serialized stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function takes raw bytes representing a saved state and reconstructs all necessary internal variables, such as accumulated text segments or chunk metadata required for continued transcription. Failure to provide valid data will result in an exception or corrupted state. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stateData</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The byte buffer containing the serialized transcriber state. Must not be empty. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="505" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="505" bodyend="513"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac33f3eedb3ccd65da5e814c0bf2f6cec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::serialize</definition>
+        <argsstring>(std::ostream &amp;stream) const override</argsstring>
+        <name>serialize</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::serialize</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1ac778b4d1d4875dd01b18e0bc1cf22780">serialize</reimplements>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Serializes the entire state of the transcriber to a data stream or file. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This function is crucial for persisting the active session state (including transcript segments, internal buffers, and configuration) so that it can be reliably restored later. The format used must adhere strictly to ThemisDB&apos;s defined serialization protocol v2.0.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A reference to the output stream (e.g., std::ostream&amp;) where the serialized data will be written. This stream must be open and writable. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the serialization was successful for all components; false otherwise, indicating a critical failure during write operations.</para>
+</simplesect>
+Serializes the current state of the transcriber object to a given output stream.</para>
+<para>This function is essential for saving the runtime state (e.g., model configuration, last recognized features) so that the transcriber can be re-initialized exactly at a later point in the application lifecycle (persistence). <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant reference to an output stream (std::ostream&amp;), such as std::ofstream. The state data will be written directly to this stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Returns true if all necessary components were successfully written to the stream; otherwise, false. Must check for streaming errors. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="514" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="514" bodyend="520"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa9960e501aa2ccf714d6163d2c870159" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::deserialize</definition>
+        <argsstring>(std::istream &amp;stream) override</argsstring>
+        <name>deserialize</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::deserialize</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1af763d3bcf20c0ccd6f5c9a91bb516022">deserialize</reimplements>
+        <param>
+          <type>std::istream &amp;</type>
+          <declname>stream</declname>
+        </param>
+        <briefdescription>
+<para>Deserializes the transcriber object&apos;s state from an input stream. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This method is responsible for reading and restoring all necessary internal parameters, model configurations (e.g., whisper version ID), and any transient state data previously saved by <computeroutput><ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa18d5e0068159e2ac9a9d37cb8842e48" kindref="member">serialize()</ref></computeroutput>. It must ensure the object&apos;s methods are updated to reflect the loaded state. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>stream</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>A constant reference to an input stream (<computeroutput>std::istream&amp;</computeroutput>). The deserialization logic must read and reconstruct all critical state information from this provided stream. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool Returns <computeroutput>true</computeroutput> if the state was successfully reconstructed from the stream; otherwise, it returns <computeroutput>false</computeroutput>, indicating that the stream data was corrupted or incomplete. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="521" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="521" bodyend="532"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a251527c3026830a86142f7c012702dc6" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::whisper::InMemoryWhisperTranscriber::isVersionSupported</definition>
+        <argsstring>(const std::string &amp;version_id) const override</argsstring>
+        <name>isVersionSupported</name>
+        <qualifiedname>themis::whisper::InMemoryWhisperTranscriber::isVersionSupported</qualifiedname>
+        <reimplements refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a6eaa1a4cc1f7bbe9e5d88fc39048e95d">isVersionSupported</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>version_id</declname>
+        </param>
+        <briefdescription>
+<para>Checks if a given state identifier is known and loadable by the current instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is used primarily for version checking before attempting deserialization, ensuring that incompatible schema changes do not cause runtime failures. It should return true only for versions explicitly supported by the implementation class derived from this interface.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>version_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The unique string identifier representing the model/state version (e.g., &quot;V2\_LSTM\_2024&quot;). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>bool True if the system recognizes and supports initializing with this specific version ID; otherwise, false. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/whisper/whisper_transcriber.h" line="533" column="10" bodyfile="include/whisper/whisper_transcriber.h" bodystart="533" bodyend="535"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>In-memory transcriber for unit tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Callers pre-set the next result via <ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af1116542db16a8941e8f56fbd4e35d2d" kindref="member">setNextResult()</ref> / <ref refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af2d109ec66cd3da190c651d9e195673f" kindref="member">setNextLanguage()</ref>. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::whisper::IWhisperTranscriber</label>
+        <link refid="classthemis_1_1whisper_1_1_i_whisper_transcriber"/>
+      </node>
+      <node id="1">
+        <label>themis::whisper::InMemoryWhisperTranscriber</label>
+        <link refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::whisper::IWhisperTranscriber</label>
+        <link refid="classthemis_1_1whisper_1_1_i_whisper_transcriber"/>
+      </node>
+      <node id="1">
+        <label>themis::whisper::InMemoryWhisperTranscriber</label>
+        <link refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/whisper/whisper_transcriber.h" line="432" column="1" bodyfile="include/whisper/whisper_transcriber.h" bodystart="432" bodyend="544"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa9960e501aa2ccf714d6163d2c870159" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>deserialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a7c65ccb248d6dc3abd7b7cdeccba335a" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>detectLanguage</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a8854c76c3e5ab16f277ac3e2ea7e7e0d" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>diarize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a58de0f52f46e0282d4b30486d8f1cb6e" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>getLastError</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1afb21f68eace7f45203a3c37782d3847f" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>getModelId</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ad7f80423953face9935f8fdd0a1e1afa" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a624561e27a0940668019fa02b16853ea" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>initialized_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a252527da0a6d26f985977ccf54c76e83" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>isInitialized</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a251527c3026830a86142f7c012702dc6" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>isVersionSupported</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a50804426d349a79809be31dce09fe22e" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>loadState</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a5480a5c0ad8c415bb747f83dcfee9c6b" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>model_id_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a2e3d638a398ffb47660223bfaf052ad5" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>next_diarisation_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a152d726868962327adb26d2dceed6bcc" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>next_lang_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a19ba983c4e9b407bddc6aeda02662419" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>next_result_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1aa18d5e0068159e2ac9a9d37cb8842e48" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac33f3eedb3ccd65da5e814c0bf2f6cec" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>serialize</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25b9b46ee1179973e28bdb7a822aae91" prot="public" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>setNextDiarisationResult</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af2d109ec66cd3da190c651d9e195673f" prot="public" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>setNextLanguage</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1af1116542db16a8941e8f56fbd4e35d2d" prot="public" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>setNextResult</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a842cda88a20d32b3c46c102aab7700b4" prot="public" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>setStreamTokens</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1ac444271f81f5d02935a78dbeba08fa54" prot="private" virt="non-virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>stream_tokens_</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a332857301ec1b32886668c470fef28a7" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>transcribe</name></member>
+      <member refid="classthemis_1_1whisper_1_1_in_memory_whisper_transcriber_1a25cbe89fcb3bf5f84127758bc504d2c9" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>transcribeStream</name></member>
+      <member refid="classthemis_1_1whisper_1_1_i_whisper_transcriber_1a0bb0ea5c27ee9f854a61bc4f72dc0ca1" prot="public" virt="virtual"><scope>themis::whisper::InMemoryWhisperTranscriber</scope><name>~IWhisperTranscriber</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

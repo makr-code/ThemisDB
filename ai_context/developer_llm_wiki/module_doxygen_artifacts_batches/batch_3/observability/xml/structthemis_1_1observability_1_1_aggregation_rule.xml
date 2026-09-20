@@ -1,0 +1,99 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1observability_1_1_aggregation_rule" kind="struct" language="C++" prot="public">
+    <compoundname>themis::observability::AggregationRule</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregation_rule_1aac49588d8562e5e84087ad414418cfda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::observability::AggregationRule::metric_name</definition>
+        <argsstring></argsstring>
+        <name>metric_name</name>
+        <qualifiedname>themis::observability::AggregationRule::metric_name</qualifiedname>
+        <briefdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name this rule applies to (exact match). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="45" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregation_rule_1af44b722b09a9e6f924a9fa6ea431b324" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref></type>
+        <definition>AggregationType themis::observability::AggregationRule::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::observability::AggregationRule::type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723afcefd647d6a866603c627b11347c707a" kindref="member">AggregationType::AVG</ref>}</initializer>
+        <briefdescription>
+<para>Aggregation function to apply. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="47" column="21" bodyfile="include/observability/metric_aggregator.h" bodystart="47" bodyend="47"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregation_rule_1a4e5d92fd6d0888702520c396835bc506" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::observability::AggregationRule::interval</definition>
+        <argsstring></argsstring>
+        <name>interval</name>
+        <qualifiedname>themis::observability::AggregationRule::interval</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+<para>Time window over which rate samples are collected (only used for RATE). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="49" column="26" bodyfile="include/observability/metric_aggregator.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregation_rule_1a1aef051d4cae3e9dc6a0bdb314cf8ece" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::AggregationRule::group_by_labels</definition>
+        <argsstring></argsstring>
+        <name>group_by_labels</name>
+        <qualifiedname>themis::observability::AggregationRule::group_by_labels</qualifiedname>
+        <briefdescription>
+<para>Labels to preserve in the output. All other labels are dropped. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="51" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1observability_1_1_aggregation_rule_1a7361ec20190a985257d2f1d969d24e1d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::observability::AggregationRule::drop_labels</definition>
+        <argsstring></argsstring>
+        <name>drop_labels</name>
+        <qualifiedname>themis::observability::AggregationRule::drop_labels</qualifiedname>
+        <briefdescription>
+<para>High-cardinality labels to remove before aggregation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="53" column="17" bodyfile="include/observability/metric_aggregator.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Rule that controls how a named metric should be aggregated. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="43" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="43" bodyend="54"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1observability_1_1_aggregation_rule_1a7361ec20190a985257d2f1d969d24e1d" prot="public" virt="non-virtual"><scope>themis::observability::AggregationRule</scope><name>drop_labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregation_rule_1a1aef051d4cae3e9dc6a0bdb314cf8ece" prot="public" virt="non-virtual"><scope>themis::observability::AggregationRule</scope><name>group_by_labels</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregation_rule_1a4e5d92fd6d0888702520c396835bc506" prot="public" virt="non-virtual"><scope>themis::observability::AggregationRule</scope><name>interval</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregation_rule_1aac49588d8562e5e84087ad414418cfda" prot="public" virt="non-virtual"><scope>themis::observability::AggregationRule</scope><name>metric_name</name></member>
+      <member refid="structthemis_1_1observability_1_1_aggregation_rule_1af44b722b09a9e6f924a9fa6ea431b324" prot="public" virt="non-virtual"><scope>themis::observability::AggregationRule</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

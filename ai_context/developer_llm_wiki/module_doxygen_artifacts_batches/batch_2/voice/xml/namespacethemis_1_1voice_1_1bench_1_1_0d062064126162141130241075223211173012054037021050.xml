@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1voice_1_1bench_1_1_0d062064126162141130241075223211173012054037021050" kind="namespace" language="C++">
+    <compoundname>themis::voice::bench::@062064126162141130241075223211173012054037021050</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/voice/bench_voice_a8_baselines.cpp" line="29" column="1"/>
+  </compounddef>
+</doxygen>

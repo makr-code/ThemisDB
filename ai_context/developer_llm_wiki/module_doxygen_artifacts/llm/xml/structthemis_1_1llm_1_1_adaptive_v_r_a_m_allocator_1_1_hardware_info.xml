@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</compoundname>
+    <includes refid="adaptive__vram__allocator_8h" local="no">adaptive_vram_allocator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a91153ee20899ae5b702002e9d79a6165" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::HardwareInfo::total_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>total_vram_bytes</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::total_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="36" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a2e1c90d7bdf98f53ddba776d78605477" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::HardwareInfo::available_vram_bytes</definition>
+        <argsstring></argsstring>
+        <name>available_vram_bytes</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::available_vram_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="37" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a03562cb782c04b2463006e41f64b358b" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdaptiveVRAMAllocator::HardwareInfo::compute_capability_major</definition>
+        <argsstring></argsstring>
+        <name>compute_capability_major</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::compute_capability_major</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="38" column="13" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1acca69bed8917b64b1f4d74e9754be193" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::llm::AdaptiveVRAMAllocator::HardwareInfo::compute_capability_minor</definition>
+        <argsstring></argsstring>
+        <name>compute_capability_minor</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::compute_capability_minor</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="39" column="13" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a4caed983f079fc7a7f24a897b5da86bc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::AdaptiveVRAMAllocator::HardwareInfo::has_tensor_cores</definition>
+        <argsstring></argsstring>
+        <name>has_tensor_cores</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::has_tensor_cores</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="40" column="14" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1ab8d364860a71a168b1c91ee6d3fd0cd7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::llm::AdaptiveVRAMAllocator::HardwareInfo::memory_bandwidth_gbps</definition>
+        <argsstring></argsstring>
+        <name>memory_bandwidth_gbps</name>
+        <qualifiedname>themis::llm::AdaptiveVRAMAllocator::HardwareInfo::memory_bandwidth_gbps</qualifiedname>
+        <initializer>= 1000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/adaptive_vram_allocator.h" line="41" column="16" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/adaptive_vram_allocator.h" line="35" column="5" bodyfile="include/llm/adaptive_vram_allocator.h" bodystart="35" bodyend="42"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a2e1c90d7bdf98f53ddba776d78605477" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>available_vram_bytes</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a03562cb782c04b2463006e41f64b358b" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>compute_capability_major</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1acca69bed8917b64b1f4d74e9754be193" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>compute_capability_minor</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a4caed983f079fc7a7f24a897b5da86bc" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>has_tensor_cores</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1ab8d364860a71a168b1c91ee6d3fd0cd7" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>memory_bandwidth_gbps</name></member>
+      <member refid="structthemis_1_1llm_1_1_adaptive_v_r_a_m_allocator_1_1_hardware_info_1a91153ee20899ae5b702002e9d79a6165" prot="public" virt="non-virtual"><scope>themis::llm::AdaptiveVRAMAllocator::HardwareInfo</scope><name>total_vram_bytes</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

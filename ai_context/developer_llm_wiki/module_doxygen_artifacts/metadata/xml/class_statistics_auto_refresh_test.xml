@@ -1,0 +1,108 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_statistics_auto_refresh_test" kind="class" language="C++" prot="public">
+    <compoundname>StatisticsAutoRefreshTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_statistics_auto_refresh_test_1ad1da9ce20988f77b859decf1a43581f5" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::unique_ptr&lt;RocksDBWrapper&gt; StatisticsAutoRefreshTest::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>StatisticsAutoRefreshTest::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="51" column="21" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_statistics_auto_refresh_test_1a3fb76e76ad397726c9a7a12e51870302" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsAutoRefreshTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>StatisticsAutoRefreshTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="26" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="class_statistics_auto_refresh_test_1afd4ad55b50cee95e857d859c6ff72f99" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsAutoRefreshTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>StatisticsAutoRefreshTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="35" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="35" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="class_statistics_auto_refresh_test_1aaee8a05de597b134d8a59c5fb1ed984f" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StatisticsAutoRefreshTest::insertRows</definition>
+        <argsstring>(const std::string &amp;table, int count)</argsstring>
+        <name>insertRows</name>
+        <qualifiedname>StatisticsAutoRefreshTest::insertRows</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="41" column="10" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="41" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>StatisticsAutoRefreshTest</label>
+        <link refid="class_statistics_auto_refresh_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>StatisticsAutoRefreshTest</label>
+        <link refid="class_statistics_auto_refresh_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/metadata/test_statistics_auto_refresh.cpp" line="24" column="1" bodyfile="tests/metadata/test_statistics_auto_refresh.cpp" bodystart="24" bodyend="52"/>
+    <listofallmembers>
+      <member refid="class_statistics_auto_refresh_test_1ad1da9ce20988f77b859decf1a43581f5" prot="protected" virt="non-virtual"><scope>StatisticsAutoRefreshTest</scope><name>db_</name></member>
+      <member refid="class_statistics_auto_refresh_test_1aaee8a05de597b134d8a59c5fb1ed984f" prot="protected" virt="non-virtual"><scope>StatisticsAutoRefreshTest</scope><name>insertRows</name></member>
+      <member refid="class_statistics_auto_refresh_test_1a3fb76e76ad397726c9a7a12e51870302" prot="protected" virt="non-virtual"><scope>StatisticsAutoRefreshTest</scope><name>SetUp</name></member>
+      <member refid="class_statistics_auto_refresh_test_1afd4ad55b50cee95e857d859c6ff72f99" prot="protected" virt="non-virtual"><scope>StatisticsAutoRefreshTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

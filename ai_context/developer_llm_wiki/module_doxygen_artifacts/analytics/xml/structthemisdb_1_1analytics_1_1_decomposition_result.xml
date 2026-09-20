@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1analytics_1_1_decomposition_result" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::analytics::DecompositionResult</compoundname>
+    <includes refid="forecasting_8h" local="no">forecasting.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_decomposition_result_1aab4e01079071cd895e5a57d060e5bb63" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::DecompositionResult::trend</definition>
+        <argsstring></argsstring>
+        <name>trend</name>
+        <qualifiedname>themisdb::analytics::DecompositionResult::trend</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="238" column="17" bodyfile="include/analytics/forecasting.h" bodystart="238" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_decomposition_result_1a4759c30a28f41df3be234160ede15b7f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::DecompositionResult::seasonal</definition>
+        <argsstring></argsstring>
+        <name>seasonal</name>
+        <qualifiedname>themisdb::analytics::DecompositionResult::seasonal</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="239" column="17" bodyfile="include/analytics/forecasting.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_decomposition_result_1adeadd12fc121d0a58470d03ec1d63b7b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; double &gt;</type>
+        <definition>std::vector&lt;double&gt; themisdb::analytics::DecompositionResult::residual</definition>
+        <argsstring></argsstring>
+        <name>residual</name>
+        <qualifiedname>themisdb::analytics::DecompositionResult::residual</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="240" column="17" bodyfile="include/analytics/forecasting.h" bodystart="240" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1analytics_1_1_decomposition_result_1a1e33be06f22809177cd11ebbcf39572b" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::analytics::DecompositionResult::multiplicative</definition>
+        <argsstring></argsstring>
+        <name>multiplicative</name>
+        <qualifiedname>themisdb::analytics::DecompositionResult::multiplicative</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/forecasting.h" line="241" column="10" bodyfile="include/analytics/forecasting.h" bodystart="241" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/analytics/forecasting.h" line="237" column="1" bodyfile="include/analytics/forecasting.h" bodystart="237" bodyend="242"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1analytics_1_1_decomposition_result_1a1e33be06f22809177cd11ebbcf39572b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DecompositionResult</scope><name>multiplicative</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_decomposition_result_1adeadd12fc121d0a58470d03ec1d63b7b" prot="public" virt="non-virtual"><scope>themisdb::analytics::DecompositionResult</scope><name>residual</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_decomposition_result_1a4759c30a28f41df3be234160ede15b7f" prot="public" virt="non-virtual"><scope>themisdb::analytics::DecompositionResult</scope><name>seasonal</name></member>
+      <member refid="structthemisdb_1_1analytics_1_1_decomposition_result_1aab4e01079071cd895e5a57d060e5bb63" prot="public" virt="non-virtual"><scope>themisdb::analytics::DecompositionResult</scope><name>trend</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1geo_1_1_b_box" kind="struct" language="C++" prot="public">
+    <compoundname>themis::geo::BBox</compoundname>
+    <includes refid="geo__json__geometry_8h" local="no">geo_json_geometry.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_b_box_1a6f917190b6ac5dae9147480e0e1a740b" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::BBox::min_x</definition>
+        <argsstring></argsstring>
+        <name>min_x</name>
+        <qualifiedname>themis::geo::BBox::min_x</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="49" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_b_box_1acdbadc9756634e4114a89653d512c105" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::BBox::min_y</definition>
+        <argsstring></argsstring>
+        <name>min_y</name>
+        <qualifiedname>themis::geo::BBox::min_y</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="50" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="50" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_b_box_1a13ec324381eda65683f5d7eb334f9de5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::BBox::max_x</definition>
+        <argsstring></argsstring>
+        <name>max_x</name>
+        <qualifiedname>themis::geo::BBox::max_x</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="51" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="51" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1geo_1_1_b_box_1abcfced556c3ff41fe94a3cdcb7d1b85f" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::geo::BBox::max_y</definition>
+        <argsstring></argsstring>
+        <name>max_y</name>
+        <qualifiedname>themis::geo::BBox::max_y</qualifiedname>
+        <initializer>{0.0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="52" column="12" bodyfile="include/geo/geo_json_geometry.h" bodystart="52" bodyend="52"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1geo_1_1_b_box_1a6ed94bb423ce2bf5cbb6df1aca121f9b" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::geo::BBox::operator==</definition>
+        <argsstring>(const BBox &amp;o) const noexcept</argsstring>
+        <name>operator==</name>
+        <qualifiedname>themis::geo::BBox::operator==</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1geo_1_1_b_box" kindref="compound">BBox</ref> &amp;</type>
+          <declname>o</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/geo/geo_json_geometry.h" line="54" column="10" bodyfile="include/geo/geo_json_geometry.h" bodystart="54" bodyend="57"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/geo/geo_json_geometry.h" line="48" column="1" bodyfile="include/geo/geo_json_geometry.h" bodystart="48" bodyend="58"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1geo_1_1_b_box_1a13ec324381eda65683f5d7eb334f9de5" prot="public" virt="non-virtual"><scope>themis::geo::BBox</scope><name>max_x</name></member>
+      <member refid="structthemis_1_1geo_1_1_b_box_1abcfced556c3ff41fe94a3cdcb7d1b85f" prot="public" virt="non-virtual"><scope>themis::geo::BBox</scope><name>max_y</name></member>
+      <member refid="structthemis_1_1geo_1_1_b_box_1a6f917190b6ac5dae9147480e0e1a740b" prot="public" virt="non-virtual"><scope>themis::geo::BBox</scope><name>min_x</name></member>
+      <member refid="structthemis_1_1geo_1_1_b_box_1acdbadc9756634e4114a89653d512c105" prot="public" virt="non-virtual"><scope>themis::geo::BBox</scope><name>min_y</name></member>
+      <member refid="structthemis_1_1geo_1_1_b_box_1a6ed94bb423ce2bf5cbb6df1aca121f9b" prot="public" virt="non-virtual"><scope>themis::geo::BBox</scope><name>operator==</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

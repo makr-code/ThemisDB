@@ -1,0 +1,170 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1llm_1_1_fusion_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::llm::FusionConfig</compoundname>
+    <includes refid="multi__lora__manager_8h" local="no">multi_lora_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1acec6b2482fb4742cc87d40ab5cd6479f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427" kindref="member">FusionStrategy</ref></type>
+        <definition>FusionStrategy themis::llm::FusionConfig::strategy</definition>
+        <argsstring></argsstring>
+        <name>strategy</name>
+        <qualifiedname>themis::llm::FusionConfig::strategy</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1llm_1a58fcc03a1ca91ebad70704f1247ac427afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">FusionStrategy::STATIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="164" column="20" bodyfile="include/llm/multi_lora_manager.h" bodystart="164" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a5c6bd1d07ccc2acde8071b7b5f5cb1b6" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::llm::FusionConfig::source_lora_ids</definition>
+        <argsstring></argsstring>
+        <name>source_lora_ids</name>
+        <qualifiedname>themis::llm::FusionConfig::source_lora_ids</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="165" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="165" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a8e91f2339a221345b6dd6364d26d733a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::llm::FusionConfig::weights</definition>
+        <argsstring></argsstring>
+        <name>weights</name>
+        <qualifiedname>themis::llm::FusionConfig::weights</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="166" column="17" bodyfile="include/llm/multi_lora_manager.h" bodystart="166" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a9988091010696dd8e519aa63850a20cc" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FusionConfig::enable_cache</definition>
+        <argsstring></argsstring>
+        <name>enable_cache</name>
+        <qualifiedname>themis::llm::FusionConfig::enable_cache</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="169" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="169" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1af3aa928fa015024c299b12d05bfe556a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::llm::FusionConfig::cache_ttl</definition>
+        <argsstring></argsstring>
+        <name>cache_ttl</name>
+        <qualifiedname>themis::llm::FusionConfig::cache_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="170" column="26" bodyfile="include/llm/multi_lora_manager.h" bodystart="170" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a2f25dc17fcabb510972e87d2c422b93a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FusionConfig::enforce_quantization_match</definition>
+        <argsstring></argsstring>
+        <name>enforce_quantization_match</name>
+        <qualifiedname>themis::llm::FusionConfig::enforce_quantization_match</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="173" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="173" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1ab28a775b5c9e4134c67728168203bfc2" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FusionConfig::enforce_gpu_placement_match</definition>
+        <argsstring></argsstring>
+        <name>enforce_gpu_placement_match</name>
+        <qualifiedname>themis::llm::FusionConfig::enforce_gpu_placement_match</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="174" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="174" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a52bfe9bb1e3f5c917c1e01703ba66eea" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::llm::FusionConfig::enforce_rank_match</definition>
+        <argsstring></argsstring>
+        <name>enforce_rank_match</name>
+        <qualifiedname>themis::llm::FusionConfig::enforce_rank_match</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="175" column="10" bodyfile="include/llm/multi_lora_manager.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1llm_1_1_fusion_config_1a1e1803d01ec7bf4d4cd1dc56010ebed9" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_alpha_schedule" kindref="compound">AlphaSchedule</ref></type>
+        <definition>AlphaSchedule themis::llm::FusionConfig::alpha_schedule</definition>
+        <argsstring></argsstring>
+        <name>alpha_schedule</name>
+        <qualifiedname>themis::llm::FusionConfig::alpha_schedule</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/multi_lora_manager.h" line="178" column="19" bodyfile="include/llm/multi_lora_manager.h" bodystart="178" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::AlphaSchedule</label>
+        <link refid="structthemis_1_1llm_1_1_alpha_schedule"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::FusionConfig</label>
+        <link refid="structthemis_1_1llm_1_1_fusion_config"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>alpha_schedule</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/llm/multi_lora_manager.h" line="163" column="1" bodyfile="include/llm/multi_lora_manager.h" bodystart="163" bodyend="179"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a1e1803d01ec7bf4d4cd1dc56010ebed9" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>alpha_schedule</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1af3aa928fa015024c299b12d05bfe556a" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>cache_ttl</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a9988091010696dd8e519aa63850a20cc" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>enable_cache</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1ab28a775b5c9e4134c67728168203bfc2" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>enforce_gpu_placement_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a2f25dc17fcabb510972e87d2c422b93a" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>enforce_quantization_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a52bfe9bb1e3f5c917c1e01703ba66eea" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>enforce_rank_match</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a5c6bd1d07ccc2acde8071b7b5f5cb1b6" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>source_lora_ids</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1acec6b2482fb4742cc87d40ab5cd6479f" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>strategy</name></member>
+      <member refid="structthemis_1_1llm_1_1_fusion_config_1a8e91f2339a221345b6dd6364d26d733a" prot="public" virt="non-virtual"><scope>themis::llm::FusionConfig</scope><name>weights</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

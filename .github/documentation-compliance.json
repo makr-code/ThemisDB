@@ -1,0 +1,78 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0",
+  "description": "Documentation governance requirements for ThemisDB.",
+  "scope": "documentation",
+  "source_of_truth": [
+    "DOCUMENTATION_GOVERNANCE.md",
+    ".github/copilot-instructions.md",
+    "ai_context/COPILOT_INSTRUCTIONS.md",
+    ".github/ISSUE_TEMPLATE/docs_audit.md"
+  ],
+  "required_metadata": {
+    "required_fields": [
+      "Author",
+      "Created",
+      "Last Updated",
+      "Status"
+    ],
+    "allowed_statuses": [
+      "draft",
+      "review",
+      "active",
+      "approved",
+      "stable",
+      "deprecated",
+      "archived"
+    ],
+    "preferred_naming": "UPPER_SNAKE for module-adjacent docs unless local canon differs",
+    "forbid_duplicate_semantic_names": true
+  },
+  "coverage_rules": {
+    "public_cpp_api_requires_api_docs": true,
+    "public_api_changes_require_doc_sync": true,
+    "roadmap_changes_require_sync_with_roadmap_files": true,
+    "release_hardening_requires_wave_gate_evidence": true
+  },
+  "scope_rules": {
+    "docs_only_changes_are_allowed_only_for_documentation_files": true,
+    "non_documentation_code_changes_must_not_be_hidden_as_docs_only": true,
+    "module_documentation_should_follow_local_canon": true
+  },
+  "include_paths": [
+    "docs/**/*.md",
+    "audit/**/*.md",
+    "security/**/*.md",
+    "ai_context/**/*.md",
+    ".github/**/*.md",
+    "tests/**/*.md",
+    "README.md",
+    "QUICKSTART.md",
+    "SETUP.md",
+    "CONTRIBUTING.md",
+    "SUPPORT.md",
+    "INDEX.md",
+    "LOG.md",
+    "AI_WIKI_INTEGRATION_PLAYBOOK.md",
+    "DOCUMENTATION_GOVERNANCE.md"
+  ],
+  "exclude_paths": [
+    "CHANGELOG.md",
+    "ROADMAP.md",
+    "**/ROADMAP.md",
+    "FUTURE_ENHANCEMENTS.md",
+    "**/FUTURE_ENHANCEMENTS.md",
+    "docs/**/ARCHIVED/**",
+    "docs/**/archive/**",
+    "docs/**/documentation-history/**",
+    "docs/_standards/**",
+    ".github/ISSUE_TEMPLATE/**/*.md",
+    "ai_working/**",
+    "ai_context/developer_llm_wiki/**"
+  ],
+  "enforcement": {
+    "check_name": "doc-metadata-gate",
+    "required_for_public_api_changes": true,
+    "required_for_release_branch_prs": true
+  }
+}

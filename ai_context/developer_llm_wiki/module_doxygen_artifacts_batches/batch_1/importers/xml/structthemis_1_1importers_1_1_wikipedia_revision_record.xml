@@ -1,0 +1,126 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1importers_1_1_wikipedia_revision_record" kind="struct" language="C++" prot="public">
+    <compoundname>themis::importers::WikipediaRevisionRecord</compoundname>
+    <includes refid="wikipedia__types_8hpp" local="no">wikipedia_types.hpp</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1a0e07f597ee01caf0168b7165a6b98c29" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaRevisionRecord::revision_id</definition>
+        <argsstring></argsstring>
+        <name>revision_id</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::revision_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="88" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1a68f6553835ad3443c3fc0452c0580ecf" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::importers::WikipediaRevisionRecord::page_id</definition>
+        <argsstring></argsstring>
+        <name>page_id</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::page_id</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="89" column="14" bodyfile="include/importers/wikipedia_types.hpp" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1ac1608f6823fd2e70f3bdb92cbdd7f2b4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaRevisionRecord::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="90" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="90" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1ab5c30364a900ce58ec6a31e7f5411ca4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaRevisionRecord::sha1</definition>
+        <argsstring></argsstring>
+        <name>sha1</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::sha1</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="91" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1a2f5f29380a8459313f72f91967046a07" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaRevisionRecord::text</definition>
+        <argsstring></argsstring>
+        <name>text</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::text</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="92" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1ad1c1f45b1198f5ff3a6fd442394f6674" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::importers::WikipediaRevisionRecord::comment</definition>
+        <argsstring></argsstring>
+        <name>comment</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::comment</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="93" column="17" bodyfile="include/importers/wikipedia_types.hpp" bodystart="93" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1importers_1_1_wikipedia_revision_record_1afa4c84e2b75c08ab405a6b8d95db99a4" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::WikipediaRevisionRecord::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::importers::WikipediaRevisionRecord::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/wikipedia_types.hpp" line="95" column="11" bodyfile="include/importers/wikipedia_types.hpp" bodystart="95" bodyend="104"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical revision row. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/wikipedia_types.hpp" line="87" column="1" bodyfile="include/importers/wikipedia_types.hpp" bodystart="87" bodyend="105"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1ad1c1f45b1198f5ff3a6fd442394f6674" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>comment</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1a68f6553835ad3443c3fc0452c0580ecf" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>page_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1a0e07f597ee01caf0168b7165a6b98c29" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>revision_id</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1ab5c30364a900ce58ec6a31e7f5411ca4" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>sha1</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1a2f5f29380a8459313f72f91967046a07" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>text</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1ac1608f6823fd2e70f3bdb92cbdd7f2b4" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1importers_1_1_wikipedia_revision_record_1afa4c84e2b75c08ab405a6b8d95db99a4" prot="public" virt="non-virtual"><scope>themis::importers::WikipediaRevisionRecord</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1governance_1_1_iso27001_control_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::governance::Iso27001ControlResult</compoundname>
+    <includes refid="iso27001__rules_8h" local="no">iso27001_rules.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a10405b64f1397e5311a2d73b8f018380" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001ControlResult::control_id</definition>
+        <argsstring></argsstring>
+        <name>control_id</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::control_id</qualifiedname>
+        <briefdescription>
+<para>ISO 27001 control ID (e.g., &quot;A.9.1.2&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="52" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a07ca4ac51bc219995db05f8a1f48f192" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001ControlResult::annex_section</definition>
+        <argsstring></argsstring>
+        <name>annex_section</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::annex_section</qualifiedname>
+        <briefdescription>
+<para>Annex A section (e.g., &quot;A.9&quot;). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="53" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a876ca3cfcb7ea38d1f28925972126982" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001ControlResult::title</definition>
+        <argsstring></argsstring>
+        <name>title</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::title</qualifiedname>
+        <briefdescription>
+<para>Short control title. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="54" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a54e6d44684733c5da7a99365083dd7d7" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::governance::Iso27001ControlResult::compliant</definition>
+        <argsstring></argsstring>
+        <name>compliant</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::compliant</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Overall compliance status. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="55" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1acdebca28c5e87b065e57a4dbad0f731d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001ControlResult::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::description</qualifiedname>
+        <briefdescription>
+<para>Evaluation summary. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="56" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a85cec73decb0a54ee337c1ce29cfbc9c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::governance::Iso27001ControlResult::recommendation</definition>
+        <argsstring></argsstring>
+        <name>recommendation</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::recommendation</qualifiedname>
+        <briefdescription>
+<para>Remediation guidance when non-compliant. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="57" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1a1a00e12ec88fb387b0841b3a6a50770f" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::governance::Iso27001ControlResult::missing_controls</definition>
+        <argsstring></argsstring>
+        <name>missing_controls</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::missing_controls</qualifiedname>
+        <briefdescription>
+<para>Specific control gaps. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="58" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1governance_1_1_iso27001_control_result_1ace887247af9a57491b214b32413e3d47" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1governance_1_1_iso27001_evidence_item" kindref="compound">Iso27001EvidenceItem</ref> &gt;</type>
+        <definition>std::vector&lt;Iso27001EvidenceItem&gt; themis::governance::Iso27001ControlResult::evidence</definition>
+        <argsstring></argsstring>
+        <name>evidence</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::evidence</qualifiedname>
+        <briefdescription>
+<para>Evidence items supporting this result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="59" column="17" bodyfile="include/governance/iso27001_rules.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1governance_1_1_iso27001_control_result_1ac26b80857448abb9879b131138dda292" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::governance::Iso27001ControlResult::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::governance::Iso27001ControlResult::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/governance/iso27001_rules.h" line="65" column="20" bodyfile="src/governance/iso27001_rules.cpp" bodystart="82" bodyend="96"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/governance/iso27001_rules.h" line="51" column="1" bodyfile="include/governance/iso27001_rules.h" bodystart="51" bodyend="66"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a07ca4ac51bc219995db05f8a1f48f192" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>annex_section</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a54e6d44684733c5da7a99365083dd7d7" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>compliant</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a10405b64f1397e5311a2d73b8f018380" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>control_id</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1acdebca28c5e87b065e57a4dbad0f731d" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>description</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1ace887247af9a57491b214b32413e3d47" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>evidence</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a1a00e12ec88fb387b0841b3a6a50770f" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>missing_controls</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a85cec73decb0a54ee337c1ce29cfbc9c" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>recommendation</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1a876ca3cfcb7ea38d1f28925972126982" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>title</name></member>
+      <member refid="structthemis_1_1governance_1_1_iso27001_control_result_1ac26b80857448abb9879b131138dda292" prot="public" virt="non-virtual"><scope>themis::governance::Iso27001ControlResult</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

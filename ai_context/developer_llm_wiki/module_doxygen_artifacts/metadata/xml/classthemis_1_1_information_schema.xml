@@ -1,0 +1,394 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_information_schema" kind="class" language="C++" prot="public">
+    <compoundname>themis::InformationSchema</compoundname>
+    <includes refid="information__schema_8h" local="no">information_schema.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_information_schema_1ae55efd97aeab5e6e14952831629e46e8" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &amp;</type>
+        <definition>SchemaManager&amp; themis::InformationSchema::schema_mgr_</definition>
+        <argsstring></argsstring>
+        <name>schema_mgr_</name>
+        <qualifiedname>themis::InformationSchema::schema_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="239" column="19" bodyfile="include/metadata/information_schema.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::InformationSchema::InformationSchema</definition>
+        <argsstring>(SchemaManager &amp;schema_mgr)</argsstring>
+        <name>InformationSchema</name>
+        <qualifiedname>themis::InformationSchema::InformationSchema</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> &amp;</type>
+          <declname>schema_mgr</declname>
+        </param>
+        <briefdescription>
+<para>Construct an INFORMATION_SCHEMA view provider over a live <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>schema_mgr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> that owns the authoritative schema metadata. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="152" column="14" bodyfile="src/metadata/information_schema.cpp" bodystart="129" bodyend="131"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a5b87079585f3aea32af88690a1a56646" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::InformationSchema::~InformationSchema</definition>
+        <argsstring>()=default</argsstring>
+        <name>~InformationSchema</name>
+        <qualifiedname>themis::InformationSchema::~InformationSchema</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="154" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a619c68f925d433765dddb97bcfc85645" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::InformationSchema::InformationSchema</definition>
+        <argsstring>(const InformationSchema &amp;)=delete</argsstring>
+        <name>InformationSchema</name>
+        <qualifiedname>themis::InformationSchema::InformationSchema</qualifiedname>
+        <param>
+          <type>const InformationSchema &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="157" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a3907f612c7fb01c4617eba11905632f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" kindref="member">InformationSchema</ref> &amp;</type>
+        <definition>InformationSchema &amp; themis::InformationSchema::operator=</definition>
+        <argsstring>(const InformationSchema &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::InformationSchema::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" kindref="member">InformationSchema</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="158" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a723a485ca1f070aad59144fbf460f4fd" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::InformationSchema::InformationSchema</definition>
+        <argsstring>(InformationSchema &amp;&amp;) noexcept=delete</argsstring>
+        <name>InformationSchema</name>
+        <qualifiedname>themis::InformationSchema::InformationSchema</qualifiedname>
+        <param>
+          <type>InformationSchema &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="159" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1acc4528ec9cff5f3241dac3e89634fcb6" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" kindref="member">InformationSchema</ref> &amp;</type>
+        <definition>InformationSchema &amp; themis::InformationSchema::operator=</definition>
+        <argsstring>(InformationSchema &amp;&amp;) noexcept=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::InformationSchema::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" kindref="member">InformationSchema</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="160" column="23"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a87988379d0153432c62b86584437d7a2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_i_s_table" kindref="compound">ISTable</ref> &gt;</type>
+        <definition>std::vector&lt; ISTable &gt; themis::InformationSchema::getTables</definition>
+        <argsstring>() const</argsstring>
+        <name>getTables</name>
+        <qualifiedname>themis::InformationSchema::getTables</qualifiedname>
+        <briefdescription>
+<para>Return the <computeroutput>INFORMATION_SCHEMA.TABLES</computeroutput> view. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>One row per table or collection in the default schema. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="170" column="17" bodyfile="src/metadata/information_schema.cpp" bodystart="193" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a3711a499863d98d977320576ea64c104" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_i_s_column" kindref="compound">ISColumn</ref> &gt;</type>
+        <definition>std::vector&lt; ISColumn &gt; themis::InformationSchema::getColumns</definition>
+        <argsstring>(std::optional&lt; std::string_view &gt; table_name=std::nullopt) const</argsstring>
+        <name>getColumns</name>
+        <qualifiedname>themis::InformationSchema::getColumns</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>table_name</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Return the <computeroutput>INFORMATION_SCHEMA.COLUMNS</computeroutput> view. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional table filter; when omitted, all tables are included. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Column metadata rows for the selected scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="177" column="17" bodyfile="src/metadata/information_schema.cpp" bodystart="212" bodyend="240"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1aa0c4519ed1a806439f0eb8c10cd92038" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_i_s_statistic" kindref="compound">ISStatistic</ref> &gt;</type>
+        <definition>std::vector&lt; ISStatistic &gt; themis::InformationSchema::getStatistics</definition>
+        <argsstring>(std::optional&lt; std::string_view &gt; table_name=std::nullopt) const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::InformationSchema::getStatistics</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>table_name</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Return the <computeroutput>INFORMATION_SCHEMA.STATISTICS</computeroutput> view. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional table filter; when omitted, all tables are included. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Index metadata rows for the selected scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="186" column="17" bodyfile="src/metadata/information_schema.cpp" bodystart="242" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a1b5f9c992d03a2c98dd8338ae7a56ff1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_i_s_key_column_usage" kindref="compound">ISKeyColumnUsage</ref> &gt;</type>
+        <definition>std::vector&lt; ISKeyColumnUsage &gt; themis::InformationSchema::getKeyColumnUsage</definition>
+        <argsstring>(std::optional&lt; std::string_view &gt; table_name=std::nullopt) const</argsstring>
+        <name>getKeyColumnUsage</name>
+        <qualifiedname>themis::InformationSchema::getKeyColumnUsage</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>table_name</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Return the <computeroutput>INFORMATION_SCHEMA.KEY_COLUMN_USAGE</computeroutput> view. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional table filter; when omitted, all tables are included. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Key-usage rows for the selected scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="195" column="17" bodyfile="src/metadata/information_schema.cpp" bodystart="272" bodyend="303"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a783d4b09c4c3c7e37c9b69015947c19a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1_i_s_referential_constraint" kindref="compound">ISReferentialConstraint</ref> &gt;</type>
+        <definition>std::vector&lt; ISReferentialConstraint &gt; themis::InformationSchema::getReferentialConstraints</definition>
+        <argsstring>(std::optional&lt; std::string_view &gt; table_name=std::nullopt) const</argsstring>
+        <name>getReferentialConstraints</name>
+        <qualifiedname>themis::InformationSchema::getReferentialConstraints</qualifiedname>
+        <param>
+          <type>std::optional&lt; std::string_view &gt;</type>
+          <declname>table_name</declname>
+          <defval>std::nullopt</defval>
+        </param>
+        <briefdescription>
+<para>Return the <computeroutput>INFORMATION_SCHEMA.REFERENTIAL_CONSTRAINTS</computeroutput> view. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional referencing-table filter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Referential-constraint rows for the selected scope. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="204" column="17" bodyfile="src/metadata/information_schema.cpp" bodystart="305" bodyend="338"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a31cbab53a969e89b0bf0cd9bb5167a66" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::InformationSchema::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::InformationSchema::toJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise the full INFORMATION_SCHEMA surface to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON object with <computeroutput>tables</computeroutput>, <computeroutput>columns</computeroutput>, <computeroutput>statistics</computeroutput>, <computeroutput>key_column_usage</computeroutput>, and <computeroutput>referential_constraints</computeroutput> arrays. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="217" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="340" bodyend="374"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a10520cd31bbc85cba0cefc2ba41f6398" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::InformationSchema::tablesToJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>tablesToJSON</name>
+        <qualifiedname>themis::InformationSchema::tablesToJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise only the TABLES view to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON array of TABLES rows. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="223" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="376" bodyend="382"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a4b38c502d97d2fa8f0c3f6dec49cac3f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::InformationSchema::columnsToJSON</definition>
+        <argsstring>(std::string_view table_name) const</argsstring>
+        <name>columnsToJSON</name>
+        <qualifiedname>themis::InformationSchema::columnsToJSON</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>table_name</declname>
+        </param>
+        <briefdescription>
+<para>Serialise only the COLUMNS view for one table to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>table_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Table whose column metadata should be exported. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>JSON array of COLUMNS rows for the table. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="230" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="384" bodyend="390"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_information_schema_1a9237ce719de3e5f6656f7c9168fc1032" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::InformationSchema::referentialConstraintsToJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>referentialConstraintsToJSON</name>
+        <qualifiedname>themis::InformationSchema::referentialConstraintsToJSON</qualifiedname>
+        <briefdescription>
+<para>Serialise only the REFERENTIAL_CONSTRAINTS view to JSON. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON array of referential-constraint rows. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/information_schema.h" line="236" column="10" bodyfile="src/metadata/information_schema.cpp" bodystart="392" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para><ref refid="classthemis_1_1_information_schema" kindref="compound">InformationSchema</ref> - SQL-standard INFORMATION_SCHEMA views</para>
+<para>Provides read-only metadata views modelled after the SQL:2003 standard. Data is derived from the <ref refid="classthemis_1_1_schema_manager" kindref="compound">SchemaManager</ref> on demand (no separate persistence).</para>
+<para>All methods return std::vector of the corresponding row type. An empty vector is returned for an unknown schema/table.</para>
+<para>Usage: <ref refid="classthemis_1_1_information_schema" kindref="compound">InformationSchema</ref> info_schema(schema_mgr); auto tables = info_schema.getTables(); auto cols = info_schema.getColumns(&quot;users&quot;); </para>
+    </detaileddescription>
+    <location file="include/metadata/information_schema.h" line="146" column="1" bodyfile="include/metadata/information_schema.h" bodystart="146" bodyend="240"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_information_schema_1a4b38c502d97d2fa8f0c3f6dec49cac3f" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>columnsToJSON</name></member>
+      <member refid="classthemis_1_1_information_schema_1a3711a499863d98d977320576ea64c104" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>getColumns</name></member>
+      <member refid="classthemis_1_1_information_schema_1a1b5f9c992d03a2c98dd8338ae7a56ff1" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>getKeyColumnUsage</name></member>
+      <member refid="classthemis_1_1_information_schema_1a783d4b09c4c3c7e37c9b69015947c19a" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>getReferentialConstraints</name></member>
+      <member refid="classthemis_1_1_information_schema_1aa0c4519ed1a806439f0eb8c10cd92038" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1_information_schema_1a87988379d0153432c62b86584437d7a2" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>getTables</name></member>
+      <member refid="classthemis_1_1_information_schema_1afcb28c7629723a0c249bcee5d2857b06" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>InformationSchema</name></member>
+      <member refid="classthemis_1_1_information_schema_1a619c68f925d433765dddb97bcfc85645" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>InformationSchema</name></member>
+      <member refid="classthemis_1_1_information_schema_1a723a485ca1f070aad59144fbf460f4fd" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>InformationSchema</name></member>
+      <member refid="classthemis_1_1_information_schema_1a3907f612c7fb01c4617eba11905632f5" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_information_schema_1acc4528ec9cff5f3241dac3e89634fcb6" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_information_schema_1a9237ce719de3e5f6656f7c9168fc1032" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>referentialConstraintsToJSON</name></member>
+      <member refid="classthemis_1_1_information_schema_1ae55efd97aeab5e6e14952831629e46e8" prot="private" virt="non-virtual"><scope>themis::InformationSchema</scope><name>schema_mgr_</name></member>
+      <member refid="classthemis_1_1_information_schema_1a10520cd31bbc85cba0cefc2ba41f6398" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>tablesToJSON</name></member>
+      <member refid="classthemis_1_1_information_schema_1a31cbab53a969e89b0bf0cd9bb5167a66" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>toJSON</name></member>
+      <member refid="classthemis_1_1_information_schema_1a5b87079585f3aea32af88690a1a56646" prot="public" virt="non-virtual"><scope>themis::InformationSchema</scope><name>~InformationSchema</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

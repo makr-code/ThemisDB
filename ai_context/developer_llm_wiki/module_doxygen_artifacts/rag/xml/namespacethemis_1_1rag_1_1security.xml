@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1rag_1_1security" kind="namespace" language="C++">
+    <compoundname>themis::rag::security</compoundname>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_detector_config" prot="public">themis::rag::security::DetectorConfig</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_injection_finding" prot="public">themis::rag::security::InjectionFinding</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_injection_scan_result" prot="public">themis::rag::security::InjectionScanResult</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_detector" prot="public">themis::rag::security::PromptInjectionDetector</innerclass>
+    <innerclass refid="classthemis_1_1rag_1_1security_1_1_prompt_injection_sanitizer" prot="public">themis::rag::security::PromptInjectionSanitizer</innerclass>
+    <innerclass refid="structthemis_1_1rag_1_1security_1_1_sanitizer_config" prot="public">themis::rag::security::SanitizerConfig</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>InjectionSeverity</name>
+        <qualifiedname>themis::rag::security::InjectionSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ab50339a10e1de285ac99d4c3990b8693" prot="public">
+          <name>NONE</name>
+          <briefdescription>
+<para>No injection detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Mildly suspicious (informational). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ac87f3be66ffc3c0d4249f1c2cc5f3cce" prot="public">
+          <name>MEDIUM</name>
+          <briefdescription>
+<para>Likely injection attempt; flag for review. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986ab89de3b4b81c4facfac906edf29aec8c" prot="public">
+          <name>HIGH</name>
+          <briefdescription>
+<para>Clear injection attempt; block or sanitize. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1rag_1_1security_1aced152c244ea2041fbc5bcc3bce43986a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Targeted escape / override of system instructions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity level of a detected injection attempt. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/prompt_injection_detector.h" line="24" column="1" bodyfile="include/rag/prompt_injection_detector.h" bodystart="24" bodyend="30"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/prompt_injection_detector.h" line="19" column="1"/>
+  </compounddef>
+</doxygen>

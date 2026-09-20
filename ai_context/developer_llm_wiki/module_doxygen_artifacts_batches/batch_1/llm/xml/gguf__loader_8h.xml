@@ -1,0 +1,293 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="gguf__loader_8h" kind="file" language="C++">
+    <compoundname>gguf_loader.h</compoundname>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="base__model__adapter_8h" local="yes">include/llm/lora_framework/base_model_adapter.h</includedby>
+    <includedby refid="gguf__converter_8h" local="yes">include/llm/lora_framework/gguf_converter.h</includedby>
+    <includedby refid="gguf__loader_8cpp" local="yes">src/llm/gguf_loader.cpp</includedby>
+    <includedby refid="quantized__model_8cpp" local="yes">src/llm/lora_framework/quantized_model.cpp</includedby>
+    <includedby refid="model__loader_8cpp" local="yes">src/llm/model_loader.cpp</includedby>
+    <includedby refid="multi__lora__manager_8cpp" local="yes">src/llm/multi_lora_manager.cpp</includedby>
+    <includedby refid="test__llm__exception__safety_8cpp" local="yes">tests/llm/test_llm_exception_safety.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/gguf_loader.h</label>
+        <link refid="gguf__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="5">
+        <label>memory</label>
+      </node>
+      <node id="2">
+        <label>string</label>
+      </node>
+      <node id="4">
+        <label>unordered_map</label>
+      </node>
+      <node id="3">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/gguf_loader.h</label>
+        <link refid="gguf__loader_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>include/llm/lora_framework/base_model_adapter.h</label>
+        <link refid="base__model__adapter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="6">
+        <label>include/llm/lora_framework/gguf_converter.h</label>
+        <link refid="gguf__converter_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>src/llm/gguf_loader.cpp</label>
+        <link refid="gguf__loader_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/llm/lora_framework/base_model_adapter.cpp</label>
+        <link refid="base__model__adapter_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/llm/lora_framework/gguf_converter.cpp</label>
+        <link refid="gguf__converter_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/llm/lora_framework/gpu_training_loop.cpp</label>
+        <link refid="gpu__training__loop_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/llm/lora_framework/lora_training_service.cpp</label>
+        <link refid="lora__training__service_8cpp"/>
+      </node>
+      <node id="8">
+        <label>src/llm/lora_framework/quantized_model.cpp</label>
+        <link refid="quantized__model_8cpp"/>
+      </node>
+      <node id="10">
+        <label>src/llm/model_loader.cpp</label>
+        <link refid="model__loader_8cpp"/>
+      </node>
+      <node id="11">
+        <label>src/llm/multi_lora_manager.cpp</label>
+        <link refid="multi__lora__manager_8cpp"/>
+      </node>
+      <node id="12">
+        <label>tests/llm/test_llm_exception_safety.cpp</label>
+        <link refid="test__llm__exception__safety_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1_tensor_metadata" prot="public">themis::llm::TensorMetadata</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" prot="public">themis::llm::GGUFMetadata</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1_g_g_u_f_loader" prot="public">themis::llm::GGUFLoader</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Forward<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">RocksDBWrapper;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">llm</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GGML/GGUF<sp/>quantization<sp/>types</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="30" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a44ad4ef5a76e6aa6fb3e3fa079a54fda" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a44ad4ef5a76e6aa6fb3e3fa079a54fda" kindref="member">F32</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="31" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a56d8353718e6fdc78b8d69078a2cdb94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a56d8353718e6fdc78b8d69078a2cdb94" kindref="member">F16</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="32" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a0319ba7945fc5786466efbacad79aadb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a0319ba7945fc5786466efbacad79aadb" kindref="member">Q4_0</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="33" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ab17dfc9b9b5ce4b2aa0b658b4e3b0d72" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ab17dfc9b9b5ce4b2aa0b658b4e3b0d72" kindref="member">Q4_1</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="34" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1acde6db007799f565857599b9830a6c2b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1acde6db007799f565857599b9830a6c2b" kindref="member">Q5_0</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="35" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a73d3aa0494690b259220a85295554de2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a73d3aa0494690b259220a85295554de2" kindref="member">Q5_1</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="36" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a7d752b3cc49838890790999912af5a83" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a7d752b3cc49838890790999912af5a83" kindref="member">Q8_0</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="37" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ac71547376963e5bf8860ef349e7b2a86" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ac71547376963e5bf8860ef349e7b2a86" kindref="member">Q8_1</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="38" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ae9a13185686539dcc9be4be36d58fb35" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ae9a13185686539dcc9be4be36d58fb35" kindref="member">Q2_K</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="39" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1af17227466a3a75c603590c97ff0b1d18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1af17227466a3a75c603590c97ff0b1d18" kindref="member">Q3_K</ref><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="40" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a17c30ffb0c4d70d05d7859a87d43e66f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a17c30ffb0c4d70d05d7859a87d43e66f" kindref="member">Q4_K</ref><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="41" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a2b3307eb7a3523a00833aac6301dd3ca" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a2b3307eb7a3523a00833aac6301dd3ca" kindref="member">Q5_K</ref><sp/>=<sp/>13,</highlight></codeline>
+<codeline lineno="42" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a81a680ad169c16cb082a6f8eab8685db" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a81a680ad169c16cb082a6f8eab8685db" kindref="member">Q6_K</ref><sp/>=<sp/>14,</highlight></codeline>
+<codeline lineno="43" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a1aa99bd964246d92c0b4cba322ad58ea" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a1aa99bd964246d92c0b4cba322ad58ea" kindref="member">Q8_K</ref><sp/>=<sp/>15,</highlight></codeline>
+<codeline lineno="44" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a5aef4e3ea379fa0eb2bf42d979443902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a5aef4e3ea379fa0eb2bf42d979443902" kindref="member">I8</ref><sp/>=<sp/>16,</highlight></codeline>
+<codeline lineno="45" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1abcd774f891b5f9df7099f3ea75dadf8d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1abcd774f891b5f9df7099f3ea75dadf8d" kindref="member">I16</ref><sp/>=<sp/>17,</highlight></codeline>
+<codeline lineno="46" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ad878ea6016bfe01729548bf442de5a8b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ad878ea6016bfe01729548bf442de5a8b" kindref="member">I32</ref><sp/>=<sp/>18,</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Add<sp/>aliases<sp/>for<sp/>K-means<sp/>variants</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a79b765c1d7f8898d03cf50bbcdfd6941" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1a79b765c1d7f8898d03cf50bbcdfd6941" kindref="member">Q4_K_S</ref><sp/>=<sp/>12,<sp/><sp/></highlight><highlight class="comment">//<sp/>Small<sp/>variant<sp/>(same<sp/>base<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49" refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ae9903780fa1d9b91f0542bd40fea13f2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1ae9903780fa1d9b91f0542bd40fea13f2" kindref="member">Q4_K_M</ref><sp/>=<sp/>12,<sp/><sp/></highlight><highlight class="comment">//<sp/>Medium<sp/>variant<sp/>(same<sp/>base<sp/>type)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GGUF<sp/>value<sp/>types<sp/>for<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ff" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ff" kindref="member">GGUFValueType</ref><sp/>:<sp/>uint32_t<sp/>{</highlight></codeline>
+<codeline lineno="54" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaecfc091ed2a607335524c8389cfa41b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaecfc091ed2a607335524c8389cfa41b5" kindref="member">UINT8</ref><sp/>=<sp/>0,</highlight></codeline>
+<codeline lineno="55" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaee9d73311ff0658494edfff14c3ec1e3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaee9d73311ff0658494edfff14c3ec1e3" kindref="member">INT8</ref><sp/>=<sp/>1,</highlight></codeline>
+<codeline lineno="56" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa48d8f1a723d44ff4a87db1bb6c551c62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa48d8f1a723d44ff4a87db1bb6c551c62" kindref="member">UINT16</ref><sp/>=<sp/>2,</highlight></codeline>
+<codeline lineno="57" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa5f90af42814c0a419d715d43ae54fd7a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa5f90af42814c0a419d715d43ae54fd7a" kindref="member">INT16</ref><sp/>=<sp/>3,</highlight></codeline>
+<codeline lineno="58" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa17266551181f69a1b4a3ad5c9e270afc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa17266551181f69a1b4a3ad5c9e270afc" kindref="member">UINT32</ref><sp/>=<sp/>4,</highlight></codeline>
+<codeline lineno="59" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa6495adba09844fac8eeb0aba86e6f1bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa6495adba09844fac8eeb0aba86e6f1bf" kindref="member">INT32</ref><sp/>=<sp/>5,</highlight></codeline>
+<codeline lineno="60" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa967d280b5c16d95f2947647dd2ca6cc2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa967d280b5c16d95f2947647dd2ca6cc2" kindref="member">FLOAT32</ref><sp/>=<sp/>6,</highlight></codeline>
+<codeline lineno="61" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaa97b2c144243b2b9d2c593ec268b62f5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffaa97b2c144243b2b9d2c593ec268b62f5" kindref="member">BOOL</ref><sp/>=<sp/>7,</highlight></codeline>
+<codeline lineno="62" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa63b588d5559f64f89a416e656880b949" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa63b588d5559f64f89a416e656880b949" kindref="member">STRING</ref><sp/>=<sp/>8,</highlight></codeline>
+<codeline lineno="63" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffacb4fb1757fb37c43cded35d3eb857c43" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffacb4fb1757fb37c43cded35d3eb857c43" kindref="member">ARRAY</ref><sp/>=<sp/>9,</highlight></codeline>
+<codeline lineno="64" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa6de7acf711860176ba606e9aa2b85d5f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa6de7acf711860176ba606e9aa2b85d5f" kindref="member">UINT64</ref><sp/>=<sp/>10,</highlight></codeline>
+<codeline lineno="65" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa4e866b275c85fbb439f6484251cfb31c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa4e866b275c85fbb439f6484251cfb31c" kindref="member">INT64</ref><sp/>=<sp/>11,</highlight></codeline>
+<codeline lineno="66" refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa139882c654db8a57f7c3092de1dd0b02" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ffa139882c654db8a57f7c3092de1dd0b02" kindref="member">FLOAT64</ref><sp/>=<sp/>12,</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GGUF<sp/>tensor<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70" refid="structthemis_1_1llm_1_1_tensor_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1llm_1_1_tensor_metadata_1a72c3554e040540ef22f15fc3d31941b7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a72c3554e040540ef22f15fc3d31941b7" kindref="member">~TensorMetadata</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1llm_1_1_tensor_metadata_1afca9b829b5ebeaa6e5bd91005dd7e0bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1afca9b829b5ebeaa6e5bd91005dd7e0bc" kindref="member">name</ref>;</highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1llm_1_1_tensor_metadata_1a8370ef7dd4d7cc744a6cbfdcb98dacaa" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;int64_t&gt;<sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a8370ef7dd4d7cc744a6cbfdcb98dacaa" kindref="member">shape</ref>;</highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1llm_1_1_tensor_metadata_1a131c629da6538b61d5d04aacaf494ca6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref><sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a131c629da6538b61d5d04aacaf494ca6" kindref="member">type</ref>;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GGML<sp/>quantization<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1llm_1_1_tensor_metadata_1a357656e92cedcd8f7807775dc5b9000e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a357656e92cedcd8f7807775dc5b9000e" kindref="member">offset</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>in<sp/>GGUF<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1llm_1_1_tensor_metadata_1a37e14c459297db2263ec32902cbb4367" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a37e14c459297db2263ec32902cbb4367" kindref="member">size</ref><sp/>=<sp/>0;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Size<sp/>in<sp/>bytes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata_1a36c9e5b614fa3d8e98999d99426e9059" kindref="member">type_string</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GGUF<sp/>file<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref><sp/>{</highlight></codeline>
+<codeline lineno="95" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a5e716e7b9c9b207752354a86d681b420" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">virtual</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a5e716e7b9c9b207752354a86d681b420" kindref="member">~GGUFMetadata</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a34dea70eb41fa05ad0284b1b5f6a9b1f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a34dea70eb41fa05ad0284b1b5f6a9b1f" kindref="member">version</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="97" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1ad59acbabc3e372b682f8279a9dec11d1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1ad59acbabc3e372b682f8279a9dec11d1" kindref="member">architecture</ref>;<sp/><sp/></highlight><highlight class="comment">//<sp/>&quot;llama&quot;,<sp/>&quot;mistral&quot;,<sp/>etc.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a718b67b02caf6018a27e95cfacab3d62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>std::string&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a718b67b02caf6018a27e95cfacab3d62" kindref="member">config</ref>;</highlight></codeline>
+<codeline lineno="99" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a842fa68f1909056883c41b70e8a6d96c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TensorMetadata&gt;<sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a842fa68f1909056883c41b70e8a6d96c" kindref="member">tensors</ref>;</highlight></codeline>
+<codeline lineno="100" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a61431181d470c666f547097cdc2842b6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a61431181d470c666f547097cdc2842b6" kindref="member">total_size</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="101" refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a85b8a99de2e82006f3e645eac492f771" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata_1a85b8a99de2e82006f3e645eac492f771" kindref="member">data_offset</ref><sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>Offset<sp/>where<sp/>tensor<sp/>data<sp/>starts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GGUF<sp/>Loader<sp/>-<sp/>parses<sp/>GGUF<sp/>files<sp/>and<sp/>loads<sp/>into<sp/>ThemisDB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1llm_1_1_g_g_u_f_loader" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab602a872e61528656c4382b52097ca90" kindref="member">GGUFLoader</ref><sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab602a872e61528656c4382b52097ca90" kindref="member">GGUFLoader</ref>();</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ab602a872e61528656c4382b52097ca90" kindref="member">GGUFLoader</ref>(RocksDBWrapper*<sp/>db);</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0373b0bf2b4833232067cd39a3c62080" kindref="member">~GGUFLoader</ref>()<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a53b9acf65d442cfb79028a5db8e0bce8" kindref="member">parseFile</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>filepath);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Get<sp/>parsed<sp/>metadata</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a246dd635372ca40e3827447923f82f18" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref>&amp;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a246dd635372ca40e3827447923f82f18" kindref="member">getMetadata</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>metadata_;<sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Returns<sp/>a<sp/>human-readable<sp/>error<sp/>description<sp/>when<sp/>parseFile()<sp/>returns<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128" refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a68ea0b1be439c594568f914d41e7491e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a68ea0b1be439c594568f914d41e7491e" kindref="member">getLastError</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>last_error_;<sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a4b30f6e3296db99496751f08fb9ebdfd" kindref="member">loadToThemisDB</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>model_name);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="142" refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0b41bcd1a7c88662159d2224bc681be0" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a0b41bcd1a7c88662159d2224bc681be0" kindref="member">setDatabase</ref>(RocksDBWrapper*<sp/>db)<sp/>{<sp/>db_<sp/>=<sp/>db;<sp/>}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1af9b9ad029a889e81b2a43515f42c55f8" kindref="member">mmapTensor</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_name);</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1aaf939a313592ae12203a82a54286a6b7" kindref="member">unmapTensor</ref>(</highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>ptr)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a952a4ce527dda4ef1a104cf013f80444" kindref="member">getTensorData</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_name);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1a989a9f9f8122ed1a694b7ffc786c2837" kindref="member">validateQuantizationMetadata</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tensor_name)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1_g_g_u_f_loader_1ac9db4796983ce108ce3830f93eb41048" kindref="member">isFormatSupported</ref>(<ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref><sp/>type);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_g_g_u_f_metadata" kindref="compound">GGUFMetadata</ref><sp/>metadata_;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>filepath_;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>last_error_;<sp/><sp/></highlight><highlight class="comment">//<sp/>Set<sp/>on<sp/>parseFile()<sp/>failure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>fd_<sp/>=<sp/>0;<sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>descriptor<sp/>for<sp/>mmap</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal">*<sp/>mmap_base_;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>mmap_size_<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;uint8_t&gt;<sp/>file_buffer_;<sp/></highlight><highlight class="comment">//<sp/>Windows<sp/>fallback<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>RocksDBWrapper*<sp/>db_<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">;<sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>owned</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Internal<sp/>parsing<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseHeader();</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseMetadataKV();</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>parseTensorInfo();</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>releaseResources()<sp/>noexcept;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Type<sp/>size<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>getDtypeSize(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>dtype)<sp/>const;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>getGGMLTypeSize(<ref refid="namespacethemis_1_1llm_1a80a3c3a1d024611a70e0988c894f7af1" kindref="member">GGMLType</ref><sp/>type)<sp/>const;</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Metadata<sp/>parsing<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>readString(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>offset,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>readMetadataValue(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal">&amp;<sp/>offset,<sp/><ref refid="namespacethemis_1_1llm_1a6ae607f4ae3762de3a2c6cb61bc402ff" kindref="member">GGUFValueType</ref><sp/>type,<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>out);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>storeTensorInChunks(const<sp/>std::</highlight><highlight class="keywordtype">string</highlight><highlight class="normal">&amp;<sp/>model_name,<sp/></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>const<sp/><ref refid="structthemis_1_1llm_1_1_tensor_metadata" kindref="compound">TensorMetadata</ref>&amp;<sp/>tensor,</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>chunk_size);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Alignment<sp/>helper</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alignOffset(</highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>offset,<sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>alignment<sp/>=<sp/>32);</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>llm</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/gguf_loader.h"/>
+  </compounddef>
+</doxygen>

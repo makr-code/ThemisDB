@@ -1,0 +1,98 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker" kind="class" language="C++" prot="public">
+    <compoundname>themis::bench::llm_hp::StubQuotaTracker</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1ad91330328ee14ec09574015a772b6290" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::bench::llm_hp::StubQuotaTracker::limit_</definition>
+        <argsstring></argsstring>
+        <name>limit_</name>
+        <qualifiedname>themis::bench::llm_hp::StubQuotaTracker::limit_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="178" column="9" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="178" bodyend="178"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1af70a1217504ea0c55a432821da5b2a27" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; int &gt;</type>
+        <definition>std::atomic&lt;int&gt; themis::bench::llm_hp::StubQuotaTracker::counter_</definition>
+        <argsstring></argsstring>
+        <name>counter_</name>
+        <qualifiedname>themis::bench::llm_hp::StubQuotaTracker::counter_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="179" column="17" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="179" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1a07ceb3b786831c6687ac1417653246c9" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::bench::llm_hp::StubQuotaTracker::StubQuotaTracker</definition>
+        <argsstring>(int limit)</argsstring>
+        <name>StubQuotaTracker</name>
+        <qualifiedname>themis::bench::llm_hp::StubQuotaTracker::StubQuotaTracker</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="165" column="14" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1af2ca5ac83f2809574e1497979a06e26c" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::bench::llm_hp::StubQuotaTracker::checkAndDecrement</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>checkAndDecrement</name>
+        <qualifiedname>themis::bench::llm_hp::StubQuotaTracker::checkAndDecrement</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="166" column="10" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="166" bodyend="175"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1a1b1c8600cb4890632fce9f2e98d9c7d7" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::bench::llm_hp::StubQuotaTracker::refill</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>refill</name>
+        <qualifiedname>themis::bench::llm_hp::StubQuotaTracker::refill</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="176" column="10" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="176" bodyend="176"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Stub per-tenant quota tracker (atomic counter). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/llm/bench_llm_hotpaths.cpp" line="163" column="1" bodyfile="benchmarks/llm/bench_llm_hotpaths.cpp" bodystart="163" bodyend="180"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1af2ca5ac83f2809574e1497979a06e26c" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubQuotaTracker</scope><name>checkAndDecrement</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1af70a1217504ea0c55a432821da5b2a27" prot="private" virt="non-virtual"><scope>themis::bench::llm_hp::StubQuotaTracker</scope><name>counter_</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1ad91330328ee14ec09574015a772b6290" prot="private" virt="non-virtual"><scope>themis::bench::llm_hp::StubQuotaTracker</scope><name>limit_</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1a1b1c8600cb4890632fce9f2e98d9c7d7" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubQuotaTracker</scope><name>refill</name></member>
+      <member refid="classthemis_1_1bench_1_1llm__hp_1_1_stub_quota_tracker_1a07ceb3b786831c6687ac1417653246c9" prot="public" virt="non-virtual"><scope>themis::bench::llm_hp::StubQuotaTracker</scope><name>StubQuotaTracker</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

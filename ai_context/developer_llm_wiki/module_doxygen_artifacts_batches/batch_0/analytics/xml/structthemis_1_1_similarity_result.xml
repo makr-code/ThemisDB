@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_similarity_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::SimilarityResult</compoundname>
+    <includes refid="process__pattern__matcher_8h" local="no">process_pattern_matcher.h</includes>
+    <innerclass refid="structthemis_1_1_similarity_result_1_1_metric_breakdown" prot="public">themis::SimilarityResult::MetricBreakdown</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1ae08a5f03bfd8cb2e6189e7623d84a7a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SimilarityResult::case_id</definition>
+        <argsstring></argsstring>
+        <name>case_id</name>
+        <qualifiedname>themis::SimilarityResult::case_id</qualifiedname>
+        <briefdescription>
+<para>Process instance ID. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="62" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1ad66c3dce52a1d61b3344b4b488f7726f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::SimilarityResult::process_name</definition>
+        <argsstring></argsstring>
+        <name>process_name</name>
+        <qualifiedname>themis::SimilarityResult::process_name</qualifiedname>
+        <briefdescription>
+<para>Process name (if available). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="63" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1ad9a86bbcef007c91df03d5981fd867b3" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::SimilarityResult::overall_similarity</definition>
+        <argsstring></argsstring>
+        <name>overall_similarity</name>
+        <qualifiedname>themis::SimilarityResult::overall_similarity</qualifiedname>
+        <briefdescription>
+<para>Combined similarity score (0-1). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="64" column="12" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1a57cad0c1d6f6d81616ccfcf370922778" prot="public" static="no" mutable="no">
+        <type>struct <ref refid="structthemis_1_1_similarity_result_1_1_metric_breakdown" kindref="compound">themis::SimilarityResult::MetricBreakdown</ref></type>
+        <definition>struct themis::SimilarityResult::MetricBreakdown themis::SimilarityResult::metrics</definition>
+        <argsstring></argsstring>
+        <name>metrics</name>
+        <qualifiedname>themis::SimilarityResult::metrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="77" column="13"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1a14747e41fe4397c937e09c5f736e2b1a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SimilarityResult::matched_activities</definition>
+        <argsstring></argsstring>
+        <name>matched_activities</name>
+        <qualifiedname>themis::SimilarityResult::matched_activities</qualifiedname>
+        <briefdescription>
+<para>Activities that matched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="80" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1ab585cf0aded282eb34b1193365b81892" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;std::string, std::string&gt; &gt; themis::SimilarityResult::matched_edges</definition>
+        <argsstring></argsstring>
+        <name>matched_edges</name>
+        <qualifiedname>themis::SimilarityResult::matched_edges</qualifiedname>
+        <briefdescription>
+<para>Edges that matched. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="81" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1ac64f6d40b553a1dfd64253318509fa8e" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SimilarityResult::extra_activities</definition>
+        <argsstring></argsstring>
+        <name>extra_activities</name>
+        <qualifiedname>themis::SimilarityResult::extra_activities</qualifiedname>
+        <briefdescription>
+<para>Activities in result but not in pattern. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="82" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1addf944509cf7a83534482dd25b78ec2a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::SimilarityResult::missing_activities</definition>
+        <argsstring></argsstring>
+        <name>missing_activities</name>
+        <qualifiedname>themis::SimilarityResult::missing_activities</qualifiedname>
+        <briefdescription>
+<para>Activities in pattern but not in result. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="83" column="17" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_similarity_result_1a96298371e3a76c75e443efc82b542548" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::SimilarityResult::computation_time_us</definition>
+        <argsstring></argsstring>
+        <name>computation_time_us</name>
+        <qualifiedname>themis::SimilarityResult::computation_time_us</qualifiedname>
+        <briefdescription>
+<para>Time taken to compute similarity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/analytics/process_pattern_matcher.h" line="86" column="13" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::SimilarityResult</label>
+        <link refid="structthemis_1_1_similarity_result"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>metrics</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::SimilarityResult::MetricBreakdown</label>
+        <link refid="structthemis_1_1_similarity_result_1_1_metric_breakdown"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/analytics/process_pattern_matcher.h" line="61" column="1" bodyfile="include/analytics/process_pattern_matcher.h" bodystart="61" bodyend="87"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_similarity_result_1ae08a5f03bfd8cb2e6189e7623d84a7a2" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>case_id</name></member>
+      <member refid="structthemis_1_1_similarity_result_1a96298371e3a76c75e443efc82b542548" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>computation_time_us</name></member>
+      <member refid="structthemis_1_1_similarity_result_1ac64f6d40b553a1dfd64253318509fa8e" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>extra_activities</name></member>
+      <member refid="structthemis_1_1_similarity_result_1a14747e41fe4397c937e09c5f736e2b1a" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>matched_activities</name></member>
+      <member refid="structthemis_1_1_similarity_result_1ab585cf0aded282eb34b1193365b81892" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>matched_edges</name></member>
+      <member refid="structthemis_1_1_similarity_result_1a57cad0c1d6f6d81616ccfcf370922778" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>metrics</name></member>
+      <member refid="structthemis_1_1_similarity_result_1addf944509cf7a83534482dd25b78ec2a" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>missing_activities</name></member>
+      <member refid="structthemis_1_1_similarity_result_1ad9a86bbcef007c91df03d5981fd867b3" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>overall_similarity</name></member>
+      <member refid="structthemis_1_1_similarity_result_1ad66c3dce52a1d61b3344b4b488f7726f" prot="public" virt="non-virtual"><scope>themis::SimilarityResult</scope><name>process_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

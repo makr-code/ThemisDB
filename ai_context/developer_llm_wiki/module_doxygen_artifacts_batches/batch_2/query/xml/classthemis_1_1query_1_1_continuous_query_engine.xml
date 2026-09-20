@@ -1,0 +1,243 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1query_1_1_continuous_query_engine" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::query::ContinuousQueryEngine</compoundname>
+    <derivedcompoundref refid="class_mock_continuous_query_engine" prot="public" virt="non-virtual">MockContinuousQueryEngine</derivedcompoundref>
+    <derivedcompoundref refid="class_mock_continuous_query_engine" prot="public" virt="non-virtual">MockContinuousQueryEngine</derivedcompoundref>
+    <derivedcompoundref refid="classthemis_1_1query_1_1_continuous_query_engine_impl" prot="public" virt="non-virtual">themis::query::ContinuousQueryEngineImpl</derivedcompoundref>
+    <includes refid="continuous__query__engine_8h" local="no">continuous_query_engine.h</includes>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" prot="public" static="no">
+        <type>std::string</type>
+        <definition>using themis::query::ContinuousQueryEngine::ContinuousQueryHandle = std::string</definition>
+        <argsstring></argsstring>
+        <name>ContinuousQueryHandle</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::ContinuousQueryHandle</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="88" column="5" bodyfile="include/query/continuous_query_engine.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" prot="public" static="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1query_1_1_c_q_result_stream" kindref="compound">CQResultStream</ref> &gt;</type>
+        <definition>using themis::query::ContinuousQueryEngine::ResultStreamPtr = std::shared_ptr&lt;CQResultStream&gt;</definition>
+        <argsstring></argsstring>
+        <name>ResultStreamPtr</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::ResultStreamPtr</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="89" column="5" bodyfile="include/query/continuous_query_engine.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1ade11599119eef5dbf5a2fe6152b51318" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::query::ContinuousQueryEngine::~ContinuousQueryEngine</definition>
+        <argsstring>()=default</argsstring>
+        <name>~ContinuousQueryEngine</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::~ContinuousQueryEngine</qualifiedname>
+        <briefdescription>
+<para>Continuous <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> Engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="95" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1a82c2a7bad2b3e3e578b2728d9266e2a4" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" kindref="member">ContinuousQueryHandle</ref> &gt;</type>
+        <definition>virtual Result&lt; ContinuousQueryHandle &gt; themis::query::ContinuousQueryEngine::registerQuery</definition>
+        <argsstring>(ContinuousQuerySpec spec)=0</argsstring>
+        <name>registerQuery</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::registerQuery</qualifiedname>
+        <reimplementedby refid="class_mock_continuous_query_engine_1a50c18263e4fc814f26bd63df0e7b28a0">registerQuery</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_continuous_query_engine_impl_1a7130e24869fa11aeeb01921f619e5f6c">registerQuery</reimplementedby>
+        <param>
+          <type><ref refid="structthemis_1_1query_1_1_continuous_query_spec" kindref="compound">ContinuousQuerySpec</ref></type>
+          <declname>spec</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="97" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1a3584d23578b556962d02508e4f9ca9ba" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; void &gt;</type>
+        <definition>virtual Result&lt; void &gt; themis::query::ContinuousQueryEngine::dropQuery</definition>
+        <argsstring>(const std::string &amp;name)=0</argsstring>
+        <name>dropQuery</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::dropQuery</qualifiedname>
+        <reimplementedby refid="class_mock_continuous_query_engine_1a6b97e82f980da3ba9304a24e72335a65">dropQuery</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_continuous_query_engine_impl_1ac65b7ad7bdcf99d238ea688d932a696a">dropQuery</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Drop <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="105" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1af26cec1040d45e58ce0ae4953ee566a7" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>Result&lt; <ref refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" kindref="member">ResultStreamPtr</ref> &gt;</type>
+        <definition>virtual Result&lt; ResultStreamPtr &gt; themis::query::ContinuousQueryEngine::subscribe</definition>
+        <argsstring>(const std::string &amp;name, ResultMode mode)=0</argsstring>
+        <name>subscribe</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::subscribe</qualifiedname>
+        <reimplementedby refid="class_mock_continuous_query_engine_1aafb51e03a176b542f6b319c24cc2d4c9">subscribe</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_continuous_query_engine_impl_1a6259747551cf7c57839d10fe0cf5d77f">subscribe</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a61d302e9f3648ff09de0dfba2611ea88" kindref="member">ResultMode</ref></type>
+          <declname>mode</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="107" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1afa292c4a075417ae427e292e21376a72" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_continuous_query_info" kindref="compound">ContinuousQueryInfo</ref> &gt;</type>
+        <definition>virtual std::vector&lt; ContinuousQueryInfo &gt; themis::query::ContinuousQueryEngine::listQueries</definition>
+        <argsstring>() const =0</argsstring>
+        <name>listQueries</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::listQueries</qualifiedname>
+        <reimplementedby refid="class_mock_continuous_query_engine_1ad0c4b5d50e5db19ce912ace54f1118d7">listQueries</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_continuous_query_engine_impl_1a43ce03aaf4016a747ad4ddc58c8ebede">listQueries</reimplementedby>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="111" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1query_1_1_continuous_query_engine_1a8b4d1870f11269eeac2a787ee265e299" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::query::ContinuousQueryEngine::injectTuple</definition>
+        <argsstring>(const std::string &amp;collection, const std::string &amp;tuple, int64_t event_ts)=0</argsstring>
+        <name>injectTuple</name>
+        <qualifiedname>themis::query::ContinuousQueryEngine::injectTuple</qualifiedname>
+        <reimplementedby refid="class_mock_continuous_query_engine_1a0a10544195210f8f442efa873f2e9e10">injectTuple</reimplementedby>
+        <reimplementedby refid="classthemis_1_1query_1_1_continuous_query_engine_impl_1a6e3afb27e247863fb05c0cbe84c12e09">injectTuple</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>tuple</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>event_ts</declname>
+        </param>
+        <briefdescription>
+<para>Inject Tuple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">collection</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">tuple</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_ts</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/continuous_query_engine.h" line="119" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>MockContinuousQueryEngine</label>
+        <link refid="class_mock_continuous_query_engine"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>themis::query::ContinuousQueryEngine</label>
+        <link refid="classthemis_1_1query_1_1_continuous_query_engine"/>
+      </node>
+      <node id="3">
+        <label>themis::query::ContinuousQueryEngineImpl</label>
+        <link refid="classthemis_1_1query_1_1_continuous_query_engine_impl"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/query/continuous_query_engine.h" line="86" column="1" bodyfile="include/query/continuous_query_engine.h" bodystart="86" bodyend="122"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1aa1b9f6d47297f0bc990dee9694d2c2d4" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>ContinuousQueryHandle</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1a3584d23578b556962d02508e4f9ca9ba" prot="public" virt="pure-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>dropQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1a8b4d1870f11269eeac2a787ee265e299" prot="public" virt="pure-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>injectTuple</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1afa292c4a075417ae427e292e21376a72" prot="public" virt="pure-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>listQueries</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1a82c2a7bad2b3e3e578b2728d9266e2a4" prot="public" virt="pure-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>registerQuery</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1ac681f291c2f8987d7b73c3bcefd2eebd" prot="public" virt="non-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>ResultStreamPtr</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1af26cec1040d45e58ce0ae4953ee566a7" prot="public" virt="pure-virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>subscribe</name></member>
+      <member refid="classthemis_1_1query_1_1_continuous_query_engine_1ade11599119eef5dbf5a2fe6152b51318" prot="public" virt="virtual"><scope>themis::query::ContinuousQueryEngine</scope><name>~ContinuousQueryEngine</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

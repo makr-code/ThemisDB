@@ -1,0 +1,79 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_aql_transaction_block" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::AqlTransactionBlock</compoundname>
+    <includes refid="aql__parser_8h" local="no">aql_parser.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_transaction_block_1a2e0302f4e64dc57a5d19454b1c2bdea8" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::shared_ptr&lt; <ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> &gt; &gt;</type>
+        <definition>std::vector&lt;std::shared_ptr&lt;Query&gt; &gt; themis::query::AqlTransactionBlock::statements</definition>
+        <argsstring></argsstring>
+        <name>statements</name>
+        <qualifiedname>themis::query::AqlTransactionBlock::statements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1011" column="17" bodyfile="include/query/aql_parser.h" bodystart="1011" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_transaction_block_1a8a81a933a4bbf953a35aba999155f311" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_aql_statement" kindref="compound">AqlStatement</ref> &gt;</type>
+        <definition>std::vector&lt;AqlStatement&gt; themis::query::AqlTransactionBlock::ordered_statements</definition>
+        <argsstring></argsstring>
+        <name>ordered_statements</name>
+        <qualifiedname>themis::query::AqlTransactionBlock::ordered_statements</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1013" column="17" bodyfile="include/query/aql_parser.h" bodystart="1013" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_aql_transaction_block_1aea5f6e1320789583de596351faeb559e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a257cf8afedd427d6314a4671ad152958" kindref="member">AqlTransactionAction</ref></type>
+        <definition>AqlTransactionAction themis::query::AqlTransactionBlock::action</definition>
+        <argsstring></argsstring>
+        <name>action</name>
+        <qualifiedname>themis::query::AqlTransactionBlock::action</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a257cf8afedd427d6314a4671ad152958a59d5b10c3a447f036d85cb5ce524c96c" kindref="member">AqlTransactionAction::Commit</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1015" column="26" bodyfile="include/query/aql_parser.h" bodystart="1015" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_aql_transaction_block_1ab5be16ab5dec12f57f68d57c4b1879e8" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::query::AqlTransactionBlock::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::query::AqlTransactionBlock::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/aql_parser.h" line="1017" column="20" bodyfile="include/query/aql_parser.h" bodystart="1017" bodyend="1042"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/aql_parser.h" line="1010" column="1" bodyfile="include/query/aql_parser.h" bodystart="1010" bodyend="1043"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_aql_transaction_block_1aea5f6e1320789583de596351faeb559e" prot="public" virt="non-virtual"><scope>themis::query::AqlTransactionBlock</scope><name>action</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_transaction_block_1a8a81a933a4bbf953a35aba999155f311" prot="public" virt="non-virtual"><scope>themis::query::AqlTransactionBlock</scope><name>ordered_statements</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_transaction_block_1a2e0302f4e64dc57a5d19454b1c2bdea8" prot="public" virt="non-virtual"><scope>themis::query::AqlTransactionBlock</scope><name>statements</name></member>
+      <member refid="structthemis_1_1query_1_1_aql_transaction_block_1ab5be16ab5dec12f57f68d57c4b1879e8" prot="public" virt="non-virtual"><scope>themis::query::AqlTransactionBlock</scope><name>toJSON</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

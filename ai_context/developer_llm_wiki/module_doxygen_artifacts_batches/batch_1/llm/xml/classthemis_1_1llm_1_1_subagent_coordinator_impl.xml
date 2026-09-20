@@ -1,0 +1,369 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1_subagent_coordinator_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::SubagentCoordinatorImpl</compoundname>
+    <basecompoundref refid="classthemis_1_1llm_1_1_subagent_coordinator" prot="public" virt="non-virtual">themis::llm::SubagentCoordinator</basecompoundref>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a790650acd89307bacb78abcc8321ac28" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_subagent_factory" kindref="compound">SubagentFactory</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;SubagentFactory&gt; themis::llm::SubagentCoordinatorImpl::factory_</definition>
+        <argsstring></argsstring>
+        <name>factory_</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::factory_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="344" column="21" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="344" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a80f1953a905a47b945f287853354a115" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::llm::SubagentCoordinatorImpl::stats_mutex_</definition>
+        <argsstring></argsstring>
+        <name>stats_mutex_</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::stats_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="345" column="24" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="345" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a1e1d607cedeea2ea4ecfdf0c95a9ad60" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats" kindref="compound">CoordinatorStats</ref></type>
+        <definition>CoordinatorStats themis::llm::SubagentCoordinatorImpl::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="346" column="22" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="346" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a506c2ac4f51d023705690b8e139d9fe2" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordination_diagnostics" kindref="compound">CoordinationDiagnostics</ref></type>
+        <definition>CoordinationDiagnostics themis::llm::SubagentCoordinatorImpl::diagnostics_</definition>
+        <argsstring></argsstring>
+        <name>diagnostics_</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::diagnostics_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="347" column="29" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="347" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1ae87d011c61aa08d8dac8a7c2bceae204" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::SubagentCoordinatorImpl::SubagentCoordinatorImpl</definition>
+        <argsstring>(std::shared_ptr&lt; SubagentFactory &gt; factory)</argsstring>
+        <name>SubagentCoordinatorImpl</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::SubagentCoordinatorImpl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1llm_1_1_subagent_factory" kindref="compound">SubagentFactory</ref> &gt;</type>
+          <declname>factory</declname>
+        </param>
+        <briefdescription>
+<para><ref refid="classthemis_1_1llm_1_1_subagent" kindref="compound">Subagent</ref> Coordinator Impl. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">factory</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="30" column="14" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1aa24c150dfa1d9aacb6979a9b6330e36f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result" kindref="compound">SubagentCoordinatorAggregateResult</ref></type>
+        <definition>SubagentCoordinatorAggregateResult themis::llm::SubagentCoordinatorImpl::inferMultiple</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;subagent_ids, const InferenceRequest &amp;request, const SubagentCoordinatorConfig &amp;config) override</argsstring>
+        <name>inferMultiple</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::inferMultiple</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_coordinator_1a8b872592cd94c0005414f23d3588fa63">inferMultiple</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>subagent_ids</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &amp;</type>
+          <declname>request</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_subagent_coordinator_config" kindref="compound">SubagentCoordinatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Infer Multiple. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subagent_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">request</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="35" column="40" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="35" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1ae7908e3c0f6474c68ccc295cc5d43a9c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1llm_1_1_subagent_coordinator_aggregate_result" kindref="compound">SubagentCoordinatorAggregateResult</ref> &gt;</type>
+        <definition>std::vector&lt; SubagentCoordinatorAggregateResult &gt; themis::llm::SubagentCoordinatorImpl::inferMultipleBatch</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;subagent_ids, const std::vector&lt; InferenceRequest &gt; &amp;requests, const SubagentCoordinatorConfig &amp;config) override</argsstring>
+        <name>inferMultipleBatch</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::inferMultipleBatch</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_coordinator_1a991e44079155b96250038ae9793556ef">inferMultipleBatch</reimplements>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>subagent_ids</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> &gt; &amp;</type>
+          <declname>requests</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1llm_1_1_subagent_coordinator_config" kindref="compound">SubagentCoordinatorConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Infer Multiple Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">subagent_ids</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">requests</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="300" column="17" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="300" bodyend="311"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a621e444d472c43c10263bcc42656976b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordination_diagnostics" kindref="compound">CoordinationDiagnostics</ref></type>
+        <definition>CoordinationDiagnostics themis::llm::SubagentCoordinatorImpl::getLastDiagnostics</definition>
+        <argsstring>() override</argsstring>
+        <name>getLastDiagnostics</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::getLastDiagnostics</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_coordinator_1a7d0f139ca4a4946d5d8d9ec93fc994e2">getLastDiagnostics</reimplements>
+        <briefdescription>
+<para>Get Last Diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="313" column="29" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="313" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a36dc24e68b8423e904f0a532ec5d0a2c" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type><ref refid="structthemis_1_1llm_1_1_subagent_coordinator_1_1_coordinator_stats" kindref="compound">CoordinatorStats</ref></type>
+        <definition>CoordinatorStats themis::llm::SubagentCoordinatorImpl::getStats</definition>
+        <argsstring>() override</argsstring>
+        <name>getStats</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::getStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_coordinator_1a3f9f20a2eba41f43fd1a9a67863120b0">getStats</reimplements>
+        <briefdescription>
+<para>Get Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="323" column="22" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="323" bodyend="331"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1_subagent_coordinator_impl_1aa18db6e36d709ff893025f0fa62138bf" prot="public" static="no" const="no" explicit="no" inline="yes" virt="virtual">
+        <type>void</type>
+        <definition>void themis::llm::SubagentCoordinatorImpl::resetStats</definition>
+        <argsstring>() override</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::llm::SubagentCoordinatorImpl::resetStats</qualifiedname>
+        <reimplements refid="classthemis_1_1llm_1_1_subagent_coordinator_1afd4e4e205dfb11ed99d9aa95664caaee">resetStats</reimplements>
+        <briefdescription>
+<para>Reset Stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">stats_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/llm/subagent_coordinator_impl.cpp" line="333" column="10" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="333" bodyend="341"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::llm::SubagentCoordinator</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SubagentCoordinatorImpl</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_coordinator_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::llm::SubagentCoordinator</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_coordinator"/>
+      </node>
+      <node id="1">
+        <label>themis::llm::SubagentCoordinatorImpl</label>
+        <link refid="classthemis_1_1llm_1_1_subagent_coordinator_impl"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/llm/subagent_coordinator_impl.cpp" line="23" column="1" bodyfile="src/llm/subagent_coordinator_impl.cpp" bodystart="23" bodyend="348"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_1a454f853c38877270c1c1ed883a4c7d2e" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>create</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a506c2ac4f51d023705690b8e139d9fe2" prot="private" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>diagnostics_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a790650acd89307bacb78abcc8321ac28" prot="private" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>factory_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a621e444d472c43c10263bcc42656976b" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>getLastDiagnostics</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a36dc24e68b8423e904f0a532ec5d0a2c" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>getStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1aa24c150dfa1d9aacb6979a9b6330e36f" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>inferMultiple</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1ae7908e3c0f6474c68ccc295cc5d43a9c" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>inferMultipleBatch</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_1addddcdd1eebc8aab81283029a03ecf72" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1aa18db6e36d709ff893025f0fa62138bf" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a1e1d607cedeea2ea4ecfdf0c95a9ad60" prot="private" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1a80f1953a905a47b945f287853354a115" prot="private" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>stats_mutex_</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_1a035bf3bcf4a8a11987c318f965682513" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>SubagentCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_1af44103c9c286849e7db9de1d0f51a0e7" prot="protected" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>SubagentCoordinator</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_impl_1ae87d011c61aa08d8dac8a7c2bceae204" prot="public" virt="non-virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>SubagentCoordinatorImpl</name></member>
+      <member refid="classthemis_1_1llm_1_1_subagent_coordinator_1ac3e955add13d5003f4a6165ff42438c9" prot="public" virt="virtual"><scope>themis::llm::SubagentCoordinatorImpl</scope><name>~SubagentCoordinator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

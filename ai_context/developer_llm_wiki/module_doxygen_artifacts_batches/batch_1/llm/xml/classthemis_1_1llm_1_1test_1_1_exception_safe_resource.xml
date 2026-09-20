@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1llm_1_1test_1_1_exception_safe_resource" kind="class" language="C++" prot="public">
+    <compoundname>themis::llm::test::ExceptionSafeResource</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1a355fb83c1b721f4f37d6fc80e0e6cc6d" prot="private" static="no" mutable="no">
+        <type>int *</type>
+        <definition>int* themis::llm::test::ExceptionSafeResource::value_</definition>
+        <argsstring></argsstring>
+        <name>value_</name>
+        <qualifiedname>themis::llm::test::ExceptionSafeResource::value_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="168" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="168" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1ab30deca50eeb009562184cb2feccdb6b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::ExceptionSafeResource::ExceptionSafeResource</definition>
+        <argsstring>()</argsstring>
+        <name>ExceptionSafeResource</name>
+        <qualifiedname>themis::llm::test::ExceptionSafeResource::ExceptionSafeResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="156" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1ae0e812afa89a8b136d547774023bcb62" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::llm::test::ExceptionSafeResource::~ExceptionSafeResource</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~ExceptionSafeResource</name>
+        <qualifiedname>themis::llm::test::ExceptionSafeResource::~ExceptionSafeResource</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="158" column="3" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="158" bodyend="163"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1a49132dfc0f591817f96ecb685a2ec398" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::llm::test::ExceptionSafeResource::getValue</definition>
+        <argsstring>() const</argsstring>
+        <name>getValue</name>
+        <qualifiedname>themis::llm::test::ExceptionSafeResource::getValue</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="165" column="7" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="165" bodyend="165"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/llm/test_llm_memory_safety_hardening.cpp" line="154" column="1" bodyfile="tests/llm/test_llm_memory_safety_hardening.cpp" bodystart="154" bodyend="169"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1ab30deca50eeb009562184cb2feccdb6b" prot="public" virt="non-virtual"><scope>themis::llm::test::ExceptionSafeResource</scope><name>ExceptionSafeResource</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1a49132dfc0f591817f96ecb685a2ec398" prot="public" virt="non-virtual"><scope>themis::llm::test::ExceptionSafeResource</scope><name>getValue</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1a355fb83c1b721f4f37d6fc80e0e6cc6d" prot="private" virt="non-virtual"><scope>themis::llm::test::ExceptionSafeResource</scope><name>value_</name></member>
+      <member refid="classthemis_1_1llm_1_1test_1_1_exception_safe_resource_1ae0e812afa89a8b136d547774023bcb62" prot="public" virt="non-virtual"><scope>themis::llm::test::ExceptionSafeResource</scope><name>~ExceptionSafeResource</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

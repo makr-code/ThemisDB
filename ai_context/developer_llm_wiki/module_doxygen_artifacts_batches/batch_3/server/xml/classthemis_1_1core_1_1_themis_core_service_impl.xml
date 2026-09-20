@@ -1,0 +1,249 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1core_1_1_themis_core_service_impl" kind="class" language="C++" prot="public">
+    <compoundname>themis::core::ThemisCoreServiceImpl</compoundname>
+    <includes refid="themis__core__grpc__service_8h" local="no">themis_core_grpc_service.h</includes>
+    <innerclass refid="classthemis_1_1core_1_1_themis_core_service_impl_1_1_impl" prot="public">themis::core::ThemisCoreServiceImpl::Impl</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1core_1_1_themis_core_service_impl_1a7a271daf056d8594c7aaf9fc03a28da4" prot="public" static="no">
+        <type>std::function&lt; void *()&gt;</type>
+        <definition>using themis::core::ThemisCoreServiceImpl::ServiceInstanceFn = std::function&lt;void*()&gt;</definition>
+        <argsstring></argsstring>
+        <name>ServiceInstanceFn</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::ServiceInstanceFn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="34" column="5" bodyfile="include/server/themis_core_grpc_service.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1core_1_1_themis_core_service_impl_1aec29ebdfe555c39f1f9600780d04790d" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+        <definition>std::shared_ptr&lt;RocksDBWrapper&gt; themis::core::ThemisCoreServiceImpl::db_</definition>
+        <argsstring></argsstring>
+        <name>db_</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::db_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="57" column="25" bodyfile="include/server/themis_core_grpc_service.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1_themis_core_service_impl_1ab0c5f182be33881d01076ef79977e4be" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+        <definition>std::shared_ptr&lt;TransactionManager&gt; themis::core::ThemisCoreServiceImpl::txn_mgr_</definition>
+        <argsstring></argsstring>
+        <name>txn_mgr_</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::txn_mgr_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="58" column="21" bodyfile="include/server/themis_core_grpc_service.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1_themis_core_service_impl_1a363e0fee1a8e29e6b7706bba1034095f" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a218b356babf260cc9c85dd14f96faf5d" kindref="member">AQLEngine</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AQLEngine&gt; themis::core::ThemisCoreServiceImpl::aql_engine_</definition>
+        <argsstring></argsstring>
+        <name>aql_engine_</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::aql_engine_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="59" column="30" bodyfile="include/server/themis_core_grpc_service.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1_themis_core_service_impl_1a816d11026cb02a40c1c85674f59ab103" prot="private" static="no" mutable="no">
+        <type>void *</type>
+        <definition>void* themis::core::ThemisCoreServiceImpl::service_ptr_</definition>
+        <argsstring></argsstring>
+        <name>service_ptr_</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::service_ptr_</qualifiedname>
+        <initializer>= nullptr</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="61" column="10" bodyfile="include/server/themis_core_grpc_service.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1core_1_1_themis_core_service_impl_1a8616aad65f8c09b138f0140c61ee6586" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1core_1_1_themis_core_service_impl_1_1_impl" kindref="compound">Impl</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::core::ThemisCoreServiceImpl::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="64" column="21" bodyfile="include/server/themis_core_grpc_service.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_themis_core_service_impl_1a3b14988560556c9e5e9331ed04d47351" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::ThemisCoreServiceImpl::ThemisCoreServiceImpl</definition>
+        <argsstring>(std::shared_ptr&lt; RocksDBWrapper &gt; db, std::shared_ptr&lt; TransactionManager &gt; txn_mgr, std::shared_ptr&lt; AQLEngine &gt; aql_engine)</argsstring>
+        <name>ThemisCoreServiceImpl</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::ThemisCoreServiceImpl</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; RocksDBWrapper &gt;</type>
+          <declname>db</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; TransactionManager &gt;</type>
+          <declname>txn_mgr</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="namespacethemis_1a218b356babf260cc9c85dd14f96faf5d" kindref="member">AQLEngine</ref> &gt;</type>
+          <declname>aql_engine</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">g_core_grpc_instance_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Runtime error. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Runtime error. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="36" column="5" bodyfile="src/server/themis_core_grpc_service.cpp" bodystart="619" bodyend="674"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_themis_core_service_impl_1a7f92413f0d1a5c44e33823e73d25957c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::core::ThemisCoreServiceImpl::~ThemisCoreServiceImpl</definition>
+        <argsstring>()</argsstring>
+        <name>~ThemisCoreServiceImpl</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::~ThemisCoreServiceImpl</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="42" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1core_1_1_themis_core_service_impl_1adf2a5d0988c92c7ed9182830ebf21b1b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::core::ThemisCoreServiceImpl::getServiceInstance</definition>
+        <argsstring>()</argsstring>
+        <name>getServiceInstance</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::getServiceInstance</qualifiedname>
+        <briefdescription>
+<para>Get Service Instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+<simplesect kind="return"><para>Pointer to the result.</para>
+</simplesect>
+Calls: get(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="48" column="10" bodyfile="src/server/themis_core_grpc_service.cpp" bodystart="693" bodyend="699"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1core_1_1_themis_core_service_impl_1a80f1a57bef17ae1cc7f5ddeb82485805" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::core::ThemisCoreServiceImpl::setServiceInstanceFn</definition>
+        <argsstring>(ServiceInstanceFn fn)</argsstring>
+        <name>setServiceInstanceFn</name>
+        <qualifiedname>themis::core::ThemisCoreServiceImpl::setServiceInstanceFn</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1core_1_1_themis_core_service_impl_1a7a271daf056d8594c7aaf9fc03a28da4" kindref="member">ServiceInstanceFn</ref></type>
+          <declname>fn</declname>
+        </param>
+        <briefdescription>
+<para>Set Service Instance Fn. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">fn</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/themis_core_grpc_service.h" line="54" column="17" bodyfile="src/server/themis_core_grpc_service.cpp" bodystart="683" bodyend="686"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/themis_core_grpc_service.h" line="32" column="1" bodyfile="include/server/themis_core_grpc_service.h" bodystart="32" bodyend="65"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a363e0fee1a8e29e6b7706bba1034095f" prot="private" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>aql_engine_</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1aec29ebdfe555c39f1f9600780d04790d" prot="private" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>db_</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1adf2a5d0988c92c7ed9182830ebf21b1b" prot="public" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>getServiceInstance</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a8616aad65f8c09b138f0140c61ee6586" prot="private" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a816d11026cb02a40c1c85674f59ab103" prot="private" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>service_ptr_</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a7a271daf056d8594c7aaf9fc03a28da4" prot="public" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>ServiceInstanceFn</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a80f1a57bef17ae1cc7f5ddeb82485805" prot="public" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>setServiceInstanceFn</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a3b14988560556c9e5e9331ed04d47351" prot="public" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>ThemisCoreServiceImpl</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1ab0c5f182be33881d01076ef79977e4be" prot="private" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>txn_mgr_</name></member>
+      <member refid="classthemis_1_1core_1_1_themis_core_service_impl_1a7f92413f0d1a5c44e33823e73d25957c" prot="public" virt="non-virtual"><scope>themis::core::ThemisCoreServiceImpl</scope><name>~ThemisCoreServiceImpl</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

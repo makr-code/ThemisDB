@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_snapshot_transfer_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::SnapshotTransferResult</compoundname>
+    <includes refid="wal__shipper_8h" local="no">wal_shipper.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_transfer_result_1aa01a5a0ad2fe6454745b049f3b488280" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::SnapshotTransferResult::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::sharding::SnapshotTransferResult::success</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="119" column="10" bodyfile="include/sharding/wal_shipper.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_transfer_result_1aa9e1389d8f89dc81e2a0ff9e030a0bfe" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotTransferResult::chunks_sent</definition>
+        <argsstring></argsstring>
+        <name>chunks_sent</name>
+        <qualifiedname>themis::sharding::SnapshotTransferResult::chunks_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="120" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_transfer_result_1ade64b2334afaac3b189a2ac8e4e84b03" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::sharding::SnapshotTransferResult::bytes_sent</definition>
+        <argsstring></argsstring>
+        <name>bytes_sent</name>
+        <qualifiedname>themis::sharding::SnapshotTransferResult::bytes_sent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="121" column="14" bodyfile="include/sharding/wal_shipper.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_snapshot_transfer_result_1a295ab37670631b68fe30470b06ae7167" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::SnapshotTransferResult::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::sharding::SnapshotTransferResult::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/wal_shipper.h" line="122" column="17" bodyfile="include/sharding/wal_shipper.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result summary for one snapshot transfer attempt. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/wal_shipper.h" line="118" column="1" bodyfile="include/sharding/wal_shipper.h" bodystart="118" bodyend="123"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_transfer_result_1ade64b2334afaac3b189a2ac8e4e84b03" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotTransferResult</scope><name>bytes_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_transfer_result_1aa9e1389d8f89dc81e2a0ff9e030a0bfe" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotTransferResult</scope><name>chunks_sent</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_transfer_result_1a295ab37670631b68fe30470b06ae7167" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotTransferResult</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1sharding_1_1_snapshot_transfer_result_1aa01a5a0ad2fe6454745b049f3b488280" prot="public" virt="non-virtual"><scope>themis::sharding::SnapshotTransferResult</scope><name>success</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

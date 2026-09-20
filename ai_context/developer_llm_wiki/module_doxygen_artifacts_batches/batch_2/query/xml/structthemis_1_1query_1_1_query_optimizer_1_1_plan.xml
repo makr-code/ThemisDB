@@ -1,0 +1,160 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryOptimizer::Plan</compoundname>
+    <includes refid="query__optimizer_8h" local="no">query_optimizer.h</includes>
+    <innerclass refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds" prot="public">themis::query::QueryOptimizer::Plan::ScopeBounds</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1abd29216f121a8e3d03794baf164f300d" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_predicate_eq" kindref="compound">PredicateEq</ref> &gt;</type>
+        <definition>std::vector&lt;PredicateEq&gt; themis::query::QueryOptimizer::Plan::orderedPredicates</definition>
+        <argsstring></argsstring>
+        <name>orderedPredicates</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::orderedPredicates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="48" column="21" bodyfile="include/query/query_optimizer.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a233d4e30e60129d37876e032df664691" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_estimation" kindref="compound">Estimation</ref> &gt;</type>
+        <definition>std::vector&lt;Estimation&gt; themis::query::QueryOptimizer::Plan::details</definition>
+        <argsstring></argsstring>
+        <name>details</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::details</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="49" column="21" bodyfile="include/query/query_optimizer.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a7947ba38a80ec962f6dc08bab4d9bbfb" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::QueryOptimizer::Plan::nlp_complexity</definition>
+        <argsstring></argsstring>
+        <name>nlp_complexity</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::nlp_complexity</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="52" column="16" bodyfile="include/query/query_optimizer.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a99cd91251c40f3d5699796c21f86b810" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::QueryOptimizer::Plan::nlp_suggested_indexes</definition>
+        <argsstring></argsstring>
+        <name>nlp_suggested_indexes</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::nlp_suggested_indexes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="53" column="21" bodyfile="include/query/query_optimizer.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a327b117bd47789c37c54d64e246513f8" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::query::QueryOptimizer::Plan::nlp_hints</definition>
+        <argsstring></argsstring>
+        <name>nlp_hints</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::nlp_hints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="54" column="18" bodyfile="include/query/query_optimizer.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a2994b4a8abf094f6251b74de18c5c266" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice" kindref="compound">OptimizerCostModel::SerializationAdvice</ref></type>
+        <definition>OptimizerCostModel::SerializationAdvice themis::query::QueryOptimizer::Plan::serialization_advice</definition>
+        <argsstring></argsstring>
+        <name>serialization_advice</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::serialization_advice</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="57" column="49" bodyfile="include/query/query_optimizer.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds" kindref="compound">ScopeBounds</ref></type>
+        <definition>ScopeBounds themis::query::QueryOptimizer::Plan::scope_bounds</definition>
+        <argsstring></argsstring>
+        <name>scope_bounds</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::scope_bounds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="67" column="21" bodyfile="include/query/query_optimizer.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::QueryOptimizer::Plan::has_valid_scope_bounds</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>has_valid_scope_bounds</name>
+        <qualifiedname>themis::query::QueryOptimizer::Plan::has_valid_scope_bounds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_optimizer.h" line="70" column="14" bodyfile="include/query/query_optimizer.h" bodystart="70" bodyend="73"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::OptimizerCostModel::SerializationAdvice</label>
+        <link refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice"/>
+      </node>
+      <node id="1">
+        <label>themis::query::QueryOptimizer::Plan</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>serialization_advice</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>scope_bounds</edgelabel>
+        </childnode>
+      </node>
+      <node id="3">
+        <label>themis::query::QueryOptimizer::Plan::ScopeBounds</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/query_optimizer.h" line="47" column="5" bodyfile="include/query/query_optimizer.h" bodystart="47" bodyend="74"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a233d4e30e60129d37876e032df664691" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>details</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a5fe7e3ad8b32f57b8ac9eed9cdc5db57" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>has_valid_scope_bounds</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a7947ba38a80ec962f6dc08bab4d9bbfb" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>nlp_complexity</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a327b117bd47789c37c54d64e246513f8" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>nlp_hints</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a99cd91251c40f3d5699796c21f86b810" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>nlp_suggested_indexes</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1abd29216f121a8e3d03794baf164f300d" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>orderedPredicates</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1acdee2d81010a3e8a343b2d48d80b2a86" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>scope_bounds</name></member>
+      <member refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1a2994b4a8abf094f6251b74de18c5c266" prot="public" virt="non-virtual"><scope>themis::query::QueryOptimizer::Plan</scope><name>serialization_advice</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

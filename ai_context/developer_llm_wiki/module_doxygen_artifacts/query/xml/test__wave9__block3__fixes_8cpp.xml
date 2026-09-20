@@ -1,0 +1,1096 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__wave9__block3__fixes_8cpp" kind="file" language="C++">
+    <compoundname>test_wave9_block3_fixes.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="query__executor_8h" local="yes">query/query_executor.h</includes>
+    <includes refid="result__stream_8h" local="yes">query/result_stream.h</includes>
+    <includes refid="parallel__executor_8h" local="yes">query/parallel_executor.h</includes>
+    <includes refid="query__cache_8h" local="yes">query/query_cache.h</includes>
+    <includes refid="query__compiler_8h" local="yes">query/query_compiler.h</includes>
+    <includes refid="vectorized__execution_8h" local="yes">query/vectorized_execution.h</includes>
+    <includes refid="aql__parser_8h" local="yes">query/aql_parser.h</includes>
+    <includes refid="aql__translator_8h" local="yes">query/aql_translator.h</includes>
+    <includes refid="tensor__aware__query__optimizer_8h" local="yes">query/tensor_aware_query_optimizer.h</includes>
+    <incdepgraph>
+      <node id="48">
+        <label>query/adaptive_optimizer.h</label>
+        <link refid="adaptive__optimizer_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+      </node>
+      <node id="32">
+        <label>query/aql_parser.h</label>
+        <link refid="aql__parser_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="33" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="35">
+        <label>query/aql_translator.h</label>
+        <link refid="aql__translator_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="36" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="36">
+        <label>query/mutation_execution_plan.h</label>
+        <link refid="mutation__execution__plan_8h"/>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="49">
+        <label>query/optimizer_cost_model.h</label>
+        <link refid="optimizer__cost__model_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>query/parallel_executor.h</label>
+        <link refid="parallel__executor_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="24">
+        <label>query/query_cache.h</label>
+        <link refid="query__cache_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="25" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="28" relation="include">
+        </childnode>
+      </node>
+      <node id="29">
+        <label>query/query_compiler.h</label>
+        <link refid="query__compiler_8h"/>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="37">
+        <label>query_engine.h</label>
+        <link refid="query__engine_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="40" relation="include">
+        </childnode>
+        <childnode refid="41" relation="include">
+        </childnode>
+        <childnode refid="42" relation="include">
+        </childnode>
+      </node>
+      <node id="8">
+        <label>query/query_executor.h</label>
+        <link refid="query__executor_8h"/>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="46">
+        <label>query/query_optimizer.h</label>
+        <link refid="query__optimizer_8h"/>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="38" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="39" relation="include">
+        </childnode>
+        <childnode refid="47" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="48" relation="include">
+        </childnode>
+        <childnode refid="49" relation="include">
+        </childnode>
+      </node>
+      <node id="45">
+        <label>query/query_plan_visualizer.h</label>
+        <link refid="query__plan__visualizer_8h"/>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="37" relation="include">
+        </childnode>
+        <childnode refid="46" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>query/result_stream.h</label>
+        <link refid="result__stream_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="43">
+        <label>query/tensor_aware_query_optimizer.h</label>
+        <link refid="tensor__aware__query__optimizer_8h"/>
+        <childnode refid="44" relation="include">
+        </childnode>
+        <childnode refid="45" relation="include">
+        </childnode>
+        <childnode refid="50" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="27" relation="include">
+        </childnode>
+        <childnode refid="51" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="34" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="30">
+        <label>query/vectorized_execution.h</label>
+        <link refid="vectorized__execution_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="26" relation="include">
+        </childnode>
+        <childnode refid="31" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/query/test_wave9_block3_fixes.cpp</label>
+        <link refid="test__wave9__block3__fixes_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+        <childnode refid="24" relation="include">
+        </childnode>
+        <childnode refid="29" relation="include">
+        </childnode>
+        <childnode refid="30" relation="include">
+        </childnode>
+        <childnode refid="32" relation="include">
+        </childnode>
+        <childnode refid="35" relation="include">
+        </childnode>
+        <childnode refid="43" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="31">
+        <label>analytics/columnar_execution.h</label>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="18">
+        <label>cstddef</label>
+      </node>
+      <node id="10">
+        <label>cstdint</label>
+      </node>
+      <node id="11">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="44">
+        <label>index/ann_frontdoor.h</label>
+      </node>
+      <node id="21">
+        <label>limits</label>
+      </node>
+      <node id="28">
+        <label>list</label>
+      </node>
+      <node id="47">
+        <label>map</label>
+      </node>
+      <node id="17">
+        <label>memory</label>
+      </node>
+      <node id="27">
+        <label>mutex</label>
+      </node>
+      <node id="26">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="12">
+        <label>optional</label>
+      </node>
+      <node id="15">
+        <label>security/safe_iterator.h</label>
+      </node>
+      <node id="33">
+        <label>set</label>
+      </node>
+      <node id="51">
+        <label>shared_mutex</label>
+      </node>
+      <node id="5">
+        <label>stdexcept</label>
+      </node>
+      <node id="23">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="38">
+        <label>string_view</label>
+      </node>
+      <node id="41">
+        <label>themis/base/interfaces/index_interface.h</label>
+      </node>
+      <node id="42">
+        <label>themis/base/interfaces/query_interface.h</label>
+      </node>
+      <node id="40">
+        <label>themis/base/interfaces/storage_interface.h</label>
+      </node>
+      <node id="50">
+        <label>themis/rag/kg/knowledge_graph_interface.h</label>
+      </node>
+      <node id="22">
+        <label>thread</label>
+      </node>
+      <node id="13">
+        <label>unordered_map</label>
+      </node>
+      <node id="34">
+        <label>unordered_set</label>
+      </node>
+      <node id="39">
+        <label>utility</label>
+      </node>
+      <node id="25">
+        <label>utils/error_registry.h</label>
+      </node>
+      <node id="19">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="14">
+        <label>variant</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, QueryExecutor_execute_typed_wrapper_clean_path)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>QueryExecutor_execute_typed_wrapper_clean_path</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="41" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="41" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a7582a6c28a5ada6bc938ffb72a7e5bfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, ResultStream_materialized_raii_safe)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>ResultStream_materialized_raii_safe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="69" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="69" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1ad18fc80821849e526539dfb945904dcd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, ParallelExecutor_null_guard_in_hash_join)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>ParallelExecutor_null_guard_in_hash_join</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="93" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="93" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1af362cc29d6a47c58bcb5839bceda5a37" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, QueryCache_eviction_synchronous_no_hang)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>QueryCache_eviction_synchronous_no_hang</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="115" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="115" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1ab1237f15390024d7bcedd2487a955522" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, QueryCompiler_exception_marker_and_sentinel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>QueryCompiler_exception_marker_and_sentinel</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="141" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="141" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a20acbd4d8395637845392c26c1907919" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, VectorizedExecution_result_properly_returned)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>VectorizedExecution_result_properly_returned</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="172" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="172" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a128eefeac3304b955c903bb3059bb772" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W910_HighFixes, QueryFederation_string_prefix_hoisting)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W910_HighFixes</type>
+        </param>
+        <param>
+          <type>QueryFederation_string_prefix_hoisting</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="194" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="194" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a615b2fbfa17d0ea13182c8bf4da5225e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W911_AqlShim, FunctionCall_compat_path_still_active)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W911_AqlShim</type>
+        </param>
+        <param>
+          <type>FunctionCall_compat_path_still_active</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="216" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="216" bodyend="229"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a4a15761a7d731d3739bc256ea076f762" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W911_AqlShim, Canonical_nodes_distinct_from_FunctionCall)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W911_AqlShim</type>
+        </param>
+        <param>
+          <type>Canonical_nodes_distinct_from_FunctionCall</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="235" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="235" bodyend="245"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1acc5a5724dc6f6628d085eb2871101ed8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W912_HybridAnnPlanner, NullBoth_ReturnsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W912_HybridAnnPlanner</type>
+        </param>
+        <param>
+          <type>NullBoth_ReturnsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="251" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="251" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1aabb9a8e1c84eb3751ad53e0f42525264" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W912_HybridAnnPlanner, EmptyVector_WithFrontdoor_ThrowsInvalidArg)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W912_HybridAnnPlanner</type>
+        </param>
+        <param>
+          <type>EmptyVector_WithFrontdoor_ThrowsInvalidArg</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="266" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a1a7d08c8a2606732e361a554ec2b0ad8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W912_HybridAnnPlanner, RRF_ScoringFormula)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W912_HybridAnnPlanner</type>
+        </param>
+        <param>
+          <type>RRF_ScoringFormula</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="282" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="282" bodyend="298"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1a31cf8330dcbad4ffb085695f0b9f9da8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W912_HybridAnnPlanner, TopK_BoundsResultCount)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W912_HybridAnnPlanner</type>
+        </param>
+        <param>
+          <type>TopK_BoundsResultCount</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="304" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="304" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__wave9__block3__fixes_8cpp_1ad29fd3936108ebc997945465e82ea911" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(W912_HybridAnnPlanner, ResultStruct_DefaultValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>W912_HybridAnnPlanner</type>
+        </param>
+        <param>
+          <type>ResultStruct_DefaultValues</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_wave9_block3_fixes.cpp" line="322" column="1" bodyfile="tests/query/test_wave9_block3_fixes.cpp" bodystart="322" bodyend="330"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave 9 Block 3 regression tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Covers W9-10 HIGH closure (7 tests), W9-11 AQL shim (2 tests), and W9-12 Hybrid ANN+graph planner (5 tests).</para>
+<para>Build: auto-registered by the CMakeLists glob pattern for test_wave*.cpp. </para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10<sp/>headers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__executor_8h" kindref="compound">query/query_executor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="result__stream_8h" kindref="compound">query/result_stream.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="parallel__executor_8h" kindref="compound">query/parallel_executor.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__cache_8h" kindref="compound">query/query_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="query__compiler_8h" kindref="compound">query/query_compiler.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="vectorized__execution_8h" kindref="compound">query/vectorized_execution.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-11<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__parser_8h" kindref="compound">query/aql_parser.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="aql__translator_8h" kindref="compound">query/aql_translator.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12<sp/>header</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="tensor__aware__query__optimizer_8h" kindref="compound">query/tensor_aware_query_optimizer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref>;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query" kindref="compound">themis::query</ref>;</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-1<sp/><sp/>QueryExecutor:<sp/>typed<sp/>try/catch<sp/>wrapper<sp/>compiles<sp/>and<sp/>runs<sp/>cleanly</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>QueryExecutor_execute_typed_wrapper_clean_path)<sp/>{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verifies<sp/>the<sp/>W9-10-1<sp/>typed<sp/>try/catch<sp/>wrapper<sp/>in<sp/>execute()<sp/>is<sp/>present</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>a<sp/>well-formed<sp/>plan<sp/>completes<sp/>without<sp/>errors.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_plan" kindref="compound">QueryPlan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_plan_1ade8c657d919d245233923c2b2871c2dc" kindref="member">column_names</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>ColumnValue&gt;<sp/>r1,<sp/>r2;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>r1[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>int64_t{1};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>r1[</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string{</highlight><highlight class="stringliteral">&quot;alpha&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>r2[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">]<sp/><sp/>=<sp/>int64_t{2};</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>r2[</highlight><highlight class="stringliteral">&quot;val&quot;</highlight><highlight class="normal">]<sp/>=<sp/>std::string{</highlight><highlight class="stringliteral">&quot;beta&quot;</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="structthemis_1_1query_1_1_query_plan_1abf1110ca46fbf1b64b99609bd794f57c" kindref="member">source_rows</ref><sp/>=<sp/>{r1,<sp/>r2};</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_execution_context" kindref="compound">ExecutionContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1query_1_1_execution_context_1a3e36622ec53d392464a4b3a9cad92304" kindref="member">timeout_ms</ref><sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1query_1_1_execution_context_1a6c829c6d807637d6f0c63785fddc2062" kindref="member">row_limit</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_executor" kindref="compound">QueryExecutor</ref><sp/>exec(plan,<sp/>ctx);</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_result_set" kindref="compound">ResultSet</ref><sp/>rs<sp/>=<sp/>exec.execute();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(rs.<ref refid="structthemis_1_1query_1_1_result_set_1a0646c07108867a270434285b262c2950" kindref="member">rows</ref>.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-2<sp/><sp/>ResultStream:<sp/>RAII-safe<sp/>reset<sp/>(memory_leak<sp/>guard<sp/>confirmed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>ResultStream_materialized_raii_safe)<sp/>{</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>W9-10-2<sp/>fix<sp/>added<sp/>an<sp/>enforcement<sp/>comment<sp/>at<sp/>result_stream.cpp:156.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>resetting<sp/>a<sp/>materialized<sp/>stream<sp/>works<sp/>without<sp/>leaks.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal">RS<sp/>=<sp/><ref refid="classthemis_1_1query_1_1_result_stream" kindref="compound">ResultStream&lt;int&gt;</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>RS<sp/>stream(std::vector&lt;int&gt;{10,<sp/>20,<sp/>30});</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.hasNext());</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>stream.reset();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(stream.hasNext());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(stream.hasNext())<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>stream.next();</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++count;</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>3);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-3<sp/><sp/>ParallelExecutor:<sp/>null_dereference<sp/>guard<sp/>compiles<sp/>and<sp/>runs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>ParallelExecutor_null_guard_in_hash_join)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>parallelHashJoin<sp/>handles<sp/>the<sp/>edge<sp/>cases<sp/>around<sp/>which<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>null_dereference<sp/>guard<sp/>was<sp/>added.<sp/><sp/>Empty<sp/>tables<sp/>→<sp/>empty<sp/>output.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_parallel_executor" kindref="compound">ParallelExecutor</ref><sp/>exec;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">ParallelExecutor::Table</ref><sp/>left<sp/><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1_parallel_executor_1a7a4c4300d74aeee4db1fe45166100f42" kindref="member">ParallelExecutor::Table</ref><sp/>right<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1_parallel_executor_1_1_join_spec" kindref="compound">ParallelExecutor::JoinSpec</ref><sp/>spec;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1_parallel_executor_1_1_join_spec_1aa43db742c5896d65a8fd474e98390a2c" kindref="member">left_key</ref><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>spec.<ref refid="structthemis_1_1_parallel_executor_1_1_join_spec_1adfcb922912559c43472ee14b650e7f50" kindref="member">right_key</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result_or_error<sp/>=<sp/>exec.<ref refid="classthemis_1_1_parallel_executor_1a3de1276dbaddc514867fc437fbbfb0ef" kindref="member">parallelHashJoin</ref>(left,<sp/>right,<sp/>spec,<sp/>1);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result_or_error.has_value());</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result_or_error.has_value())<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result_or_error.value().empty());</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-4<sp/><sp/>QueryCache:<sp/>eviction<sp/>runs<sp/>synchronously<sp/>without<sp/>hanging</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>QueryCache_eviction_synchronous_no_hang)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_cache_1_1_config" kindref="compound">QueryCache::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_1_1_config_1af6fffd69ab72b40008e821e571e29eea" kindref="member">max_entries</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_1_1_config_1af7082b5f36be400463c0b3a2a5cc2aba" kindref="member">max_memory_bytes</ref><sp/>=<sp/>1024<sp/>*<sp/>1024;</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_1_1_config_1a6a102f2799baa71c9044a052d35a3bab" kindref="member">default_ttl</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(60);</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_cache_1_1_config_1ab0920293431017319408bcb44feb7947" kindref="member">eviction_policy</ref><sp/><sp/>=<sp/><ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">QueryCache::EvictionPolicy::LRU</ref>;</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_cache" kindref="compound">QueryCache</ref><sp/>cache(cfg);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Insert<sp/>3<sp/>entries<sp/>into<sp/>a<sp/>max-2<sp/>cache<sp/>to<sp/>trigger<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>q<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>id<sp/>=<sp/>&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(q,<sp/>nlohmann::json::object(),<sp/>nlohmann::json::array(),<sp/>{});</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Eviction<sp/>ran<sp/>synchronously<sp/>(the<sp/>TODO<sp/>was<sp/>replaced);<sp/>stats<sp/>reflect<sp/>it.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>s<sp/>=<sp/>cache.getStats();</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(s.evictions,<sp/>1u);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(s.current_entries,<sp/>2u);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-5<sp/><sp/>QueryCompiler:<sp/>W9-10-5<sp/>marker<sp/>present;<sp/>sentinel<sp/>path<sp/>observable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>QueryCompiler_exception_marker_and_sentinel)<sp/>{</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config" kindref="compound">QueryCompiler::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1aec8bdba05639907d367c5a6e750d080f" kindref="member">hot_threshold</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1query_1_1_query_compiler_1_1_config_1a8654d71b836204f2917811465893416a" kindref="member">compilation_timeout_ms</ref><sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_query_compiler" kindref="compound">QueryCompiler</ref><sp/>compiler(cfg);</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Compile<sp/>a<sp/>query<sp/>with<sp/>an<sp/>executor<sp/>function.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>executor<sp/>=<sp/>[](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref>&amp;)<sp/>-&gt;<sp/>Result&lt;themis::query::QueryResult&gt;<sp/>{</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1query_1_1_query_result" kindref="compound">themis::query::QueryResult</ref>{};</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>compiled<sp/>=<sp/>compiler.compile(</highlight><highlight class="stringliteral">&quot;SELECT<sp/>*<sp/>FROM<sp/>t<sp/>WHERE<sp/>id<sp/>=<sp/>?&quot;</highlight><highlight class="normal">,<sp/></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>executor);</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Warm<sp/>up<sp/>to<sp/>reach<sp/>hot<sp/>threshold<sp/>+<sp/>compilation.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1af593ea9779d47cd0c30578e9c0595ae0" kindref="member">QueryParams</ref><sp/>params;</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>compiler.execute(compiled,<sp/>params);</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Normal<sp/>compilation<sp/>succeeds;<sp/>jit_state_corrupted_<sp/>should<sp/>be<sp/>false.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(compiler.isJitStateCorrupted());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-6<sp/><sp/>VectorizedExecution:<sp/>unchecked_result<sp/>gap<sp/>resolved</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>VectorizedExecution_result_properly_returned)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_execution_engine" kindref="compound">VectorizedExecutionEngine</ref><sp/>engine;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;nlohmann::json&gt;<sp/>rows<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>1},<sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;a&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>3},<sp/>{</highlight><highlight class="stringliteral">&quot;y&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;b&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1query_1_1_vectorized_query_plan" kindref="compound">VectorizedQueryPlan</ref><sp/>plan;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>plan.<ref refid="classthemis_1_1query_1_1_vectorized_query_plan_1a97fc3b9fb8314e958dc491ce3ca85dbe" kindref="member">addFilter</ref>({<ref refid="structthemis_1_1query_1_1_vectorized_predicate_1a6c49adc2366147f73a9d0f08f2b2abc2" kindref="member">VectorizedPredicate::ge</ref>(</highlight><highlight class="stringliteral">&quot;x&quot;</highlight><highlight class="normal">,<sp/>int64_t{1})});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>engine.<ref refid="classthemis_1_1query_1_1_vectorized_execution_engine_1a9a41262aaf15340597d51771fa15a682" kindref="member">execute</ref>(rows,<sp/>plan);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Result&lt;&gt;<sp/>is<sp/>populated<sp/>(not<sp/>silently<sp/>discarded).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(res.has_value());</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(res.value().size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-10-7<sp/><sp/>QueryFederation:<sp/>pre-computed<sp/>prefix<sp/>avoids<sp/>triple-alloc<sp/>per<sp/>field</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W910_HighFixes,<sp/>QueryFederation_string_prefix_hoisting)<sp/>{</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>fix<sp/>replaces<sp/><sp/>merged[prefix<sp/>+<sp/>&quot;_&quot;<sp/>+<sp/>k]</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>with<sp/><sp/>merged[prefix_sep<sp/>+<sp/>k]<sp/><sp/>where<sp/>prefix_sep<sp/>=<sp/>prefix<sp/>+<sp/>&apos;_&apos;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>this<sp/>produces<sp/>the<sp/>same<sp/>key<sp/>as<sp/>the<sp/>original<sp/>double-concat.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>collection<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;orders&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>field<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;total&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Old<sp/>style<sp/>(two<sp/>allocations<sp/>per<sp/>field):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>old_key<sp/>=<sp/>collection<sp/>+<sp/></highlight><highlight class="stringliteral">&quot;_&quot;</highlight><highlight class="normal"><sp/>+<sp/>field;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>New<sp/>style<sp/>(one<sp/>allocation<sp/>for<sp/>prefix_sep,<sp/>then<sp/>one<sp/>append<sp/>per<sp/>field):</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>prefix_sep<sp/>=<sp/>collection<sp/>+<sp/></highlight><highlight class="charliteral">&apos;_&apos;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>new_key<sp/><sp/><sp/><sp/>=<sp/>prefix_sep<sp/>+<sp/>field;</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(old_key,<sp/>new_key);</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(new_key,<sp/></highlight><highlight class="stringliteral">&quot;orders_total&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="210"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"></highlight></codeline>
+<codeline lineno="212"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-11-01<sp/><sp/>AQL<sp/>shim:<sp/>FunctionCall<sp/>compat<sp/>path<sp/>still<sp/>active<sp/>(not<sp/>removed)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="215"><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W911_AqlShim,<sp/>FunctionCall_compat_path_still_active)<sp/>{</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>compat<sp/>path<sp/>is<sp/>NOT<sp/>safe<sp/>to<sp/>remove<sp/>yet<sp/>(callers<sp/>still<sp/>use<sp/>it).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>that<sp/>ASTNodeType::FunctionCall<sp/>is<sp/>a<sp/>distinct<sp/>type<sp/>and<sp/>that</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>translator<sp/>compiles<sp/>with<sp/>the<sp/>deprecation<sp/>warning<sp/>in<sp/>place.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>We<sp/>verify<sp/>at<sp/>the<sp/>type<sp/>level<sp/>that<sp/>FunctionCall<sp/>!=<sp/>SimilarityCall,</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ensuring<sp/>the<sp/>compat<sp/>branch<sp/>handles<sp/>a<sp/>different<sp/>AST<sp/>node<sp/>type<sp/>than</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>canonical<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ASTNodeType::FunctionCall),</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ASTNodeType::SimilarityCall));</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ASTNodeType::FunctionCall),</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(ASTNodeType::ProximityCall));</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="229"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-11-02<sp/><sp/>AQL<sp/>shim:<sp/>canonical<sp/>SimilarityCall/ProximityCall<sp/>nodes<sp/>distinct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W911_AqlShim,<sp/>Canonical_nodes_distinct_from_FunctionCall)<sp/>{</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>canonical<sp/>(non-compat)<sp/>node<sp/>types<sp/>for<sp/>vector<sp/>operations<sp/>are</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ASTNodeType::SimilarityCall<sp/>and<sp/>ASTNodeType::ProximityCall.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>These<sp/>are<sp/>distinct<sp/>from<sp/>ASTNodeType::FunctionCall<sp/>(the<sp/>compat<sp/>type).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>all<sp/>callers<sp/>migrate<sp/>to<sp/>the<sp/>canonical<sp/>nodes<sp/>the<sp/>compat<sp/>branch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(which<sp/>checks<sp/>for<sp/>FunctionCall)<sp/>will<sp/>be<sp/>unreachable<sp/>and<sp/>can<sp/>be<sp/>removed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ASTNodeType::SimilarityCall,<sp/>ASTNodeType::FunctionCall);</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ASTNodeType::ProximityCall,<sp/><sp/>ASTNodeType::FunctionCall);</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(ASTNodeType::SimilarityCall,<sp/>ASTNodeType::ProximityCall);</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="245"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12-01<sp/><sp/>HybridPlanner:<sp/>null<sp/>frontdoor<sp/>+<sp/>null<sp/>kg<sp/>→<sp/>empty<sp/>result</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W912_HybridAnnPlanner,<sp/>NullBoth_ReturnsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" kindref="compound">HybridAnnGraphQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" kindref="member">query_vector</ref><sp/>=<sp/>{1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" kindref="member">ann_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a2076da117fc4259be0afddba114be209" kindref="member">planAnnGraphHybrid</ref>(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(results.empty());</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="260"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12-02<sp/><sp/>HybridPlanner:<sp/>empty<sp/>query_vector<sp/>+<sp/>frontdoor<sp/>→<sp/>invalid_argument</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W912_HybridAnnPlanner,<sp/>EmptyVector_WithFrontdoor_ThrowsInvalidArg)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/>index::AnnFrontdoor<sp/>frontdoor;<sp/><sp/></highlight><highlight class="comment">//<sp/>default-constructed;<sp/>no<sp/>backend</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"></highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" kindref="compound">HybridAnnGraphQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" kindref="member">query_vector</ref><sp/>=<sp/>{};<sp/><sp/></highlight><highlight class="comment">//<sp/>empty<sp/>—<sp/>must<sp/>trigger<sp/>the<sp/>guard</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1aca71d5f6971011b032ec4abceefeabf5" kindref="member">ann_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1a2076da117fc4259be0afddba114be209" kindref="member">planAnnGraphHybrid</ref>(q,<sp/>&amp;frontdoor,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12-03<sp/><sp/>HybridPlanner:<sp/>RRF<sp/>scoring<sp/>formula<sp/>is<sp/>correct</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="281"><highlight class="normal"></highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W912_HybridAnnPlanner,<sp/>RRF_ScoringFormula)<sp/>{</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>planAnnGraphHybrid<sp/>uses<sp/>rrf_score<sp/>+=<sp/>1.0<sp/>/<sp/>(rrf_k<sp/>+<sp/>rank<sp/>+<sp/>1.0)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>formula<sp/>matches<sp/>the<sp/>expected<sp/>RRF<sp/>spec<sp/>with<sp/>k=60.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>rrf_k<sp/>=<sp/>60.0;</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>rrf<sp/>=<sp/>[&amp;](</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>rank)<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>1.0<sp/>/<sp/>(rrf_k<sp/>+<sp/>rank<sp/>+<sp/>1.0);<sp/>};</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"></highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>rank<sp/>0<sp/>→<sp/>1/61;<sp/>rank<sp/>1<sp/>→<sp/>1/62</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(rrf(0),<sp/>1.0<sp/>/<sp/>61.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(rrf(1),<sp/>1.0<sp/>/<sp/>62.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>A<sp/>node<sp/>at<sp/>rank<sp/>0<sp/>in<sp/>both<sp/>lists<sp/>gets<sp/>doubled<sp/>contribution.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(rrf(0)<sp/>+<sp/>rrf(0),<sp/>2.0<sp/>/<sp/>61.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Higher<sp/>rank<sp/>→<sp/>lower<sp/>score<sp/>(descending<sp/>relevance).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rrf(0),<sp/>rrf(1));</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="298"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12-04<sp/><sp/>HybridPlanner:<sp/>result<sp/>count<sp/>bounded<sp/>by<sp/>top_k</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W912_HybridAnnPlanner,<sp/>TopK_BoundsResultCount)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>both<sp/>pointers<sp/>are<sp/>null<sp/>the<sp/>planner<sp/>returns<sp/>an<sp/>empty<sp/>list.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validate<sp/>that<sp/>top_k<sp/>is<sp/>the<sp/>upper<sp/>bound<sp/>when<sp/>results<sp/>exist<sp/>by<sp/>verifying</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>the<sp/>struct<sp/>field<sp/>is<sp/>read<sp/>(compilation<sp/>gate).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query" kindref="compound">HybridAnnGraphQuery</ref><sp/>q;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a6ed96d796840806c79e32111e277cc21" kindref="member">query_vector</ref><sp/>=<sp/>{0.5f,<sp/>0.5f};</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" kindref="member">top_k</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;<sp/><sp/></highlight><highlight class="comment">//<sp/>bound<sp/>of<sp/>3</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>results<sp/>=<sp/><ref refid="namespacethemis_1_1query_1a2076da117fc4259be0afddba114be209" kindref="member">planAnnGraphHybrid</ref>(q,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>backends<sp/>→<sp/>no<sp/>results.<sp/><sp/>top_k<sp/>is<sp/>an<sp/>upper<sp/>bound,<sp/>never<sp/>exceeded.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LE(results.size(),<sp/>q.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_query_1a3ec130897cfc7a44dfecc157fd6b33c6" kindref="member">top_k</ref>);</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>W9-12-05<sp/><sp/>HybridPlanner:<sp/>struct<sp/>fields<sp/>are<sp/>correctly<sp/>initialised</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>═══════════════════════════════════════════════════════════════════════════</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><ref refid="test__wave9__block3__fixes_8cpp_1ab29eac5a83dc0b609d7c7abe3d9a0e9a" kindref="member">TEST</ref>(W912_HybridAnnPlanner,<sp/>ResultStruct_DefaultValues)<sp/>{</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result" kindref="compound">HybridAnnGraphResult</ref><sp/>r;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(r.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a95d72adba2392fe38d5dcee50d64376e" kindref="member">node_id</ref>.empty());</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(r.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a807dfd4e92cad85d4d7670c12c606b0e" kindref="member">rrf_score</ref>,<sp/>0.0);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1aa83b1590df31e9163900f2faf0cfbf56" kindref="member">ann_rank</ref>,<sp/><sp/><sp/>-1);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(r.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1a8f1011ba1f0a691aa53f80ea86d84a01" kindref="member">graph_rank</ref>,<sp/>-1);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(r.<ref refid="structthemis_1_1query_1_1_hybrid_ann_graph_result_1ae7b43304dfdc648f9fdfc20cd6275fe9" kindref="member">from_graph</ref>);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="330"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_wave9_block3_fixes.cpp"/>
+  </compounddef>
+</doxygen>

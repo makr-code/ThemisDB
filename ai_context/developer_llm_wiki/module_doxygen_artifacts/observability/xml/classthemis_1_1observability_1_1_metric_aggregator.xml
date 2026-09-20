@@ -1,0 +1,1024 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1observability_1_1_metric_aggregator" kind="class" language="C++" prot="public">
+    <compoundname>themis::observability::MetricAggregator</compoundname>
+    <includes refid="metric__aggregator_8h" local="no">metric_aggregator.h</includes>
+    <innerclass refid="structthemis_1_1observability_1_1_metric_aggregator_1_1_rate_sample" prot="private">themis::observability::MetricAggregator::RateSample</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1adb296ca6154141d30340af7947a0a365" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::deque&lt; RateSample &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::deque&lt;RateSample&gt; &gt; themis::observability::MetricAggregator::rate_samples_</definition>
+        <argsstring></argsstring>
+        <name>rate_samples_</name>
+        <qualifiedname>themis::observability::MetricAggregator::rate_samples_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="327" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="327" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1abe1ec93cda050ec10a32eb405a171831" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; <ref refid="structthemis_1_1observability_1_1_histogram_snapshot" kindref="compound">HistogramSnapshot</ref> &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;HistogramSnapshot&gt; &gt; themis::observability::MetricAggregator::snapshots_</definition>
+        <argsstring></argsstring>
+        <name>snapshots_</name>
+        <qualifiedname>themis::observability::MetricAggregator::snapshots_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="332" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="332" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1a8efbdb831e1e941fb58486ca9416e1f7" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, size_t &gt;</type>
+        <definition>std::map&lt;std::string, size_t&gt; themis::observability::MetricAggregator::cardinality_limits_</definition>
+        <argsstring></argsstring>
+        <name>cardinality_limits_</name>
+        <qualifiedname>themis::observability::MetricAggregator::cardinality_limits_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="337" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="337" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1a3ba5dbb6cd506d3e51b3567fabb9eb37" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::vector&lt; std::string &gt; &gt;</type>
+        <definition>std::map&lt;std::string, std::vector&lt;std::string&gt; &gt; themis::observability::MetricAggregator::known_series_</definition>
+        <argsstring></argsstring>
+        <name>known_series_</name>
+        <qualifiedname>themis::observability::MetricAggregator::known_series_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="340" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1ab11d6226fd5645f9a6f0de1107536e05" prot="private" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::MetricAggregator::dropped_snapshots_</definition>
+        <argsstring></argsstring>
+        <name>dropped_snapshots_</name>
+        <qualifiedname>themis::observability::MetricAggregator::dropped_snapshots_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="342" column="13" bodyfile="include/observability/metric_aggregator.h" bodystart="342" bodyend="342"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1a9c89b187e3a2fed0e1dcc0feea63468a" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, <ref refid="structthemis_1_1observability_1_1_aggregation_rule" kindref="compound">AggregationRule</ref> &gt;</type>
+        <definition>std::map&lt;std::string, AggregationRule&gt; themis::observability::MetricAggregator::rules_</definition>
+        <argsstring></argsstring>
+        <name>rules_</name>
+        <qualifiedname>themis::observability::MetricAggregator::rules_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="347" column="14" bodyfile="include/observability/metric_aggregator.h" bodystart="347" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1observability_1_1_metric_aggregator_1a729885e82a94539caa415112bd0b59ec" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::observability::MetricAggregator::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::observability::MetricAggregator::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="351" column="24" bodyfile="include/observability/metric_aggregator.h" bodystart="351" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricAggregator::MetricAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>MetricAggregator</name>
+        <qualifiedname>themis::observability::MetricAggregator::MetricAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="138" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a2ebba3e4ae1cd8074eea16d853a80a49" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricAggregator::~MetricAggregator</definition>
+        <argsstring>()=default</argsstring>
+        <name>~MetricAggregator</name>
+        <qualifiedname>themis::observability::MetricAggregator::~MetricAggregator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="139" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1abb96b601aea017eb528d55eb07914b08" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricAggregator::MetricAggregator</definition>
+        <argsstring>(const MetricAggregator &amp;)=delete</argsstring>
+        <name>MetricAggregator</name>
+        <qualifiedname>themis::observability::MetricAggregator::MetricAggregator</qualifiedname>
+        <param>
+          <type>const MetricAggregator &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="142" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a955d6354675f3e0a2e64291319802906" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref> &amp;</type>
+        <definition>MetricAggregator &amp; themis::observability::MetricAggregator::operator=</definition>
+        <argsstring>(const MetricAggregator &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::MetricAggregator::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="143" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1ab587cab37503059b1e9668b1f87caf33" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::observability::MetricAggregator::MetricAggregator</definition>
+        <argsstring>(MetricAggregator &amp;&amp;)=delete</argsstring>
+        <name>MetricAggregator</name>
+        <qualifiedname>themis::observability::MetricAggregator::MetricAggregator</qualifiedname>
+        <param>
+          <type>MetricAggregator &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="144" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1ad56aba5e683eafd767a1e6b0ae7fb1df" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref> &amp;</type>
+        <definition>MetricAggregator &amp; themis::observability::MetricAggregator::operator=</definition>
+        <argsstring>(MetricAggregator &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::observability::MetricAggregator::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" kindref="member">MetricAggregator</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="145" column="22"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a163d5bd851757db778c1f01e18669ebc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::recordCounterSample</definition>
+        <argsstring>(const std::string &amp;name, int64_t value, const std::map&lt; std::string, std::string &gt; &amp;labels={}, std::chrono::seconds window=std::chrono::seconds{120})</argsstring>
+        <name>recordCounterSample</name>
+        <qualifiedname>themis::observability::MetricAggregator::recordCounterSample</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+          <defval>std::chrono::seconds{120}</defval>
+        </param>
+        <briefdescription>
+<para>Record a raw counter sample for later rate calculation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Samples are retained in a sliding window controlled by <computeroutput>window</computeroutput>. If the window is 0 the default of 120 seconds is used. Old samples are pruned on every call.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>value</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Monotonically increasing counter value. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional label set (used as part of the series key). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retention window for rate samples. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="163" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="152" bodyend="174"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1ac2df9d038752079623227fb7e423f71a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MetricAggregator::calculateRate</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;labels={}) const</argsstring>
+        <name>calculateRate</name>
+        <qualifiedname>themis::observability::MetricAggregator::calculateRate</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Calculate the per-second rate of change for a counter series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Uses the oldest and newest samples within the retention window. Returns 0.0 if fewer than two samples are available.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional label set. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Per-second rate, or 0.0 when insufficient samples exist. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="178" column="12" bodyfile="src/observability/metric_aggregator.cpp" bodystart="176" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a62d0d26e805595cd8f059a826ff4fb42" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::addHistogramSnapshot</definition>
+        <argsstring>(const HistogramSnapshot &amp;snapshot)</argsstring>
+        <name>addHistogramSnapshot</name>
+        <qualifiedname>themis::observability::MetricAggregator::addHistogramSnapshot</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_histogram_snapshot" kindref="compound">HistogramSnapshot</ref> &amp;</type>
+          <declname>snapshot</declname>
+        </param>
+        <briefdescription>
+<para>Add a histogram snapshot to the internal buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Histogram Snapshot.</para>
+<para>Snapshots are accumulated until <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a933c636fecce490acfc935fef871cdd0" kindref="member">aggregateHistograms()</ref></computeroutput> or <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1ac1d8ceb46f1f3d988adb9a1bcc44e37c" kindref="member">reset()</ref></computeroutput> is called. Multiple snapshots with the same metric_name are merged.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">snapshot</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), makeLabelFingerprint(), checkSnapshotCardinality(), makeSeriesKey(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="192" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="219" bodyend="231"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a933c636fecce490acfc935fef871cdd0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref></type>
+        <definition>AggregatedMetric themis::observability::MetricAggregator::aggregateHistograms</definition>
+        <argsstring>(const std::string &amp;metric_name, AggregationType type, const std::map&lt; std::string, std::string &gt; &amp;filter_labels={}) const</argsstring>
+        <name>aggregateHistograms</name>
+        <qualifiedname>themis::observability::MetricAggregator::aggregateHistograms</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>filter_labels</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Aggregate all buffered snapshots for <computeroutput>metric_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> to aggregate. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Reduction to apply (SUM/AVG/MAX/MIN/P50/P95/P99). RATE is not valid here; pass P99 instead. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>filter_labels</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Only include snapshots whose label set contains all key/value pairs in <computeroutput>filter_labels</computeroutput> (empty = all). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref> with the computed value. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if <computeroutput>type</computeroutput> is RATE or no snapshots are available for <computeroutput>metric_name</computeroutput>. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="206" column="22" bodyfile="src/observability/metric_aggregator.cpp" bodystart="233" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a9b15989bf56a82f081b379385337f168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::addAggregationRule</definition>
+        <argsstring>(const AggregationRule &amp;rule)</argsstring>
+        <name>addAggregationRule</name>
+        <qualifiedname>themis::observability::MetricAggregator::addAggregationRule</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1observability_1_1_aggregation_rule" kindref="compound">AggregationRule</ref> &amp;</type>
+          <declname>rule</declname>
+        </param>
+        <briefdescription>
+<para>Register an aggregation rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Add Aggregation Rule.</para>
+<para>Duplicate rules (same metric_name + type combination) are replaced.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rule</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="220" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="296" bodyend="299"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1addde1b2f02f03e61730dfdd9b077f260" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricAggregator::removeAggregationRule</definition>
+        <argsstring>(const std::string &amp;metric_name)</argsstring>
+        <name>removeAggregationRule</name>
+        <qualifiedname>themis::observability::MetricAggregator::removeAggregationRule</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Remove a previously registered rule. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Remove Aggregation Rule.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> name of the rule to remove. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if a rule was found and removed, false otherwise.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="228" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="307" bodyend="310"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a5a73534607bf608fb870ea25ef4c9360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_aggregation_rule" kindref="compound">AggregationRule</ref> &gt;</type>
+        <definition>std::vector&lt; AggregationRule &gt; themis::observability::MetricAggregator::getRules</definition>
+        <argsstring>() const</argsstring>
+        <name>getRules</name>
+        <qualifiedname>themis::observability::MetricAggregator::getRules</qualifiedname>
+        <briefdescription>
+<para>Return a copy of all registered rules. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="233" column="17" bodyfile="src/observability/metric_aggregator.cpp" bodystart="312" bodyend="326"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a3b014125bb6898e0df43ce660e2c38bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref> &gt;</type>
+        <definition>std::vector&lt; AggregatedMetric &gt; themis::observability::MetricAggregator::applyRules</definition>
+        <argsstring>() const</argsstring>
+        <name>applyRules</name>
+        <qualifiedname>themis::observability::MetricAggregator::applyRules</qualifiedname>
+        <briefdescription>
+<para>Execute all registered rules against buffered snapshot data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>For each rule, the matching histogram snapshots (after applying <computeroutput>drop_labels</computeroutput>) are aggregated using the rule&apos;s <computeroutput>type</computeroutput>. Rules that target metrics with no buffered snapshots are skipped.</para>
+<para><simplesect kind="return"><para>Vector of aggregated results, one per applicable rule. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="244" column="17" bodyfile="src/observability/metric_aggregator.cpp" bodystart="328" bodyend="427"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a021d305daaa752d19d6a613481d0cf71" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" kindref="compound">ShardAggregationSnapshot</ref></type>
+        <definition>ShardAggregationSnapshot themis::observability::MetricAggregator::aggregateShardMetrics</definition>
+        <argsstring>(const std::vector&lt; ShardMetrics &gt; &amp;shard_metrics) const</argsstring>
+        <name>aggregateShardMetrics</name>
+        <qualifiedname>themis::observability::MetricAggregator::aggregateShardMetrics</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1observability_1_1_shard_metrics" kindref="compound">ShardMetrics</ref> &gt; &amp;</type>
+          <declname>shard_metrics</declname>
+        </param>
+        <briefdescription>
+<para>Aggregate metrics from multiple shards into a single snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Converts each <computeroutput><ref refid="structthemis_1_1observability_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></computeroutput> into histogram snapshots (tagging them with the source <computeroutput>shard_id</computeroutput>), then applies all registered rules to produce a unified <computeroutput><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" kindref="compound">ShardAggregationSnapshot</ref></computeroutput>. This call does <bold>not</bold> mutate the internal snapshot buffer; the supplied shard data is processed transiently and the result is returned directly.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>shard_metrics</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>One <computeroutput><ref refid="structthemis_1_1observability_1_1_shard_metrics" kindref="compound">ShardMetrics</ref></computeroutput> per shard. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1observability_1_1_shard_aggregation_snapshot" kindref="compound">ShardAggregationSnapshot</ref></computeroutput> containing one <computeroutput><ref refid="structthemis_1_1observability_1_1_aggregated_metric" kindref="compound">AggregatedMetric</ref></computeroutput> per applicable rule × group combination. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="259" column="30" bodyfile="src/observability/metric_aggregator.cpp" bodystart="433" bodyend="524"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a386527af70eeb142f18d12f22a3e9846" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::rollupMetrics</definition>
+        <argsstring>(std::chrono::minutes window)</argsstring>
+        <name>rollupMetrics</name>
+        <qualifiedname>themis::observability::MetricAggregator::rollupMetrics</qualifiedname>
+        <param>
+          <type>std::chrono::minutes</type>
+          <declname>window</declname>
+        </param>
+        <briefdescription>
+<para>Prune buffered histogram snapshots older than <computeroutput>window</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rollup Metrics.</para>
+<para>Reduces cardinality by discarding stale shard observations. Rate samples are also pruned with the same window (converted from minutes to seconds). Known-series tracking for cardinality limits is NOT reset so that new insertions continue to be validated against the same limits.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retention window. Snapshots whose timestamp falls before <computeroutput>now - window</computeroutput> are discarded.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::system_clock::now(), erase(), std::remove_if(), begin(), end(), empty(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="273" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="532" bodyend="568"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a27910a4252bf64e52021f4de20eb3ce0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::setMetricCardinalityLimit</definition>
+        <argsstring>(const std::string &amp;metric_name, size_t limit)</argsstring>
+        <name>setMetricCardinalityLimit</name>
+        <qualifiedname>themis::observability::MetricAggregator::setMetricCardinalityLimit</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>limit</declname>
+        </param>
+        <briefdescription>
+<para>Set a per-metric cardinality limit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set <ref refid="structthemis_1_1observability_1_1_metric" kindref="compound">Metric</ref> Cardinality Limit.</para>
+<para>When the number of distinct label-set combinations for <computeroutput>metric_name</computeroutput> reaches <computeroutput>limit</computeroutput>, subsequent <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a62d0d26e805595cd8f059a826ff4fb42" kindref="member">addHistogramSnapshot</ref></computeroutput> calls with new label sets are rejected (cardinality overflow is counted).</para>
+<para>Set to 0 to disable the limit for that metric.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">limit</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="288" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="577" bodyend="581"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a320f92a86b441092fc087c1f3435f915" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::observability::MetricAggregator::getSeriesCount</definition>
+        <argsstring>(const std::string &amp;metric_name) const</argsstring>
+        <name>getSeriesCount</name>
+        <qualifiedname>themis::observability::MetricAggregator::getSeriesCount</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <briefdescription>
+<para>Return the number of distinct label-set series tracked for <computeroutput>metric_name</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="294" column="12" bodyfile="src/observability/metric_aggregator.cpp" bodystart="583" bodyend="595"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1ae0d25872206e6261b5e4511005177602" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>int64_t</type>
+        <definition>int64_t themis::observability::MetricAggregator::getDroppedSnapshotCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getDroppedSnapshotCount</name>
+        <qualifiedname>themis::observability::MetricAggregator::getDroppedSnapshotCount</qualifiedname>
+        <briefdescription>
+<para>Return the total number of snapshot insertions rejected due to cardinality overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="300" column="13" bodyfile="src/observability/metric_aggregator.cpp" bodystart="597" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1ac1d8ceb46f1f3d988adb9a1bcc44e37c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::reset</definition>
+        <argsstring>()</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::observability::MetricAggregator::reset</qualifiedname>
+        <briefdescription>
+<para>Clear all buffered snapshots, rate samples, and dropped counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset the modification detection flag.</para>
+<para>Rules are preserved.</para>
+<para>Calls: lock(), clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="311" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="612" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a126579316621d84fd0ffe69bd9f7e3a3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::observability::MetricAggregator::pruneRateSamples</definition>
+        <argsstring>(std::chrono::seconds window=std::chrono::seconds{120})</argsstring>
+        <name>pruneRateSamples</name>
+        <qualifiedname>themis::observability::MetricAggregator::pruneRateSamples</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>window</declname>
+          <defval>std::chrono::seconds{120}</defval>
+        </param>
+        <briefdescription>
+<para>Remove rate samples older than <computeroutput>window</computeroutput> from all series. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Prune Rate Samples.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">window</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), size(), front(), pop_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="316" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="626" bodyend="635"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1af48a034e92c2e8853116a4c2c2ada8ca" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricAggregator::makeSeriesKey</definition>
+        <argsstring>(const std::string &amp;name, const std::map&lt; std::string, std::string &gt; &amp;labels)</argsstring>
+        <name>makeSeriesKey</name>
+        <qualifiedname>themis::observability::MetricAggregator::makeSeriesKey</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="353" column="24" bodyfile="src/observability/metric_aggregator.cpp" bodystart="26" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a3baf8cdb96cc39307d86428b0d0f0632" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::observability::MetricAggregator::makeLabelFingerprint</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;labels)</argsstring>
+        <name>makeLabelFingerprint</name>
+        <qualifiedname>themis::observability::MetricAggregator::makeLabelFingerprint</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="357" column="24" bodyfile="src/observability/metric_aggregator.cpp" bodystart="46" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a3332e35859d8462b71960271813975bb" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt; std::string, std::string &gt; themis::observability::MetricAggregator::applyDropLabels</definition>
+        <argsstring>(const std::map&lt; std::string, std::string &gt; &amp;labels, const std::vector&lt; std::string &gt; &amp;drop)</argsstring>
+        <name>applyDropLabels</name>
+        <qualifiedname>themis::observability::MetricAggregator::applyDropLabels</qualifiedname>
+        <param>
+          <type>const std::map&lt; std::string, std::string &gt; &amp;</type>
+          <declname>labels</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>drop</declname>
+        </param>
+        <briefdescription>
+<para>Apply drop_labels and return the remaining labels. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="361" column="21" bodyfile="src/observability/metric_aggregator.cpp" bodystart="52" bodyend="66"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a66c10d98fe128585f3d8c599a5d4ebd2" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::observability::MetricAggregator::reduce</definition>
+        <argsstring>(std::vector&lt; double &gt; sorted_values, AggregationType type)</argsstring>
+        <name>reduce</name>
+        <qualifiedname>themis::observability::MetricAggregator::reduce</qualifiedname>
+        <param>
+          <type>std::vector&lt; double &gt;</type>
+          <declname>sorted_values</declname>
+          <defname>vals</defname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Reduce a sorted vector of doubles using the given <ref refid="namespacethemis_1_1observability_1aa6012a637261767c13e4e37c53e50723" kindref="member">AggregationType</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reduce.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">vals</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: empty(), std::accumulate(), begin(), end(), size(), std::max_element(), std::min_element(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="366" column="19" bodyfile="src/observability/metric_aggregator.cpp" bodystart="75" bodyend="118"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1observability_1_1_metric_aggregator_1a25a4abbd31e792a9d079039f32d5f2dc" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::observability::MetricAggregator::checkSnapshotCardinality</definition>
+        <argsstring>(const std::string &amp;metric_name, const std::string &amp;label_fingerprint)</argsstring>
+        <name>checkSnapshotCardinality</name>
+        <qualifiedname>themis::observability::MetricAggregator::checkSnapshotCardinality</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>metric_name</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>label_fingerprint</declname>
+          <defname>label_fp</defname>
+        </param>
+        <briefdescription>
+<para>Check cardinality for a new snapshot (caller holds mutex_). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Check Snapshot Cardinality.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">metric_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the metric. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">label_fp</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::find(), begin(), end(), find(), size(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/observability/metric_aggregator.h" line="369" column="10" bodyfile="src/observability/metric_aggregator.cpp" bodystart="127" bodyend="146"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Prometheus-style advanced metrics aggregation. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides three key capabilities for the observability module:</para>
+<para><orderedlist>
+<listitem><para><bold>Rate calculation</bold> — tracks successive counter samples and computes the per-second rate of change, consistent with Prometheus <computeroutput>rate()</computeroutput>.</para>
+</listitem><listitem><para><bold>Histogram aggregation</bold> — merges <computeroutput><ref refid="structthemis_1_1observability_1_1_histogram_snapshot" kindref="compound">HistogramSnapshot</ref></computeroutput> objects (e.g. one per shard) and applies percentile, min/max/sum/avg reductions.</para>
+</listitem><listitem><para><bold>Rule-based aggregation</bold> — <computeroutput><ref refid="structthemis_1_1observability_1_1_aggregation_rule" kindref="compound">AggregationRule</ref></computeroutput> objects allow callers to declare how a named metric should be reduced, which labels to keep, and which high-cardinality labels to drop. <computeroutput><ref refid="classthemis_1_1observability_1_1_metric_aggregator_1a3b014125bb6898e0df43ce660e2c38bd" kindref="member">applyRules()</ref></computeroutput> executes all registered rules against currently buffered snapshot data.</para>
+</listitem></orderedlist>
+</para>
+<para><bold>Thread safety:</bold> all public methods are fully guarded by an internal mutex. </para>
+    </detaileddescription>
+    <location file="include/observability/metric_aggregator.h" line="136" column="1" bodyfile="include/observability/metric_aggregator.h" bodystart="136" bodyend="371"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a9b15989bf56a82f081b379385337f168" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>addAggregationRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a62d0d26e805595cd8f059a826ff4fb42" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>addHistogramSnapshot</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a933c636fecce490acfc935fef871cdd0" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>aggregateHistograms</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a021d305daaa752d19d6a613481d0cf71" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>aggregateShardMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a3332e35859d8462b71960271813975bb" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>applyDropLabels</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a3b014125bb6898e0df43ce660e2c38bd" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>applyRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ac2df9d038752079623227fb7e423f71a" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>calculateRate</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a8efbdb831e1e941fb58486ca9416e1f7" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>cardinality_limits_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a25a4abbd31e792a9d079039f32d5f2dc" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>checkSnapshotCardinality</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ab11d6226fd5645f9a6f0de1107536e05" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>dropped_snapshots_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ae0d25872206e6261b5e4511005177602" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>getDroppedSnapshotCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a5a73534607bf608fb870ea25ef4c9360" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>getRules</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a320f92a86b441092fc087c1f3435f915" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>getSeriesCount</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a3ba5dbb6cd506d3e51b3567fabb9eb37" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>known_series_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a3baf8cdb96cc39307d86428b0d0f0632" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>makeLabelFingerprint</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1af48a034e92c2e8853116a4c2c2ada8ca" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>makeSeriesKey</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a85a3f6f16306c48284f662da0dc7ef95" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>MetricAggregator</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1abb96b601aea017eb528d55eb07914b08" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>MetricAggregator</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ab587cab37503059b1e9668b1f87caf33" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>MetricAggregator</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a729885e82a94539caa415112bd0b59ec" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a955d6354675f3e0a2e64291319802906" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ad56aba5e683eafd767a1e6b0ae7fb1df" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a126579316621d84fd0ffe69bd9f7e3a3" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>pruneRateSamples</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1adb296ca6154141d30340af7947a0a365" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>rate_samples_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a163d5bd851757db778c1f01e18669ebc" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>recordCounterSample</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a66c10d98fe128585f3d8c599a5d4ebd2" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>reduce</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1addde1b2f02f03e61730dfdd9b077f260" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>removeAggregationRule</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1ac1d8ceb46f1f3d988adb9a1bcc44e37c" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>reset</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a386527af70eeb142f18d12f22a3e9846" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>rollupMetrics</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a9c89b187e3a2fed0e1dcc0feea63468a" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>rules_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a27910a4252bf64e52021f4de20eb3ce0" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>setMetricCardinalityLimit</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1abe1ec93cda050ec10a32eb405a171831" prot="private" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>snapshots_</name></member>
+      <member refid="classthemis_1_1observability_1_1_metric_aggregator_1a2ebba3e4ae1cd8074eea16d853a80a49" prot="public" virt="non-virtual"><scope>themis::observability::MetricAggregator</scope><name>~MetricAggregator</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

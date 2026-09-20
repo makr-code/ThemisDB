@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::judge::RubricEvaluationResult</compoundname>
+    <includes refid="rubric__evaluator_8h" local="no">rubric_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7f6d77837b21f00e80437c234f0fd1a4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::rag::judge::RubricEvaluationResult::overall_score</definition>
+        <argsstring></argsstring>
+        <name>overall_score</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::overall_score</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>0-1 normalized from 1-5 scale </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="58" column="12" bodyfile="include/rag/rubric_evaluator.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1aa5edb1db9cb51abe4f888aba1efba3e8" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, double &gt;</type>
+        <definition>std::unordered_map&lt;std::string, double&gt; themis::rag::judge::RubricEvaluationResult::dimension_scores</definition>
+        <argsstring></argsstring>
+        <name>dimension_scores</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::dimension_scores</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="59" column="24" bodyfile="include/rag/rubric_evaluator.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a05923a4df896171d14cb9c78039f1db3" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, int &gt;</type>
+        <definition>std::unordered_map&lt;std::string, int&gt; themis::rag::judge::RubricEvaluationResult::dimension_levels</definition>
+        <argsstring></argsstring>
+        <name>dimension_levels</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::dimension_levels</qualifiedname>
+        <briefdescription>
+<para>1-5 level per dimension </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="60" column="24" bodyfile="include/rag/rubric_evaluator.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1af476742109e5cf3a261ef0ade1ee683b" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::string &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::string&gt; themis::rag::judge::RubricEvaluationResult::dimension_reasoning</definition>
+        <argsstring></argsstring>
+        <name>dimension_reasoning</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::dimension_reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="61" column="24" bodyfile="include/rag/rubric_evaluator.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7efe500674e7d0068782b521c8110e13" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RubricEvaluationResult::overall_reasoning</definition>
+        <argsstring></argsstring>
+        <name>overall_reasoning</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::overall_reasoning</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="62" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a1b689c2c9eb18dd82f33f286a94286e7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::judge::RubricEvaluationResult::rubric_name</definition>
+        <argsstring></argsstring>
+        <name>rubric_name</name>
+        <qualifiedname>themis::rag::judge::RubricEvaluationResult::rubric_name</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rubric_evaluator.h" line="63" column="17" bodyfile="include/rag/rubric_evaluator.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Rubric-based evaluation result. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/rag/rubric_evaluator.h" line="57" column="1" bodyfile="include/rag/rubric_evaluator.h" bodystart="57" bodyend="64"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a05923a4df896171d14cb9c78039f1db3" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>dimension_levels</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1af476742109e5cf3a261ef0ade1ee683b" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>dimension_reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1aa5edb1db9cb51abe4f888aba1efba3e8" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>dimension_scores</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7efe500674e7d0068782b521c8110e13" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>overall_reasoning</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a7f6d77837b21f00e80437c234f0fd1a4" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>overall_score</name></member>
+      <member refid="structthemis_1_1rag_1_1judge_1_1_rubric_evaluation_result_1a1b689c2c9eb18dd82f33f286a94286e7" prot="public" virt="non-virtual"><scope>themis::rag::judge::RubricEvaluationResult</scope><name>rubric_name</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

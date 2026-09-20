@@ -1,0 +1,135 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_lo_r_a_weight_entry" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::LoRAWeightEntry</compoundname>
+    <includes refid="lora__adapter_8h" local="no">lora_adapter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a358c363ad1903c18324c4e32b027cbb7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::LoRAWeightEntry::layer_name</definition>
+        <argsstring></argsstring>
+        <name>layer_name</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::layer_name</qualifiedname>
+        <briefdescription>
+<para>Unique layer identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="37" column="24" bodyfile="include/training/lora_adapter.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a4ef7788cb7602ebf05e837e45e654b07" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAWeightEntry::in_dim</definition>
+        <argsstring></argsstring>
+        <name>in_dim</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::in_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Input feature dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="38" column="24" bodyfile="include/training/lora_adapter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a43247035b8898b7191257dfd1d931bbe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAWeightEntry::out_dim</definition>
+        <argsstring></argsstring>
+        <name>out_dim</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::out_dim</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Output feature dimension. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="39" column="24" bodyfile="include/training/lora_adapter.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1ab56619022a6b03ac340119bcf6ac6cdf" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::LoRAWeightEntry::rank</definition>
+        <argsstring></argsstring>
+        <name>rank</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::rank</qualifiedname>
+        <initializer>= 4</initializer>
+        <briefdescription>
+<para>LoRA rank r. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="40" column="24" bodyfile="include/training/lora_adapter.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1aa403ae9ac8c3f81d4d954387d9e91019" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::LoRAWeightEntry::alpha</definition>
+        <argsstring></argsstring>
+        <name>alpha</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::alpha</qualifiedname>
+        <initializer>= 8.0f</initializer>
+        <briefdescription>
+<para>LoRA α (scaling = alpha / rank). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="41" column="24" bodyfile="include/training/lora_adapter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1ac069141228d2bd60a5b9b8b8fcd4615a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::LoRAWeightEntry::B</definition>
+        <argsstring></argsstring>
+        <name>B</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::B</qualifiedname>
+        <briefdescription>
+<para>Down-projection (in_dim × rank). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="42" column="17" bodyfile="include/training/lora_adapter.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a85a02d0373e3dca8eb881ba99254e2cb" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; float &gt;</type>
+        <definition>std::vector&lt;float&gt; themis::training::LoRAWeightEntry::A</definition>
+        <argsstring></argsstring>
+        <name>A</name>
+        <qualifiedname>themis::training::LoRAWeightEntry::A</qualifiedname>
+        <briefdescription>
+<para>Up-projection (rank × out_dim). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/lora_adapter.h" line="43" column="17" bodyfile="include/training/lora_adapter.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Weight entry for a single named LoRA adapter layer. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stores the low-rank matrices B and A along with the layer&apos;s hyperparameters. The effective weight delta is: ΔW = (B @ A) × scaling, where scaling = alpha / rank</para>
+<para>Dimensions: B: (in_dim × rank) – down-projection A: (rank × out_dim) – up-projection </para>
+    </detaileddescription>
+    <location file="include/training/lora_adapter.h" line="36" column="1" bodyfile="include/training/lora_adapter.h" bodystart="36" bodyend="44"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a85a02d0373e3dca8eb881ba99254e2cb" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>A</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1aa403ae9ac8c3f81d4d954387d9e91019" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>alpha</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1ac069141228d2bd60a5b9b8b8fcd4615a" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>B</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a4ef7788cb7602ebf05e837e45e654b07" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>in_dim</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a358c363ad1903c18324c4e32b027cbb7" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>layer_name</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1a43247035b8898b7191257dfd1d931bbe" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>out_dim</name></member>
+      <member refid="structthemis_1_1training_1_1_lo_r_a_weight_entry_1ab56619022a6b03ac340119bcf6ac6cdf" prot="public" virt="non-virtual"><scope>themis::training::LoRAWeightEntry</scope><name>rank</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

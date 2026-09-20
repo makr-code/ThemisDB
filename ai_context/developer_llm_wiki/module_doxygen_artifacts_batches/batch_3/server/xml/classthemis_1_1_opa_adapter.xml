@@ -1,0 +1,422 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_opa_adapter" kind="class" language="C++" prot="public">
+    <compoundname>themis::OpaAdapter</compoundname>
+    <basecompoundref refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator" prot="public" virt="non-virtual">themis::PolicyEngine::IPolicyEvaluator</basecompoundref>
+    <includes refid="opa__adapter_8h" local="no">opa_adapter.h</includes>
+    <innerclass refid="structthemis_1_1_opa_adapter_1_1_config" prot="public">themis::OpaAdapter::Config</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_opa_adapter_1af6a9d41e51a768e737042318dac282ae" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::OpaAdapter::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::OpaAdapter::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="51" column="12" bodyfile="include/server/opa_adapter.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(const Config &amp;config)</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Opa Adapter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="33" column="14" bodyfile="src/server/opa_adapter.cpp" bodystart="63" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a7a7295562886cfd3370e41b9d2dc8173" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::OpaAdapter::~OpaAdapter</definition>
+        <argsstring>() override</argsstring>
+        <name>~OpaAdapter</name>
+        <qualifiedname>themis::OpaAdapter::~OpaAdapter</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="34" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a7c23cb83c93cc7339a79243264cc8867" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(const OpaAdapter &amp;)=delete</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>const OpaAdapter &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="36" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1ae49b8149feb7e4ed969b5b55db1f1845" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" kindref="member">OpaAdapter</ref> &amp;</type>
+        <definition>OpaAdapter &amp; themis::OpaAdapter::operator=</definition>
+        <argsstring>(const OpaAdapter &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::OpaAdapter::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" kindref="member">OpaAdapter</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="37" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a42f884f1526e72385f727d5650a94a0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::OpaAdapter::OpaAdapter</definition>
+        <argsstring>(OpaAdapter &amp;&amp;)=delete</argsstring>
+        <name>OpaAdapter</name>
+        <qualifiedname>themis::OpaAdapter::OpaAdapter</qualifiedname>
+        <param>
+          <type>OpaAdapter &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="38" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a8f88af0ac9832e1396f15e2a534a1e57" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" kindref="member">OpaAdapter</ref> &amp;</type>
+        <definition>OpaAdapter &amp; themis::OpaAdapter::operator=</definition>
+        <argsstring>(OpaAdapter &amp;&amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::OpaAdapter::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" kindref="member">OpaAdapter</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="39" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1aa83cb1e3b837a4ce333a21df2261f5f8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>std::optional&lt; <ref refid="structthemis_1_1_policy_engine_1_1_decision" kindref="compound">PolicyEngine::Decision</ref> &gt;</type>
+        <definition>std::optional&lt; PolicyEngine::Decision &gt; themis::OpaAdapter::evaluate</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;action, const std::string &amp;resource_path, const std::optional&lt; std::string &gt; &amp;client_ip, const std::optional&lt; std::string &gt; &amp;user_agent) const override</argsstring>
+        <name>evaluate</name>
+        <qualifiedname>themis::OpaAdapter::evaluate</qualifiedname>
+        <reimplements refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator_1a709fa933ee62f9f40bcff598c1eb8547">evaluate</reimplements>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user_agent</declname>
+        </param>
+        <briefdescription>
+<para>Evaluate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="41" column="19" bodyfile="src/server/opa_adapter.cpp" bodystart="153" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a8c3c0c0226116111e6aa34b939396af4" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1_opa_adapter_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::OpaAdapter::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::OpaAdapter::getConfig</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="48" column="18" bodyfile="include/server/opa_adapter.h" bodystart="48" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1ab04d1e8fb3b7d1827785932ec62fcab4" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::OpaAdapter::buildUrl</definition>
+        <argsstring>() const</argsstring>
+        <name>buildUrl</name>
+        <qualifiedname>themis::OpaAdapter::buildUrl</qualifiedname>
+        <briefdescription>
+<para>Build Url. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="57" column="17" bodyfile="src/server/opa_adapter.cpp" bodystart="78" bodyend="89"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a9c860fbdfc6ed40c6ce2bfffa4521cfc" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::OpaAdapter::buildRequestBody</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;action, const std::string &amp;resource_path, const std::optional&lt; std::string &gt; &amp;client_ip, const std::optional&lt; std::string &gt; &amp;user_agent)</argsstring>
+        <name>buildRequestBody</name>
+        <qualifiedname>themis::OpaAdapter::buildRequestBody</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>action</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource_path</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>client_ip</declname>
+        </param>
+        <param>
+          <type>const std::optional&lt; std::string &gt; &amp;</type>
+          <declname>user_agent</declname>
+        </param>
+        <briefdescription>
+<para>Build Request Body. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">action</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the resource. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">client_ip</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_agent</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="68" column="24" bodyfile="src/server/opa_adapter.cpp" bodystart="100" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_opa_adapter_1a1163df07d59beb7b2e9ef2f44178b563" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; bool &gt;</type>
+        <definition>std::optional&lt; bool &gt; themis::OpaAdapter::parseOpaResponse</definition>
+        <argsstring>(const std::string &amp;body)</argsstring>
+        <name>parseOpaResponse</name>
+        <qualifiedname>themis::OpaAdapter::parseOpaResponse</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>body</declname>
+          <defname>response_body</defname>
+        </param>
+        <briefdescription>
+<para>Parse Opa Response. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">response_body</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: nlohmann::json::parse(), contains(), is_boolean(), is_object(), empty(), THEMIS_WARN(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/opa_adapter.h" line="80" column="26" bodyfile="src/server/opa_adapter.cpp" bodystart="129" bodyend="151"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::OpaAdapter</label>
+        <link refid="classthemis_1_1_opa_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::PolicyEngine::IPolicyEvaluator</label>
+        <link refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator"/>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>themis::OpaAdapter</label>
+        <link refid="classthemis_1_1_opa_adapter"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::PolicyEngine::IPolicyEvaluator</label>
+        <link refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/server/opa_adapter.h" line="20" column="1" bodyfile="include/server/opa_adapter.h" bodystart="20" bodyend="81"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_opa_adapter_1a9c860fbdfc6ed40c6ce2bfffa4521cfc" prot="private" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>buildRequestBody</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1ab04d1e8fb3b7d1827785932ec62fcab4" prot="private" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>buildUrl</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1af6a9d41e51a768e737042318dac282ae" prot="private" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>config_</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1aa83cb1e3b837a4ce333a21df2261f5f8" prot="public" virt="virtual"><scope>themis::OpaAdapter</scope><name>evaluate</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a8c3c0c0226116111e6aa34b939396af4" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a0bef692de784e29864c36845208012c7" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a7c23cb83c93cc7339a79243264cc8867" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a42f884f1526e72385f727d5650a94a0e" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>OpaAdapter</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1ae49b8149feb7e4ed969b5b55db1f1845" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a8f88af0ac9832e1396f15e2a534a1e57" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a1163df07d59beb7b2e9ef2f44178b563" prot="private" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>parseOpaResponse</name></member>
+      <member refid="structthemis_1_1_policy_engine_1_1_i_policy_evaluator_1a40de57815e230146b8d46fc953b74aac" prot="public" virt="virtual"><scope>themis::OpaAdapter</scope><name>~IPolicyEvaluator</name></member>
+      <member refid="classthemis_1_1_opa_adapter_1a7a7295562886cfd3370e41b9d2dc8173" prot="public" virt="non-virtual"><scope>themis::OpaAdapter</scope><name>~OpaAdapter</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

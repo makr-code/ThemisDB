@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" kind="struct" language="C++" prot="public">
+    <compoundname>themis::transaction::MergeEngine::ConflictResolution</compoundname>
+    <includes refid="merge__engine_8h" local="no">merge_engine.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1acf589f4adbd3ae07a6a7639fe54a2fc3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::transaction::MergeEngine::ConflictResolution::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::transaction::MergeEngine::ConflictResolution::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="67" column="21" bodyfile="include/transaction/merge_engine.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a2439007a271d91442f000934e2e9148c" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; std::string &gt;</type>
+        <definition>std::optional&lt;std::string&gt; themis::transaction::MergeEngine::ConflictResolution::resolved_value</definition>
+        <argsstring></argsstring>
+        <name>resolved_value</name>
+        <qualifiedname>themis::transaction::MergeEngine::ConflictResolution::resolved_value</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="68" column="23" bodyfile="include/transaction/merge_engine.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a5e80d3f73f42bfbcb6a97780c1d89549" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref></type>
+        <definition>json themis::transaction::MergeEngine::ConflictResolution::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::transaction::MergeEngine::ConflictResolution::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="74" column="14" bodyfile="src/transaction/merge_engine.cpp" bodystart="81" bodyend="88"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1ac536dae0427a8407d41cc5a3bd1f4f8b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution" kindref="compound">ConflictResolution</ref></type>
+        <definition>MergeEngine::ConflictResolution themis::transaction::MergeEngine::ConflictResolution::fromJson</definition>
+        <argsstring>(const json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::transaction::MergeEngine::ConflictResolution::fromJson</qualifiedname>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1transaction_1ada1fce812dfe6e6dd9904ce74ebdfed9" kindref="member">json</ref> &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/transaction/merge_engine.h" line="80" column="35" bodyfile="src/transaction/merge_engine.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/transaction/merge_engine.h" line="66" column="5" bodyfile="include/transaction/merge_engine.h" bodystart="66" bodyend="81"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1ac536dae0427a8407d41cc5a3bd1f4f8b" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::ConflictResolution</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1acf589f4adbd3ae07a6a7639fe54a2fc3" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::ConflictResolution</scope><name>key</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a2439007a271d91442f000934e2e9148c" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::ConflictResolution</scope><name>resolved_value</name></member>
+      <member refid="structthemis_1_1transaction_1_1_merge_engine_1_1_conflict_resolution_1a5e80d3f73f42bfbcb6a97780c1d89549" prot="public" virt="non-virtual"><scope>themis::transaction::MergeEngine::ConflictResolution</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

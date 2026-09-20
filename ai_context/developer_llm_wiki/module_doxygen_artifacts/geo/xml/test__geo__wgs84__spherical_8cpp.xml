@@ -1,0 +1,517 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__geo__wgs84__spherical_8cpp" kind="file" language="C++">
+    <compoundname>test_geo_wgs84_spherical.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="spatial__backend_8h" local="yes">geo/spatial_backend.h</includes>
+    <includes local="no">cmath</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>geo/spatial_backend.h</label>
+        <link refid="spatial__backend_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/geo/test_geo_wgs84_spherical.cpp</label>
+        <link refid="test__geo__wgs84__spherical_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>cmath</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="8">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>memory</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+      <node id="9">
+        <label>utils/geo/ewkb.h</label>
+      </node>
+      <node id="5">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, BackendIsNotNull)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>BackendIsNotNull</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="33" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="33" bodyend="35"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1ac87190a5ed0b782539d8dd77e1a602c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, CoincidentPoints_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>CoincidentPoints_ReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="37" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="37" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a78303feff627b557a5505082186c94b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, CoincidentPointsEquator_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>CoincidentPointsEquator_ReturnsZero</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="42" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a9ca8918b05d3992995759a0ce7ae7819" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, BerlinCityDistance_ApproxOneKilometre)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>BerlinCityDistance_ApproxOneKilometre</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="52" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="52" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a263b3b088648b420d0df0fcc145d4365" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, EquatorialDegreeLongitude)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>EquatorialDegreeLongitude</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="60" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="60" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a7c3fdc8a3cc7b6e6e0b7d6361536b3c9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, MeridionalDegreeLatitude_NearEquator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>MeridionalDegreeLatitude_NearEquator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="67" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="67" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a2c8ad5e11d5967ca5bba75120608c2e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, NewYorkToLondon_InterContinental)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>NewYorkToLondon_InterContinental</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="75" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="75" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a9a2496419f6519b2240d42f37f86e08e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, SydneyToLondon_LongDistance)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>SydneyToLondon_LongDistance</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="83" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="83" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a38b2e404dbb4bac697c6740aab40245c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, Symmetry_ForwardAndReverse)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>Symmetry_ForwardAndReverse</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="93" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="93" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1aa5a99a03790e5208a036a6f05aac3e54" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, Symmetry_CrossEquator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>Symmetry_CrossEquator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="99" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="99" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1acebb3db0c9f98c0cdb0d3e4720d58474" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, BerlinToBuenosAires_EllipsoidRange)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>BerlinToBuenosAires_EllipsoidRange</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="113" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="113" bodyend="117"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a6d0b422768c9789537e29e4bdc0df0b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, NorthPoleToSouthPole)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>NorthPoleToSouthPole</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="124" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="124" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a2968a74b9e65362e03eca569cbe2e4f8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, SameLatitude_HighLatitude)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>SameLatitude_HighLatitude</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="131" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="131" bodyend="137"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a648b81f5aa92719740d4befbef0a694d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, MeridianArc_MidLatitude)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>MeridianArc_MidLatitude</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="140" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="140" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__geo__wgs84__spherical_8cpp_1a26ab5ca90666512302f40ab3f983e158" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GeoWGS84Spherical, GpuBackend_DelegatesToCpu)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GeoWGS84Spherical</type>
+        </param>
+        <param>
+          <type>GpuBackend_DelegatesToCpu</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/geo/test_geo_wgs84_spherical.cpp" line="150" column="1" bodyfile="tests/geo/test_geo_wgs84_spherical.cpp" bodystart="150" bodyend="162"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="comment">/*</highlight></codeline>
+<codeline lineno="2"><highlight class="comment"><sp/>*<sp/>Test<sp/>suite:<sp/>WGS-84<sp/>ellipsoid<sp/>geodesic<sp/>distance</highlight></codeline>
+<codeline lineno="3"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="4"><highlight class="comment"><sp/>*<sp/>Validates<sp/>CpuExactBackend::geodesicDistance()<sp/>which<sp/>implements<sp/>the</highlight></codeline>
+<codeline lineno="5"><highlight class="comment"><sp/>*<sp/>Vincenty<sp/>inverse<sp/>formula<sp/>on<sp/>the<sp/>WGS-84<sp/>ellipsoid<sp/>(EPSG:4326).</highlight></codeline>
+<codeline lineno="6"><highlight class="comment"><sp/>*</highlight></codeline>
+<codeline lineno="7"><highlight class="comment"><sp/>*<sp/>Reference<sp/>values<sp/>are<sp/>taken<sp/>from:</highlight></codeline>
+<codeline lineno="8"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>Karney<sp/>(2013)<sp/>&quot;Algorithms<sp/>for<sp/>geodesics&quot;,<sp/>Table<sp/>2</highlight></codeline>
+<codeline lineno="9"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>NIMA<sp/>TR8350.2<sp/>test<sp/>cases</highlight></codeline>
+<codeline lineno="10"><highlight class="comment"><sp/>*<sp/><sp/><sp/>-<sp/>NGS<sp/>online<sp/>geodesic<sp/>calculator</highlight></codeline>
+<codeline lineno="11"><highlight class="comment"><sp/>*/</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="spatial__backend_8h" kindref="compound">geo/spatial_backend.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cmath&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1geo" kindref="compound">themis::geo</ref>;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>get<sp/>the<sp/>cpu_exact<sp/>backend<sp/>(always<sp/>available)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>backend()<sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>();</highlight></codeline>
+<codeline lineno="25"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Basic<sp/>API<sp/>tests</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>BackendIsNotNull)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(backend(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>CoincidentPoints_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Identical<sp/>coordinates<sp/>must<sp/>produce<sp/>0<sp/>m.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(backend()-&gt;geodesicDistance(52.5200,<sp/>13.4050,<sp/>52.5200,<sp/>13.4050),<sp/>0.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>CoincidentPointsEquator_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(backend()-&gt;geodesicDistance(0.0,<sp/>0.0,<sp/>0.0,<sp/>0.0),<sp/>0.0,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Known<sp/>reference<sp/>distances<sp/>(±1<sp/>m<sp/>tolerance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Berlin<sp/>Hauptbahnhof<sp/>→<sp/>Brandenburger<sp/>Tor:<sp/>~1<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Approx:<sp/>52.5254°N,13.3690°E<sp/>→<sp/>52.5163°N,13.3777°E<sp/>≈<sp/>1160<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>BerlinCityDistance_ApproxOneKilometre)<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin<sp/>Hbf<sp/>(52.5254,<sp/>13.3690)<sp/>→<sp/>Brandenburg<sp/>Gate<sp/>(52.5163,<sp/>13.3777)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(52.5254,<sp/>13.3690,<sp/>52.5163,<sp/>13.3777);</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>900.0)<sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;distance<sp/>should<sp/>be<sp/>&gt;<sp/>900<sp/>m&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>1500.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;distance<sp/>should<sp/>be<sp/>&lt;<sp/>1500<sp/>m&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Equatorial<sp/>degree<sp/>of<sp/>longitude<sp/>at<sp/>the<sp/>equator<sp/>≈<sp/>111,319.49<sp/>m<sp/>(WGS-84)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>EquatorialDegreeLongitude)<sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(0.0,<sp/>0.0,<sp/>0.0,<sp/>1.0);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WGS-84<sp/>equatorial<sp/>circumference<sp/>/<sp/>360<sp/>=<sp/>40075016.686<sp/>/<sp/>360<sp/>≈<sp/>111319.49<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(dist,<sp/>111319.49,<sp/>1.0);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Meridional<sp/>degree<sp/>of<sp/>latitude<sp/>near<sp/>the<sp/>equator<sp/>≈<sp/>110574<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>MeridionalDegreeLatitude_NearEquator)<sp/>{</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(0.0,<sp/>0.0,<sp/>1.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>1°<sp/>latitude<sp/>≈<sp/>110574<sp/>m<sp/>at<sp/>equator<sp/>(WGS-84<sp/>meridian<sp/>radius<sp/>of<sp/>curvature)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(dist,<sp/>110574.0,<sp/>500.0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>New<sp/>York<sp/>(40.6413°N,<sp/>-73.7781°W)<sp/>→<sp/>London<sp/>Heathrow<sp/>(51.4775°N,<sp/>-0.4614°W)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Great-circle<sp/>distance<sp/>≈<sp/>5,539<sp/>km<sp/>(Vincenty<sp/>geodesic<sp/>≈<sp/>5,570<sp/>km)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>NewYorkToLondon_InterContinental)<sp/>{</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(40.6413,<sp/>-73.7781,<sp/>51.4775,<sp/>-0.4614);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>5&apos;400&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NY–London<sp/>should<sp/>be<sp/>&gt;<sp/>5400<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>5&apos;700&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;NY–London<sp/>should<sp/>be<sp/>&lt;<sp/>5700<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Sydney<sp/>(−33.8688°S,<sp/>151.2093°E)<sp/>→<sp/>London<sp/>(51.5074°N,<sp/>−0.1278°W)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Geodesic<sp/>≈<sp/>16,993<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>SydneyToLondon_LongDistance)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(-33.8688,<sp/>151.2093,<sp/>51.5074,<sp/>-0.1278);</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>16&apos;800&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Sydney–London<sp/>should<sp/>be<sp/>&gt;<sp/>16800<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>17&apos;200&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Sydney–London<sp/>should<sp/>be<sp/>&lt;<sp/>17200<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Symmetry:<sp/>distance(A→B)<sp/>==<sp/>distance(B→A)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>Symmetry_ForwardAndReverse)<sp/>{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>backend()-&gt;geodesicDistance(52.5200,<sp/>13.4050,<sp/><sp/>48.8566,<sp/>2.3522);<sp/><sp/></highlight><highlight class="comment">//<sp/>Berlin→Paris</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>backend()-&gt;geodesicDistance(48.8566,<sp/>2.3522,<sp/><sp/><sp/>52.5200,<sp/>13.4050);<sp/></highlight><highlight class="comment">//<sp/>Paris→Berlin</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(d1,<sp/>d2,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>Symmetry_CrossEquator)<sp/>{</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d1<sp/>=<sp/>backend()-&gt;geodesicDistance(<sp/>10.0,<sp/>20.0,<sp/>-10.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>d2<sp/>=<sp/>backend()-&gt;geodesicDistance(-10.0,<sp/>20.0,<sp/><sp/>10.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(d1,<sp/>d2,<sp/>1e-6);</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Ellipsoid<sp/>accuracy:<sp/>Vincenty<sp/>vs<sp/>sphere<sp/>(Haversine<sp/>equivalent)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="comment">//<sp/>For<sp/>antipodal-ish<sp/>or<sp/>polar<sp/>routes<sp/>the<sp/>two<sp/>should<sp/>differ<sp/>noticeably.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Berlin<sp/>→<sp/>Buenos<sp/>Aires:<sp/>geodesic<sp/>≈<sp/>11,688<sp/>km</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>ellipsoid<sp/>correction<sp/>vs<sp/>a<sp/>sphere<sp/>is<sp/>several<sp/>km<sp/>→<sp/>the<sp/>Vincenty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight><highlight class="comment">//<sp/>result<sp/>must<sp/>be<sp/>within<sp/>a<sp/>realistic<sp/>range.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>BerlinToBuenosAires_EllipsoidRange)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(52.5200,<sp/>13.4050,<sp/>-34.6037,<sp/>-58.3816);</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>11&apos;500&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Berlin–Buenos<sp/>Aires<sp/>&gt;<sp/>11500<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>11&apos;900&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Berlin–Buenos<sp/>Aires<sp/>&lt;<sp/>11900<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Edge<sp/>cases</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>North<sp/>Pole<sp/>→<sp/>South<sp/>Pole:<sp/>half<sp/>the<sp/>meridional<sp/>circumference<sp/>≈<sp/>20,003,931<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>NorthPoleToSouthPole)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(90.0,<sp/>0.0,<sp/>-90.0,<sp/>0.0);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WGS-84<sp/>meridian<sp/>circumference<sp/>≈<sp/>40,007,862.9<sp/>m<sp/>→<sp/>half<sp/>≈<sp/>20,003,931<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(dist,<sp/>20&apos;003&apos;931.0,<sp/>10.0);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Same<sp/>latitude,<sp/>different<sp/>longitudes<sp/>(parallel<sp/>not<sp/>a<sp/>geodesic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>SameLatitude_HighLatitude)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Two<sp/>points<sp/>at<sp/>60°N<sp/>separated<sp/>by<sp/>10°<sp/>longitude</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(60.0,<sp/>10.0,<sp/>60.0,<sp/>20.0);</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Approx:<sp/>10°<sp/>lon<sp/>at<sp/>60°N<sp/>≈<sp/>555,960<sp/>m<sp/>(rough)<sp/>—<sp/>just<sp/>sanity<sp/>check<sp/>bounds</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(dist,<sp/>540&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;10°<sp/>lon<sp/>at<sp/>60°N<sp/>should<sp/>be<sp/>&gt;<sp/>540<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(dist,<sp/>570&apos;000.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;10°<sp/>lon<sp/>at<sp/>60°N<sp/>should<sp/>be<sp/>&lt;<sp/>570<sp/>km&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Zero<sp/>longitude<sp/>difference<sp/>with<sp/>latitude<sp/>change</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>MeridianArc_MidLatitude)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>10°<sp/>latitude<sp/>along<sp/>a<sp/>meridian<sp/>at<sp/>30°N<sp/>should<sp/>be<sp/>≈<sp/>1,108,513<sp/>m</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>dist<sp/>=<sp/>backend()-&gt;geodesicDistance(30.0,<sp/>45.0,<sp/>40.0,<sp/>45.0);</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(dist,<sp/>1&apos;108&apos;513.0,<sp/>2000.0);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GPU<sp/>spatial<sp/>backend<sp/>delegates<sp/>to<sp/>CPU<sp/>(returns<sp/>real<sp/>geodesic<sp/>distance)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><ref refid="test__geo__wgs84__spherical_8cpp_1a01ee390281690f9809b466af4b079e2e" kindref="member">TEST</ref>(GeoWGS84Spherical,<sp/>GpuBackend_DelegatesToCpu)<sp/>{</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend" kindref="compound">ISpatialComputeBackend</ref>*<sp/>gpu<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a6a624344c315b22db1046070c5e3c504" kindref="member">getGpuSpatialBackend</ref>();</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_NE(gpu,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>GPU<sp/>backend<sp/>must<sp/>delegate<sp/>to<sp/>the<sp/>CPU<sp/>exact<sp/>backend<sp/>and<sp/>return<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>same<sp/>geodesic<sp/>distance<sp/>value<sp/>(Vincenty<sp/>WGS-84).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>cpu_dist<sp/>=<sp/><ref refid="namespacethemis_1_1geo_1a28cb4be068b844c22d99f9484510fd8f" kindref="member">getCpuExactBackend</ref>()-&gt;<ref refid="classthemis_1_1geo_1_1_i_spatial_compute_backend_1a6f7d1da128cc4b93dd3d1345f56b329e" kindref="member">geodesicDistance</ref>(</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>52.5200,<sp/>13.4050,<sp/>48.8566,<sp/>2.3522);<sp/></highlight><highlight class="comment">//<sp/>Berlin→Paris</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>gpu_dist<sp/>=<sp/>gpu-&gt;geodesicDistance(</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>52.5200,<sp/>13.4050,<sp/>48.8566,<sp/>2.3522);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(gpu_dist,<sp/>0.0)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GPU<sp/>geodesicDistance<sp/>must<sp/>return<sp/>real<sp/>distance,<sp/>not<sp/>stub<sp/>0&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(gpu_dist,<sp/>cpu_dist,<sp/>1e-6)</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;GPU<sp/>backend<sp/>must<sp/>delegate<sp/>to<sp/>CPU<sp/>exact<sp/>backend&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="162"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/geo/test_geo_wgs84_spherical.cpp"/>
+  </compounddef>
+</doxygen>

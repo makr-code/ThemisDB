@@ -1,0 +1,604 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ai__generation__soak__60min_8cpp" kind="file" language="C++">
+    <compoundname>test_ai_generation_soak_60min.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">algorithm</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">cstdlib</includes>
+    <includes local="no">type_traits</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">random</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/ai/test_ai_generation_soak_60min.cpp</label>
+        <link refid="test__ai__generation__soak__60min_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>algorithm</label>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstdint</label>
+      </node>
+      <node id="7">
+        <label>cstdlib</label>
+      </node>
+      <node id="9">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="10">
+        <label>numeric</label>
+      </node>
+      <node id="11">
+        <label>random</label>
+      </node>
+      <node id="12">
+        <label>string</label>
+      </node>
+      <node id="13">
+        <label>thread</label>
+      </node>
+      <node id="8">
+        <label>type_traits</label>
+      </node>
+      <node id="14">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_generation_result" prot="public">GenerationResult</innerclass>
+    <innerclass refid="class_stub_a_i_generation_pipeline" prot="public">StubAIGenerationPipeline</innerclass>
+    <innerclass refid="struct_stub_a_i_generation_pipeline_1_1_stats" prot="public">StubAIGenerationPipeline::Stats</innerclass>
+    <innernamespace refid="namespacestd_1_1chrono__literals">std::chrono_literals</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>StubMode</name>
+        <enumvalue id="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" prot="public">
+          <name>AlwaysSucceed</name>
+          <briefdescription>
+<para>All calls succeed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" prot="public">
+          <name>AlwaysTransportFail</name>
+          <briefdescription>
+<para>All calls fail with transport error (retry budget exhaustion). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95adbca9d9191f3a94721d80fdeda5aea32" prot="public">
+          <name>AlwaysParseError</name>
+          <briefdescription>
+<para>All calls fail with parse error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95ace95b011ee6a99ffe2c43239e7237c96" prot="public">
+          <name>MixedValidInvalid</name>
+          <briefdescription>
+<para>Alternates valid/invalid prompts (50/50). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Simulated AI generation call outcomes. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="97" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="97" bodyend="102"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ai__generation__soak__60min_8cpp_1ac156c3a7aaadd5993a2818f741a00d2b" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>static uint64_t soakDurationMs</definition>
+        <argsstring>()</argsstring>
+        <name>soakDurationMs</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="68" column="17" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="68" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WaveD_AI_GenerationSoak, EndpointStress)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WaveD_AI_GenerationSoak</type>
+        </param>
+        <param>
+          <type>EndpointStress</type>
+        </param>
+        <briefdescription>
+<para>Soak test: sustained endpoint load, all calls succeed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Models ~10 req/s over the soak duration. Verifies:<itemizedlist>
+<listitem><para>Success rate remains 100% for always-succeed stub</para>
+</listitem><listitem><para>Stats counters remain internally consistent</para>
+</listitem><listitem><para>No exception or undefined behavior under sustained load </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="213" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="213" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__generation__soak__60min_8cpp_1a0f4b30017207857ed70e06a940fd9c39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WaveD_AI_GenerationSoak, RetryBudgetExhaustionAndRecovery)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WaveD_AI_GenerationSoak</type>
+        </param>
+        <param>
+          <type>RetryBudgetExhaustionAndRecovery</type>
+        </param>
+        <briefdescription>
+<para>Soak test: 100% transport failure window, then recovery. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Models the &quot;retry storm then recovery&quot; scenario described in docs/operability/RUNBOOK_AI_GENERATION.md Type 3.</para>
+<para>Verifies:<itemizedlist>
+<listitem><para>transport_errors grow during failure window</para>
+</listitem><listitem><para>Successes resume ≤ 1 s after endpoint recovery</para>
+</listitem><listitem><para>Stats invariant holds throughout </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="263" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="263" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__generation__soak__60min_8cpp_1a38121281687b921eb366348f31d638bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WaveD_AI_GenerationSoak, ValidationRateStability)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WaveD_AI_GenerationSoak</type>
+        </param>
+        <param>
+          <type>ValidationRateStability</type>
+        </param>
+        <briefdescription>
+<para>Soak test: mixed valid/invalid prompts over soak duration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verifies:<itemizedlist>
+<listitem><para>validation_errors equals the number of invalid prompts exactly</para>
+</listitem><listitem><para>successes equals the number of valid prompts exactly</para>
+</listitem><listitem><para>No cross-contamination between valid and invalid paths</para>
+</listitem><listitem><para>Stats invariant holds </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="319" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="319" bodyend="353"/>
+      </memberdef>
+      <memberdef kind="function" id="test__ai__generation__soak__60min_8cpp_1ab19a449778f04644bb870598fc8177bb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(WaveD_AI_GenerationSoak, StatConsistencyInvariant)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>WaveD_AI_GenerationSoak</type>
+        </param>
+        <param>
+          <type>StatConsistencyInvariant</type>
+        </param>
+        <briefdescription>
+<para>Soak test: Stats invariant holds across all call patterns. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Runs a rapid burst of calls across multiple modes and verifies that the Stats invariant (total_calls == successes + all_errors) holds at the end regardless of call outcome distribution. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ai/test_ai_generation_soak_60min.cpp" line="364" column="1" bodyfile="tests/ai/test_ai_generation_soak_60min.cpp" bodystart="364" bodyend="398"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Wave D — AI Generation Soak Test (60-minute sustained load). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Long-duration soak test for the ThemisDB AI plugin generation path. Verifies that the <ref refid="class_a_i_plugin_generator" kindref="compound">AIPluginGenerator</ref> path remains stable and meets its latency, error-rate, and memory-safety contracts under sustained load over a 60-minute run.</para>
+<para>In CI environments this test is run with a reduced THEMIS_SOAK_DURATION_MS override (default 60 000 ms / 1 min) so the CI gate completes quickly. The full 3 600 000 ms (60 min) run is reserved for release/Wave-D soak pipelines.</para>
+<sect1 id="test__ai__generation__soak__60min_8cpp_1autotoc_md0_1s1"><sect2 id="test__ai__generation__soak__60min_8cpp_1autotoc_md0">
+<title>Test scenarios</title><para><orderedlist>
+<listitem><para><bold>AI_GenerationSoak_EndpointStress</bold> Continuous <computeroutput>generatePlugin</computeroutput> calls at ~10 req/s for the soak duration. Acceptance: success rate ≥ 80% (endpoint stub always returns valid response), retry-budget exhaustion never triggered, Stats counters internally consistent.</para>
+</listitem><listitem><para><bold>AI_GenerationSoak_RetryBudgetExhaustion</bold> Force 100% transient failure rate for the first 30 s, then restore. Acceptance: <computeroutput>transport_errors</computeroutput> grows predictably during failure window; <computeroutput>successes</computeroutput> resume within 1 s after endpoint recovery; no memory leak or stat counter overflow.</para>
+</listitem><listitem><para><bold>AI_GenerationSoak_ValidationRateStability</bold> Mix of valid and invalid prompts (50/50) over the soak duration. Acceptance: <computeroutput>validation_errors</computeroutput> equals invalid-prompt count exactly; <computeroutput>successes</computeroutput> equals valid-prompt count exactly; no cross-contamination.</para>
+</listitem><listitem><para><bold>AI_GenerationSoak_StatConsistency</bold> After soak: sum of all error counters + successes == total attempted calls. Acceptance: invariant holds without exception.</para>
+</listitem></orderedlist>
+</para>
+</sect2></sect1>
+<sect1 id="test__ai__generation__soak__60min_8cpp_1autotoc_md1_1s1"><sect2 id="test__ai__generation__soak__60min_8cpp_1autotoc_md1">
+<title>Labels</title><para>wave_d;soak;not_release_critical</para>
+<para><simplesect kind="version"><para>1.0.0 </para>
+</simplesect>
+<simplesect kind="note"><para>Run in the release/Wave-D soak pipeline; excluded from the fast CI gate. </para>
+</simplesect>
+<simplesect kind="see"><para>src/ai/WAVE_D_ROADMAP.md — D3: Soak Tests </para>
+</simplesect>
+<simplesect kind="see"><para>docs/operability/WAVE_D_SIGN_OFF.md — Batch D5 evidence requirement </para>
+</simplesect>
+<simplesect kind="see"><para>docs/operability/RUNBOOK_AI_GENERATION.md — Type 3 Retry Storm section </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;algorithm&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdlib&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;type_traits&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;random&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Soak<sp/>duration<sp/>—<sp/>overridable<sp/>via<sp/>THEMIS_SOAK_DURATION_MS<sp/>environment<sp/>variable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Default:<sp/>60<sp/>000<sp/>ms<sp/>(1<sp/>min)<sp/>so<sp/>CI<sp/>completes<sp/>quickly.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Production<sp/>soak:<sp/>3<sp/>600<sp/>000<sp/>ms<sp/>(60<sp/>min).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>uint64_t<sp/>soakDurationMs()<sp/>{</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/>env<sp/>=<sp/>std::getenv(</highlight><highlight class="stringliteral">&quot;THEMIS_SOAK_DURATION_MS&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(env<sp/>&amp;&amp;<sp/>*env)<sp/>{</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(std::stoull(env));<sp/>}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(...)<sp/>{}</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>60&apos;000ULL;<sp/></highlight><highlight class="comment">//<sp/>Default<sp/>CI-safe:<sp/>1<sp/>minute</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>In-process<sp/>AI<sp/>generation<sp/>stub</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Models<sp/>the<sp/>hot<sp/>path:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"></highlight><highlight class="comment">//<sp/><sp/><sp/>validatePrompt()<sp/>→<sp/>sanitizeRequest()<sp/>→<sp/>invokeEndpoint()<sp/>→<sp/>parseResponse()</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight><highlight class="comment">//<sp/>The<sp/>stub<sp/>bypasses<sp/>the<sp/>real<sp/>HTTP/LLM<sp/>endpoint.<sp/>Latency<sp/>is<sp/>simulated<sp/>via</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"></highlight><highlight class="comment">//<sp/>a<sp/>configurable<sp/>sleep<sp/>to<sp/>model<sp/>realistic<sp/>endpoint<sp/>response<sp/>times.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88" refid="struct_generation_result" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_generation_result" kindref="compound">GenerationResult</ref><sp/>{</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" kindref="member">success</ref>;</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" kindref="member">validation_error</ref>;</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" kindref="member">transport_error</ref>;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" kindref="member">parse_error</ref>;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/><ref refid="struct_generation_result_1affd24d2528e4d7e1b4fdf69fae14d340" kindref="member">latency_us</ref>;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref><sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">AlwaysSucceed</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" kindref="member">AlwaysTransportFail</ref>,<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95adbca9d9191f3a94721d80fdeda5aea32" kindref="member">AlwaysParseError</ref>,<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95ace95b011ee6a99ffe2c43239e7237c96" kindref="member">MixedValidInvalid</ref>,<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="102"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109" refid="class_stub_a_i_generation_pipeline" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_stub_a_i_generation_pipeline_1a597cc08efb11c04417f6d115b867a5cc" kindref="member">StubAIGenerationPipeline</ref><sp/>{</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="111" refid="struct_stub_a_i_generation_pipeline_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a47ef62164d2daec5de958f7cb0cb98f3" kindref="member">validation_errors</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a1cd7af6a5dd64966e557bcf6fa417c38" kindref="member">transport_errors</ref><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a93b44f76d55d4646f6c09361b0373690" kindref="member">parse_errors</ref><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a4a76b012426a4485db194d4e37962150" kindref="member">successes</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a8e325f2a26c1e2f38dd8123a5c85136f" kindref="member">total_calls</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="class_stub_a_i_generation_pipeline_1a597cc08efb11c04417f6d115b867a5cc" kindref="member">StubAIGenerationPipeline</ref>(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref><sp/>mode<sp/>=<sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>,</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>simulated_latency<sp/>=<sp/>500us)</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>:<sp/>mode_(static_cast&lt;std::underlying_type_t&lt;<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref>&gt;&gt;(mode))</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>,<sp/>simulated_latency_(simulated_latency)<sp/>{}</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_generation_result" kindref="compound">GenerationResult</ref><sp/><ref refid="class_stub_a_i_generation_pipeline_1a3374d824e59c582d15375169d2595f6d" kindref="member">call</ref>(std::size_t<sp/>call_index)<sp/>{</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>t0<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_generation_result" kindref="compound">GenerationResult</ref><sp/>result{};</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>endpoint<sp/>latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(simulated_latency_);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">switch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal"><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref></highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(mode_.load(std::memory_order_acquire)))<sp/>{</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>:</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" kindref="member">StubMode::AlwaysTransportFail</ref>:</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" kindref="member">transport_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95adbca9d9191f3a94721d80fdeda5aea32" kindref="member">StubMode::AlwaysParseError</ref>:</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" kindref="member">parse_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">case</highlight><highlight class="normal"><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95ace95b011ee6a99ffe2c43239e7237c96" kindref="member">StubMode::MixedValidInvalid</ref>:</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>indices:<sp/>valid<sp/>prompt<sp/>→<sp/>success</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Odd<sp/>indices:<sp/>invalid<sp/>prompt<sp/>(simulated<sp/>description<sp/>too<sp/>long)<sp/>→<sp/>validation<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(call_index<sp/>%<sp/>2<sp/>==<sp/>0)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" kindref="member">validation_error</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">break</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>result.<ref refid="struct_generation_result_1affd24d2528e4d7e1b4fdf69fae14d340" kindref="member">latency_us</ref><sp/>=<sp/>std::chrono::duration_cast&lt;std::chrono::microseconds&gt;(</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::chrono::steady_clock::now()<sp/>-<sp/>t0);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Update<sp/>internal<sp/>stats<sp/>(thread-safe<sp/>via<sp/>atomic)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>total_calls_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.<ref refid="struct_generation_result_1aec817bd640a4dbb035ac889fa3a23e00" kindref="member">success</ref>)<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>successes_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.<ref refid="struct_generation_result_1a2e1151f34805b4b8a47319c7264448fb" kindref="member">validation_error</ref>)<sp/><sp/>validation_errors_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.<ref refid="struct_generation_result_1af5d23e6310a73a8c2f48f80a28ec821d" kindref="member">transport_error</ref>)<sp/><sp/><sp/>transport_errors_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(result.<ref refid="struct_generation_result_1a3fe79e1d378061844b67506a0876734b" kindref="member">parse_error</ref>)<sp/><sp/><sp/><sp/><sp/><sp/><sp/>parse_errors_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>result;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_stub_a_i_generation_pipeline_1a15870c2e249c28e79725d5c427caf152" kindref="member">setMode</ref>(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95" kindref="member">StubMode</ref><sp/>mode)<sp/>{</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mode_.store(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">std::underlying_type_t&lt;StubMode&gt;</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(mode),</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::memory_order_release);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="class_stub_a_i_generation_pipeline_1a6a803d008b1561defacdcafb4c01a793" kindref="member">getStats</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_stub_a_i_generation_pipeline_1_1_stats" kindref="compound">Stats</ref><sp/>s;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.<ref refid="struct_stub_a_i_generation_pipeline_1_1_stats_1a8e325f2a26c1e2f38dd8123a5c85136f" kindref="member">total_calls</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>total_calls_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.successes<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>successes_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.validation_errors<sp/>=<sp/>validation_errors_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.transport_errors<sp/><sp/>=<sp/>transport_errors_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>s.parse_errors<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>parse_errors_.load(std::memory_order_acquire);</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>s;</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="190"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>underlying<sp/>integral<sp/>type<sp/>for<sp/>well-defined<sp/>std::atomic<sp/>specialization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>(C++<sp/>standard<sp/>guarantees<sp/>atomic&lt;T&gt;<sp/>for<sp/>integral<sp/>types;<sp/>enum<sp/>specialization<sp/>is<sp/>implementation-defined).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::underlying_type_t&lt;StubMode&gt;&gt;<sp/>mode_;</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>std::chrono::microseconds<sp/>simulated_latency_;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>total_calls_{0};</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>successes_{0};</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>validation_errors_{0};</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>transport_errors_{0};</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::size_t&gt;<sp/>parse_errors_{0};</highlight></codeline>
+<codeline lineno="201"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"></highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>1:<sp/>Endpoint-stress<sp/>soak<sp/>—<sp/>sustained<sp/>happy-path<sp/>calls</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" kindref="member">TEST</ref>(WaveD_AI_GenerationSoak,<sp/>EndpointStress)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>soak_duration<sp/>=<sp/>std::chrono::milliseconds(soakDurationMs());</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Simulate<sp/>500<sp/>µs<sp/>endpoint<sp/>latency<sp/>→<sp/>~2000<sp/>req/s<sp/>max<sp/>per<sp/>thread;<sp/>use<sp/>1<sp/>thread<sp/>at<sp/>~10<sp/>req/s<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_a_i_generation_pipeline" kindref="compound">StubAIGenerationPipeline</ref><sp/>pipeline(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>,<sp/>500us);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>call_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>-<sp/>start<sp/>&lt;<sp/>soak_duration)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pipeline.call(call_index++);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Throttle<sp/>to<sp/>~10<sp/>req/s<sp/>(sleep<sp/>100<sp/>ms<sp/>between<sp/>calls<sp/>minus<sp/>latency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(95ms);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pipeline.getStats();</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(stats.total_calls,<sp/>0u)</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;At<sp/>least<sp/>one<sp/>generation<sp/>call<sp/>must<sp/>complete<sp/>during<sp/>the<sp/>soak&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.successes,<sp/>stats.total_calls)</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>calls<sp/>must<sp/>succeed<sp/>for<sp/>always-succeed<sp/>stub&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.validation_errors,<sp/>0u)</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>validation<sp/>errors<sp/>expected<sp/>for<sp/>always-succeed<sp/>stub&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.transport_errors,<sp/>0u)</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>transport<sp/>errors<sp/>expected<sp/>for<sp/>always-succeed<sp/>stub&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.parse_errors,<sp/>0u)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>parse<sp/>errors<sp/>expected<sp/>for<sp/>always-succeed<sp/>stub&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>invariant:<sp/>total_calls<sp/>==<sp/>successes<sp/>+<sp/>validation_errors<sp/>+<sp/>transport_errors<sp/>+<sp/>parse_errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>error_sum<sp/>=<sp/>stats.validation_errors<sp/>+<sp/>stats.transport_errors<sp/>+<sp/>stats.parse_errors;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_calls,<sp/>stats.successes<sp/>+<sp/>error_sum)</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>invariant<sp/>must<sp/>hold:<sp/>total_calls<sp/>==<sp/>successes<sp/>+<sp/>all_errors&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>2:<sp/>Retry-budget<sp/>exhaustion,<sp/>then<sp/>endpoint<sp/>recovery</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="252"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" kindref="member">TEST</ref>(WaveD_AI_GenerationSoak,<sp/>RetryBudgetExhaustionAndRecovery)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Use<sp/>a<sp/>short<sp/>soak<sp/>for<sp/>the<sp/>failure/recovery<sp/>window<sp/>test</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>failure_window_ms<sp/>=<sp/>std::min(soakDurationMs()<sp/>/<sp/>2,<sp/>uint64_t{30&apos;000});</highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recovery_window_ms<sp/>=<sp/>std::min(soakDurationMs()<sp/>/<sp/>2,<sp/>uint64_t{30&apos;000});</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_a_i_generation_pipeline" kindref="compound">StubAIGenerationPipeline</ref><sp/>pipeline(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" kindref="member">StubMode::AlwaysTransportFail</ref>,<sp/>5ms);</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"></highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Failure<sp/>window<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>failure_start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>failure_duration<sp/>=<sp/>std::chrono::milliseconds(failure_window_ms);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>call_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>-<sp/>failure_start<sp/>&lt;<sp/>failure_duration)<sp/>{</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pipeline.call(call_index++);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(50ms);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"></highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_during_failure<sp/>=<sp/>pipeline.getStats();</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats_during_failure.transport_errors,<sp/>0u)</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Transport<sp/>errors<sp/>must<sp/>accumulate<sp/>during<sp/>failure<sp/>window&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_during_failure.successes,<sp/>0u)</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>successes<sp/>expected<sp/>during<sp/>100%<sp/>transport<sp/>failure<sp/>window&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>---<sp/>Switch<sp/>to<sp/>success<sp/>mode<sp/>(endpoint<sp/>recovery)<sp/>---</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>pipeline.setMode(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recovery_start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>recovery_duration<sp/>=<sp/>std::chrono::milliseconds(recovery_window_ms);</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>-<sp/>recovery_start<sp/>&lt;<sp/>recovery_duration)<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pipeline.call(call_index++);</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(50ms);</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats_after_recovery<sp/>=<sp/>pipeline.getStats();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(stats_after_recovery.successes,<sp/>0u)</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Successes<sp/>must<sp/>resume<sp/>after<sp/>endpoint<sp/>recovery&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>invariant<sp/>must<sp/>hold<sp/>at<sp/>all<sp/>times</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>error_sum<sp/>=<sp/>stats_after_recovery.validation_errors</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>stats_after_recovery.transport_errors</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>stats_after_recovery.parse_errors;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats_after_recovery.total_calls,<sp/>stats_after_recovery.successes<sp/>+<sp/>error_sum)</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>invariant<sp/>must<sp/>hold:<sp/>total_calls<sp/>==<sp/>successes<sp/>+<sp/>all_errors&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>3:<sp/>Mixed<sp/>valid/invalid<sp/>prompts<sp/>—<sp/>validation<sp/>rate<sp/>stability</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><ref refid="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" kindref="member">TEST</ref>(WaveD_AI_GenerationSoak,<sp/>ValidationRateStability)<sp/>{</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>soak_duration<sp/>=<sp/>std::chrono::milliseconds(soakDurationMs());</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="class_stub_a_i_generation_pipeline" kindref="compound">StubAIGenerationPipeline</ref><sp/>pipeline(<ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95ace95b011ee6a99ffe2c43239e7237c96" kindref="member">StubMode::MixedValidInvalid</ref>,<sp/>200us);</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/>std::size_t<sp/>call_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"></highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>-<sp/>start<sp/>&lt;<sp/>soak_duration)<sp/>{</highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pipeline.call(call_index++);</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(95ms);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pipeline.getStats();</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_GT(stats.total_calls,<sp/>0u)</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;At<sp/>least<sp/>one<sp/>call<sp/>must<sp/>complete&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>In<sp/>MixedValidInvalid<sp/>mode:<sp/>even-index<sp/>→<sp/>success,<sp/>odd-index<sp/>→<sp/>validation<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected:<sp/>approx<sp/>50%<sp/>each<sp/>(within<sp/>1<sp/>call<sp/>tolerance<sp/>for<sp/>odd<sp/>total)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>expected_valid<sp/><sp/><sp/>=<sp/>(stats.total_calls<sp/>+<sp/>1)<sp/>/<sp/>2;<sp/></highlight><highlight class="comment">//<sp/>ceil</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>expected_invalid<sp/>=<sp/>stats.total_calls<sp/>/<sp/>2;<sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>floor</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="340"><highlight class="normal"></highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.successes,<sp/>expected_valid)</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Successes<sp/>must<sp/>equal<sp/>even-index<sp/>call<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.validation_errors,<sp/>expected_invalid)</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Validation<sp/>errors<sp/>must<sp/>equal<sp/>odd-index<sp/>call<sp/>count&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"></highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.transport_errors,<sp/>0u)</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>transport<sp/>errors<sp/>in<sp/>MixedValidInvalid<sp/>mode&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Stats<sp/>invariant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>error_sum<sp/>=<sp/>stats.validation_errors<sp/>+<sp/>stats.transport_errors<sp/>+<sp/>stats.parse_errors;</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_calls,<sp/>stats.successes<sp/>+<sp/>error_sum)</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>invariant:<sp/>total_calls<sp/>==<sp/>successes<sp/>+<sp/>all_errors&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Test<sp/>4:<sp/>Stats<sp/>consistency<sp/>invariant</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><ref refid="test__ai__generation__soak__60min_8cpp_1ade88b552eb6b866f782771d738ee4880" kindref="member">TEST</ref>(WaveD_AI_GenerationSoak,<sp/>StatConsistencyInvariant)<sp/>{</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Run<sp/>a<sp/>brief<sp/>multi-mode<sp/>burst<sp/>(not<sp/>full<sp/>soak<sp/>duration<sp/>—<sp/>invariant<sp/>focus)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>burst_duration<sp/>=<sp/>std::chrono::milliseconds(</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::min(soakDurationMs()<sp/>/<sp/>4,<sp/>uint64_t{5&apos;000}));</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"></highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mode<sp/>rotation:<sp/>succeed<sp/>→<sp/>fail<sp/>→<sp/>parse<sp/>error<sp/>→<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;StubMode&gt;<sp/>modes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>,</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a86861597fb7693f8ff3d83c07ac6570b" kindref="member">StubMode::AlwaysTransportFail</ref>,</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95adbca9d9191f3a94721d80fdeda5aea32" kindref="member">StubMode::AlwaysParseError</ref>,</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="test__ai__generation__soak__60min_8cpp_1a80b76a0f342649f8b5e2e35de7c45f95a311a6573cc01db09b739b0cc2fe6a010" kindref="member">StubMode::AlwaysSucceed</ref>,</highlight></codeline>
+<codeline lineno="375"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>mode<sp/>:<sp/>modes)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_stub_a_i_generation_pipeline" kindref="compound">StubAIGenerationPipeline</ref><sp/>pipeline(mode,<sp/>100us);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::size_t<sp/>call_index<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>start<sp/>=<sp/>std::chrono::steady_clock::now();</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(std::chrono::steady_clock::now()<sp/>-<sp/>start<sp/>&lt;<sp/>burst_duration)<sp/>{</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>pipeline.call(call_index++);</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="385"><highlight class="normal"></highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>pipeline.getStats();</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::size_t<sp/>error_sum<sp/>=<sp/>stats.validation_errors</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>stats.transport_errors</highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+<sp/>stats.parse_errors;</highlight></codeline>
+<codeline lineno="390"><highlight class="normal"></highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_calls,<sp/>stats.successes<sp/>+<sp/>error_sum)</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Stats<sp/>invariant<sp/>must<sp/>hold<sp/>for<sp/>mode<sp/>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(mode)</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;:<sp/>total_calls=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.total_calls</highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>successes=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>stats.successes</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>errors=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>error_sum;</highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="398"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/ai/test_ai_generation_soak_60min.cpp"/>
+  </compounddef>
+</doxygen>

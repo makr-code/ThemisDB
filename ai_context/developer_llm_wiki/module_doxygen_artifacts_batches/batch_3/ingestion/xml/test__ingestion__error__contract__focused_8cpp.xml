@@ -1,0 +1,490 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__ingestion__error__contract__focused_8cpp" kind="file" language="C++">
+    <compoundname>test_ingestion_error_contract_focused.cpp</compoundname>
+    <includes refid="ingestion__diagnostic__emitter_8h" local="yes">ingestion/ingestion_diagnostic_emitter.h</includes>
+    <includes refid="ingestion__error__contract_8h" local="yes">ingestion/ingestion_error_contract.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">memory</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>ingestion/ingestion_diagnostic_emitter.h</label>
+        <link refid="ingestion__diagnostic__emitter_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>ingestion/ingestion_error_contract.h</label>
+        <link refid="ingestion__error__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/ingestion/test_ingestion_error_contract_focused.cpp</label>
+        <link refid="test__ingestion__error__contract__focused_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="13">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="6">
+        <label>map</label>
+      </node>
+      <node id="11">
+        <label>memory</label>
+      </node>
+      <node id="12">
+        <label>mutex</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1ingestion">themis::ingestion</innernamespace>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__ingestion__error__contract__focused_8cpp_1a2008448b3509268fc2b779b04206812e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST</definition>
+        <argsstring>(ErrorContractPhase3)</argsstring>
+        <name>GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST</name>
+        <param>
+          <type>ErrorContractPhase3</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/ingestion/test_ingestion_error_contract_focused.cpp" line="467" column="1" declfile="tests/ingestion/test_ingestion_error_contract_focused.cpp" declline="467" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Focused tests for Phase 3: Error Contracts &amp; Edge Cases. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Phase 3 (Long-term): Error Handling &amp; Edge Cases<itemizedlist>
+<listitem><para>Apply error contracts to all component categories</para>
+</listitem><listitem><para>Implement fail-safe semantics</para>
+</listitem><listitem><para>Add operator-visible diagnostics and incident categorization</para>
+</listitem></itemizedlist>
+</para>
+<para>Test categories:<itemizedlist>
+<listitem><para>ING3C-01..04: Error classification (transient, permanent, resource exhaustion, backpressure)</para>
+</listitem><listitem><para>ING3C-05..08: ErrorContext serialization and nested errors</para>
+</listitem><listitem><para>ING3C-09..12: Error escape valve policies (fail_closed, fail_open, defer)</para>
+</listitem><listitem><para>ING3C-13..16: Diagnostic emitter listener pattern and incident tracking </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__diagnostic__emitter_8h" kindref="compound">ingestion/ingestion_diagnostic_emitter.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="ingestion__error__contract_8h" kindref="compound">ingestion/ingestion_error_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1ingestion" kindref="compound">ingestion</ref><sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING3C-01..04:<sp/>Error<sp/>classification</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C01_TransientErrorClassification)<sp/>{</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Network<sp/>timeouts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a788b6b4989fcbf2bf2b951954194d91f" kindref="member">IngestionErrorCode::HTTP_CONNECTION_REFUSED</ref>));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aa11846a98a9d41aa056584c693881356" kindref="member">IngestionErrorCode::HTTP_DNS_RESOLUTION_FAILED</ref>));</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Temporary<sp/>server<sp/>issues</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a2af3520436681b237692d247f151afc5" kindref="member">IngestionErrorCode::HTTP_SERVER_ERROR</ref>));</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a750a8d1d536cb8cae3962f100d39db65" kindref="member">IngestionErrorCode::SOURCE_UNAVAILABLE</ref>));</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a67888fe44329bfa0f565299b8bf1c269" kindref="member">IngestionErrorCode::HTTP_RATE_LIMITED</ref>));</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Database<sp/>transients</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aed1d8b68f4af68b45f3fffa31ba0c93f" kindref="member">IngestionErrorCode::DATABASE_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a7b18040d9577ed17f3a5d9113a698595" kindref="member">IngestionErrorCode::DATABASE_DEADLOCK</ref>));</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Resource<sp/>constraints<sp/>(retryable)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aea6f8acec80e8f961d526c2bf6524c36" kindref="member">IngestionErrorCode::QUEUE_SATURATED</ref>));</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af46524fa13d0e02e2743d1db7279375d" kindref="member">IngestionErrorCode::BUFFER_FULL</ref>));</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af4875bcc3eec6b0a1a32756650ea1df7" kindref="member">IngestionErrorCode::ENQUEUE_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">IngestionErrorCode::CONNECTION_POOL_EXHAUSTED</ref>));</highlight></codeline>
+<codeline lineno="58"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C02_PermanentErrorClassification)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Validation<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a0c4d46f40cb2ebf42c5478644f8b6d18" kindref="member">IngestionErrorCode::SCHEMA_INVALID</ref>));</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a970e10849021cf32e9c0ef6cf4cf930a" kindref="member">IngestionErrorCode::VALIDATION_FAILED</ref>));</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a52681f4afaf38a32b29679e639393683" kindref="member">IngestionErrorCode::TYPE_COERCION_FAILED</ref>));</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564afc32c944cf407e8ee38eb89ffd7e3717" kindref="member">IngestionErrorCode::DUPLICATE_KEY</ref>));</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Configuration<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a4ffc0c7b5bcec35f8472136dd4b95ef0" kindref="member">IngestionErrorCode::CONFIG_INVALID</ref>));</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a99b41774fd0c786c6550e3bec3d7a222" kindref="member">IngestionErrorCode::CONFIG_MISSING_REQUIRED</ref>));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a0cc30d60d87ffbdf5eba6c875033fed8" kindref="member">IngestionErrorCode::CONFIG_OUT_OF_RANGE</ref>));</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Authentication<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a71dfcf45a7834304c9345f8d63257f23" kindref="member">IngestionErrorCode::AUTH_FAILED</ref>));</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5cea4c1dbc0532a21848cb34a12d3a8d" kindref="member">IngestionErrorCode::AUTH_EXPIRED</ref>));</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a255df50c140519133f1489ab44a389d9" kindref="member">IngestionErrorCode::PERMISSION_DENIED</ref>));</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>not<sp/>found</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564acd54d99c8efb3c2db794197045f5b83c" kindref="member">IngestionErrorCode::FILE_NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a53351d32676d458d6f2f1347a8c42919" kindref="member">IngestionErrorCode::SOURCE_NOT_FOUND</ref>));</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>File<sp/>format<sp/>not<sp/>supported</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a2ba9d8abac2a195b03d8293e438568dd" kindref="member">IngestionErrorCode::FILE_FORMAT_UNSUPPORTED</ref>));</highlight></codeline>
+<codeline lineno="89"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C03_ResourceExhaustionClassification)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ac328a10a5ee8fde4078b2efe8bd3ee3c" kindref="member">IngestionErrorCode::MEMORY_EXHAUSTION</ref>));</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a132d47889d5b12d56fc0ff3df620a4ab" kindref="member">IngestionErrorCode::DISK_QUOTA_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a3672597bffab2082fd010565e64ce372" kindref="member">IngestionErrorCode::DISK_SPACE_LOW</ref>));</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">IngestionErrorCode::CONNECTION_POOL_EXHAUSTED</ref>));</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af0d1c5bdb2992554064f67d96640efd0" kindref="member">IngestionErrorCode::THREAD_POOL_EXHAUSTED</ref>));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a791de0662884f3fde45139b6880a0360" kindref="member">IngestionErrorCode::PROCESS_LIMIT_EXCEEDED</ref>));</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aea6f8acec80e8f961d526c2bf6524c36" kindref="member">IngestionErrorCode::QUEUE_SATURATED</ref>));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af46524fa13d0e02e2743d1db7279375d" kindref="member">IngestionErrorCode::BUFFER_FULL</ref>));</highlight></codeline>
+<codeline lineno="106"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C04_BackpressureErrorClassification)<sp/>{</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aea6f8acec80e8f961d526c2bf6524c36" kindref="member">IngestionErrorCode::QUEUE_SATURATED</ref>));</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af46524fa13d0e02e2743d1db7279375d" kindref="member">IngestionErrorCode::BUFFER_FULL</ref>));</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af4875bcc3eec6b0a1a32756650ea1df7" kindref="member">IngestionErrorCode::ENQUEUE_TIMEOUT</ref>));</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a98f657c4a78d4cdb0b4f644fee3c3a28" kindref="member">IngestionErrorCode::BACKPRESSURE_APPLIED</ref>));</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a67888fe44329bfa0f565299b8bf1c269" kindref="member">IngestionErrorCode::HTTP_RATE_LIMITED</ref>));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ac328a10a5ee8fde4078b2efe8bd3ee3c" kindref="member">IngestionErrorCode::MEMORY_EXHAUSTION</ref>));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">IngestionErrorCode::CONNECTION_POOL_EXHAUSTED</ref>));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(<ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5bffa8eeada264d26c0a1ec82f01ccc5" kindref="member">IngestionErrorCode::CPU_THROTTLE</ref>));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING3C-05..08:<sp/>ErrorContext<sp/>serialization<sp/>and<sp/>nested<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C05_ErrorContextBasicSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>timeout<sp/>to<sp/>API&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.component_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP_CONNECTOR&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.source_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;api.example.com&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.connector_type<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTP&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.operation<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;fetch_data&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.retry_count<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.item_index<sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.memory_usage_percent<sp/>=<sp/>72.5;</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.available_memory_bytes<sp/>=<sp/>1024<sp/>*<sp/>1024<sp/>*<sp/>512;<sp/><sp/></highlight><highlight class="comment">//<sp/>512<sp/>MB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.hostname<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ingest-pod-5&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref><sp/>=<sp/>ctx.toJson();</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>JSON<sp/>contains<sp/>expected<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;error_code\&quot;:1&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;error_message\&quot;:\&quot;Connection<sp/>timeout<sp/>to<sp/>API\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;component_name\&quot;:\&quot;HTTP_CONNECTOR\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;source_id\&quot;:\&quot;api.example.com\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;operation\&quot;:\&quot;fetch_data\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;retry_count\&quot;:3&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C06_ErrorContextNestedErrors)<sp/>{</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Root<sp/>cause<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>root;</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>root.<ref refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a788b6b4989fcbf2bf2b951954194d91f" kindref="member">IngestionErrorCode::HTTP_CONNECTION_REFUSED</ref>;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>root.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;DNS<sp/>resolution<sp/>failed&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mid-level<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>mid;</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>mid.<ref refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/>mid.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/>mid.nested_errors.push_back(root);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Top-level<sp/>error</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>top;</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>top.<ref refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a5d50b583332fbc90eae586a079df6af2" kindref="member">IngestionErrorCode::CONNECTOR_DEGRADED</ref>;</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>top.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Connector<sp/>failed<sp/>to<sp/>connect&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>top.nested_errors.push_back(mid);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top.nested_errors.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top.nested_errors[0].nested_errors.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(top.nested_errors[0].nested_errors[0].error_code,</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a788b6b4989fcbf2bf2b951954194d91f" kindref="member">IngestionErrorCode::HTTP_CONNECTION_REFUSED</ref>);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C07_ErrorMessageLookup)<sp/>{</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>a<sp/>representative<sp/>sample<sp/>of<sp/>error<sp/>codes</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IngestionErrorCode&gt;<sp/>codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ae0aa021e21dddbd6d8cecec71e9cf564" kindref="member">IngestionErrorCode::OK</ref>,</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a7b18040d9577ed17f3a5d9113a698595" kindref="member">IngestionErrorCode::DATABASE_DEADLOCK</ref>,</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a970e10849021cf32e9c0ef6cf4cf930a" kindref="member">IngestionErrorCode::VALIDATION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a4ffc0c7b5bcec35f8472136dd4b95ef0" kindref="member">IngestionErrorCode::CONFIG_INVALID</ref>,</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ac328a10a5ee8fde4078b2efe8bd3ee3c" kindref="member">IngestionErrorCode::MEMORY_EXHAUSTION</ref>,</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a9fd8091967b66e5a3b1a8f93bc3f5e1b" kindref="member">IngestionErrorCode::QUALITY_THRESHOLD_FAILED</ref>,</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ad5075a675d1041dd1ab763ad8f31d830" kindref="member">IngestionErrorCode::WORKFLOW_STEP_FAILED</ref>,</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a9a10f345b0f755d461a8673a5e9ef6b4" kindref="member">IngestionErrorCode::UNKNOWN_ERROR</ref>,</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>code<sp/>:<sp/>codes)<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>msg<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a632566943f04d97ef4e7d914dfd24d58" kindref="member">getErrorMessage</ref>(code);</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(msg.empty());</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(msg.length()<sp/>&gt;<sp/>0<sp/>&amp;&amp;<sp/>msg.length()<sp/>&lt;<sp/>256);</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C08_ErrorClassificationConsistency)<sp/>{</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>transient<sp/>and<sp/>permanent<sp/>are<sp/>mutually<sp/>exclusive</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IngestionErrorCode&gt;<sp/>all_codes<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>,</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a970e10849021cf32e9c0ef6cf4cf930a" kindref="member">IngestionErrorCode::VALIDATION_FAILED</ref>,</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a7b18040d9577ed17f3a5d9113a698595" kindref="member">IngestionErrorCode::DATABASE_DEADLOCK</ref>,</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a71dfcf45a7834304c9345f8d63257f23" kindref="member">IngestionErrorCode::AUTH_FAILED</ref>,</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ac328a10a5ee8fde4078b2efe8bd3ee3c" kindref="member">IngestionErrorCode::MEMORY_EXHAUSTION</ref>,</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>code<sp/>:<sp/>all_codes)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>transient<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1abc774b6e9fe61b5db24e311785fa12e4" kindref="member">isTransientError</ref>(code);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>permanent<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1aff6d1b616234cb5da09cf3f305e5f2d0" kindref="member">isPermanentError</ref>(code);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>An<sp/>error<sp/>should<sp/>not<sp/>be<sp/>both<sp/>transient<sp/>and<sp/>permanent</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(transient<sp/>&amp;&amp;<sp/>permanent)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a055358810ed6c5a9adaca523641f023cac2759effffc94bb9acc71d69fe3e8a1f" kindref="member">FAIL</ref>()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Error<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(code)<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/>is<sp/>both<sp/>transient<sp/>and<sp/>permanent&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>resource<sp/>exhaustion<sp/>is<sp/>a<sp/>subset<sp/>of<sp/>backpressure</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;IngestionErrorCode&gt;<sp/>resource_errors<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ac328a10a5ee8fde4078b2efe8bd3ee3c" kindref="member">IngestionErrorCode::MEMORY_EXHAUSTION</ref>,</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564ab930f6f674bfdddaf44c3c5b4657a53a" kindref="member">IngestionErrorCode::CONNECTION_POOL_EXHAUSTED</ref>,</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564af0d1c5bdb2992554064f67d96640efd0" kindref="member">IngestionErrorCode::THREAD_POOL_EXHAUSTED</ref>,</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564aea6f8acec80e8f961d526c2bf6524c36" kindref="member">IngestionErrorCode::QUEUE_SATURATED</ref>,</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>code<sp/>:<sp/>resource_errors)<sp/>{</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a3017926f5fafeda0eea1e6b96dbeba13" kindref="member">isResourceExhaustionError</ref>(code));</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="namespacethemis_1_1ingestion_1a2c32b7ef139855faaf19f3e104146d53" kindref="member">isBackpressureError</ref>(code))</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Resource<sp/>exhaustion<sp/>error<sp/>should<sp/>imply<sp/>backpressure&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING3C-09..12:<sp/>Error<sp/>escape<sp/>valve<sp/>policies</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C09_FailClosedPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_escape_valve_config" kindref="compound">ErrorEscapeValveConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"><sp/><sp/><sp/><sp/>config.policy<sp/>=<sp/>EscapeValvePolicy::CLOSE_ON_DEGRADATION;</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>config.max_consecutive_failures<sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>config.escalation_delay_ms<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.policy,<sp/>EscapeValvePolicy::CLOSE_ON_DEGRADATION);</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_consecutive_failures,<sp/>3);</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C10_FailOpenPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_escape_valve_config" kindref="compound">ErrorEscapeValveConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>config.policy<sp/>=<sp/>EscapeValvePolicy::CONTINUE_WITH_DEGRADATION;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>config.degradation_level<sp/>=<sp/>0.7;<sp/><sp/></highlight><highlight class="comment">//<sp/>Accept<sp/>70%<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.policy,<sp/>EscapeValvePolicy::CONTINUE_WITH_DEGRADATION);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(config.degradation_level,<sp/>0.7);</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C11_DeferPolicy)<sp/>{</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_escape_valve_config" kindref="compound">ErrorEscapeValveConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><sp/><sp/><sp/><sp/>config.policy<sp/>=<sp/>EscapeValvePolicy::DEFER_WITH_RETRY_ACCUMULATION;</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1ingestion_1_1_error_escape_valve_config_1aa376e9f5108132e9db8c84e309abb038" kindref="member">max_deferred_items</ref><sp/>=<sp/>10000;</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>config.defer_timeout_ms<sp/>=<sp/>5000;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"></highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.policy,<sp/>EscapeValvePolicy::DEFER_WITH_RETRY_ACCUMULATION);</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.max_deferred_items,<sp/>10000);</highlight></codeline>
+<codeline lineno="308"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C12_FailSafeContractSpecification)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_fail_safe_contract" kindref="compound">FailSafeContract</ref><sp/>contract;</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>contract.<ref refid="structthemis_1_1ingestion_1_1_fail_safe_contract_1a584742cbd0cd21bf74a7916e933430fa" kindref="member">component_name</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTPConnector&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>contract.failure_mode<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;connection_timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>contract.required_action<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;retry_with_exponential_backoff&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"><sp/><sp/><sp/><sp/>contract.max_retry_count<sp/>=<sp/>5;</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>contract.required_action_details<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Start<sp/>with<sp/>100ms<sp/>delay,<sp/>double<sp/>on<sp/>each<sp/>retry&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"></highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(contract.component_name,<sp/></highlight><highlight class="stringliteral">&quot;HTTPConnector&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(contract.failure_mode,<sp/></highlight><highlight class="stringliteral">&quot;connection_timeout&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(contract.max_retry_count,<sp/>5);</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight><highlight class="comment">//<sp/>ING3C-13..16:<sp/>Diagnostic<sp/>emitter<sp/>listener<sp/>pattern<sp/>and<sp/>incident<sp/>tracking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="332"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C13_DiagnosticEmitterListeners)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter" kindref="compound">DiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>call_count(0);</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>first<sp/>listener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id1<sp/>=<sp/>emitter.registerListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref>&amp;<sp/>incident)<sp/>{</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(incident.title,<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>incident&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count++;</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="348"><highlight class="normal"></highlight></codeline>
+<codeline lineno="349"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Register<sp/>second<sp/>listener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="350"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id2<sp/>=<sp/>emitter.registerListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref>&amp;<sp/>incident)<sp/>{</highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(incident.category,<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>);</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>call_count++;</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"></highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getListenerCount(),<sp/>2);</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"></highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>incident</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref><sp/>incident;</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.<ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ae001cfcf93e5eccf384d0e7cded72074" kindref="member">title</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Test<sp/>incident&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.category<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>;</highlight></codeline>
+<codeline lineno="361"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.emit(incident);</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Both<sp/>listeners<sp/>should<sp/>have<sp/>been<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count,<sp/>2);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"></highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Unregister<sp/>first<sp/>listener</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(emitter.unregisterListener(id1));</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getListenerCount(),<sp/>1);</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"></highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/>call_count<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.emit(incident);</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(call_count,<sp/>1);<sp/><sp/></highlight><highlight class="comment">//<sp/>Only<sp/>second<sp/>listener<sp/>called</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="373"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="374"><highlight class="normal"></highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C14_IncidentCategorization)<sp/>{</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter" kindref="compound">DiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="383"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref><sp/>captured_incident;</highlight></codeline>
+<codeline lineno="384"><highlight class="normal"></highlight></codeline>
+<codeline lineno="385"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.registerListener([&amp;](</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref>&amp;<sp/>incident)<sp/>{</highlight></codeline>
+<codeline lineno="386"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>captured_incident<sp/>=<sp/>incident;</highlight></codeline>
+<codeline lineno="387"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="388"><highlight class="normal"></highlight></codeline>
+<codeline lineno="389"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Create<sp/>error<sp/>context</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="390"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_error_context" kindref="compound">ErrorContext</ref><sp/>ctx;</highlight></codeline>
+<codeline lineno="391"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.<ref refid="structthemis_1_1ingestion_1_1_error_context_1aa9c9604fc7e2001764f2c663463c0d67" kindref="member">error_code</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a43b4934a38b7e72970befb0f9c0ed564a74c4e3b28b26580a737258eeb2c1d417" kindref="member">IngestionErrorCode::HTTP_TIMEOUT</ref>;</highlight></codeline>
+<codeline lineno="392"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Connection<sp/>timeout&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="393"><highlight class="normal"><sp/><sp/><sp/><sp/>ctx.component_name<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;HTTPConnector&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="394"><highlight class="normal"></highlight></codeline>
+<codeline lineno="395"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>incident_id<sp/>=<sp/>emitter.emitFromError(ctx);</highlight></codeline>
+<codeline lineno="396"><highlight class="normal"></highlight></codeline>
+<codeline lineno="397"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>incident<sp/>was<sp/>properly<sp/>categorized</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="398"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured_incident.category,<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>);</highlight></codeline>
+<codeline lineno="399"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(captured_incident.severity,<sp/><ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983a059e9861e0400dfbe05c98a841f3f96b" kindref="member">DiagnosticSeverity::WARNING</ref>);</highlight></codeline>
+<codeline lineno="400"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(incident_id.empty());</highlight></codeline>
+<codeline lineno="401"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="402"><highlight class="normal"></highlight></codeline>
+<codeline lineno="409"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C15_IncidentTracking)<sp/>{</highlight></codeline>
+<codeline lineno="410"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1ingestion_1_1_diagnostic_emitter" kindref="compound">DiagnosticEmitter</ref><sp/>emitter;</highlight></codeline>
+<codeline lineno="411"><highlight class="normal"></highlight></codeline>
+<codeline lineno="412"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Emit<sp/>multiple<sp/>incidents</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="413"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>3;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="414"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref><sp/>incident;</highlight></codeline>
+<codeline lineno="415"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>incident.<ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ad5c908ee87c9cf56bae58f8492d64f39" kindref="member">category</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>;</highlight></codeline>
+<codeline lineno="416"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>emitter.emit(incident);</highlight></codeline>
+<codeline lineno="417"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="418"><highlight class="normal"></highlight></codeline>
+<codeline lineno="419"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>2;<sp/>i++)<sp/>{</highlight></codeline>
+<codeline lineno="420"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref><sp/>incident;</highlight></codeline>
+<codeline lineno="421"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>incident.<ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1ad5c908ee87c9cf56bae58f8492d64f39" kindref="member">category</ref><sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a812a4b2c022d1f8fea7d9fe80e696dbc" kindref="member">IncidentCategory::QUEUE_SATURATION</ref>;</highlight></codeline>
+<codeline lineno="422"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>emitter.emit(incident);</highlight></codeline>
+<codeline lineno="423"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="424"><highlight class="normal"></highlight></codeline>
+<codeline lineno="425"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>counts</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="426"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getIncidentCount(<ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a56dd875b9533f84982fa8542fc1ae5c1" kindref="member">IncidentCategory::NETWORK_CONNECTIVITY</ref>),<sp/>3);</highlight></codeline>
+<codeline lineno="427"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getIncidentCount(<ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a812a4b2c022d1f8fea7d9fe80e696dbc" kindref="member">IncidentCategory::QUEUE_SATURATION</ref>),<sp/>2);</highlight></codeline>
+<codeline lineno="428"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getTotalIncidentCount(),<sp/>5);</highlight></codeline>
+<codeline lineno="429"><highlight class="normal"></highlight></codeline>
+<codeline lineno="430"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>and<sp/>verify</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="431"><highlight class="normal"><sp/><sp/><sp/><sp/>emitter.resetCounters();</highlight></codeline>
+<codeline lineno="432"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(emitter.getTotalIncidentCount(),<sp/>0);</highlight></codeline>
+<codeline lineno="433"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="434"><highlight class="normal"></highlight></codeline>
+<codeline lineno="441"><highlight class="normal"><ref refid="namespacethemis_1_1ingestion_1a0ed7560a812402f1ba385897a556b90d" kindref="member">TEST</ref>(ErrorContractPhase3,<sp/>ING3C16_IncidentSerialization)<sp/>{</highlight></codeline>
+<codeline lineno="442"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident" kindref="compound">DiagnosticIncident</ref><sp/>incident;</highlight></codeline>
+<codeline lineno="443"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.<ref refid="structthemis_1_1ingestion_1_1_diagnostic_incident_1a4f608599f92222805b6963981df30505" kindref="member">incident_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;ING-12345&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="444"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.category<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a3dbd43e8b6284bb68c3ae5126d591285a44f3f7f07b99bd9bf164011f82d16f2e" kindref="member">IncidentCategory::MEMORY_PRESSURE</ref>;</highlight></codeline>
+<codeline lineno="445"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.severity<sp/>=<sp/><ref refid="namespacethemis_1_1ingestion_1a995ea25701009e934f28ad5e8777f983a320f86f60f25459ba5550e000b2c3929" kindref="member">DiagnosticSeverity::ALERT</ref>;</highlight></codeline>
+<codeline lineno="446"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.title<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Memory<sp/>pressure<sp/>detected&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="447"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.description<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;System<sp/>memory<sp/>usage<sp/>exceeded<sp/>85%&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="448"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.remediation_hint<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;Reduce<sp/>concurrent<sp/>tasks<sp/>or<sp/>increase<sp/>system<sp/>memory&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="449"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.runbook_link<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;https://wiki/ops/memory-management&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="450"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.metrics[</highlight><highlight class="stringliteral">&quot;memory_percent&quot;</highlight><highlight class="normal">]<sp/>=<sp/>87.5;</highlight></codeline>
+<codeline lineno="451"><highlight class="normal"><sp/><sp/><sp/><sp/>incident.metrics[</highlight><highlight class="stringliteral">&quot;available_mb&quot;</highlight><highlight class="normal">]<sp/>=<sp/>256.0;</highlight></codeline>
+<codeline lineno="452"><highlight class="normal"></highlight></codeline>
+<codeline lineno="453"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref><sp/>=<sp/>incident.toJson();</highlight></codeline>
+<codeline lineno="454"><highlight class="normal"></highlight></codeline>
+<codeline lineno="455"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>JSON<sp/>contains<sp/>expected<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="456"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;incident_id\&quot;:\&quot;ING-12345\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="457"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;category\&quot;:4&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>MEMORY_PRESSURE</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="458"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;severity\&quot;:2&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>ALERT</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="459"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;title\&quot;:\&quot;Memory<sp/>pressure<sp/>detected\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="460"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;metrics\&quot;&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="461"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THAT(<ref refid="namespacethemis_1_1ingestion_1ae9ea0122669d0fc6c47b1eb4f39f2325" kindref="member">json</ref>,<sp/>testing::HasSubstr(</highlight><highlight class="stringliteral">&quot;\&quot;memory_percent\&quot;:87.5&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="462"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="463"><highlight class="normal"></highlight></codeline>
+<codeline lineno="464"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>ingestion</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="465"><highlight class="normal">}<sp/><sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="466"><highlight class="normal"></highlight></codeline>
+<codeline lineno="467"><highlight class="normal"><ref refid="test__ingestion__error__contract__focused_8cpp_1a2008448b3509268fc2b779b04206812e" kindref="member">GTEST_ALLOW_UNINSTANTIATED_PARAMETERIZED_TEST</ref>(ErrorContractPhase3);</highlight></codeline>
+    </programlisting>
+    <location file="tests/ingestion/test_ingestion_error_contract_focused.cpp"/>
+  </compounddef>
+</doxygen>

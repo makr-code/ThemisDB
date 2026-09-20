@@ -1,0 +1,109 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e" kind="struct" language="C++" prot="public">
+    <compoundname>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</compoundname>
+    <includes refid="base__error__taxonomy_8h" local="no">base_error_taxonomy.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a6689f0efb7a027635c685d17599a1f45" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::code</definition>
+        <argsstring></argsstring>
+        <name>code</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::code</qualifiedname>
+        <initializer>= 1301</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="754" column="26" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="754" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a4743f98cab4b9a9a89fc0dda2cbee41f" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::description</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>description</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::description</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="756" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="756" bodyend="758"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1aff75e08b1e256c16a6eda7e530ab910b" prot="public" static="yes" constexpr="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>std::string_view</type>
+        <definition>static constexpr std::string_view themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::remediationHint</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>remediationHint</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::remediationHint</qualifiedname>
+        <briefdescription>
+<para>Actionable operator remediation hint. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="761" column="39" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="761" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a3529b93120a66008e02ab2db778a6fd0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::format</definition>
+        <argsstring>(const std::string &amp;registry_url, int http_status)</argsstring>
+        <name>format</name>
+        <qualifiedname>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE::format</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>registry_url</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>http_status</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>registry_url</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>URL of the registry. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>http_status</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>HTTP status code (typically 401 or 403). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/themis/base/base_error_taxonomy.h" line="772" column="24" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="772" bodyend="777"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Authentication to the remote registry was rejected (401/403). </para>
+    </briefdescription>
+    <detaileddescription>
+<para><programlisting><codeline><highlight class="normal"><ref refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a6689f0efb7a027635c685d17599a1f45" kindref="member">BASE_REGISTRY_AUTH_FAILURE::code</ref><sp/>==<sp/>1301<sp/></highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/themis/base/base_error_taxonomy.h" line="753" column="1" bodyfile="include/themis/base/base_error_taxonomy.h" bodystart="753" bodyend="778"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a6689f0efb7a027635c685d17599a1f45" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</scope><name>code</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a4743f98cab4b9a9a89fc0dda2cbee41f" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</scope><name>description</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1a3529b93120a66008e02ab2db778a6fd0" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</scope><name>format</name></member>
+      <member refid="structthemis_1_1modules_1_1_base_error_taxonomy_1_1_b_a_s_e___r_e_g_i_s_t_r_y___a_u_t_h___f_a_i_l_u_r_e_1aff75e08b1e256c16a6eda7e530ab910b" prot="public" virt="non-virtual"><scope>themis::modules::BaseErrorTaxonomy::BASE_REGISTRY_AUTH_FAILURE</scope><name>remediationHint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

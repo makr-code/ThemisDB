@@ -1,0 +1,1192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__graph__resource__pooling__phase3_8cpp" kind="file" language="C++">
+    <compoundname>test_graph_resource_pooling_phase3.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="graph__resource__pool_8h" local="yes">graph/graph_resource_pool.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">future</includes>
+    <includes local="no">numeric</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">string</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>graph/graph_resource_pool.h</label>
+        <link refid="graph__resource__pool_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/graph/test_graph_resource_pooling_phase3.cpp</label>
+        <link refid="test__graph__resource__pooling__phase3_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="16">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>condition_variable</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="7">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>memory</label>
+      </node>
+      <node id="9">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>numeric</label>
+      </node>
+      <node id="10">
+        <label>optional</label>
+      </node>
+      <node id="11">
+        <label>queue</label>
+      </node>
+      <node id="12">
+        <label>stdexcept</label>
+      </node>
+      <node id="13">
+        <label>string</label>
+      </node>
+      <node id="14">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_mock_connection" prot="public">MockConnection</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ConstructionPreWarmsPool)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ConstructionPreWarmsPool</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="26" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="26" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ad6c7ddac7ebe0859d56a473b0697667e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, AcquireDecreasesAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>AcquireDecreasesAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="35" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a86327568d3a560a966a6370d419d8175" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ScopedHandleReleasesOnDestruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ScopedHandleReleasesOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="43" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="43" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ac8ce88759b4a5805feee2dc2a7532fa7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, AcquireCountIncrements)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>AcquireCountIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="54" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="54" bodyend="61"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a190998b26c95be209d5e4c616f4e2482" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ResourceAccessViaGet)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ResourceAccessViaGet</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="63" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="63" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a8282fd39f6e77e934cbeadb44941a942" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, TryAcquireSucceedsWhenAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>TryAcquireSucceedsWhenAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="72" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="72" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1afffe919cb1bb8fa21f04666df7c96679" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, TryAcquireFailsWhenExhausted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>TryAcquireFailsWhenExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="80" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="80" bodyend="87"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1abfeaa13716c475c7ea46bf8808a5c1b7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ZeroPoolSizeThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ZeroPoolSizeThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="89" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="89" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a6dff089b0621504e03a91bbf205aad5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ScopedHandleBoolOperator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ScopedHandleBoolOperator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="97" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="97" bodyend="103"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a17d7d145106a0908198135af7c0fd8c3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, MoveConstructedHandlePreservesResource)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>MoveConstructedHandlePreservesResource</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="105" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="105" bodyend="113"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ac149e2c787aa3d1fdf7d6cd84d3befe4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, ConcurrentAcquireAndRelease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>ConcurrentAcquireAndRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="115" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="115" bodyend="136"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a467095aa30f4b0ccbd76d294ad20ebb9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, ZeroThreadsThrows)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>ZeroThreadsThrows</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="142" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a7128ff54df59583e825cc1cfe1d3c825" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, ConstructWithMultipleThreads)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>ConstructWithMultipleThreads</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="146" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="146" bodyend="149"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1af03e53494ada05b6ae092c40c049864a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, SubmitSingleTask)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>SubmitSingleTask</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="151" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="151" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a03f7cdafb21ce4c948eabd5ee1428096" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, SubmitMultipleTasks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>SubmitMultipleTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="157" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="157" bodyend="166"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1af4cfce863df3fcda59f57695319d0807" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, CompletedCountMatchesSubmitted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>CompletedCountMatchesSubmitted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="168" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="168" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a3c68e713a4870a3e7b6bb200188746d5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, QueuedCountMatchesSubmitted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>QueuedCountMatchesSubmitted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="181" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="181" bodyend="195"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a228484082e2a5889e679a09ae0c3eb39" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, ShutdownPreventsNewSubmit)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>ShutdownPreventsNewSubmit</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="197" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="197" bodyend="202"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1accbf79cbcb089f6c8f1923f35a2f2758" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, ConcurrentSubmission)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>ConcurrentSubmission</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="204" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="204" bodyend="219"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ae1887f0c5db015ef1ce346fd052a4faf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, TaskExceptionPropagates)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>TaskExceptionPropagates</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="221" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="221" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ae04c3f3bb0afa410bc5670fac8ea283c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, ZeroDimensionsThrow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>ZeroDimensionsThrow</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="234" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="234" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ab5cbe15fc228f16c94aed9e9ecf3e102" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, AvailableEqualsPoolSizeInitially)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>AvailableEqualsPoolSizeInitially</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="239" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="239" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1abcdffc50e0c0a551f206361b9608bc24" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, AcquireDecreasesAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>AcquireDecreasesAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="244" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="244" bodyend="248"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ab85f56bffb12509305be134ed7c323a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, ScopedBufferReleasesOnDestruction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>ScopedBufferReleasesOnDestruction</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="250" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="250" bodyend="257"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a7fd934c719ebc37e26bc82335dbfd007" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, BufferSizeCorrect)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>BufferSizeCorrect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="259" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="259" bodyend="264"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1afd94e98011f59bcb389b3a4dd010faff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, TryAcquireSucceedsWhenAvailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>TryAcquireSucceedsWhenAvailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="266" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="266" bodyend="270"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a154e649963f3f293961c97d09875c360" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, TryAcquireFailsWhenExhausted)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>TryAcquireFailsWhenExhausted</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="272" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="272" bodyend="277"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a21a43a01c3552be21c0277f9b62d8917" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, AcquireCountIncrements)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>AcquireCountIncrements</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="279" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="279" bodyend="284"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a7b90da86bde5fe9b7d6d434872871d8f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, BufferZeroedOnReturn)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>BufferZeroedOnReturn</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="286" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="286" bodyend="300"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1aa7766a407180a5f8a5293af98ced2a62" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, ConcurrentAcquireAndRelease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>ConcurrentAcquireAndRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="302" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="302" bodyend="321"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a08da44497b4ad3fa702f5153cb2bdf9a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, ScopedBufferBoolOperator)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>ScopedBufferBoolOperator</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="323" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="323" bodyend="327"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a8098676508d5bb66cb70e84e33ea3426" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, MultipleSequentialAcquireAndRelease)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>MultipleSequentialAcquireAndRelease</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="329" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="329" bodyend="337"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a5c17b99962b21017f995dda02a7444b5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, AllBuffersExhaustedThenRefilled)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>AllBuffersExhaustedThenRefilled</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="339" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="339" bodyend="349"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a13d928d42fe8be5ba6537119977d92b3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ConnectionPoolTest, SequentialAcquireReleaseCycles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ConnectionPoolTest</type>
+        </param>
+        <param>
+          <type>SequentialAcquireReleaseCycles</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="351" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="351" bodyend="361"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1ab5c6365fc7663639185bbdf0549db9b2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(ThreadPoolTest, SingleThreadHandlesManyTasks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>ThreadPoolTest</type>
+        </param>
+        <param>
+          <type>SingleThreadHandlesManyTasks</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="363" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="363" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="test__graph__resource__pooling__phase3_8cpp_1a7ca0f31c167390591b4fbabd55324cde" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(BufferPoolTest, MoveConstructedBufferPreservesValidity)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>BufferPoolTest</type>
+        </param>
+        <param>
+          <type>MoveConstructedBufferPreservesValidity</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_resource_pooling_phase3.cpp" line="377" column="1" bodyfile="tests/graph/test_graph_resource_pooling_phase3.cpp" bodystart="377" bodyend="383"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="graph__resource__pool_8h" kindref="compound">graph/graph_resource_pool.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;future&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;numeric&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1graph" kindref="compound">themis::graph</ref>;</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helper:<sp/>mock<sp/>&quot;connection&quot;<sp/>type</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17" refid="struct_mock_connection" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_mock_connection_1a0687914bd7e0e1470355644074fe000a" kindref="member">MockConnection</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">explicit</highlight><highlight class="normal"><sp/><ref refid="struct_mock_connection_1a0687914bd7e0e1470355644074fe000a" kindref="member">MockConnection</ref>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>:<sp/><ref refid="struct_mock_connection_1a946082ccff6b02d0e217c0589c019a6c" kindref="member">id</ref>(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">)<sp/>{}</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><ref refid="struct_mock_connection_1a946082ccff6b02d0e217c0589c019a6c" kindref="member">id</ref>;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-03<sp/>Group<sp/>1:<sp/>GraphConnectionPool<sp/>–<sp/>construction<sp/>and<sp/>basic<sp/>acquire</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ConstructionPreWarmsPool)<sp/>{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>counter<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(3,<sp/>[&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(counter++);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>pool.capacity());</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>pool.available());</highlight></codeline>
+<codeline lineno="33"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>AcquireDecreasesAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(3,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.available());</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ScopedHandleReleasesOnDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(2,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="52"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>AcquireCountIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(4,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1aa12450c03271124416a52d78725290ca" kindref="member">acquiredCount</ref>());</highlight></codeline>
+<codeline lineno="61"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"></highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ResourceAccessViaGet)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>id_counter<sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(1,<sp/>[&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(id_counter++);</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(1,<sp/>h.get().id);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>TryAcquireSucceedsWhenAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(2,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a82e554d4f3d3a8d22419b244813eaa68" kindref="member">tryAcquire</ref>();</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(h.has_value());</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>TryAcquireFailsWhenExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(1,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h1<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h2<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a82e554d4f3d3a8d22419b244813eaa68" kindref="member">tryAcquire</ref>();</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(h2.has_value());</highlight></codeline>
+<codeline lineno="87"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ZeroPoolSizeThrows)<sp/>{</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(<ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref>(0,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>})),</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ScopedHandleBoolOperator)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(1,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h));</highlight></codeline>
+<codeline lineno="103"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>MoveConstructedHandlePreservesResource)<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(2,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(42);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h1<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h2<sp/>=<sp/>std::move(h1);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h2));</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(42,<sp/>h2.get().id);</highlight></codeline>
+<codeline lineno="113"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>ConcurrentAcquireAndRelease)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(4,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success_count{0};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(h)<sp/>{</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{2});</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++success_count;</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(8,<sp/>success_count.load());</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(4u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="136"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-03<sp/>Group<sp/>2:<sp/>GraphThreadPool<sp/>–<sp/>task<sp/>submission<sp/>and<sp/>execution</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>ZeroThreadsThrows)<sp/>{</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(0),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>ConstructWithMultipleThreads)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(4);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(4u,<sp/>pool.threadCount());</highlight></codeline>
+<codeline lineno="149"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>SubmitSingleTask)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(2);</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>pool.submit([]<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>42;<sp/>});</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(42,<sp/>f.get());</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>SubmitMultipleTasks)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(4);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::future&lt;int&gt;&gt;<sp/>futures;</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>futures.push_back(pool.submit([i]<sp/>{<sp/>return<sp/>i<sp/>*<sp/>i;<sp/>}));</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(i<sp/>*<sp/>i,<sp/>futures[i].get());</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="166"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>CompletedCountMatchesSubmitted)<sp/>{</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(2);</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>N<sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::future&lt;void&gt;&gt;<sp/>futs;</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>N;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>futs.push_back(pool.submit([]<sp/>{<sp/></highlight><highlight class="comment">/*<sp/>no-op<sp/>*/</highlight><highlight class="normal"><sp/>}));</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>f<sp/>:<sp/>futs)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>f.get();</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="normal">uint64_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(N),<sp/>pool.completedCount());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>QueuedCountMatchesSubmitted)<sp/>{</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(1);</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>gate{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Block<sp/>the<sp/>worker</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blocker<sp/>=<sp/>pool.submit([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!gate.load())<sp/>{</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Submit<sp/>5<sp/>more<sp/>tasks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>pool.submit([]<sp/>{});</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(pool.queuedCount(),<sp/>1u);</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/>gate.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>blocker.get();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>ShutdownPreventsNewSubmit)<sp/>{</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(1);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.shutdown();</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(pool.isStopped());</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(pool.submit([]<sp/>{}),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="202"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>ConcurrentSubmission)<sp/>{</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(4);</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>counter{0};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>pool.submit([&amp;]<sp/>{<sp/>++counter;<sp/>});</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>f.get();</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(8,<sp/>counter.load());</highlight></codeline>
+<codeline lineno="219"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>TaskExceptionPropagates)<sp/>{</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(2);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>f<sp/>=<sp/>pool.submit([]()<sp/>-&gt;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;expected_failure&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>0;</highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(f.get(),<sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="228"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight><highlight class="comment">//<sp/>P3-03<sp/>Group<sp/>3:<sp/>GraphBufferPool<sp/>–<sp/>allocation<sp/>and<sp/>recycling</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>ZeroDimensionsThrow)<sp/>{</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref>(0,<sp/>1024),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(<ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref>(4,<sp/>0),<sp/>std::invalid_argument);</highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>AvailableEqualsPoolSizeInitially)<sp/>{</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(4,<sp/>1024);</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(4u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="242"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>AcquireDecreasesAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(3,<sp/>512);</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>ScopedBufferReleasesOnDestruction)<sp/>{</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(2,<sp/>256);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(1u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="257"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>BufferSizeCorrect)<sp/>{</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(2,<sp/>4096);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(4096u,<sp/>pool.bufferSize());</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(b.capacity(),<sp/>4096u);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="265"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>TryAcquireSucceedsWhenAvailable)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(2,<sp/>128);</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a82e554d4f3d3a8d22419b244813eaa68" kindref="member">tryAcquire</ref>();</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(b.has_value());</highlight></codeline>
+<codeline lineno="270"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="271"><highlight class="normal"></highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>TryAcquireFailsWhenExhausted)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(1,<sp/>128);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1a82e554d4f3d3a8d22419b244813eaa68" kindref="member">tryAcquire</ref>();</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(b2.has_value());</highlight></codeline>
+<codeline lineno="277"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>AcquireCountIncrements)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(4,<sp/>64);</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1aa12450c03271124416a52d78725290ca" kindref="member">acquiredCount</ref>());</highlight></codeline>
+<codeline lineno="284"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"></highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>BufferZeroedOnReturn)<sp/>{</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(1,<sp/>8);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Write<sp/>non-zero<sp/>data</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>b.get())<sp/>{</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>=<sp/>0xFF;</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Re-acquire:<sp/>buffer<sp/>should<sp/>be<sp/>zero-filled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal"><sp/>:<sp/>b2.get())<sp/>{</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(0,<sp/></highlight><highlight class="keywordtype">byte</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="300"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"></highlight></codeline>
+<codeline lineno="302"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>ConcurrentAcquireAndRelease)<sp/>{</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(4,<sp/>256);</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>success{0};</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::thread&gt;<sp/>threads<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"></highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>8;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>threads.emplace_back([&amp;]<sp/>{</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(b)<sp/>{</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds{1});</highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++success;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>t<sp/>:<sp/>threads)<sp/>{</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>t.join();</highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(8,<sp/>success.load());</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(4u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="321"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="322"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>ScopedBufferBoolOperator)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(1,<sp/>64);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b));</highlight></codeline>
+<codeline lineno="327"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>MultipleSequentialAcquireAndRelease)<sp/>{</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(2,<sp/>64);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b));</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(10u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1aa12450c03271124416a52d78725290ca" kindref="member">acquiredCount</ref>());</highlight></codeline>
+<codeline lineno="337"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>AllBuffersExhaustedThenRefilled)<sp/>{</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(3,<sp/>32);</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b3<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="345"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(0u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="346"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="347"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>returned<sp/>after<sp/>scope<sp/>exit</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="348"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(3u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="349"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="350"><highlight class="normal"></highlight></codeline>
+<codeline lineno="351"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ConnectionPoolTest,<sp/>SequentialAcquireReleaseCycles)<sp/>{</highlight></codeline>
+<codeline lineno="352"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_connection_pool" kindref="compound">GraphConnectionPool&lt;MockConnection&gt;</ref><sp/>pool(2,<sp/>[]<sp/>{</highlight></codeline>
+<codeline lineno="353"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::make_shared&lt;MockConnection&gt;(0);</highlight></codeline>
+<codeline lineno="354"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="355"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="356"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>h<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="357"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(h));</highlight></codeline>
+<codeline lineno="358"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="359"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(5u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1aa12450c03271124416a52d78725290ca" kindref="member">acquiredCount</ref>());</highlight></codeline>
+<codeline lineno="360"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(2u,<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1ab7a43ed1ed8d70104ac6a93809086f76" kindref="member">available</ref>());</highlight></codeline>
+<codeline lineno="361"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="362"><highlight class="normal"></highlight></codeline>
+<codeline lineno="363"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(ThreadPoolTest,<sp/>SingleThreadHandlesManyTasks)<sp/>{</highlight></codeline>
+<codeline lineno="364"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_thread_pool" kindref="compound">GraphThreadPool</ref><sp/>pool(1);</highlight></codeline>
+<codeline lineno="365"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;int&gt;<sp/>sum{0};</highlight></codeline>
+<codeline lineno="366"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::future&lt;void&gt;&gt;<sp/>futs;</highlight></codeline>
+<codeline lineno="367"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>20;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="368"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>futs.push_back(pool.submit([&amp;,<sp/>i]<sp/>{<sp/>sum.fetch_add(i);<sp/>}));</highlight></codeline>
+<codeline lineno="369"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="370"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>f<sp/>:<sp/>futs)<sp/>{</highlight></codeline>
+<codeline lineno="371"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/>f.get();</highlight></codeline>
+<codeline lineno="372"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="373"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Sum<sp/>of<sp/>0..19<sp/>=<sp/>190</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="374"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(190,<sp/>sum.load());</highlight></codeline>
+<codeline lineno="375"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="376"><highlight class="normal"></highlight></codeline>
+<codeline lineno="377"><highlight class="normal"><ref refid="test__graph__resource__pooling__phase3_8cpp_1ac1a115e599813fdb9a8c31a934d548c0" kindref="member">TEST</ref>(BufferPoolTest,<sp/>MoveConstructedBufferPreservesValidity)<sp/>{</highlight></codeline>
+<codeline lineno="378"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1graph_1_1_graph_buffer_pool" kindref="compound">GraphBufferPool</ref><sp/>pool(2,<sp/>64);</highlight></codeline>
+<codeline lineno="379"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b1<sp/>=<sp/>pool.<ref refid="classthemis_1_1graph_1_1_graph_connection_pool_1acf0da57caf3d2459dae3c96dca8a649a" kindref="member">acquire</ref>();</highlight></codeline>
+<codeline lineno="380"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>b2<sp/>=<sp/>std::move(b1);</highlight></codeline>
+<codeline lineno="381"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(</highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">bool</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(b2));</highlight></codeline>
+<codeline lineno="382"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(64u,<sp/>b2.capacity());</highlight></codeline>
+<codeline lineno="383"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/graph/test_graph_resource_pooling_phase3.cpp"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,235 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="time__slice__scheduler_8h" kind="file" language="C++">
+    <compoundname>time_slice_scheduler.h</compoundname>
+    <includes local="no">chrono</includes>
+    <includes local="no">deque</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">unordered_map</includes>
+    <includes local="no">vector</includes>
+    <includes refid="launcher_8h" local="yes">themis/gpu/launcher.h</includes>
+    <incdepgraph>
+      <node id="9">
+        <label>themis/gpu/launcher.h</label>
+        <link refid="launcher_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>include/themis/gpu/time_slice_scheduler.h</label>
+        <link refid="time__slice__scheduler_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>chrono</label>
+      </node>
+      <node id="4">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>deque</label>
+      </node>
+      <node id="10">
+        <label>functional</label>
+      </node>
+      <node id="11">
+        <label>future</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="7">
+        <label>unordered_map</label>
+      </node>
+      <node id="8">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler" prot="public">themis::gpu::GPUTimeSliceScheduler</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" prot="public">themis::gpu::GPUTimeSliceScheduler::TenantConfig</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" prot="public">themis::gpu::GPUTimeSliceScheduler::TenantStats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" prot="public">themis::gpu::GPUTimeSliceScheduler::Stats</innerclass>
+    <innerclass refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_state" prot="private">themis::gpu::GPUTimeSliceScheduler::TenantState</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1gpu">themis::gpu</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.15 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;deque&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;unordered_map&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="launcher_8h" kindref="compound">themis/gpu/launcher.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">gpu</ref><sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="58" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref><sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>configuration</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="63" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kindref="compound">TenantConfig</ref><sp/>{</highlight></codeline>
+<codeline lineno="64" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a120c8811706dee58b3cf17b909cd7e4b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a120c8811706dee58b3cf17b909cd7e4b" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="68" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a7cb6549f48bbd9af86abc5bfb40bdc39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config_1a7cb6549f48bbd9af86abc5bfb40bdc39" kindref="member">slice_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Per-tenant<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref><sp/>{</highlight></codeline>
+<codeline lineno="75" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aa48511bb73de26bb1e980eb8cb784f4d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aa48511bb73de26bb1e980eb8cb784f4d" kindref="member">tenant_id</ref>;</highlight></codeline>
+<codeline lineno="76" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a10ee2d6c27302086c70e6115826ed601" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a10ee2d6c27302086c70e6115826ed601" kindref="member">submitted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="77" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a85311d41446581cd1420c98234b82464" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a85311d41446581cd1420c98234b82464" kindref="member">completed</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="78" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1ae003efc5a90a7fd10d348cf7f15725e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1ae003efc5a90a7fd10d348cf7f15725e1" kindref="member">preempted</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="79" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a0fab92a009d1dc14efb36e4115660c98" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint64_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a0fab92a009d1dc14efb36e4115660c98" kindref="member">total_elapsed_ms</ref><sp/>=<sp/>0;<sp/></highlight></codeline>
+<codeline lineno="80" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a1b595df94aa4d2cd5f32cb27675a56a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1a1b595df94aa4d2cd5f32cb27675a56a1" kindref="member">slice_ms</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="81" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aef2dc63f5a3b11d976f8e1dbd0e6bcb6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats_1aef2dc63f5a3b11d976f8e1dbd0e6bcb6" kindref="member">queue_depth</ref><sp/><sp/><sp/><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>scheduler<sp/>statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="87" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" refkind="compound"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/>{</highlight></codeline>
+<codeline lineno="88" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a6299158be11f6a4198fb9ef35fe4ad62" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a6299158be11f6a4198fb9ef35fe4ad62" kindref="member">total_submitted</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="89" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a91e67d7340e8351091ebbcac4aac2eff" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a91e67d7340e8351091ebbcac4aac2eff" kindref="member">total_completed</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="90" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a910cab6444827c7e6208c227555725b2" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a910cab6444827c7e6208c227555725b2" kindref="member">total_preempted</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="91" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a59b2d247592dd2ea7e9b0138390a5efb" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a59b2d247592dd2ea7e9b0138390a5efb" kindref="member">dispatch_rounds</ref><sp/><sp/>=<sp/>0;<sp/><sp/></highlight></codeline>
+<codeline lineno="92" refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a5129d2fb7d0f9b7e209a2f9ebdf2149e" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats_1a5129d2fb7d0f9b7e209a2f9ebdf2149e" kindref="member">registered_tenants</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Construction<sp/>/<sp/>singleton</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="99" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a8ec3256e92de76038e2b8605da65933c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a8ec3256e92de76038e2b8605da65933c" kindref="member">~GPUTimeSliceScheduler</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-copyable.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a10f0e089c9ecce5fd9ec95b186b1238f" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a10f0e089c9ecce5fd9ec95b186b1238f" kindref="member">GPUTimeSliceScheduler</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="103" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ab4fd54a2b3c7b609ee7ee28722bbad94" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ab4fd54a2b3c7b609ee7ee28722bbad94" kindref="member">operator=</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acc3d09787924041e3757a777f0422581" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref>&amp;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1acc3d09787924041e3757a777f0422581" kindref="member">GetInstance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a60f07b55fa0350064a7d50da4953878a" kindref="member">GPUTimeSliceScheduler</ref><sp/>inst;</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>inst;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Tenant<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a43bc458f0e6cd3c44d9bf6c039348e01" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a43bc458f0e6cd3c44d9bf6c039348e01" kindref="member">registerTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kindref="compound">TenantConfig</ref>&amp;<sp/>config);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a61ef28ba0faeac89b3a1e4e5c6a8189d" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a61ef28ba0faeac89b3a1e4e5c6a8189d" kindref="member">unregisterTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id);</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aaad4eafd81fd54c6a96ae08fce2d3922" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aaad4eafd81fd54c6a96ae08fce2d3922" kindref="member">hasTenant</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a381a1a7a657adf2c58e90f68cb393e59" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a381a1a7a657adf2c58e90f68cb393e59" kindref="member">tenantCount</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="144" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a7dc8e7c4529c58dafb68c02c65defca3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a7dc8e7c4529c58dafb68c02c65defca3" kindref="member">tenantIds</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Work<sp/>submission</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a53fef7a5a00deb10173900d209eb1d3a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a53fef7a5a00deb10173900d209eb1d3a" kindref="member">submit</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id,<sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_launcher_1_1_work_item" kindref="compound">GPULauncher::WorkItem</ref><sp/>item);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae67e4d34681a89d6801dfd24ce7b5650" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae67e4d34681a89d6801dfd24ce7b5650" kindref="member">queueDepth</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dispatch</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aabc734f3b81334e64010af7ae2b0d2a1" kindref="member">dispatch</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref><sp/>backend<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="197" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af2be773a458fc2a7b87a877e127e1704" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af2be773a458fc2a7b87a877e127e1704" kindref="member">drainAll</ref>(<ref refid="classthemis_1_1gpu_1_1_g_p_u_launcher_1ab9790ae11a4429cdb0726115d3f5128e" kindref="member">GPULauncher::BackendFn</ref><sp/>backend<sp/>=<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="202" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af9993e93d1b88e4767b612959503a1d6" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1af9993e93d1b88e4767b612959503a1d6" kindref="member">allQueuesEmpty</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Statistics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>-----------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3c0425e35106554d5808b7f8b63f4f6a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a3c0425e35106554d5808b7f8b63f4f6a" kindref="member">getTenantStats</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>tenant_id)<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae0dc53fcdc0f2dd7f64f78785560fa21" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;TenantStats&gt;<sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1ae0dc53fcdc0f2dd7f64f78785560fa21" kindref="member">getAllTenantStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="223" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a33389d1e548e6da3a4ee507db926d550" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_stats" kindref="compound">Stats</ref><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1a33389d1e548e6da3a4ee507db926d550" kindref="member">getStats</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230" refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aee0a96e87b61ea462de6da76d361152c" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1aee0a96e87b61ea462de6da76d361152c" kindref="member">resetStats</ref>();</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal">TenantState<sp/>{</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_config" kindref="compound">TenantConfig</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config;</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::deque&lt;GPULauncher::WorkItem&gt;<sp/><sp/><sp/>queue;</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_g_p_u_time_slice_scheduler_1_1_tenant_stats" kindref="compound">TenantStats</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>stats;</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>mutex_;</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unordered_map&lt;std::string,<sp/>TenantState&gt;<sp/><sp/><sp/>tenants_;</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;std::string&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>round_robin_order_;<sp/><sp/></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"></highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Aggregate<sp/>counters.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_submitted_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_completed_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>total_preempted_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>dispatch_rounds_<sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"></highlight></codeline>
+<codeline lineno="250"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>gpu</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="251"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/themis/gpu/time_slice_scheduler.h"/>
+  </compounddef>
+</doxygen>

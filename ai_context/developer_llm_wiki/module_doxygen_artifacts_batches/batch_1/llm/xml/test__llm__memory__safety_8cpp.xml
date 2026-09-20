@@ -1,0 +1,859 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__llm__memory__safety_8cpp" kind="file" language="C++">
+    <compoundname>test_llm_memory_safety.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">memory</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes refid="llm__prefix__cache_8h" local="yes">llm/llm_prefix_cache.h</includes>
+    <includes refid="llm__plugin__interface_8h" local="yes">llm/llm_plugin_interface.h</includes>
+    <includes refid="model__metadata__cache_8h" local="yes">llm/model_metadata_cache.h</includes>
+    <includes refid="model__loader_8h" local="yes">llm/model_loader.h</includes>
+    <incdepgraph>
+      <node id="11">
+        <label>llm/json_schema_converter.h</label>
+        <link refid="json__schema__converter_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>llm/llm_plugin_interface.h</label>
+        <link refid="llm__plugin__interface_8h"/>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>llm/llm_prefix_cache.h</label>
+        <link refid="llm__prefix__cache_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="20">
+        <label>llm/model_loader.h</label>
+        <link refid="model__loader_8h"/>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="21" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="22" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="23" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="18">
+        <label>llm/model_metadata_cache.h</label>
+        <link refid="model__metadata__cache_8h"/>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/llm/test_llm_memory_safety.cpp</label>
+        <link refid="test__llm__memory__safety_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="16">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>chrono</label>
+      </node>
+      <node id="14">
+        <label>cstdint</label>
+      </node>
+      <node id="15">
+        <label>functional</label>
+      </node>
+      <node id="22">
+        <label>future</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="4">
+        <label>memory</label>
+      </node>
+      <node id="17">
+        <label>mutex</label>
+      </node>
+      <node id="12">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="8">
+        <label>optional</label>
+      </node>
+      <node id="13">
+        <label>plugins/plugin_interface.h</label>
+      </node>
+      <node id="5">
+        <label>string</label>
+      </node>
+      <node id="23">
+        <label>unordered_map</label>
+      </node>
+      <node id="9">
+        <label>utils/clock.h</label>
+      </node>
+      <node id="19">
+        <label>utils/concurrent_cache.h</label>
+      </node>
+      <node id="21">
+        <label>utils/expected.h</label>
+      </node>
+      <node id="6">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_memory_loader_fixture" prot="public">MemoryLoaderFixture</innerclass>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="test__llm__memory__safety_8cpp_1a6a1d6e1a12975a4e9a0b5b952e79eaad" prot="public" static="no">
+        <name>private</name>
+        <initializer>public</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="26" column="9" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="26" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a21ddef1d217d3f083411768e703b4c0c" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="structthemis_1_1llm_1_1_cached_model" kindref="compound">CachedModel</ref> &gt;</type>
+        <definition>static std::shared_ptr&lt; CachedModel &gt; makeCachedModel</definition>
+        <argsstring>(const std::string &amp;id, size_t vram_mb=64, size_t ram_mb=32)</argsstring>
+        <name>makeCachedModel</name>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>id</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>vram_mb</declname>
+          <defval>64</defval>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>ram_mb</declname>
+          <defval>32</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="37" column="24" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="37" bodyend="53"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF01_EvictedModel_ExternalRefRemainsValid)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF01_EvictedModel_ExternalRefRemainsValid</type>
+        </param>
+        <briefdescription>
+<para>MSF-01: Evicted model&apos;s shared_ptr use_count drops — external ref still valid. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="81" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="81" bodyend="98"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a17b1bf5b97dcd21edc116a5a5fe29bfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF02_ForceUnload_DecrementsVRAMAndRAM)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF02_ForceUnload_DecrementsVRAMAndRAM</type>
+        </param>
+        <briefdescription>
+<para>MSF-02: Force unload decrements total_vram_mb_ and total_ram_mb_ exactly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="101" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="101" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a35030b1e45fed6b3016ec4038ac83a60" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF03_MultiEvict_RestoresCumulativeBudget)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF03_MultiEvict_RestoresCumulativeBudget</type>
+        </param>
+        <briefdescription>
+<para>MSF-03: Evicting multiple models restores cumulative VRAM budget to zero. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="118" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="118" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1acb40d73061a20dff5235c20b8569387a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF04_PinnedModel_VRAMNotFreed)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF04_PinnedModel_VRAMNotFreed</type>
+        </param>
+        <briefdescription>
+<para>MSF-04: Pinned model not evicted; VRAM budget unchanged. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="132" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="132" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a4674cefd48edc18ab76febba252321e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF05_RepeatedSeedEvictCycles_CleanState)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF05_RepeatedSeedEvictCycles_CleanState</type>
+        </param>
+        <briefdescription>
+<para>MSF-05: Repeated seed+evict cycles leave loader in clean state (50 iterations). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="145" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="145" bodyend="155"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1abc7cdc3bccc1eb10f484989f2f0cf78b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF06_Unload_DecrementsModelsLoadedStat)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF06_Unload_DecrementsModelsLoadedStat</type>
+        </param>
+        <briefdescription>
+<para>MSF-06: Unloading model updates models_loaded stats counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="158" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="158" bodyend="173"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a997b0e1b46bcaccc8b5e96d62462be93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_Cache, MSF07_PrefixCacheClear_ResetsStats)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_Cache</type>
+        </param>
+        <param>
+          <type>MSF07_PrefixCacheClear_ResetsStats</type>
+        </param>
+        <briefdescription>
+<para>MSF-07: <ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kindref="compound">LLMPrefixCache</ref> clear() frees all entries and resets stats. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="180" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="180" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a2442bf0e71bed248dcbf15c7540abd7b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_Cache, MSF08_InvalidateByPattern_RemovesSubset)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_Cache</type>
+        </param>
+        <param>
+          <type>MSF08_InvalidateByPattern_RemovesSubset</type>
+        </param>
+        <briefdescription>
+<para>MSF-08: <ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kindref="compound">LLMPrefixCache</ref> invalidateByPattern removes subset of entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="200" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="200" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a5ceb717d8b91e0887c0bd12674936847" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_Cache, MSF09_MetadataCache_GrowsAndShrinks)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_Cache</type>
+        </param>
+        <param>
+          <type>MSF09_MetadataCache_GrowsAndShrinks</type>
+        </param>
+        <briefdescription>
+<para>MSF-09: <ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref> grows and shrinks correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="227" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="227" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1ae325fe916d7874a358752d814da0af6f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_Cache, MSF10_MetadataCache_Clear_ReturnsZero)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_Cache</type>
+        </param>
+        <param>
+          <type>MSF10_MetadataCache_Clear_ReturnsZero</type>
+        </param>
+        <briefdescription>
+<para>MSF-10: <ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref> clear() resets to zero entries. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="246" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="246" bodyend="259"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1aad7d2454dddcd386e3c08a66c269b6e0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_MoveSem, MSF11_InferenceRequestMove_SourceValidAfterMove)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_MoveSem</type>
+        </param>
+        <param>
+          <type>MSF11_InferenceRequestMove_SourceValidAfterMove</type>
+        </param>
+        <briefdescription>
+<para>MSF-11: Moved <ref refid="struct_inference_request" kindref="compound">InferenceRequest</ref> leaves source in valid empty state. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="266" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="266" bodyend="276"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a1317bed81698462bbc4cab8a0520ca5f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_MoveSem, MSF12_InferenceResponseMove_SourceValidAfterMove)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_MoveSem</type>
+        </param>
+        <param>
+          <type>MSF12_InferenceResponseMove_SourceValidAfterMove</type>
+        </param>
+        <briefdescription>
+<para>MSF-12: Moved <ref refid="struct_inference_response" kindref="compound">InferenceResponse</ref> leaves source in valid state (no double-free). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="279" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="279" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1aa7903b3db7e536625fa65fd1cfbb2cec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_MoveSem, MSF13_CancellationToken_DefaultConstructed_ValidSharedPtr)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_MoveSem</type>
+        </param>
+        <param>
+          <type>MSF13_CancellationToken_DefaultConstructed_ValidSharedPtr</type>
+        </param>
+        <briefdescription>
+<para>MSF-13: <ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref> shared_ptr is non-null after default construct. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="294" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="294" bodyend="301"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1ae411ae0531794ce8171d8ef999d0378e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(MSF_MoveSem, MSF14_CancellationToken_CancelVisibleAcross4Copies)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>MSF_MoveSem</type>
+        </param>
+        <param>
+          <type>MSF14_CancellationToken_CancelVisibleAcross4Copies</type>
+        </param>
+        <briefdescription>
+<para>MSF-14: cancel() visible across 4 independent copies. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="304" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="304" bodyend="316"/>
+      </memberdef>
+      <memberdef kind="function" id="test__llm__memory__safety_8cpp_1a8d10c0a32448dd5255335526aea011dd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(MemoryLoaderFixture, MSF15_HundredCycleSeedEvict_ZeroVRAMResidual)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref></type>
+        </param>
+        <param>
+          <type>MSF15_HundredCycleSeedEvict_ZeroVRAMResidual</type>
+        </param>
+        <briefdescription>
+<para>MSF-15: 100-cycle seeded model eviction leaves zero VRAM residual. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/llm/test_llm_memory_safety.cpp" line="323" column="1" bodyfile="tests/llm/test_llm_memory_safety.cpp" bodystart="323" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>P5-L02: LLM Module Phase 5 — Memory Safety hardening tests (15 cases). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Verifies shared-ownership lifecycle, cache eviction VRAM accounting, move semantics on request/response objects, and <ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref> reference counting. All tests use mock / seeded state — no real GGUF files, no real backends.</para>
+<para><simplesect kind="version"><para>1.9.0-beta </para>
+</simplesect>
+<simplesect kind="note"><para>CTest labels: llm;hardening;phase5 </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;memory&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__prefix__cache_8h" kindref="compound">llm/llm_prefix_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="llm__plugin__interface_8h" kindref="compound">llm/llm_plugin_interface.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__metadata__cache_8h" kindref="compound">llm/model_metadata_cache.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Access<sp/>LazyModelLoader<sp/>private<sp/>members<sp/>for<sp/>state<sp/>seeding<sp/>in<sp/>tests.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#define<sp/>private<sp/>public</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="model__loader_8h" kindref="compound">llm/model_loader.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#undef<sp/>private</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal">std::chrono_literals;</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm" kindref="compound">themis::llm</ref>;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Helpers</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;CachedModel&gt;<sp/>makeCachedModel(</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>vram_mb<sp/>=<sp/>64,</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>ram_mb<sp/><sp/>=<sp/>32)</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>m<sp/>=<sp/>std::make_shared&lt;CachedModel&gt;();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;model_id<sp/><sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;model_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;/tmp/&quot;</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>+<sp/></highlight><highlight class="stringliteral">&quot;.gguf&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;last_used<sp/><sp/>=<sp/>std::chrono::system_clock::now();</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;loaded_at<sp/><sp/>=<sp/>m-&gt;last_used;</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;use_count<sp/><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;vram_mb<sp/><sp/><sp/><sp/>=<sp/>vram_mb;</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;ram_mb<sp/><sp/><sp/><sp/><sp/>=<sp/>ram_mb;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;info.model_id<sp/><sp/>=<sp/>id;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>m-&gt;info.is_loaded<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>m;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56" refid="class_memory_loader_fixture" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_memory_loader_fixture_1a1875f0b33f8a27c16e6750fe5af05294" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1acfee072e2fb2330052115c4e96f954a8" kindref="member">cfg_</ref>.default_n_gpu_layers<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1acfee072e2fb2330052115c4e96f954a8" kindref="member">cfg_</ref>.model_ttl<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>std::chrono::seconds(1);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref><sp/>=<sp/>std::make_unique&lt;LazyModelLoader&gt;(<ref refid="class_memory_loader_fixture_1acfee072e2fb2330052115c4e96f954a8" kindref="member">cfg_</ref>);</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_memory_loader_fixture_1a9b5e847171b024fb4786f0bfcad986dd" kindref="member">seed</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::shared_ptr&lt;CachedModel&gt;&amp;<sp/>m)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref>-&gt;models_[m-&gt;model_id]<sp/><sp/>=<sp/>m;</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref>-&gt;total_vram_mb_<sp/><sp/><sp/><sp/><sp/><sp/><sp/>+=<sp/>m-&gt;vram_mb;</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref>-&gt;total_ram_mb_<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>+=<sp/>m-&gt;ram_mb;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Mirror<sp/>the<sp/>models_loaded_<sp/>stat<sp/>counter.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref>-&gt;models_loaded_.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_lazy_model_loader_1_1_config" kindref="compound">LazyModelLoader::Config</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_memory_loader_fixture_1acfee072e2fb2330052115c4e96f954a8" kindref="member">cfg_</ref>{};</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;LazyModelLoader&gt;<sp/><ref refid="class_memory_loader_fixture_1a27a0ae21fdc7e75290e3f1c47fbb620a" kindref="member">loader_</ref>;</highlight></codeline>
+<codeline lineno="74"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>MSF-01..06:<sp/>Cache<sp/>eviction<sp/>/<sp/>shared<sp/>ownership<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF01_EvictedModel_ExternalRefRemainsValid)<sp/>{</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf01&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>32));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Acquire<sp/>shared<sp/>ownership<sp/>before<sp/>eviction.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>shared<sp/>=<sp/>loader_-&gt;getOrLoadModelShared(</highlight><highlight class="stringliteral">&quot;msf01&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(shared);</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>evict.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;unloadModel(</highlight><highlight class="stringliteral">&quot;msf01&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*force=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Loader<sp/>map<sp/>must<sp/>be<sp/>empty,<sp/>but<sp/>our<sp/>reference<sp/>stays<sp/>alive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loader_-&gt;models_.empty())</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>must<sp/>be<sp/>removed<sp/>from<sp/>loader<sp/>map<sp/>on<sp/>eviction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(shared)</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;External<sp/>shared_ptr<sp/>must<sp/>still<sp/>be<sp/>valid<sp/>after<sp/>eviction&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(shared.use_count(),<sp/>1L)</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;External<sp/>ref<sp/>must<sp/>be<sp/>the<sp/>sole<sp/>owner&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF02_ForceUnload_DecrementsVRAMAndRAM)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kVRAM<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kRAM<sp/><sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf02&quot;</highlight><highlight class="normal">,<sp/>kVRAM,<sp/>kRAM));</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"></highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>kVRAM);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_ram_mb_,<sp/><sp/>kRAM);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;unloadModel(</highlight><highlight class="stringliteral">&quot;msf02&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*force=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"></highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>0u)</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;total_vram_mb_<sp/>must<sp/>reach<sp/>zero<sp/>after<sp/>unloading<sp/>sole<sp/>model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_ram_mb_,<sp/><sp/>0u)</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;total_ram_mb_<sp/>must<sp/>reach<sp/>zero<sp/>after<sp/>unloading<sp/>sole<sp/>model&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF03_MultiEvict_RestoresCumulativeBudget)<sp/>{</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf03-a&quot;</highlight><highlight class="normal">,<sp/>32,<sp/>16));</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf03-b&quot;</highlight><highlight class="normal">,<sp/>48,<sp/>24));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf03-c&quot;</highlight><highlight class="normal">,<sp/>64,<sp/>32));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>32u<sp/>+<sp/>48u<sp/>+<sp/>64u);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;evictLRU(</highlight><highlight class="comment">/*target_vram_mb=*/</highlight><highlight class="normal">10000);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>unpinned<sp/>models<sp/>should<sp/>be<sp/>evicted.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>0u)</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VRAM<sp/>budget<sp/>must<sp/>be<sp/>zero<sp/>after<sp/>evicting<sp/>all<sp/>models&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF04_PinnedModel_VRAMNotFreed)<sp/>{</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kVRAM<sp/>=<sp/>64;</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf04-pin&quot;</highlight><highlight class="normal">,<sp/>kVRAM,<sp/>32));</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;pinModel(</highlight><highlight class="stringliteral">&quot;msf04-pin&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;evictLRU(10000);</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>kVRAM)</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Pinned<sp/>model<sp/>VRAM<sp/>must<sp/>not<sp/>be<sp/>freed<sp/>by<sp/>evictLRU&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loader_-&gt;isModelLoaded(</highlight><highlight class="stringliteral">&quot;msf04-pin&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="142"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF05_RepeatedSeedEvictCycles_CleanState)<sp/>{</highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>50;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;msf05-cycle-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>8,<sp/>4));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>loader_-&gt;evictLRU(</highlight><highlight class="comment">/*target_vram_mb=*/</highlight><highlight class="normal">0);</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>0u)</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VRAM<sp/>must<sp/>be<sp/>zero<sp/>after<sp/>evict<sp/>at<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loader_-&gt;models_.empty())</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;models_<sp/>map<sp/>must<sp/>be<sp/>empty<sp/>after<sp/>all<sp/>evictions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="155"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF06_Unload_DecrementsModelsLoadedStat)<sp/>{</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="stringliteral">&quot;msf06&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>before<sp/>=<sp/>loader_-&gt;getStatistics().models_loaded;</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"></highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Force<sp/>unload<sp/>directly<sp/>through<sp/>models_<sp/>to<sp/>trigger<sp/>the<sp/>stats<sp/>path.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>loader_-&gt;unloadModel(</highlight><highlight class="stringliteral">&quot;msf06&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*force=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"></highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>unload,<sp/>models_loaded<sp/>should<sp/>have<sp/>gone<sp/>up<sp/>(seed<sp/>incremented<sp/>it)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>and<sp/>the<sp/>unload<sp/>should<sp/>not<sp/>have<sp/>added<sp/>another<sp/>increment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>cache<sp/>is<sp/>empty<sp/>as<sp/>a<sp/>proxy<sp/>for<sp/>correctness.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(loader_-&gt;isModelLoaded(</highlight><highlight class="stringliteral">&quot;msf06&quot;</highlight><highlight class="normal">))</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Model<sp/>must<sp/>not<sp/>be<sp/>loaded<sp/>after<sp/>unload&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>models_loaded_<sp/>counter<sp/>is<sp/>incremented<sp/>on<sp/>actual<sp/>load,<sp/>not<sp/>on<sp/>seed.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>the<sp/>stat<sp/>is<sp/>at<sp/>least<sp/>as<sp/>large<sp/>as<sp/>before<sp/>(seed<sp/>incremented<sp/>it).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(loader_-&gt;getStatistics().models_loaded,<sp/>before);</highlight></codeline>
+<codeline lineno="173"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>MSF-07..10:<sp/>Buffer<sp/>/<sp/>cache<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"></highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_Cache,<sp/>MSF07_PrefixCacheClear_ResetsStats)<sp/>{</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">LLMPrefixCache::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" kindref="member">similarity_threshold</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" kindref="member">min_prefix_length</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kindref="compound">LLMPrefixCache</ref><sp/>cache(</highlight><highlight class="stringliteral">&quot;msf07&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/><sp/><sp/>tokens<sp/>=<sp/>{1,<sp/>2};</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>emb<sp/><sp/><sp/><sp/>=<sp/>{1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>10;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.put(</highlight><highlight class="stringliteral">&quot;prefix_&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i),<sp/>tokens,<sp/>emb);</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.clear();</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"></highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>cache.getStatistics();</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(stats.total_entries,<sp/>0u)</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;clear()<sp/>must<sp/>reset<sp/>total_entries<sp/>to<sp/>zero&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="197"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"></highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_Cache,<sp/>MSF08_InvalidateByPattern_RemovesSubset)<sp/>{</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config" kindref="compound">LLMPrefixCache::Config</ref><sp/>cfg;</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a519032abc4873fb8082577e7cd678f63" kindref="member">similarity_threshold</ref><sp/>=<sp/>1.0;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.<ref refid="structthemis_1_1llm_1_1_l_l_m_prefix_cache_1_1_config_1a1b4eb1f97cf449557745dc8f98c6dc66" kindref="member">min_prefix_length</ref><sp/><sp/><sp/><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_l_l_m_prefix_cache" kindref="compound">LLMPrefixCache</ref><sp/>cache(</highlight><highlight class="stringliteral">&quot;msf08&quot;</highlight><highlight class="normal">,<sp/>cfg);</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;int&gt;<sp/><sp/><sp/>tokens<sp/>=<sp/>{5,<sp/>6};</highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>emb_foo<sp/>=<sp/>{1.0f,<sp/>0.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="208"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::vector&lt;float&gt;<sp/>emb_bar<sp/>=<sp/>{0.0f,<sp/>1.0f,<sp/>0.0f};</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>foo1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;foo_entry_one_longer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>foo2<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;foo_entry_two_longer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>bar1<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;bar_entry_one_longer&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"></highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(foo1,<sp/>tokens,<sp/>emb_foo);</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(foo2,<sp/>tokens,<sp/>emb_foo);</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.put(bar1,<sp/>tokens,<sp/>emb_bar);</highlight></codeline>
+<codeline lineno="217"><highlight class="normal"></highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.invalidateByPattern(</highlight><highlight class="stringliteral">&quot;foo&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>bar1<sp/>must<sp/>survive.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>bar_result<sp/>=<sp/>cache.get(bar1,<sp/>emb_bar);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(bar_result.has_value())</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Entry<sp/>NOT<sp/>matching<sp/>pattern<sp/>must<sp/>survive<sp/>invalidation&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="224"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_Cache,<sp/>MSF09_MetadataCache_GrowsAndShrinks)<sp/>{</highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"></highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>kCount<sp/>=<sp/>20;</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCount;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;msf09-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(m.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref>,<sp/>m);</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kCount));</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCount;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="239"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a982d6d8685b20b3ecd91e05d4d1c45ce" kindref="member">remove</ref>(</highlight><highlight class="stringliteral">&quot;msf09-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i));</highlight></codeline>
+<codeline lineno="240"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="241"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/>0u)</highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Cache<sp/>must<sp/>be<sp/>empty<sp/>after<sp/>removing<sp/>all<sp/>entries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="243"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"></highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_Cache,<sp/>MSF10_MetadataCache_Clear_ReturnsZero)<sp/>{</highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_model_metadata_cache" kindref="compound">ModelMetadataCache</ref><sp/>cache;</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>5;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_model_metadata" kindref="compound">ModelMetadata</ref><sp/>m;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>m.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;msf10-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a4eac0964abd53aef41e2ebc4737f4494" kindref="member">put</ref>(m.<ref refid="structthemis_1_1llm_1_1_model_metadata_1ad7c68b23480d6169fa6c4a649976c152" kindref="member">model_id</ref>,<sp/>m);</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/>cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1a0ac7cd4294315e31cace4ed1cf5d5417" kindref="member">clear</ref>();</highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(cache.<ref refid="classthemis_1_1llm_1_1_model_metadata_cache_1ad469eea6bea0569c84d8282dafdd1b5c" kindref="member">size</ref>(),<sp/>0u)</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;clear()<sp/>must<sp/>leave<sp/>cache<sp/>with<sp/>zero<sp/>entries&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="259"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>MSF-11..14:<sp/>Move<sp/>semantics<sp/>and<sp/>request<sp/>lifecycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="264"><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_MoveSem,<sp/>MSF11_InferenceRequestMove_SourceValidAfterMove)<sp/>{</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>src;</highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_request_1a6aef9170dd4ee9e3c4181e73da8dba14" kindref="member">prompt</ref><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;original<sp/>prompt<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref><sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_request" kindref="compound">InferenceRequest</ref><sp/>dst(std::move(src));</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.prompt,<sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;original<sp/>prompt<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.max_tokens,<sp/>128);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>src<sp/>is<sp/>in<sp/>a<sp/>valid<sp/>(unspecified)<sp/>state<sp/>—<sp/>no<sp/>crash<sp/>is<sp/>the<sp/>assertion.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>unused<sp/>=<sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_request_1aa328461ee7286c7f9b0afee1be7dd21a" kindref="member">max_tokens</ref>;<sp/>(void)unused;<sp/>});</highlight></codeline>
+<codeline lineno="276"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_MoveSem,<sp/>MSF12_InferenceResponseMove_SourceValidAfterMove)<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/>src;</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_response_1ac666692ca58c1a61fc42c100d1119d05" kindref="member">text</ref><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;generated<sp/>output<sp/>text&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_response_1a51071f8284be608eecbef79ced9ac85d" kindref="member">success</ref><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/>src.<ref refid="structthemis_1_1llm_1_1_inference_response_1a6ba08c42d1c882c437978a237d9d17bc" kindref="member">tokens_generated</ref><sp/>=<sp/>42;</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref><sp/>dst(std::move(src));</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.text,<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="stringliteral">&quot;generated<sp/>output<sp/>text&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(dst.success);</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(dst.tokens_generated,<sp/>42);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>source<sp/>is<sp/>in<sp/>a<sp/>usable<sp/>(valid)<sp/>state<sp/>—<sp/>no<sp/>UB<sp/>on<sp/>assignment.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({<sp/>src<sp/>=<sp/><ref refid="structthemis_1_1llm_1_1_inference_response" kindref="compound">InferenceResponse</ref>{};<sp/>});</highlight></codeline>
+<codeline lineno="291"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="292"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_MoveSem,<sp/>MSF13_CancellationToken_DefaultConstructed_ValidSharedPtr)<sp/>{</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/>tok;</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>is_cancelled()<sp/>must<sp/>not<sp/>crash<sp/>—<sp/>shared_ptr<sp/>is<sp/>always<sp/>initialised.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NO_THROW({</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cancelled<sp/>=<sp/>tok.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" kindref="member">is_cancelled</ref>();</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_FALSE(cancelled);</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="301"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><ref refid="namespacethemis_1_1llm_1a9f2caf3e83ba6780d89f0aa6272f0b9d" kindref="member">TEST</ref>(MSF_MoveSem,<sp/>MSF14_CancellationToken_CancelVisibleAcross4Copies)<sp/>{</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/>original;</highlight></codeline>
+<codeline lineno="306"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/>copy1<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/>copy2<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="308"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1_cancellation_token" kindref="compound">CancellationToken</ref><sp/>copy3<sp/>=<sp/>original;</highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"><sp/><sp/><sp/><sp/>original.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1a394b9e7b462c972b545af464dfa78eaa" kindref="member">cancel</ref>();</highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(original.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" kindref="member">is_cancelled</ref>())<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;original<sp/>must<sp/>be<sp/>cancelled&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(copy1.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" kindref="member">is_cancelled</ref>())<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;copy1<sp/>must<sp/>see<sp/>cancel&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(copy2.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" kindref="member">is_cancelled</ref>())<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;copy2<sp/>must<sp/>see<sp/>cancel&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(copy3.<ref refid="classthemis_1_1llm_1_1_cancellation_token_1adc329c35ce902328d6bc840247f650cf" kindref="member">is_cancelled</ref>())<sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;copy3<sp/>must<sp/>see<sp/>cancel&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Group<sp/>MSF-15:<sp/>Sustained<sp/>lifecycle<sp/>cycle</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="320"><highlight class="normal"></highlight><highlight class="comment">//<sp/>=============================================================================</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><ref refid="test__llm__memory__safety_8cpp_1a27afcd796cdbaf09071db117ec500ad5" kindref="member">TEST_F</ref>(<ref refid="class_memory_loader_fixture" kindref="compound">MemoryLoaderFixture</ref>,<sp/>MSF15_HundredCycleSeedEvict_ZeroVRAMResidual)<sp/>{</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/><sp/><sp/><sp/>kCycles<sp/>=<sp/>100;</highlight></codeline>
+<codeline lineno="325"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>kVRAMMB<sp/>=<sp/>8;</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>kCycles;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="328"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/></highlight><highlight class="keywordtype">id</highlight><highlight class="normal"><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;msf15-cycle-&quot;</highlight><highlight class="normal"><sp/>+<sp/>std::to_string(i);</highlight></codeline>
+<codeline lineno="329"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>seed(makeCachedModel(</highlight><highlight class="keywordtype">id</highlight><highlight class="normal">,<sp/>kVRAMMB,<sp/>4));</highlight></codeline>
+<codeline lineno="330"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>freed<sp/>=<sp/>loader_-&gt;evictLRU(</highlight><highlight class="comment">/*target_vram_mb=*/</highlight><highlight class="normal">1);</highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(freed,<sp/>0u)</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;evictLRU<sp/>must<sp/>free<sp/>VRAM<sp/>at<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>0u)</highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;VRAM<sp/>residual<sp/>must<sp/>be<sp/>zero<sp/>at<sp/>iteration<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>i;</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="336"><highlight class="normal"></highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(loader_-&gt;total_vram_mb_,<sp/>0u)</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;No<sp/>VRAM<sp/>residual<sp/>after<sp/>100-cycle<sp/>stress&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(loader_-&gt;models_.empty())</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;models_<sp/>map<sp/>must<sp/>be<sp/>empty<sp/>after<sp/>all<sp/>evictions&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"></highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>evictions_<sp/>counter<sp/>must<sp/>record<sp/>at<sp/>least<sp/>kCycles<sp/>evictions.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>stats<sp/>=<sp/>loader_-&gt;getStatistics();</highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GE(stats.evictions,<sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">size_t</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(kCycles));</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/llm/test_llm_memory_safety.cpp"/>
+  </compounddef>
+</doxygen>

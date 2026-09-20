@@ -1,0 +1,320 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::index::MultiGPUVectorIndex::Config</compoundname>
+    <includes refid="multi__gpu__vector__index_8h" local="no">multi_gpu_vector_index.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a8145dbef53d4793169ccda8300902b00" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1" kindref="member">GPUVectorIndex::Backend</ref></type>
+        <definition>GPUVectorIndex::Backend themis::index::MultiGPUVectorIndex::Config::backend</definition>
+        <argsstring></argsstring>
+        <name>backend</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::backend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1adc7623c1f256d2b4b67f20ae2d98bcb1ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">GPUVectorIndex::Backend::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="87" column="33" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aadd9bdbcded780b27fba2294380953d5" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46da" kindref="member">GPUVectorIndex::DistanceMetric</ref></type>
+        <definition>GPUVectorIndex::DistanceMetric themis::index::MultiGPUVectorIndex::Config::metric</definition>
+        <argsstring></argsstring>
+        <name>metric</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::metric</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_g_p_u_vector_index_1a8aaf305159ae2254f773db5ed8cf46daae66ba018ef96aa5c78c8fba787f43717" kindref="member">GPUVectorIndex::DistanceMetric::COSINE</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="88" column="40" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="88" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ab23dda192185acb65b8993aac4c59b67" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::enableMultiGPU</definition>
+        <argsstring></argsstring>
+        <name>enableMultiGPU</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::enableMultiGPU</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="91" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1af4db33eb4a6257d98cbd39e47a770439" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; int &gt;</type>
+        <definition>std::vector&lt;int&gt; themis::index::MultiGPUVectorIndex::Config::deviceIds</definition>
+        <argsstring></argsstring>
+        <name>deviceIds</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::deviceIds</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="92" column="21" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="92" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a5775bf815fc258df3dc48ded4da7446d" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1a10a105ff6041f4c2bdbb08f7bf4892bf" kindref="member">PartitionStrategy</ref></type>
+        <definition>PartitionStrategy themis::index::MultiGPUVectorIndex::Config::partitionStrategy</definition>
+        <argsstring></argsstring>
+        <name>partitionStrategy</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::partitionStrategy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1a10a105ff6041f4c2bdbb08f7bf4892bfa1ebd8dbf8c34e255f5cbf28f35860b71" kindref="member">PartitionStrategy::ROUND_ROBIN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="93" column="27" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="93" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a84299ee8dc71017aa74a3f7a30af04f2" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1a179bc1834e247b99bb07501c2b965240" kindref="member">LoadBalancingMode</ref></type>
+        <definition>LoadBalancingMode themis::index::MultiGPUVectorIndex::Config::loadBalancing</definition>
+        <argsstring></argsstring>
+        <name>loadBalancing</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::loadBalancing</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1a179bc1834e247b99bb07501c2b965240afe6f99ef1ec99efbdc19a9786cf1facc" kindref="member">LoadBalancingMode::STATIC</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="94" column="27" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="94" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a6ef25f8427d5a1128ff08029a91f6fee" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::enableP2P</definition>
+        <argsstring></argsstring>
+        <name>enableP2P</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::enableP2P</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="95" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a47904bba8fbb8e2fad93ba612eaba065" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1acf0808bb034c4e59c1a3e27a14b17a76" kindref="member">CommBackend</ref></type>
+        <definition>CommBackend themis::index::MultiGPUVectorIndex::Config::commBackend</definition>
+        <argsstring></argsstring>
+        <name>commBackend</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::commBackend</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1index_1_1_multi_g_p_u_vector_index_1acf0808bb034c4e59c1a3e27a14b17a76ae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">CommBackend::AUTO</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="98" column="21" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1af1d97cb43d46a59022bd477708730ef1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::enableNVLink</definition>
+        <argsstring></argsstring>
+        <name>enableNVLink</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::enableNVLink</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="99" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a129c4951ac6e55b2cbd94934743c188c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::enableXGMI</definition>
+        <argsstring></argsstring>
+        <name>enableXGMI</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::enableXGMI</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="100" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aa20653e806cc1caa5fc6150ae17ea7e1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MultiGPUVectorIndex::Config::commBufferSizeMB</definition>
+        <argsstring></argsstring>
+        <name>commBufferSizeMB</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::commBufferSizeMB</qualifiedname>
+        <initializer>= 256</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="101" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a5352aa763266ff8004e174412fc9852d" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Config::M</definition>
+        <argsstring></argsstring>
+        <name>M</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::M</qualifiedname>
+        <initializer>= 16</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="104" column="13" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ad120263329b6f78348a81103c413ecdd" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Config::efConstruction</definition>
+        <argsstring></argsstring>
+        <name>efConstruction</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::efConstruction</qualifiedname>
+        <initializer>= 200</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="105" column="13" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="105" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a3dc4c2f4bf577be8a8a9ccfe59703ce8" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Config::efSearch</definition>
+        <argsstring></argsstring>
+        <name>efSearch</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::efSearch</qualifiedname>
+        <initializer>= 64</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="106" column="13" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a1f9ca8367a4d35abd58ff4c12f8ff6aa" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::index::MultiGPUVectorIndex::Config::batchSize</definition>
+        <argsstring></argsstring>
+        <name>batchSize</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::batchSize</qualifiedname>
+        <initializer>= 512</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="109" column="13" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aeee1ca35840f72f0393053630f7a1278" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::useMixedPrecision</definition>
+        <argsstring></argsstring>
+        <name>useMixedPrecision</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::useMixedPrecision</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="112" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a64b461704a979c3e4512afb3aae3b67c" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::index::MultiGPUVectorIndex::Config::maxVRAMPerGPU_MB</definition>
+        <argsstring></argsstring>
+        <name>maxVRAMPerGPU_MB</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::maxVRAMPerGPU_MB</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="113" column="16" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ab086ceb7bea09e9c1c01bc65c9ae1c15" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::enableFaultTolerance</definition>
+        <argsstring></argsstring>
+        <name>enableFaultTolerance</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::enableFaultTolerance</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="116" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a27ee797d46ebb7438ce0aea92ca3b9bf" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::index::MultiGPUVectorIndex::Config::allowCPUFallback</definition>
+        <argsstring></argsstring>
+        <name>allowCPUFallback</name>
+        <qualifiedname>themis::index::MultiGPUVectorIndex::Config::allowCPUFallback</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/multi_gpu_vector_index.h" line="117" column="14" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-GPU configuration </para>
+    </detaileddescription>
+    <location file="include/index/multi_gpu_vector_index.h" line="85" column="5" bodyfile="include/index/multi_gpu_vector_index.h" bodystart="85" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a27ee797d46ebb7438ce0aea92ca3b9bf" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>allowCPUFallback</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a8145dbef53d4793169ccda8300902b00" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>backend</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a1f9ca8367a4d35abd58ff4c12f8ff6aa" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>batchSize</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a47904bba8fbb8e2fad93ba612eaba065" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>commBackend</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aa20653e806cc1caa5fc6150ae17ea7e1" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>commBufferSizeMB</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1af4db33eb4a6257d98cbd39e47a770439" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>deviceIds</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ad120263329b6f78348a81103c413ecdd" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>efConstruction</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a3dc4c2f4bf577be8a8a9ccfe59703ce8" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>efSearch</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ab086ceb7bea09e9c1c01bc65c9ae1c15" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>enableFaultTolerance</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1ab23dda192185acb65b8993aac4c59b67" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>enableMultiGPU</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1af1d97cb43d46a59022bd477708730ef1" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>enableNVLink</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a6ef25f8427d5a1128ff08029a91f6fee" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>enableP2P</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a129c4951ac6e55b2cbd94934743c188c" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>enableXGMI</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a84299ee8dc71017aa74a3f7a30af04f2" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>loadBalancing</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a5352aa763266ff8004e174412fc9852d" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>M</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a64b461704a979c3e4512afb3aae3b67c" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>maxVRAMPerGPU_MB</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aadd9bdbcded780b27fba2294380953d5" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>metric</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1a5775bf815fc258df3dc48ded4da7446d" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>partitionStrategy</name></member>
+      <member refid="structthemis_1_1index_1_1_multi_g_p_u_vector_index_1_1_config_1aeee1ca35840f72f0393053630f7a1278" prot="public" virt="non-virtual"><scope>themis::index::MultiGPUVectorIndex::Config</scope><name>useMixedPrecision</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

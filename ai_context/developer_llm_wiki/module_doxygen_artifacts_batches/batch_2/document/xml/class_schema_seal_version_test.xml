@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_schema_seal_version_test" kind="class" language="C++" prot="public">
+    <compoundname>SchemaSealVersionTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_schema_seal_version_test_1a05d9dae748cb856cbcc93df016dcdf94" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;InMemoryDocumentSchemaEvolution&gt; SchemaSealVersionTest::evo_</definition>
+        <argsstring></argsstring>
+        <name>evo_</name>
+        <qualifiedname>SchemaSealVersionTest::evo_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="391" column="21" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="391" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_schema_seal_version_test_1ad547721e2cbf3cf8c610794e422fff81" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchemaSealVersionTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>SchemaSealVersionTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="376" column="10" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="376" bodyend="379"/>
+      </memberdef>
+      <memberdef kind="function" id="class_schema_seal_version_test_1ad562175f382dd8c59568322e49f4a7a2" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void SchemaSealVersionTest::registerMinimalVersion</definition>
+        <argsstring>(SchemaVersion version, const std::string &amp;field_name)</argsstring>
+        <name>registerMinimalVersion</name>
+        <qualifiedname>SchemaSealVersionTest::registerMinimalVersion</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1document_1a6fc149b60d2235ab81213ad5634d7d9b" kindref="member">SchemaVersion</ref></type>
+          <declname>version</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>field_name</declname>
+        </param>
+        <briefdescription>
+<para>Helper — register a minimal single-field schema at <computeroutput>version</computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="382" column="10" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="382" bodyend="389"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Fixture for schema sealing and version-transition edge-case tests. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Each test operates on a fresh <ref refid="classthemis_1_1document_1_1_in_memory_document_schema_evolution" kindref="compound">InMemoryDocumentSchemaEvolution</ref> instance. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>SchemaSealVersionTest</label>
+        <link refid="class_schema_seal_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>SchemaSealVersionTest</label>
+        <link refid="class_schema_seal_version_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/document/test_document_conflict_diagnostics_focused.cpp" line="374" column="1" bodyfile="tests/document/test_document_conflict_diagnostics_focused.cpp" bodystart="374" bodyend="392"/>
+    <listofallmembers>
+      <member refid="class_schema_seal_version_test_1a05d9dae748cb856cbcc93df016dcdf94" prot="protected" virt="non-virtual"><scope>SchemaSealVersionTest</scope><name>evo_</name></member>
+      <member refid="class_schema_seal_version_test_1ad562175f382dd8c59568322e49f4a7a2" prot="protected" virt="non-virtual"><scope>SchemaSealVersionTest</scope><name>registerMinimalVersion</name></member>
+      <member refid="class_schema_seal_version_test_1ad547721e2cbf3cf8c610794e422fff81" prot="protected" virt="non-virtual"><scope>SchemaSealVersionTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

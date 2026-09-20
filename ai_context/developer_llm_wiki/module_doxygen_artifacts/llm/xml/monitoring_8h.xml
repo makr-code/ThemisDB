@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="monitoring_8h" kind="file" language="C++">
+    <compoundname>monitoring.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">functional</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">optional</includes>
+    <includes local="no">string</includes>
+    <includedby refid="monitoring_8cpp" local="yes">src/llm/safety/monitoring.cpp</includedby>
+    <includedby refid="test__llm__safety__pipeline_8cpp" local="yes">tests/llm/test_llm_safety_pipeline.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/llm/safety/monitoring.h</label>
+        <link refid="monitoring_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="3">
+        <label>cstdint</label>
+      </node>
+      <node id="4">
+        <label>functional</label>
+      </node>
+      <node id="5">
+        <label>mutex</label>
+      </node>
+      <node id="6">
+        <label>optional</label>
+      </node>
+      <node id="7">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/llm/safety/monitoring.h</label>
+        <link refid="monitoring_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/llm/safety/monitoring.cpp</label>
+        <link refid="monitoring_8cpp"/>
+      </node>
+      <node id="3">
+        <label>tests/llm/test_llm_safety_pipeline.cpp</label>
+        <link refid="test__llm__safety__pipeline_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_safety_event" prot="public">themis::llm::safety::SafetyEvent</innerclass>
+    <innerclass refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" prot="public">themis::llm::safety::SafetyCountersSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" prot="public">themis::llm::safety::SafetyMonitoring</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm">themis::llm</innernamespace>
+    <innernamespace refid="namespacethemis_1_1llm_1_1safety">themis::llm::safety</innernamespace>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.1 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 85/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;functional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;optional&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1llm_1_1safety" kindref="compound">themis::llm::safety</ref><sp/>{</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight></codeline>
+<codeline lineno="23" refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5" refkind="member"><highlight class="normal"></highlight><highlight class="keyword">enum<sp/>class</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5" kindref="member">SafetyEventType</ref><sp/>{</highlight></codeline>
+<codeline lineno="24" refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" kindref="member">ALLOWED</ref>,</highlight></codeline>
+<codeline lineno="25" refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a50e13ee63f086c2fe84229348bc91b5b" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1safety_1ab0d1a056fcbc50c2b83d67127836f2fea50e13ee63f086c2fe84229348bc91b5b" kindref="member">REVIEW</ref>,</highlight></codeline>
+<codeline lineno="26" refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5aeecba0068950a2df17c47e851e1eef14" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5aeecba0068950a2df17c47e851e1eef14" kindref="member">BLOCKED</ref></highlight></codeline>
+<codeline lineno="27"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29" refid="structthemis_1_1llm_1_1safety_1_1_safety_event" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref><sp/>{</highlight></codeline>
+<codeline lineno="30" refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aac7e20626cfb5e7849b537ad10bb9e76" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aac7e20626cfb5e7849b537ad10bb9e76" kindref="member">request_id</ref>;</highlight></codeline>
+<codeline lineno="31" refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1ab829f7f5d0204e77c6d60d87a328c506" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5" kindref="member">SafetyEventType</ref><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1ab829f7f5d0204e77c6d60d87a328c506" kindref="member">type</ref><sp/>=<sp/><ref refid="namespacethemis_1_1llm_1_1safety_1a2d32ce3bd503cbc86f868095678f06f5a9725825c796122ef40f01b2d8794f902" kindref="member">SafetyEventType::ALLOWED</ref>;</highlight></codeline>
+<codeline lineno="32" refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a631185e0de2f514c537ab809053ed195" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a631185e0de2f514c537ab809053ed195" kindref="member">reason</ref>;</highlight></codeline>
+<codeline lineno="33" refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aa5463c1477926ac5d4da9eda423130dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1aa5463c1477926ac5d4da9eda423130dc" kindref="member">confidence</ref><sp/>=<sp/>0.0;</highlight></codeline>
+<codeline lineno="34" refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a6b91e9c3948e51c182e69d60a07b80cc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::int64_t<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event_1a6b91e9c3948e51c182e69d60a07b80cc" kindref="member">unix_ms</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="35"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" kindref="compound">SafetyCountersSnapshot</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1a7e46c17d37935252cb69ed1d7df6c7c7" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1a7e46c17d37935252cb69ed1d7df6c7c7" kindref="member">allowed</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1a13ca651e6c83f4c1675cf86f6b2061bd" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1a13ca651e6c83f4c1675cf86f6b2061bd" kindref="member">review</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1aed5e6dc48f883fb361cbb56d390ff436" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>std::uint64_t<sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot_1aed5e6dc48f883fb361cbb56d390ff436" kindref="member">blocked</ref><sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43" refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring" kindref="compound">SafetyMonitoring</ref><sp/>{</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="45" refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" kindref="member">ExporterSink</ref><sp/>=<sp/>std::function&lt;void(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>&amp;)&gt;;</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a305467e2a64765889ff5ed3d821b52c1" kindref="member">setDurableSinkPath</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>path);</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1ae4c5f2197fe7e6aec77503749dc34ff0" kindref="member">clearDurableSinkPath</ref>();</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a0bbc06cd682bef215d68847da539da92" kindref="member">setExporterSink</ref>(<ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" kindref="member">ExporterSink</ref><sp/>sink);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1adc55411ee29f6481570a4598a3e9e4aa" kindref="member">clearExporterSink</ref>();</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a9657bbfa4e266aa524527336b33dda2b" kindref="member">record</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_counters_snapshot" kindref="compound">SafetyCountersSnapshot</ref><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a05f201e044ed79b4ae68a54b935d0755" kindref="member">snapshot</ref>()<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"></highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>toJsonLine(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1llm_1_1safety_1_1_safety_event" kindref="compound">SafetyEvent</ref>&amp;<sp/>event);</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::uint64_t&gt;<sp/>allowed_{0};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::uint64_t&gt;<sp/>review_{0};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;std::uint64_t&gt;<sp/>blocked_{0};</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::optional&lt;std::string&gt;<sp/>durable_sink_path_;</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1llm_1_1safety_1_1_safety_monitoring_1a841dc2a4ba0182c3cb16af80b821ac70" kindref="member">ExporterSink</ref><sp/>exporter_sink_;</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">mutable</highlight><highlight class="normal"><sp/>std::mutex<sp/>sink_mutex_;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis::llm::safety</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/llm/safety/monitoring.h"/>
+  </compounddef>
+</doxygen>

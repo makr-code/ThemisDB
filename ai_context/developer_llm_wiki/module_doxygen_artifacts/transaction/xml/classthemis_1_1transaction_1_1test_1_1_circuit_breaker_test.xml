@@ -1,0 +1,85 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::CircuitBreakerTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a9df1aa7695943bcea0046af7db9a6d9a" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGAOrchestrator&gt; themis::transaction::test::CircuitBreakerTest::saga_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>saga_orchestrator_</name>
+        <qualifiedname>themis::transaction::test::CircuitBreakerTest::saga_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="65" column="19" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="65" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a6120da1b74f50cd2dd414c1936d53e37" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CircuitBreakerTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::CircuitBreakerTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="56" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="56" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a3378a0426190fc0707189bf46fcda320" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CircuitBreakerTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::CircuitBreakerTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="61" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CircuitBreakerTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CircuitBreakerTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="54" column="1" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="54" bodyend="66"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a9df1aa7695943bcea0046af7db9a6d9a" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CircuitBreakerTest</scope><name>saga_orchestrator_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a6120da1b74f50cd2dd414c1936d53e37" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CircuitBreakerTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_circuit_breaker_test_1a3378a0426190fc0707189bf46fcda320" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CircuitBreakerTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

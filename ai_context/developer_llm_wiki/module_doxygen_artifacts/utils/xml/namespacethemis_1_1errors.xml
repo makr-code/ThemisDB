@@ -1,0 +1,2416 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1errors" kind="namespace" language="C++">
+    <compoundname>themis::errors</compoundname>
+    <innerclass refid="structthemis_1_1errors_1_1_error_metadata" prot="public">themis::errors::ErrorMetadata</innerclass>
+    <innerclass refid="classthemis_1_1errors_1_1_error_registry" prot="public">themis::errors::ErrorRegistry</innerclass>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ErrorCode</name>
+        <qualifiedname>themis::errors::ErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad5636eff6e4f6fc318317fd169141b43" prot="public">
+          <name>ERR_STORAGE_FILE_NOT_FOUND</name>
+          <initializer>= 1000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dafe2bc78f9ff18f513221bf85000bc2e6" prot="public">
+          <name>ERR_STORAGE_PERMISSION_DENIED</name>
+          <initializer>= 1001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac88734a79f5d5f0d402c036a83923cd0" prot="public">
+          <name>ERR_STORAGE_DISK_FULL</name>
+          <initializer>= 1002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa26876bd77b32dea722c4e7eba48fcd3" prot="public">
+          <name>ERR_STORAGE_CORRUPTION</name>
+          <initializer>= 1003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daec2d8527bcb8f9560cc8b8803e7e5855" prot="public">
+          <name>ERR_STORAGE_TRANSACTION_FAILED</name>
+          <initializer>= 1004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad5e24301942fb782dee544cc5ae0bccc" prot="public">
+          <name>ERR_STORAGE_CACHE_ERROR</name>
+          <initializer>= 1005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf3a3e2917811bb3996fff04c29b8ad13" prot="public">
+          <name>ERR_STORAGE_LOG_FULL</name>
+          <initializer>= 1006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da643c845a6e2a6d7fe0483c7e7fc28e42" prot="public">
+          <name>ERR_STORAGE_REDUNDANCY_FAILED</name>
+          <initializer>= 1007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8888ae94fbd7a322e3499228ea0f9287" prot="public">
+          <name>ERR_BACKUP_CREATION_FAILED</name>
+          <initializer>= 1100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad52a8b405862779427681409d1f28eb5" prot="public">
+          <name>ERR_BACKUP_RESTORATION_FAILED</name>
+          <initializer>= 1101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daad69c79a9322b0acdc3a83e5e4f301ca" prot="public">
+          <name>ERR_BACKUP_VERIFICATION_FAILED</name>
+          <initializer>= 1102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac55fd386002a350e8942e57ba56d32d2" prot="public">
+          <name>ERR_BACKUP_NOT_FOUND</name>
+          <initializer>= 1103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6b6eb757704970c9831cec60a7afb8e8" prot="public">
+          <name>ERR_BACKUP_INVALID_TYPE</name>
+          <initializer>= 1104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad0c7fe4a1fe3a3043fd481fd0fe50f53" prot="public">
+          <name>ERR_BACKUP_INCOMPLETE</name>
+          <initializer>= 1105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da419cb0b89532e231752c3ab11fad5d5a" prot="public">
+          <name>ERR_BACKUP_COMPRESSION_FAILED</name>
+          <initializer>= 1106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6dbba520a3d6251cd7b510e60aba179c" prot="public">
+          <name>ERR_BACKUP_DECOMPRESSION_FAILED</name>
+          <initializer>= 1107</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da69fc041eccd94505d9bb2f674acaee11" prot="public">
+          <name>ERR_BACKUP_CHECKSUM_MISMATCH</name>
+          <initializer>= 1108</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da327a138c59fbe9de38802a8be76eaee3" prot="public">
+          <name>ERR_BACKUP_MANIFEST_CORRUPT</name>
+          <initializer>= 1109</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da3b5fdeb899553765c3f9f5a1acd73c5b" prot="public">
+          <name>ERR_BACKUP_WAL_ARCHIVE_FAILED</name>
+          <initializer>= 1110</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4c6fdde87edcfab13b7f63f06e7ab60d" prot="public">
+          <name>ERR_LLM_MODEL_NOT_FOUND</name>
+          <initializer>= 2000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da880ba4b90d56719eee5dc2dd7612e243" prot="public">
+          <name>ERR_LLM_MODEL_LOAD_FAILED</name>
+          <initializer>= 2001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad1e46194d30c643a282820b45450ec88" prot="public">
+          <name>ERR_LLM_CONTEXT_CREATION_FAILED</name>
+          <initializer>= 2002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da170db5b52002593a34570f6458f5ed2c" prot="public">
+          <name>ERR_LLM_INFERENCE_TIMEOUT</name>
+          <initializer>= 2003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da128d86b619f3d7c4279ba808fb955077" prot="public">
+          <name>ERR_LLM_GPU_OOM</name>
+          <initializer>= 2004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da77ad6d5999f20dd88e7f26d71e1040e2" prot="public">
+          <name>ERR_LLM_INVALID_HANDLE</name>
+          <initializer>= 2005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daac9fb33cb2c487e1e38f14d2904be270" prot="public">
+          <name>ERR_LLM_VISION_INFERENCE_FAILED</name>
+          <initializer>= 2006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5d558e8dfc4537e0458af197b40a0004" prot="public">
+          <name>ERR_LLM_DRAFT_MODEL_LOAD_FAILED</name>
+          <initializer>= 2007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0a734454acaac8c6a01a162d3f0c9fe9" prot="public">
+          <name>ERR_LLM_RAM_OOM</name>
+          <initializer>= 2008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa2d479c2dbf1f96d66d8ae80ed183b56" prot="public">
+          <name>ERR_LLM_GPU_NOT_AVAILABLE</name>
+          <initializer>= 2009</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0bf407149b6bd72b95d6affdf50df984" prot="public">
+          <name>ERR_LLM_GPU_ALLOC_FAILED</name>
+          <initializer>= 2010</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da118d51b3d82a6f5b17c9e8042ba79a32" prot="public">
+          <name>ERR_LLM_GPU_PEER_ACCESS_FAILED</name>
+          <initializer>= 2011</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5d7d3e6fe594a495cfdbdbac68ad8815" prot="public">
+          <name>ERR_LLM_BATCH_SIZE_EXCEEDED</name>
+          <initializer>= 2012</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad00ef49432a9cf8f142862fdbea6b370" prot="public">
+          <name>ERR_LORA_NOT_LOADED</name>
+          <initializer>= 2100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad26acc720364a54a51f7117c7ee8892d" prot="public">
+          <name>ERR_LORA_BATCHING_DISABLED</name>
+          <initializer>= 2101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae97509e29ed42b6f0acb6873a464ab59" prot="public">
+          <name>ERR_LORA_WEIGHT_MISMATCH</name>
+          <initializer>= 2102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1d872e0a5eb536cefbad5829f13e2025" prot="public">
+          <name>ERR_LORA_FUSION_FAILED</name>
+          <initializer>= 2103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa27fd55c8543d02b9414daacf75bef65" prot="public">
+          <name>ERR_LORA_INVALID_DATA</name>
+          <initializer>= 2104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da76404bb3f7abe6f3c3fbcc9d9e600a62" prot="public">
+          <name>ERR_LORA_MODEL_MISMATCH</name>
+          <initializer>= 2105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf2e36c6330779ec29c2e4125939feda4" prot="public">
+          <name>ERR_LORA_GPU_LOAD_FAILED</name>
+          <initializer>= 2106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad4d03847f355e2fcb1eceb69501d4e3a" prot="public">
+          <name>ERR_LORA_ADAPTER_CONFLICT</name>
+          <initializer>= 2107</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da898cff44fe1be39a11dc1515d7a50a41" prot="public">
+          <name>ERR_LORA_TRAINING_DIVERGED</name>
+          <initializer>= 2108</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dadbe47fecd14f2802ce40089ba6417ccd" prot="public">
+          <name>ERR_MCP_TRANSPORT_FAILED</name>
+          <initializer>= 3000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da3ce2f5b5eb5872e63d3c6df8dda48529" prot="public">
+          <name>ERR_MCP_INVALID_REQUEST</name>
+          <initializer>= 3001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da891de31fcf4aa2c62f08fa5862fa16d5" prot="public">
+          <name>ERR_MCP_TOOL_NOT_FOUND</name>
+          <initializer>= 3002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7a5af111fd2fa7ca51efe1bdd2ff8ecf" prot="public">
+          <name>ERR_MCP_SCHEMA_UNAVAILABLE</name>
+          <initializer>= 3003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac70335759b45f3cc27dd34ff82802c17" prot="public">
+          <name>ERR_MCP_STDIO_INIT_FAILED</name>
+          <initializer>= 3004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dabfae1ec1543a8bb8fbcd9ebc77475eef" prot="public">
+          <name>ERR_SCHEMA_TABLE_NOT_FOUND</name>
+          <initializer>= 4000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0d3c87e88703d712fa80e04ee926c9e1" prot="public">
+          <name>ERR_SCHEMA_INVALID_TYPE</name>
+          <initializer>= 4001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab88b81cf121f3cd2f9a459f8982f91bd" prot="public">
+          <name>ERR_SCHEMA_CACHE_MISS</name>
+          <initializer>= 4002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa30649571ff33b56cebcd8938f815732" prot="public">
+          <name>ERR_NET_CONNECTION_REFUSED</name>
+          <initializer>= 5000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da25202bce43eab6e4be63b4bdc085fce0" prot="public">
+          <name>ERR_NET_TIMEOUT</name>
+          <initializer>= 5001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da635d91c86713bbdff744072a79585d63" prot="public">
+          <name>ERR_NET_DNS_FAILURE</name>
+          <initializer>= 5002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da73b422c6ee60fc135f8d5cad6bd5fac7" prot="public">
+          <name>ERR_INDEX_NOT_INITIALIZED</name>
+          <initializer>= 6000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8e3429ac13b6dba8199c1e2b4801c61b" prot="public">
+          <name>ERR_INDEX_CREATION_FAILED</name>
+          <initializer>= 6001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0bfafee621bd584e98c98af83697222e" prot="public">
+          <name>ERR_INDEX_NOT_FOUND</name>
+          <initializer>= 6002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da902b0e2ce637b42aeb369261988ee8e2" prot="public">
+          <name>ERR_INDEX_INVALID_TYPE</name>
+          <initializer>= 6003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da769ad839446453d57b7a8d18f4306151" prot="public">
+          <name>ERR_INDEX_MAINTENANCE_FAILED</name>
+          <initializer>= 6004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da51af7f7c417059b8c043e7cd6d9620c6" prot="public">
+          <name>ERR_INDEX_FRAGMENTATION_HIGH</name>
+          <initializer>= 6005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad63b07cf1f13dc2ae1fd82a4d99009d7" prot="public">
+          <name>ERR_INDEX_REBUILD_FAILED</name>
+          <initializer>= 6006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da12eff83e82cfe80edc50e8db0459ea34" prot="public">
+          <name>ERR_INDEX_REORGANIZE_FAILED</name>
+          <initializer>= 6007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da27c3261b5539bfcf32ba1eb087d76284" prot="public">
+          <name>ERR_INDEX_STATISTICS_UPDATE_FAILED</name>
+          <initializer>= 6008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab28d66d6cd2b0e9c0b0dab792292d8c3" prot="public">
+          <name>ERR_INDEX_CONSISTENCY_CHECK_FAILED</name>
+          <initializer>= 6009</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da446a3e7abcb4e6c389bd78f2b7e3bc46" prot="public">
+          <name>ERR_INDEX_MAINTENANCE_IN_PROGRESS</name>
+          <initializer>= 6010</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5fdd566db53e1888097adb0f21936a04" prot="public">
+          <name>ERR_INDEX_MAINTENANCE_DISABLED</name>
+          <initializer>= 6011</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da88cfe84ab442d40b9c2eb830790d7ebe" prot="public">
+          <name>ERR_QUERY_PARSE_FAILED</name>
+          <initializer>= 6100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dadd6716f1031e80ee79ebf427e7ce9dbc" prot="public">
+          <name>ERR_QUERY_INVALID_SYNTAX</name>
+          <initializer>= 6101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9fa07a75e1ea81dfdf07cc2f309e4ca7" prot="public">
+          <name>ERR_QUERY_EXECUTION_FAILED</name>
+          <initializer>= 6102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2bb1b614be1de0170084c2fe25f8cd55" prot="public">
+          <name>ERR_QUERY_TIMEOUT</name>
+          <initializer>= 6103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf7554b8c6b0799062c47cec6ef1905fd" prot="public">
+          <name>ERR_QUERY_CTE_CYCLE_DETECTED</name>
+          <initializer>= 6104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daaf9f77444c158b71a8c65cf6fda6897a" prot="public">
+          <name>ERR_QUERY_SUBQUERY_FAILED</name>
+          <initializer>= 6105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab8e9e960f50d090c8daf234e21c82e0a" prot="public">
+          <name>ERR_QUERY_INVALID_WINDOW_SPEC</name>
+          <initializer>= 6106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad41c12687e78feb4d450496d2b674103" prot="public">
+          <name>ERR_QUERY_TYPE_MISMATCH</name>
+          <initializer>= 6107</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daca63a26288bbddd1a02ff28042bb4892" prot="public">
+          <name>ERR_QUERY_RESOURCE_EXHAUSTED</name>
+          <initializer>= 6108</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da76e9b1d333b22a85f432e839f5369e15" prot="public">
+          <name>ERR_QUERY_INVALID</name>
+          <initializer>= 6109</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da76118d38bea48453a34e3cf9bf281d04" prot="public">
+          <name>ERR_QUERY_CANCELLED</name>
+          <initializer>= 6112</initializer>
+          <briefdescription>
+<para>Query was explicitly cancelled via request ID. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daed0687fd76aed70f1b26823e078d8634" prot="public">
+          <name>ERR_CACHE_ENTRY_TOO_LARGE</name>
+          <initializer>= 6110</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf1ae1dd74c19fe5c2583fca4f2660b5f" prot="public">
+          <name>ERR_CACHE_FULL</name>
+          <initializer>= 6111</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da80ef368836c9e457bc93389c1cc9b8c2" prot="public">
+          <name>ERR_QUERY_INVALID_INPUT</name>
+          <initializer>= 6150</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da133798cfba79341f4a993c8ca95ed6d8" prot="public">
+          <name>ERR_QUERY_INSUFFICIENT_DATA</name>
+          <initializer>= 6151</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5fff7eba9660aac85c268d678493e6d9" prot="public">
+          <name>ERR_QUERY_ACCESS_DENIED</name>
+          <initializer>= 6152</initializer>
+          <briefdescription>
+<para>Caller not permitted to access the requested collection (QE-2). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1ec16cda8b5da0a440bf9a9fd036ce2e" prot="public">
+          <name>ERR_API_INVALID_REQUEST</name>
+          <initializer>= 6200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2b2a36e1e0490e1c3a7c9dda0c89469d" prot="public">
+          <name>ERR_API_UNAUTHORIZED</name>
+          <initializer>= 6201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dafd393db2a079a232fbd6c84bf8d76342" prot="public">
+          <name>ERR_API_RATE_LIMIT</name>
+          <initializer>= 6202</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da698a575d789cffaea8c8e08af0652eb2" prot="public">
+          <name>ERR_API_INTERNAL_ERROR</name>
+          <initializer>= 6203</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6dfcffef0ae124fe4f03f5912c8592da" prot="public">
+          <name>ERR_API_RESOURCE_EXHAUSTED</name>
+          <initializer>= 6204</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7bb8824821e843cc260f0b157edbc71a" prot="public">
+          <name>ERR_PLUGIN_NOT_FOUND</name>
+          <initializer>= 6300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8403d917e86c22dd84297b964d4418d6" prot="public">
+          <name>ERR_PLUGIN_LOAD_FAILED</name>
+          <initializer>= 6301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8508dc368566dc0e714ecaffcb8f1385" prot="public">
+          <name>ERR_PLUGIN_INCOMPATIBLE</name>
+          <initializer>= 6302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf55762a8a3aa3fa07985ad5889e53fd2" prot="public">
+          <name>ERR_PLUGIN_INVALID_SIGNATURE</name>
+          <initializer>= 6303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1b128c7848ba9fa7d5a8a70dcf6b502e" prot="public">
+          <name>ERR_PLUGIN_CIRCULAR_DEPENDENCY</name>
+          <initializer>= 6304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab120c9d9c9e4b4d58418dfc62fcb7c4e" prot="public">
+          <name>ERR_PLUGIN_MISSING_DEPENDENCY</name>
+          <initializer>= 6305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad81f55540647b5ae320eba4bc50fb2f2" prot="public">
+          <name>ERR_PLUGIN_DEPENDENCY_CONFLICT</name>
+          <initializer>= 6306</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da28ec6466c3fe7ae8f66f26a0b92b0e5f" prot="public">
+          <name>ERR_PLUGIN_OCI_PULL_FAILED</name>
+          <initializer>= 6307</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5ce6a5ede57bd0606bb5a5d8d1d46d95" prot="public">
+          <name>ERR_PLUGIN_OCI_MANIFEST_NOT_FOUND</name>
+          <initializer>= 6308</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8855bb8cddba8b6e93b1f7eec34071b9" prot="public">
+          <name>ERR_PLUGIN_OCI_HASH_MISMATCH</name>
+          <initializer>= 6309</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8c96dae7af9d96ca86f6d9bd8698763a" prot="public">
+          <name>ERR_PLUGIN_OCI_INVALID_REFERENCE</name>
+          <initializer>= 6310</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4f438bae8870b747a22238da64f1ccc0" prot="public">
+          <name>ERR_PLUGIN_CAPABILITY_ESCALATION</name>
+          <initializer>= 6311</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa2f22f3d4c2dd02e2a77e40a96ec7c58" prot="public">
+          <name>ERR_PLUGIN_EDITION_CEILING_EXCEEDED</name>
+          <initializer>= 6312</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad6ccade6efd914fda141fef7766e30ce" prot="public">
+          <name>ERR_PLUGIN_LICENSE_CLAIM_REJECTED</name>
+          <initializer>= 6313</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0f55236e84cc484278fb4ae7fa5c1c94" prot="public">
+          <name>ERR_GRAPH_NO_SUCH_VERTEX</name>
+          <initializer>= 6400</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da19daf3e537d324f60f4af7562292074b" prot="public">
+          <name>ERR_GRAPH_NO_SUCH_EDGE</name>
+          <initializer>= 6401</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da736a2ca1d10a4199a7286fef36d27adc" prot="public">
+          <name>ERR_GRAPH_CONSTRAINT_CONFLICT</name>
+          <initializer>= 6402</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9e64c24b898bcc9b667aa05e18db18d9" prot="public">
+          <name>ERR_GRAPH_PATH_NOT_FOUND</name>
+          <initializer>= 6403</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da11a65f6dd7fc87b13f4148f5087a9da1" prot="public">
+          <name>ERR_GRAPH_CYCLE_DETECTED</name>
+          <initializer>= 6404</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dabc115872a5f694405971ab0630abf982" prot="public">
+          <name>ERR_GRAPH_DEPTH_EXCEEDED</name>
+          <initializer>= 6405</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1dd33e3ebdf11ded96e42943b85c7720" prot="public">
+          <name>ERR_GRAPH_RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 6406</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf74694be1f29b70ef0e44ae619c69bbe" prot="public">
+          <name>ERR_COMPRESSION_FAILED</name>
+          <initializer>= 7000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7d4de1231a34970455782631f3e4fb6c" prot="public">
+          <name>ERR_COMPRESSION_BUFFER_TOO_SMALL</name>
+          <initializer>= 7001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da97ae35ba692f86d52ac65d97838674ea" prot="public">
+          <name>ERR_COMPRESSION_INVALID_FORMAT</name>
+          <initializer>= 7002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da50b3f66b847157535e75c405d2539d34" prot="public">
+          <name>ERR_TIMESERIES_LATE_ARRIVAL</name>
+          <initializer>= 7100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9494d4d21c8eed9bd1256472e68bf12f" prot="public">
+          <name>ERR_AUDIT_BUFFER_OVERFLOW</name>
+          <initializer>= 7300</initializer>
+          <briefdescription>
+<para>Audit buffer overflow during write. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf7c50e57c4ad95aef07131274fa10b27" prot="public">
+          <name>ERR_AUDIT_LOG_WRITE_FAILED</name>
+          <initializer>= 7301</initializer>
+          <briefdescription>
+<para>Failed to write audit event to storage. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5ddfaf56fbe95f5b4ece94c3aaa6bdd5" prot="public">
+          <name>ERR_AUDIT_SERIALIZATION_FAILED</name>
+          <initializer>= 7302</initializer>
+          <briefdescription>
+<para>Audit event serialization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac6ba3f1254d453f88359300a55be13eb" prot="public">
+          <name>ERR_AUDIT_SERVICE_UNREACHABLE</name>
+          <initializer>= 7303</initializer>
+          <briefdescription>
+<para>External audit service unreachable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da88716a2965ad5d8d66f76b169022cc87" prot="public">
+          <name>ERR_AUDIT_FORMAT_INVALID</name>
+          <initializer>= 7304</initializer>
+          <briefdescription>
+<para>Audit event format validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2673667dce82cd602a3ea54721829257" prot="public">
+          <name>ERR_AUDIT_PERMISSION_DENIED</name>
+          <initializer>= 7305</initializer>
+          <briefdescription>
+<para>Permission denied for audit operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad28f22507492babfee2c2ed3b52ceed5" prot="public">
+          <name>ERR_AUDIT_DISK_FULL</name>
+          <initializer>= 7306</initializer>
+          <briefdescription>
+<para>Audit storage disk full. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8000860cfe92910f27f34fb8f43d8197" prot="public">
+          <name>ERR_AUDIT_ROTATION_FAILED</name>
+          <initializer>= 7307</initializer>
+          <briefdescription>
+<para>Audit log rotation operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac36dab4d9c0c1bd673a7e953c50aa336" prot="public">
+          <name>ERR_AUDIT_SERVICE_DEGRADED</name>
+          <initializer>= 7308</initializer>
+          <briefdescription>
+<para>Audit service running in degraded mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7ee9996f2b71e1f3890b2c05633fd6cc" prot="public">
+          <name>ERR_AUDIT_CLEANUP_FAILED</name>
+          <initializer>= 7309</initializer>
+          <briefdescription>
+<para>Audit log cleanup operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab2d2ff5eab91905786719cdb6819b7a1" prot="public">
+          <name>ERR_PII_DETECTION_FAILED</name>
+          <initializer>= 7310</initializer>
+          <briefdescription>
+<para>PII detection operation failed (general). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab93fe41c11b6617d5b3b2bc149e60cf4" prot="public">
+          <name>ERR_PII_ENGINE_INIT_FAILED</name>
+          <initializer>= 7311</initializer>
+          <briefdescription>
+<para>PII detection engine initialization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5397a5c7fd4f251ac4587aabbc54cacd" prot="public">
+          <name>ERR_PII_DETECTION_TIMEOUT</name>
+          <initializer>= 7312</initializer>
+          <briefdescription>
+<para>PII detection exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daec88abf6c6bd22bb06ad9abc39078584" prot="public">
+          <name>ERR_PII_UNICODE_HANDLING_ERROR</name>
+          <initializer>= 7313</initializer>
+          <briefdescription>
+<para>Unicode handling error in PII detector. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2ee778a2950f1cdb7c1073fc49f37328" prot="public">
+          <name>ERR_PII_MALFORMED_INPUT</name>
+          <initializer>= 7314</initializer>
+          <briefdescription>
+<para>Malformed input to PII detector. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac9627d9a09628a70a4f0b2c6011f3c87" prot="public">
+          <name>ERR_PII_REGEX_COMPILE_FAILED</name>
+          <initializer>= 7315</initializer>
+          <briefdescription>
+<para>Regex compilation failed in PII engine. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da899cafb6c84784eea768eb4c3cfda9ea" prot="public">
+          <name>ERR_PII_NER_ENGINE_ERROR</name>
+          <initializer>= 7316</initializer>
+          <briefdescription>
+<para>NER detection engine error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da96eca249369d61d0a9f9f81cda515ecd" prot="public">
+          <name>ERR_PII_RESOURCE_EXHAUSTED</name>
+          <initializer>= 7317</initializer>
+          <briefdescription>
+<para>PII detection resource exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8f3c1b6d882270a36da3e54a7a930435" prot="public">
+          <name>ERR_PII_POLICY_NOT_FOUND</name>
+          <initializer>= 7318</initializer>
+          <briefdescription>
+<para>PII detection policy not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac6000fc5a028065e55ad657b1012b6cb" prot="public">
+          <name>ERR_PII_PSEUDONYMIZATION_FAILED</name>
+          <initializer>= 7319</initializer>
+          <briefdescription>
+<para>PII pseudonymization operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dabd4e62b8c82fc180293b09784f19c182" prot="public">
+          <name>ERR_HKDF_DERIVATION_FAILED</name>
+          <initializer>= 7330</initializer>
+          <briefdescription>
+<para>HKDF key derivation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacae7f41bc45d1254e75f299e1679caba" prot="public">
+          <name>ERR_HKDF_INVALID_PARAMS</name>
+          <initializer>= 7331</initializer>
+          <briefdescription>
+<para>Invalid parameters to HKDF derivation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daafc71b991c35e55afce9c2a61e8d28e3" prot="public">
+          <name>ERR_HKDF_CACHE_MISS</name>
+          <initializer>= 7332</initializer>
+          <briefdescription>
+<para>HKDF cache miss. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da744976ee1303569d9570f198f8434fb9" prot="public">
+          <name>ERR_HKDF_CACHE_EXPIRED</name>
+          <initializer>= 7333</initializer>
+          <briefdescription>
+<para>HKDF cache entry expired (TTL exceeded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0d3e992fb43a7aaae9745674722067ea" prot="public">
+          <name>ERR_PKI_CERT_LOAD_FAILED</name>
+          <initializer>= 7334</initializer>
+          <briefdescription>
+<para>PKI certificate loading failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae42be30aae23c54b8882a99ba95b698f" prot="public">
+          <name>ERR_PKI_KEY_LOAD_FAILED</name>
+          <initializer>= 7335</initializer>
+          <briefdescription>
+<para>PKI private key loading failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5ab8d55e714343d5976b0dc8bb7bbb49" prot="public">
+          <name>ERR_PKI_SERVICE_UNAVAILABLE</name>
+          <initializer>= 7336</initializer>
+          <briefdescription>
+<para>PKI service unavailable. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5a1d01f8bd48ee150ebb84ec7f95f740" prot="public">
+          <name>ERR_PKI_VALIDATION_FAILED</name>
+          <initializer>= 7337</initializer>
+          <briefdescription>
+<para>PKI validation operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da14feaeecd992920dfc37fc185a30d766" prot="public">
+          <name>ERR_KEY_DERIVATION_TIMEOUT</name>
+          <initializer>= 7338</initializer>
+          <briefdescription>
+<para>Key derivation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7e9a3e9d2799330617b6d210edaa9cd9" prot="public">
+          <name>ERR_KEY_CACHE_REFRESH_FAILED</name>
+          <initializer>= 7339</initializer>
+          <briefdescription>
+<para>Key cache refresh operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da46287b2590ae0c870a384a97e14fb9b2" prot="public">
+          <name>ERR_COMPRESSION_GENERAL_FAILED</name>
+          <initializer>= 7340</initializer>
+          <briefdescription>
+<para>Compression operation failed (general). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7fcdbd5cc998b467ec221adc3fe388d2" prot="public">
+          <name>ERR_COMPRESSION_BUFFER_OVERFLOW</name>
+          <initializer>= 7341</initializer>
+          <briefdescription>
+<para>Compression output buffer overflow. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa327df35bb5e541c7381769082841bf2" prot="public">
+          <name>ERR_DECOMPRESSION_FAILED</name>
+          <initializer>= 7342</initializer>
+          <briefdescription>
+<para>Decompression operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9fc4ec0c93cfc7a4dc529686c3958acd" prot="public">
+          <name>ERR_COMPRESSION_FORMAT_INVALID</name>
+          <initializer>= 7343</initializer>
+          <briefdescription>
+<para>Invalid or unrecognized compression format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da82107a00358273fc1c298e1d7070530d" prot="public">
+          <name>ERR_COMPRESSION_RESOURCE_EXHAUSTED</name>
+          <initializer>= 7344</initializer>
+          <briefdescription>
+<para>Compression resource exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da548f245d1e686dd71ff06c1207659f0f" prot="public">
+          <name>ERR_COMPRESSION_TIMEOUT</name>
+          <initializer>= 7345</initializer>
+          <briefdescription>
+<para>Compression operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5c852fc20ac1e6fc9cccc971f8b3d5a2" prot="public">
+          <name>ERR_SERIALIZATION_FAILED</name>
+          <initializer>= 7346</initializer>
+          <briefdescription>
+<para>Serialization operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da86162a6013be07fde4ec76da1afb3ff9" prot="public">
+          <name>ERR_SERIALIZATION_BUFFER_OVERFLOW</name>
+          <initializer>= 7347</initializer>
+          <briefdescription>
+<para>Serialization output buffer overflow. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad92b772f77448c5fde14142d3b2a8f5b" prot="public">
+          <name>ERR_CODEC_INIT_FAILED</name>
+          <initializer>= 7348</initializer>
+          <briefdescription>
+<para>Codec initialization failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da90d3a8db0fa6360e15d60361ae51f979" prot="public">
+          <name>ERR_CODEC_NOT_AVAILABLE</name>
+          <initializer>= 7349</initializer>
+          <briefdescription>
+<para>Requested codec not available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da09fcaf8c241ac217f8ce3bbe637f592c" prot="public">
+          <name>ERR_THREADPOOL_OVERFLOW</name>
+          <initializer>= 7350</initializer>
+          <briefdescription>
+<para>Thread pool work queue overflowed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da086750c17dee4e642c231262fb9ec527" prot="public">
+          <name>ERR_THREADPOOL_TASK_REJECTED</name>
+          <initializer>= 7351</initializer>
+          <briefdescription>
+<para>Thread pool rejected task (overloaded). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8fb4d33b27e326af257c9e61a26fc91e" prot="public">
+          <name>ERR_THREADPOOL_TIMEOUT</name>
+          <initializer>= 7352</initializer>
+          <briefdescription>
+<para>Thread pool operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da00a32d6b0e657a32fe503f5a43b23bd8" prot="public">
+          <name>ERR_RATE_LIMIT_EXCEEDED</name>
+          <initializer>= 7353</initializer>
+          <briefdescription>
+<para>Rate limit was exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6552e609913dfdb01ebbcdb55e1f5b30" prot="public">
+          <name>ERR_RATE_LIMITER_ERROR</name>
+          <initializer>= 7354</initializer>
+          <briefdescription>
+<para>Rate limiter internal error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da24a90471c9bb2e8311cbc3c9b7b1b002" prot="public">
+          <name>ERR_CONNECTION_POOL_EXHAUSTED</name>
+          <initializer>= 7355</initializer>
+          <briefdescription>
+<para>Connection pool exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da016a0fa26e01ad4fb99afa6c4d43d7f4" prot="public">
+          <name>ERR_CONNECTION_POOL_TIMEOUT</name>
+          <initializer>= 7356</initializer>
+          <briefdescription>
+<para>Connection pool operation exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8d2abd89dd1b146a928781ff2f71111d" prot="public">
+          <name>ERR_QUEUE_DEPTH_EXCEEDED</name>
+          <initializer>= 7357</initializer>
+          <briefdescription>
+<para>Queue depth limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae4565d9365414ec1f836d7b4c8b9707f" prot="public">
+          <name>ERR_RESOURCE_EXHAUSTION</name>
+          <initializer>= 7358</initializer>
+          <briefdescription>
+<para>General resource exhaustion. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da80251032b7b26adfa1800518569f5aa3" prot="public">
+          <name>ERR_CONCURRENCY_CONFLICT</name>
+          <initializer>= 7359</initializer>
+          <briefdescription>
+<para>Concurrency conflict detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9e440c924bf30999d5f0c796ab741d8e" prot="public">
+          <name>ERR_GRPC_POOL_ERROR</name>
+          <initializer>= 7360</initializer>
+          <briefdescription>
+<para>gRPC channel pool error </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad54d4026b5e25f50f4bf85d35b6f9b21" prot="public">
+          <name>ERR_GRPC_ROUTING_FAILED</name>
+          <initializer>= 7361</initializer>
+          <briefdescription>
+<para>gRPC routing/selection failed </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dada4b60b46305f863f3ae1abbbd688095" prot="public">
+          <name>ERR_TRACING_DEGRADED</name>
+          <initializer>= 7362</initializer>
+          <briefdescription>
+<para>Tracing system running degraded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daaa3c99abfdea895119691ce0638d6872" prot="public">
+          <name>ERR_SAGA_EVENT_LOSS</name>
+          <initializer>= 7363</initializer>
+          <briefdescription>
+<para>Saga event loss detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacadb6173852ef5473acb706ef697ad53" prot="public">
+          <name>ERR_CRYPTO_ENCRYPTION_FAILED</name>
+          <initializer>= 8000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da35103d26d7674e7b91990996f680ce98" prot="public">
+          <name>ERR_CRYPTO_DECRYPTION_FAILED</name>
+          <initializer>= 8001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac6b09b6d72d4dfd0a8a1f74de177ea95" prot="public">
+          <name>ERR_CRYPTO_KEY_GENERATION_FAILED</name>
+          <initializer>= 8002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da08df6067811680b7304ef3c3cd506abd" prot="public">
+          <name>ERR_CRYPTO_INVALID_KEY</name>
+          <initializer>= 8003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da828ccbb82597c840981ffcd986c3ccb5" prot="public">
+          <name>ERR_UTIL_INVALID_ARGUMENT</name>
+          <initializer>= 9000</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0de1f0d2cd31ad4f0a7e9bee083b141b" prot="public">
+          <name>ERR_UTIL_FILE_OPERATION_FAILED</name>
+          <initializer>= 9001</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4e4ca704e1e6fcee9a1cbfbe94ace02f" prot="public">
+          <name>ERR_UTIL_PERMISSION_DENIED</name>
+          <initializer>= 9002</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da642d5b6e691a4982969e5d19148149a9" prot="public">
+          <name>ERR_UTIL_PKI_CERT_LOAD_FAILED</name>
+          <initializer>= 9003</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab97d4a728d20fdc12e46585e1d3c21db" prot="public">
+          <name>ERR_UTIL_PKI_KEY_LOAD_FAILED</name>
+          <initializer>= 9004</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da22ffda48e2657fb14326d3751062d50f" prot="public">
+          <name>ERR_UTIL_PII_ENGINE_CREATION_FAILED</name>
+          <initializer>= 9005</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8cbdcce5192787bc37d10a0aed84c89b" prot="public">
+          <name>ERR_UTIL_POLICY_NOT_FOUND</name>
+          <initializer>= 9006</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da373e74998c026b6377fdff36ec3e2ce8" prot="public">
+          <name>ERR_UTIL_COMPRESSION_FAILED</name>
+          <initializer>= 9007</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9aa8bf4d66cc3785ee39b1b91e965bcd" prot="public">
+          <name>ERR_UTIL_ALLOCATION_FAILED</name>
+          <initializer>= 9008</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da79ef518df091a25d4f0f2b033edb25ba" prot="public">
+          <name>ERR_UTIL_UNSUPPORTED_OPERATION</name>
+          <initializer>= 9009</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab197e420aa929b01d87b580d5a5baa18" prot="public">
+          <name>ERR_MEMORY_POOL_EXHAUSTED</name>
+          <initializer>= 9100</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5b1c0507db82c5dfb78f60f9b222ddcd" prot="public">
+          <name>ERR_MEMORY_ALLOCATION_FAILED</name>
+          <initializer>= 9101</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf4d9d61a019d81dd29f33a514c79dd1b" prot="public">
+          <name>ERR_MEMORY_INVALID_SIZE</name>
+          <initializer>= 9102</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5658f458f6134d7f61c0e440ba6438e3" prot="public">
+          <name>ERR_MEMORY_INVALID_ALIGNMENT</name>
+          <initializer>= 9103</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2d79bf38200f2eb81a476c6eed52ae12" prot="public">
+          <name>ERR_MEMORY_DOUBLE_FREE</name>
+          <initializer>= 9104</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa48032f0c3bf8bcbe1bf6ac517bb8277" prot="public">
+          <name>ERR_MEMORY_POOL_NOT_INITIALIZED</name>
+          <initializer>= 9105</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5ee8a482f4871d3b0bcf5ed287e8b26e" prot="public">
+          <name>ERR_MEMORY_FRAGMENTATION</name>
+          <initializer>= 9106</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da301bdbd970ffa92148623367aac1db01" prot="public">
+          <name>ERR_SECURITY_PATH_TRAVERSAL</name>
+          <initializer>= 9200</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da852782df5b988a3047d2616429d989bf" prot="public">
+          <name>ERR_SECURITY_INJECTION_DETECTED</name>
+          <initializer>= 9201</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2edb939ba05b2d8bba2ddbd864ea3291" prot="public">
+          <name>ERR_EXPORT_SCHEMA_VALIDATION_FAILED</name>
+          <initializer>= 9300</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da48d8c9d776cd1115a77b84efb90d1fb7" prot="public">
+          <name>ERR_EXPORT_IO_ERROR</name>
+          <initializer>= 9301</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da89cfbcce2af0d7182fdbd23f11d824c4" prot="public">
+          <name>ERR_EXPORT_SIZE_LIMIT_EXCEEDED</name>
+          <initializer>= 9302</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae1b1b28071aa49f09cec196c74c541a4" prot="public">
+          <name>ERR_EXPORT_TENANT_UNAUTHORIZED</name>
+          <initializer>= 9303</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacbb350a72fb52f91a58a92a71928bdfb" prot="public">
+          <name>ERR_EXPORT_PII_VIOLATION</name>
+          <initializer>= 9304</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da179961c5bed537542a9637dc3e7072be" prot="public">
+          <name>ERR_EXPORT_QUALITY_FILTER_FAILED</name>
+          <initializer>= 9305</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac6dab285e4145681d2c74e0d9e71672f" prot="public">
+          <name>ERR_EXPORT_DUPLICATE_DETECTED</name>
+          <initializer>= 9306</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac428ec5de43cbe6ad7a5566165f1b1ea" prot="public">
+          <name>ERR_EXPORT_WEIGHT_CALCULATION_FAILED</name>
+          <initializer>= 9307</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da85c0df0a8ee5429d48ed322907d9212a" prot="public">
+          <name>ERR_EXPORT_FORMAT_INVALID</name>
+          <initializer>= 9308</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da196d7a6a8bcec5a10ddc49ba6884e680" prot="public">
+          <name>ERR_EXPORT_CONFIG_INVALID</name>
+          <initializer>= 9309</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa4492d8ca9efd25858e502033d789352" prot="public">
+          <name>ERR_EXPORT_POLICY_DENIED</name>
+          <initializer>= 9310</initializer>
+          <briefdescription>
+<para>PolicyEngine::checkExportPermission() denied the request. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf412c38c6202afed3146f5473b7f3fe5" prot="public">
+          <name>ERR_EXPORT_JOIN_COLLECTION_NOT_FOUND</name>
+          <initializer>= 9311</initializer>
+          <briefdescription>
+<para>Left or right collection not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daca34ef5802c5c1045f993eb11ce1f2b3" prot="public">
+          <name>ERR_EXPORT_JOIN_PREDICATE_INVALID</name>
+          <initializer>= 9312</initializer>
+          <briefdescription>
+<para>Join predicate could not be parsed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad85fe5baf24f64c0fd3352866ee4d484" prot="public">
+          <name>ERR_EXPORT_JOIN_AMBIGUOUS_FIELD</name>
+          <initializer>= 9313</initializer>
+          <briefdescription>
+<para>Field present in both collections without alias. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacd5d94a71288a8eec81bdc1b9a53cad4" prot="public">
+          <name>ERR_EXPORT_JOIN_MEMORY_LIMIT</name>
+          <initializer>= 9314</initializer>
+          <briefdescription>
+<para>Right-side hash table exceeded memory budget. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da357f63bda627838cef385af1066bee9d" prot="public">
+          <name>ERR_DOC_NOT_FOUND</name>
+          <initializer>= 9400</initializer>
+          <briefdescription>
+<para>Document not found in the store. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa1d28d38025b533b4d5f525ad06ebab7" prot="public">
+          <name>ERR_DOC_ALREADY_EXISTS</name>
+          <initializer>= 9401</initializer>
+          <briefdescription>
+<para>Document with same ID already exists. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da592c2ed02cdae983b1f4aed7de773583" prot="public">
+          <name>ERR_DOC_INVALID_ID</name>
+          <initializer>= 9402</initializer>
+          <briefdescription>
+<para>Document ID is empty or malformed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac0d5ad6ff57fdac663a0fcebc331eab4" prot="public">
+          <name>ERR_DOC_SCHEMA_SEALED</name>
+          <initializer>= 9403</initializer>
+          <briefdescription>
+<para>Schema registry is sealed; cannot register new versions. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4186603e252ccd61d5819abcfdfe529a" prot="public">
+          <name>ERR_DOC_SCHEMA_VERSION_NOT_FOUND</name>
+          <initializer>= 9404</initializer>
+          <briefdescription>
+<para>Requested schema version does not exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7ad3f2059039e2321e3e7abd721643ce" prot="public">
+          <name>ERR_DOC_SCHEMA_VERSION_EXISTS</name>
+          <initializer>= 9405</initializer>
+          <briefdescription>
+<para>Schema version already registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacc09cdb7e1a07d4681c255f3e8ec8b4c" prot="public">
+          <name>ERR_DOC_DIFF_NOT_FOUND</name>
+          <initializer>= 9406</initializer>
+          <briefdescription>
+<para>One or both documents for diff/merge not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da32530b8f620eb616c9d8ee8dfac63839" prot="public">
+          <name>ERR_DOC_MERGE_CONFLICT</name>
+          <initializer>= 9407</initializer>
+          <briefdescription>
+<para>Three-way merge produced unresolvable conflicts. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da2e7e101f476196126770f108dff9a420" prot="public">
+          <name>ERR_DOC_ACCESS_DENIED</name>
+          <initializer>= 9408</initializer>
+          <briefdescription>
+<para>Collection ACL denied the requested operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8bcf7e382f0284c6a8f155d4dbf477eb" prot="public">
+          <name>ERR_DOC_COLLECTION_NOT_FOUND</name>
+          <initializer>= 9409</initializer>
+          <briefdescription>
+<para>Collection does not exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da789b67d1d87ad32c569b14d1a2def274" prot="public">
+          <name>ERR_DOC_ENCRYPT_FAILED</name>
+          <initializer>= 9410</initializer>
+          <briefdescription>
+<para>Encrypted entity operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da45a3fa142fe6afda65c9562d36fd52ca" prot="public">
+          <name>ERR_DOC_INVALID_ARGUMENT</name>
+          <initializer>= 9411</initializer>
+          <briefdescription>
+<para>A required argument is invalid or missing. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da0e2477ba03efdf54e0e6bccf317f3139" prot="public">
+          <name>ERR_DOC_SCHEMA_TRANSITION_INVALID</name>
+          <initializer>= 9412</initializer>
+          <briefdescription>
+<para>Schema version transition violates ordering or compatibility rules. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6cc04756b965c61a63cf05daf386edac" prot="public">
+          <name>ERR_DOC_SNAPSHOT_COLLISION</name>
+          <initializer>= 9413</initializer>
+          <briefdescription>
+<para>Round-trip snapshot ID already exists (relay/index collision). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4b3f3f313f721adacb0d7eba022d7d45" prot="public">
+          <name>ERR_DOC_ROUND_TRIP_PERSIST_FAIL</name>
+          <initializer>= 9414</initializer>
+          <briefdescription>
+<para>Round-trip persistence failed at store level. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dafc0cd90ee9aa2854fcb4da47974b9953" prot="public">
+          <name>ERR_DOC_EXCHANGE_BOUNDARY_VIOLATED</name>
+          <initializer>= 9415</initializer>
+          <briefdescription>
+<para>XDOMEA/exchange boundary enforcement failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daec6b5029498e7442402a6d8e3a23a4fb" prot="public">
+          <name>ERR_DOC_STORE_UNAVAILABLE</name>
+          <initializer>= 9416</initializer>
+          <briefdescription>
+<para>Backing document store is unavailable or unresponsive. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad5229f7fb5ef6f4b4124fd1fef0823b5" prot="public">
+          <name>ERR_DOC_LIFECYCLE_HOOK_FAILED</name>
+          <initializer>= 9417</initializer>
+          <briefdescription>
+<para>Lifecycle hook signaled a terminal failure (rare; hooks are noexcept). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9674808a077a0a68e089a58eabd91ea6" prot="public">
+          <name>ERR_DOC_VALIDATION_ABORTED</name>
+          <initializer>= 9418</initializer>
+          <briefdescription>
+<para>Schema validation aborted due to structural document error (non-object body). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac686c139ede7dc2054dec86e10324c12" prot="public">
+          <name>ERR_DOC_VERSION_CONFLICT</name>
+          <initializer>= 9419</initializer>
+          <briefdescription>
+<para>Concurrent version update conflict detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1c5d643d18869b2fbd2bd4531daac042" prot="public">
+          <name>ERR_TOOL_NOT_FOUND</name>
+          <initializer>= 9500</initializer>
+          <briefdescription>
+<para>Named tool is not registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da12134502ecb6528a3ae5ed6f33ab55c9" prot="public">
+          <name>ERR_TOOL_NOT_PERMITTED</name>
+          <initializer>= 9501</initializer>
+          <briefdescription>
+<para>Tool not in mode&apos;s allowlist or in denylist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da9b53f2f1934c22730099ac9e8a139f19" prot="public">
+          <name>ERR_TOOL_EXECUTION_FAILED</name>
+          <initializer>= 9502</initializer>
+          <briefdescription>
+<para>Tool execute() threw or returned error JSON. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf136ac67a0b6d689d334be7b6ad71367" prot="public">
+          <name>ERR_TOOL_INVALID_INPUT</name>
+          <initializer>= 9503</initializer>
+          <briefdescription>
+<para>Input JSON does not satisfy the tool&apos;s inputSchema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4979baa9a1bdcc1bb867dca93d937832" prot="public">
+          <name>ERR_TOOL_PLUGIN_NOT_A_TOOL</name>
+          <initializer>= 9504</initializer>
+          <briefdescription>
+<para>Loaded plugin does not implement IThemisTool. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da278d17c5cdd5e8b83f7f92e7ec398dcb" prot="public">
+          <name>ERR_TOOL_ALREADY_REGISTERED</name>
+          <initializer>= 9505</initializer>
+          <briefdescription>
+<para>A tool with this name is already registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da242667aae63d3696fd95a302dd0f02ba" prot="public">
+          <name>ERR_WORKFLOW_PROFILE_NOT_FOUND</name>
+          <initializer>= 9600</initializer>
+          <briefdescription>
+<para>YAML workflow profile could not be loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1589008a2e226bf49debd30e7f365dbd" prot="public">
+          <name>ERR_WORKFLOW_PROFILE_INVALID</name>
+          <initializer>= 9601</initializer>
+          <briefdescription>
+<para>YAML profile fails schema validation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da6e02a2f748eb3c7c164c916a119752f3" prot="public">
+          <name>ERR_WORKFLOW_NO_MATCHING_PROFILE</name>
+          <initializer>= 9602</initializer>
+          <briefdescription>
+<para>No loaded profile matches the file&apos;s MIME/name. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da697662798c0a0d5afc26de20f9f650b3" prot="public">
+          <name>ERR_WORKFLOW_STEP_NOT_REGISTERED</name>
+          <initializer>= 9603</initializer>
+          <briefdescription>
+<para>Step references plugin name not in StepRegistry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da3379e09e51d2edcba572f361442fe8ae" prot="public">
+          <name>ERR_WORKFLOW_STEP_EXECUTION_FAILED</name>
+          <initializer>= 9604</initializer>
+          <briefdescription>
+<para>A workflow step returned an error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dafc0502471ee474258fde1652e09ff54a" prot="public">
+          <name>ERR_WORKFLOW_STEP_NOT_A_STEP</name>
+          <initializer>= 9605</initializer>
+          <briefdescription>
+<para>Loaded plugin does not implement IIngestionStep. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da28ab09c1579d9835bb25e2c257e55ad0" prot="public">
+          <name>ERR_WORKFLOW_STEP_ALREADY_REGISTERED</name>
+          <initializer>= 9606</initializer>
+          <briefdescription>
+<para>A step with this name is already registered. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae3d221ad90fd238ca6dbf8bbea62d378" prot="public">
+          <name>ERR_WORKFLOW_CONTEXT_INVALID</name>
+          <initializer>= 9607</initializer>
+          <briefdescription>
+<para>ExtractionContext is in an invalid state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dae4317f036a42aa584ce58b2d20aebb18" prot="public">
+          <name>ERR_WORKFLOW_MANIFEST_INVALID</name>
+          <initializer>= 9608</initializer>
+          <briefdescription>
+<para>FileManifest is missing required fields. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1c3692121691b057e7f1aea16d8b30bc" prot="public">
+          <name>ERR_WORKFLOW_QUALITY_GATE_FAILED</name>
+          <initializer>= 9609</initializer>
+          <briefdescription>
+<para>Output failed minimum quality gate. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa858c28003359881975277c5880800af" prot="public">
+          <name>ERR_WORKFLOW_DECOMPRESS_FAILED</name>
+          <initializer>= 9610</initializer>
+          <briefdescription>
+<para>Archive decompression step failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da274778202484faab8a56cd8e4e7ea35d" prot="public">
+          <name>ERR_WORKFLOW_OCR_FAILED</name>
+          <initializer>= 9611</initializer>
+          <briefdescription>
+<para>OCR extraction step failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daa1eac1aa82784733c648111e0e6e93cb" prot="public">
+          <name>ERR_WORKFLOW_EMBED_FAILED</name>
+          <initializer>= 9612</initializer>
+          <briefdescription>
+<para>Embedding step failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7249867544fcc252eb7218b524699bd7" prot="public">
+          <name>ERR_WORKFLOW_ASSEMBLE_FAILED</name>
+          <initializer>= 9613</initializer>
+          <briefdescription>
+<para>Base-entity assembler step failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daf4a7d499a806fe62e39c3e6b14fd3f63" prot="public">
+          <name>ERR_WORKFLOW_SINK_FAILED</name>
+          <initializer>= 9614</initializer>
+          <briefdescription>
+<para>Writing to graph/vector/document sink failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279daff8aa3b924488ddc67a6ca623ec25970" prot="public">
+          <name>ERR_WORKFLOW_STEP_CONDITION_ERROR</name>
+          <initializer>= 9615</initializer>
+          <briefdescription>
+<para>Step condition expression evaluation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da40a8802a4a10b24950140c2f28ecd9c7" prot="public">
+          <name>ERR_WORKFLOW_CIRCULAR_DEPENDENCY</name>
+          <initializer>= 9616</initializer>
+          <briefdescription>
+<para>Workflow step graph has a circular dependency. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab7e1d85c94af29ad4b9a028956477c38" prot="public">
+          <name>ERR_WORKFLOW_TIMEOUT</name>
+          <initializer>= 9617</initializer>
+          <briefdescription>
+<para>Workflow or individual step exceeded timeout. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da4e9ce092d6fbf317559a5eea8b2d3e7a" prot="public">
+          <name>ERR_WORKFLOW_QUARANTINED</name>
+          <initializer>= 9618</initializer>
+          <briefdescription>
+<para>File quarantined after step failure with on_failure=quarantine. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5715ce190bb3083105d1c3b56015ced2" prot="public">
+          <name>ERR_WORKFLOW_PLUGIN_LOAD_FAILED</name>
+          <initializer>= 9619</initializer>
+          <briefdescription>
+<para>Dynamic step plugin (.so/.dll) could not be loaded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7b646065e5571928ccce7d52cecc4db0" prot="public">
+          <name>ERR_TENSOR_GRAPH_INVALID_SELF_IP</name>
+          <initializer>= 9510</initializer>
+          <briefdescription>
+<para>Fingerprint self-inner-product invalid (NaN/Inf/≤0). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da329425ce5e7d14055ebad833cb3f3d20" prot="public">
+          <name>ERR_TENSOR_GRAPH_EXCEPTION_IN_SIMILARITY</name>
+          <initializer>= 9511</initializer>
+          <briefdescription>
+<para>Exception thrown during similarity computation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad0f87343e7afe42c2b7fa322d7f8b055" prot="public">
+          <name>ERR_TENSOR_GRAPH_INVALID_SCORE</name>
+          <initializer>= 9512</initializer>
+          <briefdescription>
+<para>Computed similarity score is NaN/Inf. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da55019366ed7fbeaecc8344e18b9e8ad2" prot="public">
+          <name>ERR_TENSOR_GRAPH_OTHER_TRAIN_NOT_FOUND</name>
+          <initializer>= 9513</initializer>
+          <briefdescription>
+<para>Referenced tensor train entry not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac43881e203e6d3d67f7dca10a6fe9527" prot="public">
+          <name>ERR_TENSOR_GRAPH_INVALID_CROSS_IP</name>
+          <initializer>= 9514</initializer>
+          <briefdescription>
+<para>Cross inner-product computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad710b6162d2f933edaf24cf49b01c5ca" prot="public">
+          <name>ERR_TENSOR_INDEX_CONSTRUCTION_FAILED</name>
+          <initializer>= 9520</initializer>
+          <briefdescription>
+<para>Graph construction failed (TensorIndex creation). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da3e634cb48bd96e94b1a1713936498f8e" prot="public">
+          <name>ERR_TENSOR_INDEX_LOOKUP_FAILED</name>
+          <initializer>= 9521</initializer>
+          <briefdescription>
+<para>Index lookup failed (record not found). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da088fe8f1eeb98424892311f5bc65f9c4" prot="public">
+          <name>ERR_TENSOR_INDEX_ROUTING_FAILED</name>
+          <initializer>= 9522</initializer>
+          <briefdescription>
+<para>Adapter routing decision failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da3a5c8369ab4912b4248747b098a4e5be" prot="public">
+          <name>ERR_TENSOR_INDEX_INVALID_DIMENSION</name>
+          <initializer>= 9523</initializer>
+          <briefdescription>
+<para>Incompatible or invalid tensor dimension. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dac95146ae38ebb749581b91c457b582dd" prot="public">
+          <name>ERR_TENSOR_INDEX_CAPACITY_EXCEEDED</name>
+          <initializer>= 9524</initializer>
+          <briefdescription>
+<para>Index capacity limit exceeded. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da827a866757c4a05fd5fc1b526b7da7a7" prot="public">
+          <name>ERR_TENSOR_ADAPTER_VERIFICATION_FAILED</name>
+          <initializer>= 9530</initializer>
+          <briefdescription>
+<para>Adapter verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dadb34358674fddbaed4fc11c2534f97a0" prot="public">
+          <name>ERR_TENSOR_ADAPTER_NOT_FOUND</name>
+          <initializer>= 9531</initializer>
+          <briefdescription>
+<para>Referenced adapter not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8d2b744cfedc98654c75f2611a2bd939" prot="public">
+          <name>ERR_TENSOR_ADAPTER_COMMUNICATION_ERROR</name>
+          <initializer>= 9532</initializer>
+          <briefdescription>
+<para>Communication with adapter failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dad3b11d08694c9be5abed6aa88918fc9c" prot="public">
+          <name>ERR_TENSOR_ADAPTER_INVALID_RESPONSE</name>
+          <initializer>= 9533</initializer>
+          <briefdescription>
+<para>Adapter returned invalid response. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7cca109f419eaa8d5e9bd4de92203038" prot="public">
+          <name>ERR_TENSOR_FINGERPRINT_COMPUTATION_FAILED</name>
+          <initializer>= 9540</initializer>
+          <briefdescription>
+<para>Fingerprint computation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dacd78d877e0a5fd7ff9d5d09cadc936fb" prot="public">
+          <name>ERR_TENSOR_FINGERPRINT_VERIFICATION_FAILED</name>
+          <initializer>= 9541</initializer>
+          <briefdescription>
+<para>Fingerprint verification failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da778ae83b3a429d55b89223548b47c5e1" prot="public">
+          <name>ERR_TENSOR_FINGERPRINT_COLLISION_DETECTED</name>
+          <initializer>= 9542</initializer>
+          <briefdescription>
+<para>Fingerprint collision detected (unexpected duplicates). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da30a17821cc8bff96aff0966d2ea1cc4a" prot="public">
+          <name>ERR_TENSOR_ROUTING_DECISION_FAILED</name>
+          <initializer>= 9550</initializer>
+          <briefdescription>
+<para>Route selection algorithm failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dabc081773bab2f4c2c7cf2e94cbb554f2" prot="public">
+          <name>ERR_TENSOR_ROUTING_NO_VIABLE_ROUTE</name>
+          <initializer>= 9551</initializer>
+          <briefdescription>
+<para>No viable routing target available. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da5407dfa23b37c5b6b1e12bad984ae945" prot="public">
+          <name>ERR_TENSOR_ROUTING_FALLBACK_EXHAUSTED</name>
+          <initializer>= 9552</initializer>
+          <briefdescription>
+<para>Fallback routing options exhausted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da353bd8a509cd16a14692053cc939d037" prot="public">
+          <name>ERR_TENSOR_RECOVERY_FAILED</name>
+          <initializer>= 9560</initializer>
+          <briefdescription>
+<para>Tensor recovery operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da8682e9838bab7119b10f6fa7873b6ff0" prot="public">
+          <name>ERR_TENSOR_PERSISTENCE_FAILED</name>
+          <initializer>= 9561</initializer>
+          <briefdescription>
+<para>Failed to persist tensor state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279dab5538e2a3a51512f362152f338fcf84d" prot="public">
+          <name>ERR_TENSOR_ROCKSDB_OPERATION_FAILED</name>
+          <initializer>= 9562</initializer>
+          <briefdescription>
+<para>RocksDB operation (put/get/delete) failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da98ecbb183bd1ed25a6c2ef105d233698" prot="public">
+          <name>ERR_TENSOR_CONCURRENT_MODIFICATION</name>
+          <initializer>= 9570</initializer>
+          <briefdescription>
+<para>Concurrent modification detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da891172168728c4e0e3fa8db8386812ef" prot="public">
+          <name>ERR_TENSOR_LOCK_ACQUISITION_FAILED</name>
+          <initializer>= 9571</initializer>
+          <briefdescription>
+<para>Failed to acquire lock (timeout/contention). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da1beda4be0303ac5a4a290f05276924bc" prot="public">
+          <name>ERR_TENSOR_CORE_BRIDGE_WRITE_FAILED</name>
+          <initializer>= 9580</initializer>
+          <briefdescription>
+<para>Core bridge write operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da42e51d812ab0de27a0b01b5fcb646674" prot="public">
+          <name>ERR_TENSOR_CORE_BRIDGE_READ_FAILED</name>
+          <initializer>= 9581</initializer>
+          <briefdescription>
+<para>Core bridge read operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279da7639848a66f75216782096fa051919e5" prot="public">
+          <name>ERR_UNKNOWN</name>
+          <initializer>= 9999</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="27" column="1" bodyfile="include/utils/error_registry.h" bodystart="27" bodyend="385"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1errors_1ab9b1f3c9f9656bcfa6440ba87bfddf2f" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::errors::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::errors::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="25" column="1" bodyfile="include/utils/error_registry.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1errors_1a97c6cec90828d73f09195d49545cbcf1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename...</type>
+            <declname>Args</declname>
+            <defname>Args</defname>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::errors::logError</definition>
+        <argsstring>(ErrorCode code, Args &amp;&amp;... args)</argsstring>
+        <name>logError</name>
+        <qualifiedname>themis::errors::logError</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1errors_1a443b0873e9e136239a19f6798e05279d" kindref="member">ErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <param>
+          <type>Args &amp;&amp;...</type>
+          <declname>args</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/error_registry.h" line="462" column="6" bodyfile="include/utils/error_registry.h" bodystart="462" bodyend="475"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/error_registry.h" line="23" column="1"/>
+  </compounddef>
+</doxygen>

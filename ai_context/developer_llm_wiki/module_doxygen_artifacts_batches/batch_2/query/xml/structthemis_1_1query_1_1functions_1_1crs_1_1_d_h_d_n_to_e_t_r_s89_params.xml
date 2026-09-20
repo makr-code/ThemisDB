@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::functions::crs::DHDNToETRS89Params</compoundname>
+    <includes refid="crs__functions_8h" local="no">crs_functions.h</includes>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1aa73ea62e6cc6f2d120b984e774a014b1" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::dx</definition>
+        <argsstring></argsstring>
+        <name>dx</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::dx</qualifiedname>
+        <initializer>= 598.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="367" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="367" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a6a06bbb655164a5113909e49045b7ffb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::dy</definition>
+        <argsstring></argsstring>
+        <name>dy</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::dy</qualifiedname>
+        <initializer>= 73.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="368" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="368" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a842ef8867b58a77a439a5b971e2ef924" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::dz</definition>
+        <argsstring></argsstring>
+        <name>dz</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::dz</qualifiedname>
+        <initializer>= 418.2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="369" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="369" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1af67dc7efb7adccb18ab1c053de0ddbba" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::rx</definition>
+        <argsstring></argsstring>
+        <name>rx</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::rx</qualifiedname>
+        <initializer>= 0.202</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="370" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="370" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a96196723eeb470c1df469f3773a441ab" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::ry</definition>
+        <argsstring></argsstring>
+        <name>ry</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::ry</qualifiedname>
+        <initializer>= 0.045</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="371" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="371" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1ac53dc3893c91d9c02413cc7d8981b1c6" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::rz</definition>
+        <argsstring></argsstring>
+        <name>rz</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::rz</qualifiedname>
+        <initializer>= -2.455</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="372" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="372" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a28eb464ac0d877be9e32675873b39136" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::functions::crs::DHDNToETRS89Params::s</definition>
+        <argsstring></argsstring>
+        <name>s</name>
+        <qualifiedname>themis::query::functions::crs::DHDNToETRS89Params::s</qualifiedname>
+        <initializer>= 6.7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/functions/crs_functions.h" line="373" column="29" bodyfile="include/query/functions/crs_functions.h" bodystart="373" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/functions/crs_functions.h" line="366" column="1" bodyfile="include/query/functions/crs_functions.h" bodystart="366" bodyend="374"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1aa73ea62e6cc6f2d120b984e774a014b1" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>dx</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a6a06bbb655164a5113909e49045b7ffb" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>dy</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a842ef8867b58a77a439a5b971e2ef924" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>dz</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1af67dc7efb7adccb18ab1c053de0ddbba" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>rx</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a96196723eeb470c1df469f3773a441ab" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>ry</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1ac53dc3893c91d9c02413cc7d8981b1c6" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>rz</name></member>
+      <member refid="structthemis_1_1query_1_1functions_1_1crs_1_1_d_h_d_n_to_e_t_r_s89_params_1a28eb464ac0d877be9e32675873b39136" prot="public" virt="non-virtual"><scope>themis::query::functions::crs::DHDNToETRS89Params</scope><name>s</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

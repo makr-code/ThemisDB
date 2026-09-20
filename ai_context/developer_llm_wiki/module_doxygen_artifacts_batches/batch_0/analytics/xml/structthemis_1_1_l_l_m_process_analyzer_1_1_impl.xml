@@ -1,0 +1,252 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl" kind="struct" language="C++" prot="public">
+    <compoundname>themis::LLMProcessAnalyzer::Impl</compoundname>
+    <innerclass refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry" prot="public">themis::LLMProcessAnalyzer::Impl::CacheEntry</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1ac1f356dc4657ac4dc12545fe841be0c0" prot="public" static="no">
+        <type>std::list&lt; std::string &gt;</type>
+        <definition>using themis::LLMProcessAnalyzer::Impl::LruList = std::list&lt;std::string&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruList</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::LruList</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="198" column="5" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="198" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a03f258042f0d58960c0e08c13ef5dbb4" prot="public" static="no">
+        <type>std::unordered_map&lt; std::string, std::pair&lt; LruList::iterator, <ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1_1_cache_entry" kindref="compound">CacheEntry</ref> &gt; &gt;</type>
+        <definition>using themis::LLMProcessAnalyzer::Impl::LruMap = std::unordered_map&lt;std::string, std::pair&lt;LruList::iterator, CacheEntry&gt;&gt;</definition>
+        <argsstring></argsstring>
+        <name>LruMap</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::LruMap</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="199" column="5" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="199" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1ab012be5219ef9c855c82c84e4ea5c049" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1_l_l_m_config" kindref="compound">LLMConfig</ref></type>
+        <definition>LLMConfig themis::LLMProcessAnalyzer::Impl::config</definition>
+        <argsstring></argsstring>
+        <name>config</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="186" column="15" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="186" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a984043e3678dbd084b7328a8b523167a" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::LLMProcessAnalyzer::Impl::injection_prefixes</definition>
+        <argsstring></argsstring>
+        <name>injection_prefixes</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::injection_prefixes</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="188" column="17" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="188" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a5dd6f7af8c2e17b3010cc76af4d235de" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1ac1f356dc4657ac4dc12545fe841be0c0" kindref="member">LruList</ref></type>
+        <definition>LruList themis::LLMProcessAnalyzer::Impl::lru_list</definition>
+        <argsstring></argsstring>
+        <name>lru_list</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::lru_list</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="201" column="21" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="201" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a6ce0f072f3ae9b9f5ac1ce1b2196008f" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a03f258042f0d58960c0e08c13ef5dbb4" kindref="member">LruMap</ref></type>
+        <definition>LruMap themis::LLMProcessAnalyzer::Impl::lru_map</definition>
+        <argsstring></argsstring>
+        <name>lru_map</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::lru_map</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="202" column="20" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="202" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a7ed9a83247841567f7fe03d31ece350f" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::LLMProcessAnalyzer::Impl::cache_mutex</definition>
+        <argsstring></argsstring>
+        <name>cache_mutex</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::cache_mutex</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="203" column="24" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="203" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a1a8553f59bcde787a93ba640c3229fd5" prot="public" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats" kindref="compound">CacheStats</ref></type>
+        <definition>CacheStats themis::LLMProcessAnalyzer::Impl::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="206" column="24" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="206" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a71d57de9d75eb81ce7f081b72f1cdb31" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::LLMProcessAnalyzer::Impl::Impl</definition>
+        <argsstring>(const LLMConfig &amp;cfg)</argsstring>
+        <name>Impl</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::Impl</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_l_l_m_config" kindref="compound">LLMConfig</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="208" column="5" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="208" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1af6372c9504d2e42ea0315bc4856d709b" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::optional&lt; nlohmann::json &gt;</type>
+        <definition>std::optional&lt; nlohmann::json &gt; themis::LLMProcessAnalyzer::Impl::getFromCache</definition>
+        <argsstring>(const std::string &amp;key) const</argsstring>
+        <name>getFromCache</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::getFromCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">cache_mutex</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="212" column="19" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="212" bodyend="244"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a2fe10690d3c5a44a110afd9377d26054" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::LLMProcessAnalyzer::Impl::putInCache</definition>
+        <argsstring>(const std::string &amp;key, const nlohmann::json &amp;response)</argsstring>
+        <name>putInCache</name>
+        <qualifiedname>themis::LLMProcessAnalyzer::Impl::putInCache</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>response</declname>
+        </param>
+        <briefdescription>
+<para>Put In Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">response</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), std::chrono::steady_clock::now(), std::chrono::seconds(), find(), end(), splice(), begin(), push_front(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/analytics/llm_process_analyzer.cpp" line="252" column="10" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="252" bodyend="280"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::LLMConfig</label>
+        <link refid="structthemis_1_1_l_l_m_config"/>
+      </node>
+      <node id="3">
+        <label>themis::LLMProcessAnalyzer::CacheStats</label>
+        <link refid="structthemis_1_1_l_l_m_process_analyzer_1_1_cache_stats"/>
+      </node>
+      <node id="1">
+        <label>themis::LLMProcessAnalyzer::Impl</label>
+        <link refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>config</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="src/analytics/llm_process_analyzer.cpp" line="185" column="1" bodyfile="src/analytics/llm_process_analyzer.cpp" bodystart="185" bodyend="281"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a7ed9a83247841567f7fe03d31ece350f" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>cache_mutex</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1ab012be5219ef9c855c82c84e4ea5c049" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>config</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1af6372c9504d2e42ea0315bc4856d709b" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>getFromCache</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a71d57de9d75eb81ce7f081b72f1cdb31" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>Impl</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a984043e3678dbd084b7328a8b523167a" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>injection_prefixes</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a5dd6f7af8c2e17b3010cc76af4d235de" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>lru_list</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a6ce0f072f3ae9b9f5ac1ce1b2196008f" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>lru_map</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1ac1f356dc4657ac4dc12545fe841be0c0" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>LruList</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a03f258042f0d58960c0e08c13ef5dbb4" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>LruMap</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a2fe10690d3c5a44a110afd9377d26054" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>putInCache</name></member>
+      <member refid="structthemis_1_1_l_l_m_process_analyzer_1_1_impl_1a1a8553f59bcde787a93ba640c3229fd5" prot="public" virt="non-virtual"><scope>themis::LLMProcessAnalyzer::Impl</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

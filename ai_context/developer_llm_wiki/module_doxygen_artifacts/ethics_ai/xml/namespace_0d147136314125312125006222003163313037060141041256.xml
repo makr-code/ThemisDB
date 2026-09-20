@@ -1,0 +1,11 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespace_0d147136314125312125006222003163313037060141041256" kind="namespace" language="C++">
+    <compoundname>@147136314125312125006222003163313037060141041256</compoundname>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/ethics_ai/test_ethics_ai_ldm_contract_focused.cpp" line="32" column="1"/>
+  </compounddef>
+</doxygen>

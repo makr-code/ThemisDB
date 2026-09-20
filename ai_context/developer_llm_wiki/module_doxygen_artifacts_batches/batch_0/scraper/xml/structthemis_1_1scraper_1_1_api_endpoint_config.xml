@@ -1,0 +1,251 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_api_endpoint_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::ApiEndpointConfig</compoundname>
+    <includes refid="scraper__api__client_8h" local="no">scraper_api_client.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1ab604a62fa77ccc40af04219249776fd2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::url</definition>
+        <argsstring></argsstring>
+        <name>url</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::url</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="36" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a31dc0405c1acb4acf6ceab01c46e648f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::method</definition>
+        <argsstring></argsstring>
+        <name>method</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::method</qualifiedname>
+        <initializer>= &quot;GET&quot;</initializer>
+        <briefdescription>
+<para>&quot;GET&quot; or &quot;POST&quot; </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="37" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a2647874de0110cb3d54e8f6ee664fef8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::pagination_mode</definition>
+        <argsstring></argsstring>
+        <name>pagination_mode</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::pagination_mode</qualifiedname>
+        <initializer>= &quot;page&quot;</initializer>
+        <briefdescription>
+<para>Pagination style: &quot;page&quot; | &quot;cursor&quot; | &quot;offset&quot; | &quot;none&quot;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="40" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="40" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a4820cde97b810166483bd53ad39fed3d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::page_param</definition>
+        <argsstring></argsstring>
+        <name>page_param</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::page_param</qualifiedname>
+        <initializer>= &quot;page&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="41" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1abf5d515d4da7df95bd85660615a4ab52" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::page_size_param</definition>
+        <argsstring></argsstring>
+        <name>page_size_param</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::page_size_param</qualifiedname>
+        <initializer>= &quot;per_page&quot;</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="42" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a83d331ebc2ca021abe117e5dd2bb7026" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ApiEndpointConfig::page_size</definition>
+        <argsstring></argsstring>
+        <name>page_size</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::page_size</qualifiedname>
+        <initializer>= 20</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="43" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a82f6692b1d445790b43564477d6a7f1d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::cursor_field</definition>
+        <argsstring></argsstring>
+        <name>cursor_field</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::cursor_field</qualifiedname>
+        <briefdescription>
+<para>JSON field for cursor token. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="44" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1ab3d5ee88babb3d641d165ab10c7b4f00" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::next_url_field</definition>
+        <argsstring></argsstring>
+        <name>next_url_field</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::next_url_field</qualifiedname>
+        <briefdescription>
+<para>JSON field containing next-page URL. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="45" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1aa2b25d8d40c19437a91e358d17383d9f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::results_field</definition>
+        <argsstring></argsstring>
+        <name>results_field</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::results_field</qualifiedname>
+        <initializer>= &quot;results&quot;</initializer>
+        <briefdescription>
+<para>JSON field for items array. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="46" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="46" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1aa905e9929e737b308f95d50f05f9b86e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::total_field</definition>
+        <argsstring></argsstring>
+        <name>total_field</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::total_field</qualifiedname>
+        <initializer>= &quot;total&quot;</initializer>
+        <briefdescription>
+<para>JSON field for total count. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="47" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1aa02b3aebb08406ab48beb4786fd50e0f" prot="public" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::scraper::ApiEndpointConfig::max_pages</definition>
+        <argsstring></argsstring>
+        <name>max_pages</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::max_pages</qualifiedname>
+        <initializer>= 50</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="48" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a5fb61783a03c3ba3761eef61e924169f" prot="public" static="no" mutable="no">
+        <type>std::map&lt; std::string, std::string &gt;</type>
+        <definition>std::map&lt;std::string, std::string&gt; themis::scraper::ApiEndpointConfig::headers</definition>
+        <argsstring></argsstring>
+        <name>headers</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::headers</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="50" column="14" bodyfile="include/scraper/scraper_api_client.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a9faabc2a25983806213a42b470002782" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::body_template</definition>
+        <argsstring></argsstring>
+        <name>body_template</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::body_template</qualifiedname>
+        <briefdescription>
+<para>POST body template; {{QUERY}}, {{PAGE}}, {{CURSOR}} are substituted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="53" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_api_endpoint_config_1a2e567a7f650640b30e2fed1d31c6a4c3" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::ApiEndpointConfig::search_param</definition>
+        <argsstring></argsstring>
+        <name>search_param</name>
+        <qualifiedname>themis::scraper::ApiEndpointConfig::search_param</qualifiedname>
+        <initializer>= &quot;q&quot;</initializer>
+        <briefdescription>
+<para>Optional query parameter appended to GET requests: ?&lt;search_param&gt;=&lt;query&gt;. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_api_client.h" line="56" column="17" bodyfile="include/scraper/scraper_api_client.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Configures a single JSON REST or GraphQL API endpoint. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Used for:<itemizedlist>
+<listitem><para>Government REST APIs (e.g. Bundesanzeiger, EUR-Lex REST)</para>
+</listitem><listitem><para>JS-build API endpoints (webpack-dev-server, Vite, Next.js)</para>
+</listitem><listitem><para>React SPA backends that expose /api/* routes </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/scraper/scraper_api_client.h" line="35" column="1" bodyfile="include/scraper/scraper_api_client.h" bodystart="35" bodyend="57"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a9faabc2a25983806213a42b470002782" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>body_template</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a82f6692b1d445790b43564477d6a7f1d" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>cursor_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a5fb61783a03c3ba3761eef61e924169f" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>headers</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa02b3aebb08406ab48beb4786fd50e0f" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>max_pages</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a31dc0405c1acb4acf6ceab01c46e648f" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>method</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab3d5ee88babb3d641d165ab10c7b4f00" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>next_url_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a4820cde97b810166483bd53ad39fed3d" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>page_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a83d331ebc2ca021abe117e5dd2bb7026" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>page_size</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1abf5d515d4da7df95bd85660615a4ab52" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>page_size_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2647874de0110cb3d54e8f6ee664fef8" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>pagination_mode</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa2b25d8d40c19437a91e358d17383d9f" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>results_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1a2e567a7f650640b30e2fed1d31c6a4c3" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>search_param</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1aa905e9929e737b308f95d50f05f9b86e" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>total_field</name></member>
+      <member refid="structthemis_1_1scraper_1_1_api_endpoint_config_1ab604a62fa77ccc40af04219249776fd2" prot="public" virt="non-virtual"><scope>themis::scraper::ApiEndpointConfig</scope><name>url</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

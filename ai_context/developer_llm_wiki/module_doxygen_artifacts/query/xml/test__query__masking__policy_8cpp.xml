@@ -1,0 +1,833 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__query__masking__policy_8cpp" kind="file" language="C++">
+    <compoundname>test_query_masking_policy.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="yes">security/query_masking_policy.h</includes>
+    <includes local="yes">utils/pii_detection_engine.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">string</includes>
+    <includes local="no">vector</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">atomic</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/query/test_query_masking_policy.cpp</label>
+        <link refid="test__query__masking__policy_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="5">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="3">
+        <label>security/query_masking_policy.h</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+      <node id="8">
+        <label>thread</label>
+      </node>
+      <node id="4">
+        <label>utils/pii_detection_engine.h</label>
+      </node>
+      <node id="7">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_query_masking_policy_test" prot="public">QueryMaskingPolicyTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, EnabledByDefault)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>EnabledByDefault</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="29" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="29" bodyend="31"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1ad84a3301f7beb3be665c47c23df37187" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, DisabledPolicyPassesThroughUnchanged)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>DisabledPolicyPassesThroughUnchanged</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="33" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="33" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a45f05a5fa71ab3e2ae05328fef000895" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, AdminRoleBypassesMasking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>AdminRoleBypassesMasking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="47" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="47" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a860adc55d31df4ded030e976a8822107" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, NonPrivilegedRoleGetsMaskedResults)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>NonPrivilegedRoleGetsMaskedResults</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="56" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="56" bodyend="62"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a9619cc6bb19ecb7ad18240ff14681a12" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, IsPrivilegedReturnsTrueForAdminRole)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>IsPrivilegedReturnsTrueForAdminRole</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="64" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="64" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a34f7be4c850ccfb1e0fff344abd5f168" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, EmailFieldMaskedByName)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>EmailFieldMaskedByName</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="73" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="73" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a40c69a4a61495b1127aeb83f70ef02fc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, NonPIIFieldPassesThrough)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>NonPIIFieldPassesThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="83" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="83" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a9e5e966d1bd029a2afa218870ae2778a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, AutoDetectEmailInValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>AutoDetectEmailInValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="100" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="100" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1af442412f1310f36d5b0021835ad3b2e4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, AutoDetectSSNInValue)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>AutoDetectSSNInValue</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="113" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="113" bodyend="120"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1aa4721e894e5401ee1a5d88b94c4e7221" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, DeclaredFieldAlwaysMasked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>DeclaredFieldAlwaysMasked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="126" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="126" bodyend="135"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a52f153901b80581dcd6fbdee43f5e1a7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, UndeclaredFieldRestoredToAutoDetect)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>UndeclaredFieldRestoredToAutoDetect</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="137" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="137" bodyend="146"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a8dd39bf8832a1fddee7c8883a6acc105" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, MaskResultSetMasksAllEntities)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MaskResultSetMasksAllEntities</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="152" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="152" bodyend="168"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1acf02fa8d86fd224785bc09126d7764e9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, MaskResultSetAdminBypassesAll)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MaskResultSetAdminBypassesAll</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="170" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="170" bodyend="181"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a80d7498f21927509496216d883ee72bf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, NestedObjectFieldsMasked)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>NestedObjectFieldsMasked</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="187" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="187" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1afa1b337fba64fca878b5d1ebdf1254f1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, NumericAndBoolFieldsPassThrough)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>NumericAndBoolFieldsPassThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="209" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="209" bodyend="223"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1ad7655670dc38e7df718e4392a5406bc6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, MaskResultSetOnObjectFallsBackToMaskResult)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MaskResultSetOnObjectFallsBackToMaskResult</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="229" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="229" bodyend="236"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a5b6b00be1815d4c311209a9a3c842802" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, EmptyObjectReturnedAsEmptyObject)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyObjectReturnedAsEmptyObject</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="242" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="242" bodyend="247"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a94b9323591cf39cdbbdc9fd893f482c5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, EmptyArrayReturnedAsEmptyArray)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>EmptyArrayReturnedAsEmptyArray</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="249" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="249" bodyend="254"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a86ed7dde77060a19f44c6c5646f29bd4" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, ConcurrentMaskAndDeclareFieldIsSafe)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentMaskAndDeclareFieldIsSafe</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="263" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="263" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a2d9e97cc3860461b758459b37293eac0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, MixedRolesWithAdminBypassesMasking)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>MixedRolesWithAdminBypassesMasking</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="298" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="298" bodyend="306"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1a654fa49a588672ffba98f8aaeafcfccc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, BothDetectionModesDisabledPassesThrough)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>BothDetectionModesDisabledPassesThrough</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="312" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="312" bodyend="325"/>
+      </memberdef>
+      <memberdef kind="function" id="test__query__masking__policy_8cpp_1aca486d8dd2e4044bc5ed880fe2a92d06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(QueryMaskingPolicyTest, DeclaredFieldWithExplicitPIITypeHint)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref></type>
+        </param>
+        <param>
+          <type>DeclaredFieldWithExplicitPIITypeHint</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/query/test_query_masking_policy.cpp" line="331" column="1" bodyfile="tests/query/test_query_masking_policy.cpp" bodystart="331" bodyend="345"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;security/query_masking_policy.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;utils/pii_detection_engine.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1security" kindref="compound">themis::security</ref>;</highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1utils" kindref="compound">themis::utils</ref>;</highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Fixture:<sp/>shared<sp/>policy<sp/>with<sp/>default<sp/>config</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16" refid="class_query_masking_policy_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_query_masking_policy_test_1ad6df4aa1837d23ebc15ae718277251cb" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_query_masking_policy_test_1a2f54249d2eab6ed9b12bf729a9c68868" kindref="member">policy_</ref><sp/>=<sp/>QueryMaskingPolicy::create();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;QueryMaskingPolicy&gt;<sp/><ref refid="class_query_masking_policy_test_1a2f54249d2eab6ed9b12bf729a9c68868" kindref="member">policy_</ref>;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>policy<sp/>enable/disable</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>EnabledByDefault)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_-&gt;isEnabled());</highlight></codeline>
+<codeline lineno="31"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>DisabledPolicyPassesThroughUnchanged)<sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/>policy_-&gt;setEnabled(</highlight><highlight class="keyword">false</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Disabled<sp/>policy<sp/>must<sp/>not<sp/>mask<sp/>values&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>privileged<sp/>roles<sp/>bypass<sp/>masking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>AdminRoleBypassesMasking)<sp/>{</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob@corp.org&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity,<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;bob@corp.org&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Admin<sp/>role<sp/>must<sp/>receive<sp/>unmasked<sp/>results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="54"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>NonPrivilegedRoleGetsMaskedResults)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob@corp.org&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity,<sp/>{</highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;bob@corp.org&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Non-privileged<sp/>role<sp/>must<sp/>receive<sp/>masked<sp/>results&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>IsPrivilegedReturnsTrueForAdminRole)<sp/>{</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(policy_-&gt;isPrivileged({</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy_-&gt;isPrivileged({</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">}));</highlight></codeline>
+<codeline lineno="67"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>field-name<sp/>hint<sp/>masking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>EmailFieldMaskedByName)<sp/>{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>PIIDetector<sp/>recognises<sp/>&quot;email&quot;<sp/>as<sp/>a<sp/>PII<sp/>field-name<sp/>hint.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Email<sp/>field<sp/>must<sp/>be<sp/>masked<sp/>by<sp/>field-name<sp/>hint&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>NonPIIFieldPassesThrough)<sp/>{</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;12345&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>42}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;12345&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>42);</highlight></codeline>
+<codeline lineno="94"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>auto-detect<sp/>PII<sp/>in<sp/>string<sp/>values</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>AutoDetectEmailInValue)<sp/>{</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Value<sp/>contains<sp/>an<sp/>email<sp/>but<sp/>key<sp/>name<sp/>is<sp/>neutral.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;note&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;Contact<sp/>alice@example.com<sp/>for<sp/>info&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;note&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Auto-detect<sp/>should<sp/>mask<sp/>email<sp/>in<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Non-PII<sp/>parts<sp/>should<sp/>be<sp/>preserved.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NE(result[</highlight><highlight class="stringliteral">&quot;note&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;Contact&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="111"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>AutoDetectSSNInValue)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;SSN:<sp/>123-45-6789<sp/>on<sp/>file&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;description&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;123-45-6789&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Auto-detect<sp/>should<sp/>mask<sp/>SSN<sp/>in<sp/>value&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="120"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>explicit<sp/>field<sp/>declarations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125"><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>DeclaredFieldAlwaysMasked)<sp/>{</highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>policy_-&gt;declareField(</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;DE12345678&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;DE12345678&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Explicitly<sp/>declared<sp/>field<sp/>must<sp/>be<sp/>masked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="135"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>UndeclaredFieldRestoredToAutoDetect)<sp/>{</highlight></codeline>
+<codeline lineno="138"><highlight class="normal"><sp/><sp/><sp/><sp/>policy_-&gt;declareField(</highlight><highlight class="stringliteral">&quot;safe_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"><sp/><sp/><sp/><sp/>policy_-&gt;undeclareField(</highlight><highlight class="stringliteral">&quot;safe_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>After<sp/>undeclaration,<sp/>value<sp/>with<sp/>no<sp/>PII<sp/>should<sp/>pass<sp/>through.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;safe_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;hello_world&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;safe_field&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;hello_world&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="146"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>maskResultSet<sp/>(array<sp/>of<sp/>entities)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>MaskResultSetMasksAllEntities)<sp/>{</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entities<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;1&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob@example.com&quot;</highlight><highlight class="normal">},<sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;2&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResultSet(entities);</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_array());</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(result.size(),<sp/>2u);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"></highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>entity<sp/>:<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>email<sp/>=<sp/>entity[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(email.find(</highlight><highlight class="stringliteral">&quot;@example.com&quot;</highlight><highlight class="normal">),<sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;All<sp/>entities<sp/>in<sp/>result<sp/>set<sp/>should<sp/>have<sp/>email<sp/>masked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="168"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>MaskResultSetAdminBypassesAll)<sp/>{</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entities<sp/>=<sp/>json::array({</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">}},</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;bob@example.com&quot;</highlight><highlight class="normal">}}</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResultSet(entities,<sp/>{</highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"></highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(result.is_array());</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[0][</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[1][</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;bob@example.com&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="181"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>nested<sp/>JSON<sp/>objects<sp/>are<sp/>recursively<sp/>masked</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="185"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>NestedObjectFieldsMasked)<sp/>{</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;contact&quot;</highlight><highlight class="normal">,<sp/>{</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;nested@example.com&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;phone&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;+1-555-123-4567&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}},</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;user-001&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"></highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"></highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;user-001&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>contact<sp/>=<sp/>result[</highlight><highlight class="stringliteral">&quot;contact&quot;</highlight><highlight class="normal">];</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(contact[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;nested@example.com&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Nested<sp/>email<sp/>must<sp/>be<sp/>masked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="203"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="204"><highlight class="normal"></highlight></codeline>
+<codeline lineno="205"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="206"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>non-string<sp/>scalars<sp/>pass<sp/>through<sp/>unchanged</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="208"><highlight class="normal"></highlight></codeline>
+<codeline lineno="209"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>NumericAndBoolFieldsPassThrough)<sp/>{</highlight></codeline>
+<codeline lineno="210"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="211"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">,<sp/>98.6},</highlight></codeline>
+<codeline lineno="212"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">,<sp/>42},</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;nothing&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="216"><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"></highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_DOUBLE_EQ(result[</highlight><highlight class="stringliteral">&quot;score&quot;</highlight><highlight class="normal">].get&lt;double&gt;(),<sp/>98.6);</highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">].get&lt;bool&gt;(),<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;count&quot;</highlight><highlight class="normal">].get&lt;int&gt;(),<sp/>42);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result[</highlight><highlight class="stringliteral">&quot;nothing&quot;</highlight><highlight class="normal">].is_null());</highlight></codeline>
+<codeline lineno="223"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="224"><highlight class="normal"></highlight></codeline>
+<codeline lineno="225"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>maskResultSet<sp/>on<sp/>non-array<sp/>input<sp/>(graceful<sp/>fallback)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"></highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>MaskResultSetOnObjectFallsBackToMaskResult)<sp/>{</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>single<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;fallback@example.com&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResultSet(single);</highlight></codeline>
+<codeline lineno="232"><highlight class="normal"></highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>still<sp/>mask<sp/>correctly<sp/>even<sp/>though<sp/>input<sp/>is<sp/>not<sp/>an<sp/>array.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;fallback@example.com&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos);</highlight></codeline>
+<codeline lineno="236"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="237"><highlight class="normal"></highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="239"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>empty<sp/>inputs<sp/>produce<sp/>safe<sp/>defaults</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="240"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="241"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>EmptyObjectReturnedAsEmptyObject)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>empty<sp/>=<sp/>json::object();</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(empty);</highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_object());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="247"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="248"><highlight class="normal"></highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>EmptyArrayReturnedAsEmptyArray)<sp/>{</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>empty<sp/>=<sp/>json::array();</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResultSet(empty);</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_array());</highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.empty());</highlight></codeline>
+<codeline lineno="254"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>thread-safety<sp/>–<sp/>concurrent<sp/>declareField<sp/>and<sp/>maskResult</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="258"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="259"><highlight class="normal"></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="261"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="262"><highlight class="normal"></highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>ConcurrentMaskAndDeclareFieldIsSafe)<sp/>{</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Repeatedly<sp/>mask<sp/>entities<sp/>from<sp/>one<sp/>thread<sp/>while<sp/>another<sp/>thread<sp/>adds<sp/>and</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>removes<sp/>declared<sp/>fields.<sp/><sp/>The<sp/>test<sp/>verifies<sp/>there<sp/>is<sp/>no<sp/>crash<sp/>or</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="266"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>sanitizer<sp/>error<sp/>(the<sp/>actual<sp/>masked<sp/>output<sp/>may<sp/>legitimately<sp/>vary<sp/>by</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="267"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>ordering,<sp/>but<sp/>no<sp/>undefined<sp/>behaviour<sp/>must<sp/>occur).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="268"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>iterations<sp/>=<sp/>200;</highlight></codeline>
+<codeline lineno="269"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>stop{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="270"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>writer([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>!stop.load()<sp/>&amp;&amp;<sp/>i<sp/>&lt;<sp/>iterations<sp/>*<sp/>2;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy_-&gt;declareField(</highlight><highlight class="stringliteral">&quot;concurrent_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>policy_-&gt;undeclareField(</highlight><highlight class="stringliteral">&quot;concurrent_field&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="277"><highlight class="normal"></highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>iterations;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;concurrent_field&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;test_value_12345&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;race@example.com&quot;</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Must<sp/>not<sp/>crash<sp/>or<sp/>abort<sp/>–<sp/>outcome<sp/>may<sp/>be<sp/>masked<sp/>or<sp/>not<sp/>depending<sp/>on<sp/>timing.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.is_object());</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;concurrent_field&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(result.contains(</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/>stop.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"><sp/><sp/><sp/><sp/>writer.join();</highlight></codeline>
+<codeline lineno="292"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="293"><highlight class="normal"></highlight></codeline>
+<codeline lineno="294"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="295"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>mixed<sp/>roles<sp/>–<sp/>admin<sp/>in<sp/>list<sp/>with<sp/>other<sp/>roles<sp/>bypasses<sp/>masking</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="296"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="297"><highlight class="normal"></highlight></codeline>
+<codeline lineno="298"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>MixedRolesWithAdminBypassesMasking)<sp/>{</highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;mixed@example.com&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Admin<sp/>is<sp/>listed<sp/>alongside<sp/>other<sp/>non-privileged<sp/>roles.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity,<sp/>{</highlight><highlight class="stringliteral">&quot;user&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;admin&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;readonly&quot;</highlight><highlight class="normal">});</highlight></codeline>
+<codeline lineno="302"><highlight class="normal"></highlight></codeline>
+<codeline lineno="303"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;mixed@example.com&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="304"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Admin<sp/>role<sp/>among<sp/>other<sp/>roles<sp/>must<sp/>still<sp/>bypass<sp/>masking&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="305"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;status&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;active&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="306"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="307"><highlight class="normal"></highlight></codeline>
+<codeline lineno="308"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="309"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>both<sp/>auto-detect<sp/>and<sp/>field-name<sp/>masking<sp/>disabled<sp/>→<sp/>pass-through</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="310"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="311"><highlight class="normal"></highlight></codeline>
+<codeline lineno="312"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>BothDetectionModesDisabledPassesThrough)<sp/>{</highlight></codeline>
+<codeline lineno="313"><highlight class="normal"><sp/><sp/><sp/><sp/>QueryMaskingPolicy::Config<sp/>cfg;</highlight></codeline>
+<codeline lineno="314"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.mask_by_field_name<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="315"><highlight class="normal"><sp/><sp/><sp/><sp/>cfg.auto_detect_pii<sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="316"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>policy<sp/>=<sp/>QueryMaskingPolicy::create(cfg);</highlight></codeline>
+<codeline lineno="317"><highlight class="normal"></highlight></codeline>
+<codeline lineno="318"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Even<sp/>a<sp/>well-known<sp/>PII<sp/>field<sp/>name<sp/>should<sp/>pass<sp/>through<sp/>when<sp/>both<sp/>modes<sp/>are<sp/>off.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="319"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">},<sp/>{</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;123&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="320"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="321"><highlight class="normal"></highlight></codeline>
+<codeline lineno="322"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;email&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;alice@example.com&quot;</highlight><highlight class="normal">)</highlight></codeline>
+<codeline lineno="323"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;With<sp/>both<sp/>detection<sp/>modes<sp/>disabled,<sp/>PII<sp/>field<sp/>must<sp/>not<sp/>be<sp/>masked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="324"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;(),<sp/></highlight><highlight class="stringliteral">&quot;123&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="325"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="326"><highlight class="normal"></highlight></codeline>
+<codeline lineno="327"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="328"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Feature:<sp/>declareField<sp/>with<sp/>explicit<sp/>PIIType<sp/>hint</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="329"><highlight class="normal"></highlight><highlight class="comment">//<sp/>---------------------------------------------------------------------------</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="330"><highlight class="normal"></highlight></codeline>
+<codeline lineno="331"><highlight class="normal"><ref refid="test__query__masking__policy_8cpp_1a8591581ceafcb0620f4ebb8286eae5f0" kindref="member">TEST_F</ref>(<ref refid="class_query_masking_policy_test" kindref="compound">QueryMaskingPolicyTest</ref>,<sp/>DeclaredFieldWithExplicitPIITypeHint)<sp/>{</highlight></codeline>
+<codeline lineno="332"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Declare<sp/>a<sp/>field<sp/>with<sp/>an<sp/>explicit<sp/>SSN<sp/>type<sp/>hint<sp/>so<sp/>the<sp/>masker<sp/>uses<sp/>the</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="333"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>SSN<sp/>masking<sp/>format<sp/>rather<sp/>than<sp/>falling<sp/>back<sp/>to<sp/>the<sp/>generic<sp/>form.</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="334"><highlight class="normal"><sp/><sp/><sp/><sp/>policy_-&gt;declareField(</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;strict&quot;</highlight><highlight class="normal">,<sp/>PIIType::SSN);</highlight></codeline>
+<codeline lineno="335"><highlight class="normal"></highlight></codeline>
+<codeline lineno="336"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="namespacethemis_1_1query_1_1functions_1a060da76182ff1bc86844e2cf478814cb" kindref="member">json</ref><sp/>entity<sp/>=<sp/>{{</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;123-45-6789&quot;</highlight><highlight class="normal">}};</highlight></codeline>
+<codeline lineno="337"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>policy_-&gt;maskResult(entity);</highlight></codeline>
+<codeline lineno="338"><highlight class="normal"></highlight></codeline>
+<codeline lineno="339"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(result[</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().find(</highlight><highlight class="stringliteral">&quot;123-45-6789&quot;</highlight><highlight class="normal">),</highlight></codeline>
+<codeline lineno="340"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string::npos)</highlight></codeline>
+<codeline lineno="341"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;Declared<sp/>field<sp/>with<sp/>explicit<sp/>PIIType<sp/>must<sp/>be<sp/>masked&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="342"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>The<sp/>returned<sp/>value<sp/>must<sp/>not<sp/>be<sp/>empty<sp/>(a<sp/>masking<sp/>token<sp/>or<sp/>redaction</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="343"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>marker<sp/>is<sp/>expected).</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="344"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(result[</highlight><highlight class="stringliteral">&quot;national_id&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;().empty());</highlight></codeline>
+<codeline lineno="345"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/query/test_query_masking_policy.cpp"/>
+  </compounddef>
+</doxygen>

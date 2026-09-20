@@ -1,0 +1,213 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_metadata_snapshot" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::MetadataSnapshot</compoundname>
+    <includes refid="metadata__snapshot_8h" local="no">metadata_snapshot.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a64c7991b8ab6a0e19e46c092e676463e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataSnapshot::snapshot_id</definition>
+        <argsstring></argsstring>
+        <name>snapshot_id</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::snapshot_id</qualifiedname>
+        <briefdescription>
+<para>Monotonic snapshot identifier (millisecond timestamp based). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="35" column="14" bodyfile="include/sharding/metadata_snapshot.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1aaa08599dc523f25d3c478f9b93125b9b" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref></type>
+        <definition>LSN themisdb::sharding::MetadataSnapshot::last_applied_lsn</definition>
+        <argsstring></argsstring>
+        <name>last_applied_lsn</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::last_applied_lsn</qualifiedname>
+        <briefdescription>
+<para>Highest WAL <ref refid="structthemisdb_1_1sharding_1_1_l_s_n" kindref="compound">LSN</ref> fully reflected in this snapshot. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="37" column="9" bodyfile="include/sharding/metadata_snapshot.h" bodystart="37" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a2083d02c1f8b75237f6f934c4dd6ddda" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataSnapshot::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::shard_id</qualifiedname>
+        <briefdescription>
+<para>Owning metadata shard identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="39" column="17" bodyfile="include/sharding/metadata_snapshot.h" bodystart="39" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a982eb9d537fd277bf4db44205d9c4d5e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themisdb::sharding::MetadataSnapshot::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::timestamp</qualifiedname>
+        <briefdescription>
+<para>Snapshot creation timestamp in milliseconds since epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="41" column="14" bodyfile="include/sharding/metadata_snapshot.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a9c8ee199e10237fb4912da4258c1f2f3" prot="public" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemisdb_1_1sharding_1a8c8e0affc8dcf36958206b05bda23699" kindref="member">MetadataPartitionKey</ref>, std::map&lt; std::string, nlohmann::json &gt; &gt;</type>
+        <definition>std::map&lt;MetadataPartitionKey, std::map&lt;std::string, nlohmann::json&gt; &gt; themisdb::sharding::MetadataSnapshot::partitions</definition>
+        <argsstring></argsstring>
+        <name>partitions</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::partitions</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="44" column="14" bodyfile="include/sharding/metadata_snapshot.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a9ff989f58280a120e323dc3af3e69fdf" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataSnapshot::checksum</definition>
+        <argsstring></argsstring>
+        <name>checksum</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::checksum</qualifiedname>
+        <briefdescription>
+<para>SHA-256 checksum over serialized snapshot payload. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="48" column="17" bodyfile="include/sharding/metadata_snapshot.h" bodystart="48" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a242f66e6c7ffe9f829efa3018c149edd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themisdb::sharding::MetadataSnapshot::total_entries</definition>
+        <argsstring></argsstring>
+        <name>total_entries</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::total_entries</qualifiedname>
+        <briefdescription>
+<para>Total logical metadata entries captured across partitions. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="50" column="12" bodyfile="include/sharding/metadata_snapshot.h" bodystart="50" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a644f7686482bfe19e1a3a7275e75f691" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themisdb::sharding::MetadataSnapshot::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::toJson</qualifiedname>
+        <briefdescription>
+<para>Serialize snapshot to JSON object (excluding checksum injection policy). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="53" column="20" bodyfile="include/sharding/metadata_snapshot.h" bodystart="53" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1ac97a1c6019790b00ddfe04f7bb89919f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::MetadataSnapshot::calculateChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>calculateChecksum</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::calculateChecksum</qualifiedname>
+        <briefdescription>
+<para>Compute checksum over current snapshot payload content. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="111" column="17" bodyfile="src/sharding/metadata_snapshot.cpp" bodystart="29" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a0377647a7afd4c0698c955e6b04a1483" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::MetadataSnapshot::verifyChecksum</definition>
+        <argsstring>() const</argsstring>
+        <name>verifyChecksum</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::verifyChecksum</qualifiedname>
+        <briefdescription>
+<para>Verify stored checksum against recalculated payload checksum. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="114" column="10" bodyfile="include/sharding/metadata_snapshot.h" bodystart="114" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a160571d9856422b7a79b555fc5904fae" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemisdb_1_1sharding_1_1_metadata_snapshot" kindref="compound">MetadataSnapshot</ref></type>
+        <definition>static MetadataSnapshot themisdb::sharding::MetadataSnapshot::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themisdb::sharding::MetadataSnapshot::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Deserialize snapshot payload from JSON representation. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/metadata_snapshot.h" line="81" column="29" bodyfile="include/sharding/metadata_snapshot.h" bodystart="81" bodyend="108"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Immutable metadata snapshot payload used for fast shard recovery. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::sharding::LSN</label>
+        <link refid="structthemis_1_1sharding_1_1_l_s_n"/>
+      </node>
+      <node id="1">
+        <label>themisdb::sharding::MetadataSnapshot</label>
+        <link refid="structthemisdb_1_1sharding_1_1_metadata_snapshot"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>last_applied_lsn</edgelabel>
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/sharding/metadata_snapshot.h" line="33" column="1" bodyfile="include/sharding/metadata_snapshot.h" bodystart="33" bodyend="117"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1ac97a1c6019790b00ddfe04f7bb89919f" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>calculateChecksum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a9ff989f58280a120e323dc3af3e69fdf" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>checksum</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a160571d9856422b7a79b555fc5904fae" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>fromJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1aaa08599dc523f25d3c478f9b93125b9b" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>last_applied_lsn</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a9c8ee199e10237fb4912da4258c1f2f3" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>partitions</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a2083d02c1f8b75237f6f934c4dd6ddda" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>shard_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a64c7991b8ab6a0e19e46c092e676463e" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>snapshot_id</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a982eb9d537fd277bf4db44205d9c4d5e" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>timestamp</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a644f7686482bfe19e1a3a7275e75f691" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>toJson</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a242f66e6c7ffe9f829efa3018c149edd" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>total_entries</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_metadata_snapshot_1a0377647a7afd4c0698c955e6b04a1483" prot="public" virt="non-virtual"><scope>themisdb::sharding::MetadataSnapshot</scope><name>verifyChecksum</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

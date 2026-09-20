@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="struct_gate_manifest" kind="struct" language="C++" prot="public">
+    <compoundname>GateManifest</compoundname>
+    <innerclass refid="struct_gate_manifest_1_1_gate" prot="public">GateManifest::Gate</innerclass>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="struct_gate_manifest_1a44dd85dd65a628fd104e1862d4cb8b91" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="struct_gate_manifest_1_1_gate" kindref="compound">Gate</ref> &gt;</type>
+        <definition>std::vector&lt;Gate&gt; GateManifest::gates</definition>
+        <argsstring></argsstring>
+        <name>gates</name>
+        <qualifiedname>GateManifest::gates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_audit_export_gates.cpp" line="80" column="17" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="struct_gate_manifest_1a623e147ff1e16f3f660644c1b820ae2c" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex GateManifest::mu</definition>
+        <argsstring></argsstring>
+        <name>mu</name>
+        <qualifiedname>GateManifest::mu</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_audit_export_gates.cpp" line="81" column="24" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="81" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="struct_gate_manifest_1a8afbf8ea0c4a357f80a74a437be9b14e" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GateManifest::addGate</definition>
+        <argsstring>(const Gate &amp;gate)</argsstring>
+        <name>addGate</name>
+        <qualifiedname>GateManifest::addGate</qualifiedname>
+        <param>
+          <type>const <ref refid="struct_gate_manifest_1_1_gate" kindref="compound">Gate</ref> &amp;</type>
+          <declname>gate</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_audit_export_gates.cpp" line="83" column="10" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="83" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_gate_manifest_1a46c4aadba1f41f8ce5f4b2b392c8ac48" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json GateManifest::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>GateManifest::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_audit_export_gates.cpp" line="88" column="20" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="88" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="struct_gate_manifest_1ab137e78d73e7314adf725a54cc739c4e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void GateManifest::writeToFile</definition>
+        <argsstring>(const std::string &amp;path) const</argsstring>
+        <name>writeToFile</name>
+        <qualifiedname>GateManifest::writeToFile</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>path</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/security/bench_audit_export_gates.cpp" line="97" column="10" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="97" bodyend="101"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="benchmarks/security/bench_audit_export_gates.cpp" line="59" column="1" bodyfile="benchmarks/security/bench_audit_export_gates.cpp" bodystart="59" bodyend="102"/>
+    <listofallmembers>
+      <member refid="struct_gate_manifest_1a8afbf8ea0c4a357f80a74a437be9b14e" prot="public" virt="non-virtual"><scope>GateManifest</scope><name>addGate</name></member>
+      <member refid="struct_gate_manifest_1a44dd85dd65a628fd104e1862d4cb8b91" prot="public" virt="non-virtual"><scope>GateManifest</scope><name>gates</name></member>
+      <member refid="struct_gate_manifest_1a623e147ff1e16f3f660644c1b820ae2c" prot="public" virt="non-virtual"><scope>GateManifest</scope><name>mu</name></member>
+      <member refid="struct_gate_manifest_1a46c4aadba1f41f8ce5f4b2b392c8ac48" prot="public" virt="non-virtual"><scope>GateManifest</scope><name>toJson</name></member>
+      <member refid="struct_gate_manifest_1ab137e78d73e7314adf725a54cc739c4e" prot="public" virt="non-virtual"><scope>GateManifest</scope><name>writeToFile</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

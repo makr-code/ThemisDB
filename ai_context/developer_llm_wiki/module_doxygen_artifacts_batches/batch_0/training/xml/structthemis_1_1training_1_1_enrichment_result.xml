@@ -1,0 +1,96 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_enrichment_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EnrichmentResult</compoundname>
+    <includes refid="training__interfaces_8h" local="no">training_interfaces.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_result_1a7847f0a2fea0bd2c152a23ca180cb21d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::training::EnrichmentResult::entity_id</definition>
+        <argsstring></argsstring>
+        <name>entity_id</name>
+        <qualifiedname>themis::training::EnrichmentResult::entity_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="116" column="30" bodyfile="include/training/training_interfaces.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_result_1ab506856ddd393b0bf765bd5847257137" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1training_1_1_k_g_relation" kindref="compound">KGRelation</ref> &gt;</type>
+        <definition>std::vector&lt;KGRelation&gt; themis::training::EnrichmentResult::relations</definition>
+        <argsstring></argsstring>
+        <name>relations</name>
+        <qualifiedname>themis::training::EnrichmentResult::relations</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="117" column="18" bodyfile="include/training/training_interfaces.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_result_1ae5b8232c19adb6df07beae7785465e0e" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::training::EnrichmentResult::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::training::EnrichmentResult::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="118" column="30" bodyfile="include/training/training_interfaces.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_enrichment_result_1a743a506558dfffe34a6e06fad2631e2c" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::training::EnrichmentResult::cache_hit</definition>
+        <argsstring></argsstring>
+        <name>cache_hit</name>
+        <qualifiedname>themis::training::EnrichmentResult::cache_hit</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="119" column="30" bodyfile="include/training/training_interfaces.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_enrichment_result_1a773b24222688dedf95c652efa28ffebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EnrichmentResult::EnrichmentResult</definition>
+        <argsstring>()=default</argsstring>
+        <name>EnrichmentResult</name>
+        <qualifiedname>themis::training::EnrichmentResult::EnrichmentResult</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/training_interfaces.h" line="121" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result of enriching one entity with knowledge-graph context. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/training_interfaces.h" line="115" column="1" bodyfile="include/training/training_interfaces.h" bodystart="115" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_enrichment_result_1a743a506558dfffe34a6e06fad2631e2c" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentResult</scope><name>cache_hit</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_result_1ae5b8232c19adb6df07beae7785465e0e" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentResult</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_result_1a773b24222688dedf95c652efa28ffebe" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentResult</scope><name>EnrichmentResult</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_result_1a7847f0a2fea0bd2c152a23ca180cb21d" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentResult</scope><name>entity_id</name></member>
+      <member refid="structthemis_1_1training_1_1_enrichment_result_1ab506856ddd393b0bf765bd5847257137" prot="public" virt="non-virtual"><scope>themis::training::EnrichmentResult</scope><name>relations</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

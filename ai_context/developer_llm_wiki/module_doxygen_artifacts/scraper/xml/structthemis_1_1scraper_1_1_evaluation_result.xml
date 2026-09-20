@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1scraper_1_1_evaluation_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::scraper::EvaluationResult</compoundname>
+    <includes refid="scraper__llm__evaluator_8h" local="no">scraper_llm_evaluator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1a50f7667675b9da14015b52b465fa7df4" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::EvaluationResult::quality_score</definition>
+        <argsstring></argsstring>
+        <name>quality_score</name>
+        <qualifiedname>themis::scraper::EvaluationResult::quality_score</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0–1.0: overall content quality </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="31" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="31" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1a5c8e6eebc52e0786c146a37bf9eb6b8c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::scraper::EvaluationResult::gap_relevance</definition>
+        <argsstring></argsstring>
+        <name>gap_relevance</name>
+        <qualifiedname>themis::scraper::EvaluationResult::gap_relevance</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>0.0–1.0: relevance to the gap </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="32" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1a2ad7429f9aa55c565c282180eede95ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::EvaluationResult::summary</definition>
+        <argsstring></argsstring>
+        <name>summary</name>
+        <qualifiedname>themis::scraper::EvaluationResult::summary</qualifiedname>
+        <briefdescription>
+<para>One-sentence LLM summary of the page. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="33" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="33" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1a8adff8fe667007f531a20296cc3a5532" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::scraper::EvaluationResult::key_entities</definition>
+        <argsstring></argsstring>
+        <name>key_entities</name>
+        <qualifiedname>themis::scraper::EvaluationResult::key_entities</qualifiedname>
+        <briefdescription>
+<para>Named entities extracted by LLM. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="34" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1afe46b503d056fcd700b524320193a1a7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::scraper::EvaluationResult::discard_reason</definition>
+        <argsstring></argsstring>
+        <name>discard_reason</name>
+        <qualifiedname>themis::scraper::EvaluationResult::discard_reason</qualifiedname>
+        <briefdescription>
+<para>Non-empty when the document should be discarded. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="35" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1scraper_1_1_evaluation_result_1af49349327c9ce579757a4bb080df28ec" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::scraper::EvaluationResult::below_threshold</definition>
+        <argsstring></argsstring>
+        <name>below_threshold</name>
+        <qualifiedname>themis::scraper::EvaluationResult::below_threshold</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>true when quality_score &lt; threshold </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="36" column="17" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="36" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1scraper_1_1_evaluation_result_1a2b422d6c35ff97ce930bef2ed2472cd1" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::scraper::EvaluationResult::shouldDiscard</definition>
+        <argsstring>() const</argsstring>
+        <name>shouldDiscard</name>
+        <qualifiedname>themis::scraper::EvaluationResult::shouldDiscard</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/scraper/scraper_llm_evaluator.h" line="38" column="10" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="38" bodyend="40"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Quality and relevance scores produced by the LLM evaluator. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/scraper/scraper_llm_evaluator.h" line="30" column="1" bodyfile="include/scraper/scraper_llm_evaluator.h" bodystart="30" bodyend="41"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1af49349327c9ce579757a4bb080df28ec" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>below_threshold</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1afe46b503d056fcd700b524320193a1a7" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>discard_reason</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1a5c8e6eebc52e0786c146a37bf9eb6b8c" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>gap_relevance</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1a8adff8fe667007f531a20296cc3a5532" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>key_entities</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1a50f7667675b9da14015b52b465fa7df4" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>quality_score</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1a2b422d6c35ff97ce930bef2ed2472cd1" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>shouldDiscard</name></member>
+      <member refid="structthemis_1_1scraper_1_1_evaluation_result_1a2ad7429f9aa55c565c282180eede95ff" prot="public" virt="non-virtual"><scope>themis::scraper::EvaluationResult</scope><name>summary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

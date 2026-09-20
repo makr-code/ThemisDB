@@ -1,0 +1,275 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__http__aql__collect_8cpp" kind="file" language="C++">
+    <compoundname>test_http_aql_collect.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">nlohmann/json.hpp</includes>
+    <includes local="no">boost/asio.hpp</includes>
+    <includes local="no">boost/beast.hpp</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">filesystem</includes>
+    <includes local="no">set</includes>
+    <includes local="yes">server/http_server.h</includes>
+    <includes local="yes">storage/rocksdb_wrapper.h</includes>
+    <includes local="yes">index/secondary_index.h</includes>
+    <includes local="yes">index/graph_index.h</includes>
+    <includes local="yes">index/vector_index.h</includes>
+    <includes local="yes">transaction/transaction_manager.h</includes>
+    <includes local="yes">storage/base_entity.h</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>tests/network/test_http_aql_collect.cpp</label>
+        <link refid="test__http__aql__collect_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>boost/asio.hpp</label>
+      </node>
+      <node id="5">
+        <label>boost/beast.hpp</label>
+      </node>
+      <node id="7">
+        <label>chrono</label>
+      </node>
+      <node id="8">
+        <label>filesystem</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="13">
+        <label>index/graph_index.h</label>
+      </node>
+      <node id="12">
+        <label>index/secondary_index.h</label>
+      </node>
+      <node id="14">
+        <label>index/vector_index.h</label>
+      </node>
+      <node id="3">
+        <label>nlohmann/json.hpp</label>
+      </node>
+      <node id="10">
+        <label>server/http_server.h</label>
+      </node>
+      <node id="9">
+        <label>set</label>
+      </node>
+      <node id="16">
+        <label>storage/base_entity.h</label>
+      </node>
+      <node id="11">
+        <label>storage/rocksdb_wrapper.h</label>
+      </node>
+      <node id="6">
+        <label>thread</label>
+      </node>
+      <node id="15">
+        <label>transaction/transaction_manager.h</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="class_http_aql_collect_test" prot="public">HttpAqlCollectTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__http__aql__collect_8cpp_1a43a477323830ca7b4257569cd1d31e93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpAqlCollectTest, Collect_GroupByCity_Count)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_aql_collect_test" kindref="compound">HttpAqlCollectTest</ref></type>
+        </param>
+        <param>
+          <type>Collect_GroupByCity_Count</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_collect.cpp" line="84" column="1" bodyfile="tests/network/test_http_aql_collect.cpp" bodystart="84" bodyend="110"/>
+      </memberdef>
+      <memberdef kind="function" id="test__http__aql__collect_8cpp_1adb52440509586f8ca51a1c0d004575a8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST_F</definition>
+        <argsstring>(HttpAqlCollectTest, Collect_Global_AvgAge_Berlin)</argsstring>
+        <name>TEST_F</name>
+        <param>
+          <type><ref refid="class_http_aql_collect_test" kindref="compound">HttpAqlCollectTest</ref></type>
+        </param>
+        <param>
+          <type>Collect_Global_AvgAge_Berlin</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/network/test_http_aql_collect.cpp" line="112" column="1" bodyfile="tests/network/test_http_aql_collect.cpp" bodystart="112" bodyend="125"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;nlohmann/json.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/asio.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;boost/beast.hpp&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;filesystem&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;set&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;server/http_server.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/rocksdb_wrapper.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/secondary_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/graph_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;index/vector_index.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;transaction/transaction_manager.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;storage/base_entity.h&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>=<sp/>nlohmann::json;</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">beast<sp/>=<sp/>boost::beast;</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">http<sp/>=<sp/>beast::http;</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">net<sp/>=<sp/>boost::asio;</highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="keyword">using<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1network_1a7c0ea458b8c694bc6d3c7e2c14f67649" kindref="member">tcp</ref><sp/>=<sp/>net::ip::tcp;</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24" refid="class_http_aql_collect_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="class_http_aql_collect_test" kindref="compound">HttpAqlCollectTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight><highlight class="keyword">protected</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_collect_test_1a5df544bac17eba9d610b37ef6eedcee8" kindref="member">SetUp</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string<sp/>db_path<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;data/themis_http_aql_collect_test&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(std::filesystem::exists(db_path))<sp/>{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::filesystem::remove_all(db_path);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::RocksDBWrapper::Config<sp/>cfg;<sp/>cfg.db_path<sp/>=<sp/>db_path;<sp/>cfg.memtable_size_mb<sp/>=<sp/>64;<sp/>cfg.block_cache_size_mb<sp/>=<sp/>128;</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref><sp/>=<sp/>std::make_shared&lt;themis::RocksDBWrapper&gt;(cfg);</highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>-&gt;open());</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::SecondaryIndexManager&gt;(*<ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a7eed80d189a14198fde4f12c7a6151eb" kindref="member">graph_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::GraphIndexManager&gt;(*<ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a82a046e89eff01c09a14089e4c4cbf7c" kindref="member">vector_index_</ref><sp/>=<sp/>std::make_shared&lt;themis::VectorIndexManager&gt;(*<ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>);</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a39dfdb74886fc4a2d4b83b867e4ea2b3" kindref="member">tx_manager_</ref><sp/>=<sp/>std::make_shared&lt;themis::TransactionManager&gt;(*<ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>,<sp/>*<ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>,<sp/>*<ref refid="class_http_aql_collect_test_1a7eed80d189a14198fde4f12c7a6151eb" kindref="member">graph_index_</ref>,<sp/>*<ref refid="class_http_aql_collect_test_1a82a046e89eff01c09a14089e4c4cbf7c" kindref="member">vector_index_</ref>);</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::server::HttpServer::Config<sp/>scfg;<sp/>scfg.host<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">;<sp/>scfg.port<sp/>=<sp/>18084;<sp/>scfg.num_threads<sp/>=<sp/>2;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1ac2dba84474fe3f6f9b7ad684b30b583f" kindref="member">server_</ref><sp/>=<sp/>std::make_unique&lt;themis::server::HttpServer&gt;(scfg,<sp/><ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>,<sp/><ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>,<sp/><ref refid="class_http_aql_collect_test_1a7eed80d189a14198fde4f12c7a6151eb" kindref="member">graph_index_</ref>,<sp/><ref refid="class_http_aql_collect_test_1a82a046e89eff01c09a14089e4c4cbf7c" kindref="member">vector_index_</ref>,<sp/><ref refid="class_http_aql_collect_test_1a39dfdb74886fc4a2d4b83b867e4ea2b3" kindref="member">tx_manager_</ref>);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1ac2dba84474fe3f6f9b7ad684b30b583f" kindref="member">server_</ref>-&gt;start();</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(100));</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a74b0267cfbcb7d7e37d8de8874681e70" kindref="member">setupData</ref>();</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_collect_test_1aa9cf4f1a09615560534299dc4e186b66" kindref="member">TearDown</ref>()</highlight><highlight class="keyword"><sp/>override<sp/></highlight><highlight class="normal">{</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="class_http_aql_collect_test_1ac2dba84474fe3f6f9b7ad684b30b583f" kindref="member">server_</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1ac2dba84474fe3f6f9b7ad684b30b583f" kindref="member">server_</ref>-&gt;stop();</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>-&gt;close();</highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="class_http_aql_collect_test_1a74b0267cfbcb7d7e37d8de8874681e70" kindref="member">setupData</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>-&gt;createIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>-&gt;createRangeIndex(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">).ok);</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::vector&lt;themis::BaseEntity&gt;<sp/>users<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;alice&quot;</highlight><highlight class="normal">,<sp/>themis::BaseEntity::FieldMap{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Alice&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;25&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;bob&quot;</highlight><highlight class="normal">,<sp/>themis::BaseEntity::FieldMap{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Bob&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;17&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Hamburg&quot;</highlight><highlight class="normal">}}),</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>themis::BaseEntity::fromFields(</highlight><highlight class="stringliteral">&quot;diana&quot;</highlight><highlight class="normal">,<sp/>themis::BaseEntity::FieldMap{{</highlight><highlight class="stringliteral">&quot;name&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Diana&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;age&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;28&quot;</highlight><highlight class="normal">},{</highlight><highlight class="stringliteral">&quot;city&quot;</highlight><highlight class="normal">,</highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">}})</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>u<sp/>:<sp/>users)<sp/>{</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ASSERT_TRUE(<ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>-&gt;put(</highlight><highlight class="stringliteral">&quot;users&quot;</highlight><highlight class="normal">,<sp/>u).ok);</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>http::response&lt;http::string_body&gt;<sp/><ref refid="class_http_aql_collect_test_1a07074073e7ac78a01a8230fe0606dcea" kindref="member">post</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>target,<sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref>&amp;<sp/>body)<sp/>{</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">try</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>net::io_context<sp/>ioc;<sp/>tcp::resolver<sp/>resolver(ioc);<sp/>beast::tcp_stream<sp/>stream(ioc);</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>results<sp/>=<sp/>resolver.resolve(</highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;18084&quot;</highlight><highlight class="normal">);<sp/>stream.connect(results);</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>http::request&lt;http::string_body&gt;<sp/>req{http::verb::post,<sp/>target,<sp/>11};</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.set(http::field::host,<sp/></highlight><highlight class="stringliteral">&quot;127.0.0.1&quot;</highlight><highlight class="normal">);<sp/>req.set(http::field::content_type,<sp/></highlight><highlight class="stringliteral">&quot;application/json&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>req.body()<sp/>=<sp/>body.dump();<sp/>req.prepare_payload();<sp/>http::write(stream,<sp/>req);</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::flat_buffer<sp/>buf;<sp/>http::response&lt;http::string_body&gt;<sp/>res;<sp/>http::read(stream,<sp/>buf,<sp/>res);</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>beast::error_code<sp/>ec;<sp/>stream.socket().shutdown(tcp::socket::shutdown_both,<sp/>ec);<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>res;</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">catch</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::exception&amp;<sp/>e)<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>ADD_FAILURE()<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;POST<sp/>failed:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>e.what();</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>http::response&lt;http::string_body&gt;{http::status::internal_server_error,<sp/>11};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/>std::unique_ptr&lt;themis::server::HttpServer&gt;<sp/><ref refid="class_http_aql_collect_test_1ac2dba84474fe3f6f9b7ad684b30b583f" kindref="member">server_</ref>;</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::RocksDBWrapper&gt;<sp/><ref refid="class_http_aql_collect_test_1a6a301de0c871c0f269790148ea97308f" kindref="member">storage_</ref>;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::SecondaryIndexManager&gt;<sp/><ref refid="class_http_aql_collect_test_1ae091a4d02a8be2021f5cda23c7b3475d" kindref="member">secondary_index_</ref>;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::GraphIndexManager&gt;<sp/><ref refid="class_http_aql_collect_test_1a7eed80d189a14198fde4f12c7a6151eb" kindref="member">graph_index_</ref>;</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::VectorIndexManager&gt;<sp/><ref refid="class_http_aql_collect_test_1a82a046e89eff01c09a14089e4c4cbf7c" kindref="member">vector_index_</ref>;</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/>std::shared_ptr&lt;themis::TransactionManager&gt;<sp/><ref refid="class_http_aql_collect_test_1a39dfdb74886fc4a2d4b83b867e4ea2b3" kindref="member">tx_manager_</ref>;</highlight></codeline>
+<codeline lineno="82"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><ref refid="test__http__aql__collect_8cpp_1a43a477323830ca7b4257569cd1d31e93" kindref="member">TEST_F</ref>(<ref refid="class_http_aql_collect_test" kindref="compound">HttpAqlCollectTest</ref>,<sp/>Collect_GroupByCity_Count)<sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>COLLECT<sp/>g<sp/>=<sp/>u.city<sp/>AGGREGATE<sp/>c<sp/>=<sp/>COUNT()&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allow_full_scan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>post(</highlight><highlight class="stringliteral">&quot;/query/aql&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;groups&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>groups<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;groups&quot;</highlight><highlight class="normal">].get&lt;json::array_t&gt;();</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expect<sp/>two<sp/>groups</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(groups.size(),<sp/>2);</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>Berlin<sp/>has<sp/>count<sp/>2</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>berlinCnt<sp/>=<sp/>-1;<sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>hamburgCnt<sp/>=<sp/>-1;</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>g<sp/>:<sp/>groups)<sp/>{</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::string<sp/>city<sp/>=<sp/>g[</highlight><highlight class="stringliteral">&quot;g&quot;</highlight><highlight class="normal">].get&lt;std::string&gt;();</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>c<sp/>=<sp/>g[</highlight><highlight class="stringliteral">&quot;c&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">int</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(city<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;Berlin&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>berlinCnt<sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(city<sp/>==<sp/></highlight><highlight class="stringliteral">&quot;Hamburg&quot;</highlight><highlight class="normal">)<sp/>{</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>hamburgCnt<sp/>=<sp/>c;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(berlinCnt,<sp/>2);</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(hamburgCnt,<sp/>1);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="test__http__aql__collect_8cpp_1a43a477323830ca7b4257569cd1d31e93" kindref="member">TEST_F</ref>(<ref refid="class_http_aql_collect_test" kindref="compound">HttpAqlCollectTest</ref>,<sp/>Collect_Global_AvgAge_Berlin)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="udp__fast__path_8cpp_1ab701e3ac61a85b337ec5c1abaad6742d" kindref="member">json</ref><sp/>req<sp/>=<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;query&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="stringliteral">&quot;FOR<sp/>u<sp/>IN<sp/>users<sp/>FILTER<sp/>u.city<sp/>==<sp/>&apos;Berlin&apos;<sp/>COLLECT<sp/>AGGREGATE<sp/>avgAge<sp/>=<sp/>AVG(u.age)&quot;</highlight><highlight class="normal">},</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>{</highlight><highlight class="stringliteral">&quot;allow_full_scan&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">}</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>res<sp/>=<sp/>post(</highlight><highlight class="stringliteral">&quot;/query/aql&quot;</highlight><highlight class="normal">,<sp/>req);</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(res.result(),<sp/>http::status::ok)<sp/>&lt;&lt;<sp/>res.body();</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>body<sp/>=<sp/>json::parse(res.body());</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_TRUE(body.contains(</highlight><highlight class="stringliteral">&quot;groups&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>groups<sp/>=<sp/>body[</highlight><highlight class="stringliteral">&quot;groups&quot;</highlight><highlight class="normal">].get&lt;json::array_t&gt;();</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>ASSERT_EQ(groups.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">double</highlight><highlight class="normal"><sp/>avg<sp/>=<sp/>groups[0][</highlight><highlight class="stringliteral">&quot;avgAge&quot;</highlight><highlight class="normal">].get&lt;</highlight><highlight class="keywordtype">double</highlight><highlight class="normal">&gt;();</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(avg,<sp/>(25.0<sp/>+<sp/>28.0)<sp/>/<sp/>2.0,<sp/>1e-9);</highlight></codeline>
+<codeline lineno="125"><highlight class="normal">}</highlight></codeline>
+    </programlisting>
+    <location file="tests/network/test_http_aql_collect.cpp"/>
+  </compounddef>
+</doxygen>

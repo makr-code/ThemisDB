@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_ecb37285c0bc658c97bb749f37c59e79" kind="dir">
+    <compoundname>src/auth</compoundname>
+    <innerfile refid="api__key__authenticator_8cpp">api_key_authenticator.cpp</innerfile>
+    <innerfile refid="auth__audit__logger_8cpp">auth_audit_logger.cpp</innerfile>
+    <innerfile refid="auth__error_8cpp">auth_error.cpp</innerfile>
+    <innerfile refid="auth__event__bus_8cpp">auth_event_bus.cpp</innerfile>
+    <innerfile refid="auth__metrics_8cpp">auth_metrics.cpp</innerfile>
+    <innerfile refid="auth__rate__limiter_8cpp">auth_rate_limiter.cpp</innerfile>
+    <innerfile refid="auth__worker__thread__pool_8cpp">auth_worker_thread_pool.cpp</innerfile>
+    <innerfile refid="distributed__token__blacklist_8cpp">distributed_token_blacklist.cpp</innerfile>
+    <innerfile refid="federated__identity__manager_8cpp">federated_identity_manager.cpp</innerfile>
+    <innerfile refid="gssapi__authenticator_8cpp">gssapi_authenticator.cpp</innerfile>
+    <innerfile refid="http__auth__async_8cpp">http_auth_async.cpp</innerfile>
+    <innerfile refid="jwks__security_8cpp">jwks_security.cpp</innerfile>
+    <innerfile refid="jwks__validator_8cpp">jwks_validator.cpp</innerfile>
+    <innerfile refid="jwt__key__rotation__manager_8cpp">jwt_key_rotation_manager.cpp</innerfile>
+    <innerfile refid="jwt__validator_8cpp">jwt_validator.cpp</innerfile>
+    <innerfile refid="kerberos__security_8cpp">kerberos_security.cpp</innerfile>
+    <innerfile refid="ldap__authenticator_8cpp">ldap_authenticator.cpp</innerfile>
+    <innerfile refid="ldap__connection__pool_8cpp">ldap_connection_pool.cpp</innerfile>
+    <innerfile refid="mfa__authenticator_8cpp">mfa_authenticator.cpp</innerfile>
+    <innerfile refid="mtls__authenticator_8cpp">mtls_authenticator.cpp</innerfile>
+    <innerfile refid="oauth__device__flow_8cpp">oauth_device_flow.cpp</innerfile>
+    <innerfile refid="oauth__pkce__flow_8cpp">oauth_pkce_flow.cpp</innerfile>
+    <innerfile refid="oidc__provider_8cpp">oidc_provider.cpp</innerfile>
+    <innerfile refid="passkey__authenticator_8cpp">passkey_authenticator.cpp</innerfile>
+    <innerfile refid="password__policy_8cpp">password_policy.cpp</innerfile>
+    <innerfile refid="principal__validator_8cpp">principal_validator.cpp</innerfile>
+    <innerfile refid="rate__limiter__backend_8cpp">rate_limiter_backend.cpp</innerfile>
+    <innerfile refid="redis__token__blacklist_8cpp">redis_token_blacklist.cpp</innerfile>
+    <innerfile refid="rocksdb__open__compat_8h">rocksdb_open_compat.h</innerfile>
+    <innerfile refid="rocksdb__token__blacklist_8cpp">rocksdb_token_blacklist.cpp</innerfile>
+    <innerfile refid="saml__authenticator_8cpp">saml_authenticator.cpp</innerfile>
+    <innerfile refid="secure__memory_8cpp">secure_memory.cpp</innerfile>
+    <innerfile refid="session__manager_8cpp">session_manager.cpp</innerfile>
+    <innerfile refid="token__blacklist_8cpp">token_blacklist.cpp</innerfile>
+    <innerfile refid="totp__replay__cache_8cpp">totp_replay_cache.cpp</innerfile>
+    <innerfile refid="totp__secret__encryption_8cpp">totp_secret_encryption.cpp</innerfile>
+    <innerfile refid="webauthn__authenticator_8cpp">webauthn_authenticator.cpp</innerfile>
+    <innerfile refid="zero__trust__auth__verifier_8cpp">zero_trust_auth_verifier.cpp</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/auth/"/>
+  </compounddef>
+</doxygen>

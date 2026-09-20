@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1aql_1_1_i_history_compressor" kind="struct" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::aql::IHistoryCompressor</compoundname>
+    <includes refid="i__history__compressor_8h" local="no">i_history_compressor.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_i_history_compressor_1a9936fc1c8602cbcdbaeff1d102bd6993" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::IHistoryCompressor::~IHistoryCompressor</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IHistoryCompressor</name>
+        <qualifiedname>themis::aql::IHistoryCompressor::~IHistoryCompressor</qualifiedname>
+        <briefdescription>
+<para>IHistory Compressor. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="36" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_i_history_compressor_1acf18ed0cbb95555a8404e415cb4d5fba" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::unique_ptr&lt; <ref refid="structthemis_1_1aql_1_1_compression_result" kindref="compound">CompressionResult</ref> &gt;</type>
+        <definition>virtual std::unique_ptr&lt; CompressionResult &gt; themis::aql::IHistoryCompressor::compressHistory</definition>
+        <argsstring>(const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;history, int32_t max_tokens, float min_similarity=0.85f)=0</argsstring>
+        <name>compressHistory</name>
+        <qualifiedname>themis::aql::IHistoryCompressor::compressHistory</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::pair&lt; std::string, std::string &gt; &gt; &amp;</type>
+          <declname>history</declname>
+        </param>
+        <param>
+          <type>int32_t</type>
+          <declname>max_tokens</declname>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>min_similarity</declname>
+          <defval>0.85f</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="38" column="29"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_i_history_compressor_1a776fd544a248a93acf793feec648d123" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::aql::IHistoryCompressor::isAvailable</definition>
+        <argsstring>() const =0</argsstring>
+        <name>isAvailable</name>
+        <qualifiedname>themis::aql::IHistoryCompressor::isAvailable</qualifiedname>
+        <briefdescription>
+<para>Is Available. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="47" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1aql_1_1_i_history_compressor_1ae657de360eddf9a972e523331e8ef775" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="virtual">
+        <type>std::string</type>
+        <definition>virtual std::string themis::aql::IHistoryCompressor::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::aql::IHistoryCompressor::getStatistics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/llm/i_history_compressor.h" line="49" column="25" bodyfile="include/llm/i_history_compressor.h" bodystart="49" bodyend="49"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/llm/i_history_compressor.h" line="31" column="1" bodyfile="include/llm/i_history_compressor.h" bodystart="31" bodyend="50"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1aql_1_1_i_history_compressor_1acf18ed0cbb95555a8404e415cb4d5fba" prot="public" virt="pure-virtual"><scope>themis::aql::IHistoryCompressor</scope><name>compressHistory</name></member>
+      <member refid="structthemis_1_1aql_1_1_i_history_compressor_1ae657de360eddf9a972e523331e8ef775" prot="public" virt="virtual"><scope>themis::aql::IHistoryCompressor</scope><name>getStatistics</name></member>
+      <member refid="structthemis_1_1aql_1_1_i_history_compressor_1a776fd544a248a93acf793feec648d123" prot="public" virt="pure-virtual"><scope>themis::aql::IHistoryCompressor</scope><name>isAvailable</name></member>
+      <member refid="structthemis_1_1aql_1_1_i_history_compressor_1a9936fc1c8602cbcdbaeff1d102bd6993" prot="public" virt="virtual"><scope>themis::aql::IHistoryCompressor</scope><name>~IHistoryCompressor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

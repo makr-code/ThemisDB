@@ -1,0 +1,113 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1sharding_1_1_partition_event" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::sharding::PartitionEvent</compoundname>
+    <includes refid="partition__detector_8h" local="no">partition_detector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1a1176c259cccd4319ef57632c1802947d" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::PartitionEvent::detected_at</definition>
+        <argsstring></argsstring>
+        <name>detected_at</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::detected_at</qualifiedname>
+        <briefdescription>
+<para>Time partition was first detected. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="55" column="43" bodyfile="include/sharding/partition_detector.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1ae288d6bd414aa21aaa22bef999876d4b" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themisdb::sharding::PartitionEvent::healed_at</definition>
+        <argsstring></argsstring>
+        <name>healed_at</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::healed_at</qualifiedname>
+        <briefdescription>
+<para>Time partition was marked healed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="56" column="43" bodyfile="include/sharding/partition_detector.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1a33b42d0ac93de2b16d83088972763e66" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::PartitionEvent::partition_a</definition>
+        <argsstring></argsstring>
+        <name>partition_a</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::partition_a</qualifiedname>
+        <briefdescription>
+<para>First node set in partition split. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="57" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1a594ab1facaf48e5d04561e11694e8c15" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themisdb::sharding::PartitionEvent::partition_b</definition>
+        <argsstring></argsstring>
+        <name>partition_b</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::partition_b</qualifiedname>
+        <briefdescription>
+<para>Second node set in partition split. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="58" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1a0440180cef9116c9a5e9bbd1032eb996" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::sharding::PartitionEvent::is_healed</definition>
+        <argsstring></argsstring>
+        <name>is_healed</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::is_healed</qualifiedname>
+        <briefdescription>
+<para>True once healing has been observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="59" column="10" bodyfile="include/sharding/partition_detector.h" bodystart="59" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1sharding_1_1_partition_event_1a3e33e58eb1c47f3a8d23fc85a4c307cb" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::sharding::PartitionEvent::description</definition>
+        <argsstring></argsstring>
+        <name>description</name>
+        <qualifiedname>themisdb::sharding::PartitionEvent::description</qualifiedname>
+        <briefdescription>
+<para>Human-readable event description. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/partition_detector.h" line="60" column="17" bodyfile="include/sharding/partition_detector.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Partition event. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/sharding/partition_detector.h" line="54" column="1" bodyfile="include/sharding/partition_detector.h" bodystart="54" bodyend="61"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1a3e33e58eb1c47f3a8d23fc85a4c307cb" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>description</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1a1176c259cccd4319ef57632c1802947d" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>detected_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1ae288d6bd414aa21aaa22bef999876d4b" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>healed_at</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1a0440180cef9116c9a5e9bbd1032eb996" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>is_healed</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1a33b42d0ac93de2b16d83088972763e66" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>partition_a</name></member>
+      <member refid="structthemisdb_1_1sharding_1_1_partition_event_1a594ab1facaf48e5d04561e11694e8c15" prot="public" virt="non-virtual"><scope>themisdb::sharding::PartitionEvent</scope><name>partition_b</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

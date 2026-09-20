@@ -1,0 +1,210 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1server_1_1_rate_limit_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::server::RateLimitConfig</compoundname>
+    <includes refid="rate__limiter_8h" local="no">rate_limiter.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1aef0ff15d4b59f0bd97bc428772c5ddfe" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::server::RateLimitConfig::bucket_capacity</definition>
+        <argsstring></argsstring>
+        <name>bucket_capacity</name>
+        <qualifiedname>themis::server::RateLimitConfig::bucket_capacity</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="29" column="12" bodyfile="include/server/rate_limiter.h" bodystart="29" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a57a042f94171c4ab9666c9b2fdd00af2" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::RateLimitConfig::refill_rate</definition>
+        <argsstring></argsstring>
+        <name>refill_rate</name>
+        <qualifiedname>themis::server::RateLimitConfig::refill_rate</qualifiedname>
+        <initializer>= 100.0 / 60.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="32" column="12" bodyfile="include/server/rate_limiter.h" bodystart="32" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a57d63b612d92149d907b685c730f8861" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimitConfig::window_seconds</definition>
+        <argsstring></argsstring>
+        <name>window_seconds</name>
+        <qualifiedname>themis::server::RateLimitConfig::window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="35" column="14" bodyfile="include/server/rate_limiter.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a2e7a8e7eb4f7f87f0091eb6e132fa0d6" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimitConfig::per_ip_enabled</definition>
+        <argsstring></argsstring>
+        <name>per_ip_enabled</name>
+        <qualifiedname>themis::server::RateLimitConfig::per_ip_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="38" column="10" bodyfile="include/server/rate_limiter.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a682c2e950e7f7941ad9ff056a66ef118" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimitConfig::per_user_enabled</definition>
+        <argsstring></argsstring>
+        <name>per_user_enabled</name>
+        <qualifiedname>themis::server::RateLimitConfig::per_user_enabled</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="41" column="10" bodyfile="include/server/rate_limiter.h" bodystart="41" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a1e6196782badc09ba69e3be835a4d29b" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::server::RateLimitConfig::whitelist_ips</definition>
+        <argsstring></argsstring>
+        <name>whitelist_ips</name>
+        <qualifiedname>themis::server::RateLimitConfig::whitelist_ips</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="44" column="17" bodyfile="include/server/rate_limiter.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a45616a802a46249f541a3c373d77b3e1" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, size_t &gt;</type>
+        <definition>std::unordered_map&lt;std::string, size_t&gt; themis::server::RateLimitConfig::custom_limits</definition>
+        <argsstring></argsstring>
+        <name>custom_limits</name>
+        <qualifiedname>themis::server::RateLimitConfig::custom_limits</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="47" column="24" bodyfile="include/server/rate_limiter.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a76d4f0bd73e0f8a503c6166c38cf50c1" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::server::RateLimitConfig::adaptive_throttling_enabled</definition>
+        <argsstring></argsstring>
+        <name>adaptive_throttling_enabled</name>
+        <qualifiedname>themis::server::RateLimitConfig::adaptive_throttling_enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="54" column="10" bodyfile="include/server/rate_limiter.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1aadea2590e26f7d4d53b70a49ea017adb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimitConfig::adaptive_rejection_threshold</definition>
+        <argsstring></argsstring>
+        <name>adaptive_rejection_threshold</name>
+        <qualifiedname>themis::server::RateLimitConfig::adaptive_rejection_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+<para>rejections that trigger penalty </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="55" column="14" bodyfile="include/server/rate_limiter.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1a9a7cfd2251fab342e525bb1989ce9e93" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimitConfig::adaptive_window_seconds</definition>
+        <argsstring></argsstring>
+        <name>adaptive_window_seconds</name>
+        <qualifiedname>themis::server::RateLimitConfig::adaptive_window_seconds</qualifiedname>
+        <initializer>= 60</initializer>
+        <briefdescription>
+<para>rolling window for counting </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="56" column="14" bodyfile="include/server/rate_limiter.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1ad209d3aadbb8deaf74ff2273f5bb81bf" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::server::RateLimitConfig::adaptive_penalty_factor</definition>
+        <argsstring></argsstring>
+        <name>adaptive_penalty_factor</name>
+        <qualifiedname>themis::server::RateLimitConfig::adaptive_penalty_factor</qualifiedname>
+        <initializer>= 0.25</initializer>
+        <briefdescription>
+<para>reserved for future use </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="57" column="14" bodyfile="include/server/rate_limiter.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1server_1_1_rate_limit_config_1acc5feac674389d8bce6fad69a2cf9fa0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::server::RateLimitConfig::adaptive_penalty_duration_seconds</definition>
+        <argsstring></argsstring>
+        <name>adaptive_penalty_duration_seconds</name>
+        <qualifiedname>themis::server::RateLimitConfig::adaptive_penalty_duration_seconds</qualifiedname>
+        <initializer>= 120</initializer>
+        <briefdescription>
+<para>how long the penalty lasts </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/rate_limiter.h" line="58" column="14" bodyfile="include/server/rate_limiter.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/rate_limiter.h" line="27" column="1" bodyfile="include/server/rate_limiter.h" bodystart="27" bodyend="59"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1acc5feac674389d8bce6fad69a2cf9fa0" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>adaptive_penalty_duration_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1ad209d3aadbb8deaf74ff2273f5bb81bf" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>adaptive_penalty_factor</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1aadea2590e26f7d4d53b70a49ea017adb" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>adaptive_rejection_threshold</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a76d4f0bd73e0f8a503c6166c38cf50c1" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>adaptive_throttling_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a9a7cfd2251fab342e525bb1989ce9e93" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>adaptive_window_seconds</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1aef0ff15d4b59f0bd97bc428772c5ddfe" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>bucket_capacity</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a45616a802a46249f541a3c373d77b3e1" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>custom_limits</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a2e7a8e7eb4f7f87f0091eb6e132fa0d6" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>per_ip_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a682c2e950e7f7941ad9ff056a66ef118" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>per_user_enabled</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a57a042f94171c4ab9666c9b2fdd00af2" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>refill_rate</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a1e6196782badc09ba69e3be835a4d29b" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>whitelist_ips</name></member>
+      <member refid="structthemis_1_1server_1_1_rate_limit_config_1a57d63b612d92149d907b685c730f8861" prot="public" virt="non-virtual"><scope>themis::server::RateLimitConfig</scope><name>window_seconds</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,230 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1distributed__tensor_1_1_recovery_job" kind="struct" language="C++" prot="public">
+    <compoundname>themis::distributed_tensor::RecoveryJob</compoundname>
+    <includes refid="recovery__manager_8h" local="no">recovery_manager.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a08fdacffdfb24de4053751d7e5dd55ae" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::job_id</definition>
+        <argsstring></argsstring>
+        <name>job_id</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::job_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="65" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a3f4e9b9d0e2cd4db27d824172b244d88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::artifact_id</definition>
+        <argsstring></argsstring>
+        <name>artifact_id</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::artifact_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="67" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a72d650505aa58bbab7be6ba33747b232" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::shard_id</definition>
+        <argsstring></argsstring>
+        <name>shard_id</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::shard_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="69" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="69" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1ab3cd4fe75a504549dbe0fe7c4b0dadc6" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1a4fd78c00dbe16c1cb7ad9ef5e97f52dd" kindref="member">RecoveryStrategy</ref></type>
+        <definition>RecoveryStrategy themis::distributed_tensor::RecoveryJob::recovery_strategy</definition>
+        <argsstring></argsstring>
+        <name>recovery_strategy</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::recovery_strategy</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="71" column="20" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a613e7ee537eb0c45324bf628054ec71a" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1distributed__tensor_1abe16ade153cb579d13f81d78b6362187" kindref="member">RecoveryJobStatus</ref></type>
+        <definition>RecoveryJobStatus themis::distributed_tensor::RecoveryJob::status</definition>
+        <argsstring></argsstring>
+        <name>status</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::status</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="73" column="21" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="73" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1ac2ee65d637e363c8a83628e02f90fa95" prot="public" static="no" mutable="no">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1distributed__tensor_1a827f47cd542baa0b1f2829bc59214190" kindref="member">RecoveryFailureMode</ref> &gt;</type>
+        <definition>std::optional&lt;RecoveryFailureMode&gt; themis::distributed_tensor::RecoveryJob::failure_mode</definition>
+        <argsstring></argsstring>
+        <name>failure_mode</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::failure_mode</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="75" column="17" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a3cc8ecf127805c35311aadca1b2680af" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::distributed_tensor::RecoveryJob::estimated_completion_ms</definition>
+        <argsstring></argsstring>
+        <name>estimated_completion_ms</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::estimated_completion_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="77" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a7b2b0906c113a78deb79a982412468d0" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::RecoveryJob::retry_count</definition>
+        <argsstring></argsstring>
+        <name>retry_count</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::retry_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="79" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1acdcae73a061e458f3888ef0bd5da1fa5" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::RecoveryJob::max_retries</definition>
+        <argsstring></argsstring>
+        <name>max_retries</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::max_retries</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="81" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1ab2682a36e626c5c94de075a53c74c599" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="83" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a49c678c4fbc854cc66019881bef076f5" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::started_at</definition>
+        <argsstring></argsstring>
+        <name>started_at</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::started_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="85" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a7f3c93397f9d4d5a0cd82a35e7a9363d" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::completed_at</definition>
+        <argsstring></argsstring>
+        <name>completed_at</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::completed_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="87" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a478154e9e0ffe507fb187e783ec36815" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::distributed_tensor::RecoveryJob::progress_percent</definition>
+        <argsstring></argsstring>
+        <name>progress_percent</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::progress_percent</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="89" column="12" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="89" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1distributed__tensor_1_1_recovery_job_1a283b47b28ea8627fd91307925d06a9ff" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::distributed_tensor::RecoveryJob::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::distributed_tensor::RecoveryJob::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/distributed_tensor/recovery_manager.h" line="91" column="15" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="91" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/distributed_tensor/recovery_manager.h" line="64" column="1" bodyfile="include/distributed_tensor/recovery_manager.h" bodystart="64" bodyend="92"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a3f4e9b9d0e2cd4db27d824172b244d88" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>artifact_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a7f3c93397f9d4d5a0cd82a35e7a9363d" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>completed_at</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1ab2682a36e626c5c94de075a53c74c599" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a283b47b28ea8627fd91307925d06a9ff" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a3cc8ecf127805c35311aadca1b2680af" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>estimated_completion_ms</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1ac2ee65d637e363c8a83628e02f90fa95" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>failure_mode</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a08fdacffdfb24de4053751d7e5dd55ae" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>job_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1acdcae73a061e458f3888ef0bd5da1fa5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>max_retries</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a478154e9e0ffe507fb187e783ec36815" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>progress_percent</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1ab3cd4fe75a504549dbe0fe7c4b0dadc6" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>recovery_strategy</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a7b2b0906c113a78deb79a982412468d0" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>retry_count</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a72d650505aa58bbab7be6ba33747b232" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>shard_id</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a49c678c4fbc854cc66019881bef076f5" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>started_at</name></member>
+      <member refid="structthemis_1_1distributed__tensor_1_1_recovery_job_1a613e7ee537eb0c45324bf628054ec71a" prot="public" virt="non-virtual"><scope>themis::distributed_tensor::RecoveryJob</scope><name>status</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

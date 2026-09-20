@@ -1,0 +1,485 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache" kind="class" language="C++" prot="public">
+    <compoundname>themis::auth::TOTPReplayCache</compoundname>
+    <includes refid="totp__replay__cache_8h" local="no">totp_replay_cache.h</includes>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" prot="public">themis::auth::TOTPReplayCache::Config</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" prot="public">themis::auth::TOTPReplayCache::Statistics</innerclass>
+    <innerclass refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_used_code" prot="private">themis::auth::TOTPReplayCache::UsedCode</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aea291a1ca2ad7bde24df5d7739c28059" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::auth::TOTPReplayCache::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="103" column="12" bodyfile="include/auth/totp_replay_cache.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a17e8061edde8f4d9c19a68c8c43eb2a8" prot="private" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::vector&lt; UsedCode &gt; &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::vector&lt;UsedCode&gt; &gt; themis::auth::TOTPReplayCache::user_caches_</definition>
+        <argsstring></argsstring>
+        <name>user_caches_</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::user_caches_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="106" column="24" bodyfile="include/auth/totp_replay_cache.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a9721933205e218251de1782d75b9cab7" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::auth::TOTPReplayCache::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="109" column="24" bodyfile="include/auth/totp_replay_cache.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac267d8fe78b2f0a851074646dec1316a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::auth::TOTPReplayCache::mutex_</definition>
+        <argsstring></argsstring>
+        <name>mutex_</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="112" column="24" bodyfile="include/auth/totp_replay_cache.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac8aa4bb799c773f9ff5d7a5e0c627aa5" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::auth::TOTPReplayCache::last_cleanup_</definition>
+        <argsstring></argsstring>
+        <name>last_cleanup_</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::last_cleanup_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="115" column="43" bodyfile="include/auth/totp_replay_cache.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TOTPReplayCache::TOTPReplayCache</definition>
+        <argsstring>(const Config &amp;config=Config::defaults())</argsstring>
+        <name>TOTPReplayCache</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::TOTPReplayCache</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_config_1a5d2223a5056e24e8a7dc6d3773f1cc44" kindref="member">Config::defaults</ref>()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="43" column="14" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="24" bodyend="32"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2f608a43a0b587076e928b1bdb2ff76d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TOTPReplayCache::~TOTPReplayCache</definition>
+        <argsstring>()=default</argsstring>
+        <name>~TOTPReplayCache</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::~TOTPReplayCache</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="44" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa982814f0519444af0044991f4eced9e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TOTPReplayCache::TOTPReplayCache</definition>
+        <argsstring>(const TOTPReplayCache &amp;)=delete</argsstring>
+        <name>TOTPReplayCache</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::TOTPReplayCache</qualifiedname>
+        <param>
+          <type>const TOTPReplayCache &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="47" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa3bf97ad59d4fc2d75d0ddc6087f1ddb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref> &amp;</type>
+        <definition>TOTPReplayCache &amp; themis::auth::TOTPReplayCache::operator=</definition>
+        <argsstring>(const TOTPReplayCache &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="48" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2384c95405f7eeb076c213d13d292cce" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::auth::TOTPReplayCache::TOTPReplayCache</definition>
+        <argsstring>(TOTPReplayCache &amp;&amp;) noexcept=default</argsstring>
+        <name>TOTPReplayCache</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::TOTPReplayCache</qualifiedname>
+        <param>
+          <type>TOTPReplayCache &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="49" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a86a328fc93d552c5eedce0236c5c1a2e" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref> &amp;</type>
+        <definition>TOTPReplayCache &amp; themis::auth::TOTPReplayCache::operator=</definition>
+        <argsstring>(TOTPReplayCache &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" kindref="member">TOTPReplayCache</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="50" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ab8a4927cda4fa7a5697d123cefaec7cd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TOTPReplayCache::checkAndMarkUsed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;code)</argsstring>
+        <name>checkAndMarkUsed</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::checkAndMarkUsed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Check And Mark Used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: lock(), needsCleanup(), <ref refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac99a56df4f39a6d352d199a2ea7e717a" kindref="member">cleanup()</ref>, std::chrono::system_clock::now(), utils::Logger::warn(), push_back(), size(), std::sort(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="58" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="41" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a1873e7f4256572894f7997520e5c1fb9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TOTPReplayCache::isUsed</definition>
+        <argsstring>(const std::string &amp;user_id, const std::string &amp;code) const</argsstring>
+        <name>isUsed</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::isUsed</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Is Used. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">code</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="66" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="96" bodyend="122"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1afc7aefa8309014bfac3a844adcd924c6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TOTPReplayCache::clearUser</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>clearUser</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::clearUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Clear User. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lock(), find(), end(), size(), erase(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="72" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="129" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a196f9ee47c50fa8dd5c945290b3cfc81" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TOTPReplayCache::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), utils::Logger::info(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="77" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="144" bodyend="151"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac99a56df4f39a6d352d199a2ea7e717a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TOTPReplayCache::cleanup</definition>
+        <argsstring>()</argsstring>
+        <name>cleanup</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::cleanup</qualifiedname>
+        <briefdescription>
+<para>Cleanup. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: std::chrono::system_clock::now(), begin(), end(), size(), erase(), std::remove_if(), empty(), std::chrono::steady_clock::now(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="82" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="157" bodyend="198"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a592c80acf76b102f01e77ba56f588ebc" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1auth_1_1_t_o_t_p_replay_cache_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>TOTPReplayCache::Statistics themis::auth::TOTPReplayCache::getStatistics</definition>
+        <argsstring>() const</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::getStatistics</qualifiedname>
+        <briefdescription>
+<para>Return access control statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Access control statistics. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="95" column="16" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="238" bodyend="246"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1afece5cc55017bab08948439760a31c8b" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::auth::TOTPReplayCache::cleanupUser</definition>
+        <argsstring>(const std::string &amp;user_id)</argsstring>
+        <name>cleanupUser</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::cleanupUser</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <briefdescription>
+<para>Helper: Remove expired codes for a user. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Cleanup User.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: find(), end(), std::chrono::system_clock::now(), size(), erase(), std::remove_if(), begin(), empty(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="121" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="205" bodyend="230"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a6346753f83540b4e7873c4a30f978977" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::auth::TOTPReplayCache::needsCleanup</definition>
+        <argsstring>() const</argsstring>
+        <name>needsCleanup</name>
+        <qualifiedname>themis::auth::TOTPReplayCache::needsCleanup</qualifiedname>
+        <briefdescription>
+<para>Helper: Check if cleanup is needed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/auth/totp_replay_cache.h" line="127" column="10" bodyfile="src/auth/totp_replay_cache.cpp" bodystart="232" bodyend="236"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/auth/totp_replay_cache.h" line="24" column="1" bodyfile="include/auth/totp_replay_cache.h" bodystart="24" bodyend="128"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ab8a4927cda4fa7a5697d123cefaec7cd" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>checkAndMarkUsed</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac99a56df4f39a6d352d199a2ea7e717a" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>cleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1afece5cc55017bab08948439760a31c8b" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>cleanupUser</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a196f9ee47c50fa8dd5c945290b3cfc81" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>clear</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1afc7aefa8309014bfac3a844adcd924c6" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>clearUser</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aea291a1ca2ad7bde24df5d7739c28059" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>config_</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a592c80acf76b102f01e77ba56f588ebc" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a1873e7f4256572894f7997520e5c1fb9" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>isUsed</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac8aa4bb799c773f9ff5d7a5e0c627aa5" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>last_cleanup_</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1ac267d8fe78b2f0a851074646dec1316a" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>mutex_</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a6346753f83540b4e7873c4a30f978977" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>needsCleanup</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa3bf97ad59d4fc2d75d0ddc6087f1ddb" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a86a328fc93d552c5eedce0236c5c1a2e" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a9721933205e218251de1782d75b9cab7" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aba1b1e16e5173c7ec42597ceb84ffa56" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>TOTPReplayCache</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1aa982814f0519444af0044991f4eced9e" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>TOTPReplayCache</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2384c95405f7eeb076c213d13d292cce" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>TOTPReplayCache</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a17e8061edde8f4d9c19a68c8c43eb2a8" prot="private" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>user_caches_</name></member>
+      <member refid="classthemis_1_1auth_1_1_t_o_t_p_replay_cache_1a2f608a43a0b587076e928b1bdb2ff76d" prot="public" virt="non-virtual"><scope>themis::auth::TOTPReplayCache</scope><name>~TOTPReplayCache</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

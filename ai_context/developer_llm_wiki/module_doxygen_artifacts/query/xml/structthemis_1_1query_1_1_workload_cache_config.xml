@@ -1,0 +1,285 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_workload_cache_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::WorkloadCacheConfig</compoundname>
+    <includes refid="workload__cache__strategy_8h" local="no">workload_cache_strategy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a97ef37643ea331ca16531f982d8e940c" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+        <definition>WorkloadType themis::query::WorkloadCacheConfig::type</definition>
+        <argsstring></argsstring>
+        <name>type</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::type</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">WorkloadType::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="63" column="18" bodyfile="include/query/workload_cache_strategy.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a41f4273dfa0d8d69cfdd17b544af85fc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheConfig::max_entries</definition>
+        <argsstring></argsstring>
+        <name>max_entries</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::max_entries</qualifiedname>
+        <initializer>= 10000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="66" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a75226dcd0d047cb1614fc48a8bd96631" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheConfig::max_memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>max_memory_bytes</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::max_memory_bytes</qualifiedname>
+        <initializer>= 100 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="67" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a7628ec89ebc768d717106bf03cb3afe7" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheConfig::max_entry_size</definition>
+        <argsstring></argsstring>
+        <name>max_entry_size</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::max_entry_size</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="68" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="68" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1ad51c019d30af7a7cd7e9feda028ee3dc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::WorkloadCacheConfig::default_ttl</definition>
+        <argsstring></argsstring>
+        <name>default_ttl</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::default_ttl</qualifiedname>
+        <initializer>{3600}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="71" column="26" bodyfile="include/query/workload_cache_strategy.h" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a53e098b5ebf71abdf1f19c73203b9d4a" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::WorkloadCacheConfig::min_ttl</definition>
+        <argsstring></argsstring>
+        <name>min_ttl</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::min_ttl</qualifiedname>
+        <initializer>{60}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="72" column="26" bodyfile="include/query/workload_cache_strategy.h" bodystart="72" bodyend="72"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1ace55304656153e6a60bbe28e974c6cc1" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::query::WorkloadCacheConfig::max_ttl</definition>
+        <argsstring></argsstring>
+        <name>max_ttl</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::max_ttl</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="73" column="26" bodyfile="include/query/workload_cache_strategy.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1af2192ece070b5e0659ef7ef88f718b0a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::WorkloadCacheConfig::enable_adaptive_ttl</definition>
+        <argsstring></argsstring>
+        <name>enable_adaptive_ttl</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::enable_adaptive_ttl</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="76" column="10" bodyfile="include/query/workload_cache_strategy.h" bodystart="76" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a1ecb778a02851a26002b62c208e78819" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::WorkloadCacheConfig::enable_frequency_weighting</definition>
+        <argsstring></argsstring>
+        <name>enable_frequency_weighting</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::enable_frequency_weighting</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="77" column="10" bodyfile="include/query/workload_cache_strategy.h" bodystart="77" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a15812f8c8623376071b07f053ba0af7e" prot="public" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10" kindref="member">QueryCache::EvictionPolicy</ref></type>
+        <definition>QueryCache::EvictionPolicy themis::query::WorkloadCacheConfig::eviction_policy</definition>
+        <argsstring></argsstring>
+        <name>eviction_policy</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::eviction_policy</qualifiedname>
+        <initializer>= <ref refid="classthemis_1_1query_1_1_query_cache_1a25f959c1de80e402545f408da7cdce10a875ecb34f6d21d13d4b9fd4980a8b5af" kindref="member">QueryCache::EvictionPolicy::LRU</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="80" column="32" bodyfile="include/query/workload_cache_strategy.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1aa6389ea768661309557a008b1eb32922" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheConfig::high_frequency_threshold</definition>
+        <argsstring></argsstring>
+        <name>high_frequency_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::high_frequency_threshold</qualifiedname>
+        <initializer>= 10.0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="83" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1aed1896d5178fb5682fc53da051e7fe13" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::WorkloadCacheConfig::low_frequency_threshold</definition>
+        <argsstring></argsstring>
+        <name>low_frequency_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::low_frequency_threshold</qualifiedname>
+        <initializer>= 0.1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="84" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1a333ecf31e46736a3bba232186f11c799" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheConfig::large_result_threshold</definition>
+        <argsstring></argsstring>
+        <name>large_result_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::large_result_threshold</qualifiedname>
+        <initializer>= 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="85" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_workload_cache_config_1ae64ced67af8210cbd9302623b9ef85f1" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::WorkloadCacheConfig::small_result_threshold</definition>
+        <argsstring></argsstring>
+        <name>small_result_threshold</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::small_result_threshold</qualifiedname>
+        <initializer>= 10 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="86" column="12" bodyfile="include/query/workload_cache_strategy.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_workload_cache_config_1ae9ac4fef914ac96d6ffb06b4fba1e33e" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1query_1_1_workload_cache_config" kindref="compound">WorkloadCacheConfig</ref></type>
+        <definition>WorkloadCacheConfig themis::query::WorkloadCacheConfig::forWorkload</definition>
+        <argsstring>(WorkloadType type)</argsstring>
+        <name>forWorkload</name>
+        <qualifiedname>themis::query::WorkloadCacheConfig::forWorkload</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1query_1a82964067cd3463c53323a8dd7ddab416" kindref="member">WorkloadType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>For Workload. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::chrono::seconds(), THEMIS_INFO(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/workload_cache_strategy.h" line="93" column="32" bodyfile="src/query/workload_cache_strategy.cpp" bodystart="29" bodyend="116"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/workload_cache_strategy.h" line="62" column="1" bodyfile="include/query/workload_cache_strategy.h" bodystart="62" bodyend="94"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1ad51c019d30af7a7cd7e9feda028ee3dc" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>default_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1af2192ece070b5e0659ef7ef88f718b0a" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>enable_adaptive_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a1ecb778a02851a26002b62c208e78819" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>enable_frequency_weighting</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a15812f8c8623376071b07f053ba0af7e" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>eviction_policy</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1ae9ac4fef914ac96d6ffb06b4fba1e33e" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>forWorkload</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1aa6389ea768661309557a008b1eb32922" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>high_frequency_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a333ecf31e46736a3bba232186f11c799" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>large_result_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1aed1896d5178fb5682fc53da051e7fe13" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>low_frequency_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a41f4273dfa0d8d69cfdd17b544af85fc" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>max_entries</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a7628ec89ebc768d717106bf03cb3afe7" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>max_entry_size</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a75226dcd0d047cb1614fc48a8bd96631" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>max_memory_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1ace55304656153e6a60bbe28e974c6cc1" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>max_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a53e098b5ebf71abdf1f19c73203b9d4a" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>min_ttl</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1ae64ced67af8210cbd9302623b9ef85f1" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>small_result_threshold</name></member>
+      <member refid="structthemis_1_1query_1_1_workload_cache_config_1a97ef37643ea331ca16531f982d8e940c" prot="public" virt="non-virtual"><scope>themis::query::WorkloadCacheConfig</scope><name>type</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

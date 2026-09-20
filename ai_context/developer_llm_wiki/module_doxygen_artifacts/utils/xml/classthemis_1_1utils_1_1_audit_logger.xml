@@ -1,0 +1,1612 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1utils_1_1_audit_logger" kind="class" language="C++" prot="public">
+    <compoundname>themis::utils::AuditLogger</compoundname>
+    <includes refid="audit__logger_8h" local="no">audit_logger.h</includes>
+    <innerclass refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry" prot="public">themis::utils::AuditLogger::AuditLogEntry</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query" prot="public">themis::utils::AuditLogger::SearchQuery</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report" prot="public">themis::utils::AuditLogger::ComplianceReport</innerclass>
+    <innerclass refid="structthemis_1_1utils_1_1_audit_logger_1_1_task_baseline" prot="private">themis::utils::AuditLogger::TaskBaseline</innerclass>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1add99314798986fcc7d8b58d5cda386b3" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::DEFAULT_MAX_BUFFER_SIZE</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_BUFFER_SIZE</name>
+        <qualifiedname>themis::utils::AuditLogger::DEFAULT_MAX_BUFFER_SIZE</qualifiedname>
+        <initializer>= 1024ULL * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="232" column="29" bodyfile="include/utils/audit_logger.h" bodystart="232" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1aba37700f828e0a3bf7332e96469ef16d" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::DEFAULT_MAX_QUEUED_EVENTS</definition>
+        <argsstring></argsstring>
+        <name>DEFAULT_MAX_QUEUED_EVENTS</name>
+        <qualifiedname>themis::utils::AuditLogger::DEFAULT_MAX_QUEUED_EVENTS</qualifiedname>
+        <initializer>= 10&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="233" column="29" bodyfile="include/utils/audit_logger.h" bodystart="233" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a237b8f4ef7ea426ec3fa00d969d8d608" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::MAX_EVENT_SIZE</definition>
+        <argsstring></argsstring>
+        <name>MAX_EVENT_SIZE</name>
+        <qualifiedname>themis::utils::AuditLogger::MAX_EVENT_SIZE</qualifiedname>
+        <initializer>= 10 * 1024 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="234" column="29" bodyfile="include/utils/audit_logger.h" bodystart="234" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1ae43de033bb970ba046176c7b0d03c415" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::MAX_QUEUE_DEPTH</definition>
+        <argsstring></argsstring>
+        <name>MAX_QUEUE_DEPTH</name>
+        <qualifiedname>themis::utils::AuditLogger::MAX_QUEUE_DEPTH</qualifiedname>
+        <initializer>= 100&apos;000</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="235" column="29" bodyfile="include/utils/audit_logger.h" bodystart="235" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a86d7ff63f35760363aca789ca09a7d94" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; themis::FieldEncryption &gt;</type>
+        <definition>std::shared_ptr&lt;themis::FieldEncryption&gt; themis::utils::AuditLogger::enc_</definition>
+        <argsstring></argsstring>
+        <name>enc_</name>
+        <qualifiedname>themis::utils::AuditLogger::enc_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="506" column="21" bodyfile="include/utils/audit_logger.h" bodystart="506" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1abfe31cbc2c42a7a11d8db533bdcd2d2e" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;VCCPKIClient&gt; themis::utils::AuditLogger::pki_</definition>
+        <argsstring></argsstring>
+        <name>pki_</name>
+        <qualifiedname>themis::utils::AuditLogger::pki_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="507" column="21" bodyfile="include/utils/audit_logger.h" bodystart="507" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1abe1060cc52c5b3949b4f028561dfdd51" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1utils_1_1_audit_logger_config" kindref="compound">AuditLoggerConfig</ref></type>
+        <definition>AuditLoggerConfig themis::utils::AuditLogger::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::utils::AuditLogger::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="508" column="23" bodyfile="include/utils/audit_logger.h" bodystart="508" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1ad039bc7a3f3b0c44e5b4eb213ceb000a" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::AuditLogger::file_mu_</definition>
+        <argsstring></argsstring>
+        <name>file_mu_</name>
+        <qualifiedname>themis::utils::AuditLogger::file_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="510" column="24" bodyfile="include/utils/audit_logger.h" bodystart="510" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1ac72f6b4e155a0efb1d231373b3d839e6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::last_hash_</definition>
+        <argsstring></argsstring>
+        <name>last_hash_</name>
+        <qualifiedname>themis::utils::AuditLogger::last_hash_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="513" column="17" bodyfile="include/utils/audit_logger.h" bodystart="513" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1acd8b9b607ddfde018502d9e46ca3fe13" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::utils::AuditLogger::entry_count_</definition>
+        <argsstring></argsstring>
+        <name>entry_count_</name>
+        <qualifiedname>themis::utils::AuditLogger::entry_count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="514" column="14" bodyfile="include/utils/audit_logger.h" bodystart="514" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a3cd9aabe9e1108f5ca2ee23fb31a70e9" prot="private" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::utils::AuditLogger::last_timestamp_</definition>
+        <argsstring></argsstring>
+        <name>last_timestamp_</name>
+        <qualifiedname>themis::utils::AuditLogger::last_timestamp_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="515" column="43" bodyfile="include/utils/audit_logger.h" bodystart="515" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a0e37eb9756978890aefd5d1f61817854" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::AuditLogger::chain_mu_</definition>
+        <argsstring></argsstring>
+        <name>chain_mu_</name>
+        <qualifiedname>themis::utils::AuditLogger::chain_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="516" column="24" bodyfile="include/utils/audit_logger.h" bodystart="516" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a223ba4dab6971a71288972316dea6ea3" prot="private" static="no" mutable="no">
+        <type>std::map&lt; std::string, TaskBaseline &gt;</type>
+        <definition>std::map&lt;std::string, TaskBaseline&gt; themis::utils::AuditLogger::task_baselines_</definition>
+        <argsstring></argsstring>
+        <name>task_baselines_</name>
+        <qualifiedname>themis::utils::AuditLogger::task_baselines_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="526" column="14" bodyfile="include/utils/audit_logger.h" bodystart="526" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1utils_1_1_audit_logger_1a6d49b5792aedd340a3ff167e755ea507" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::utils::AuditLogger::baselines_mu_</definition>
+        <argsstring></argsstring>
+        <name>baselines_mu_</name>
+        <qualifiedname>themis::utils::AuditLogger::baselines_mu_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="527" column="24" bodyfile="include/utils/audit_logger.h" bodystart="527" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a8b31a18e2ee29a245a6ec52714e3ae0d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogger::AuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="219" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a283e109bc77d9d662350dc9093b23866" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogger::AuditLogger</definition>
+        <argsstring>(const std::string &amp;log_path, bool enabled=true)</argsstring>
+        <name>AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogger</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="220" column="14" bodyfile="include/utils/audit_logger.h" bodystart="220" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a021d40020b796c6c804c0c96e1854ff6" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogger::AuditLogger</definition>
+        <argsstring>(std::filesystem::path log_path, bool enabled=true)</argsstring>
+        <name>AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogger</qualifiedname>
+        <param>
+          <type>std::filesystem::path</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="225" column="14" bodyfile="include/utils/audit_logger.h" bodystart="225" bodyend="226"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a44423692669596c776d9e7b21e1e7850" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogger::AuditLogger</definition>
+        <argsstring>(const char *log_path, bool enabled=true)</argsstring>
+        <name>AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogger</qualifiedname>
+        <param>
+          <type>const char *</type>
+          <declname>log_path</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="227" column="14" bodyfile="include/utils/audit_logger.h" bodystart="227" bodyend="228"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a8ef4e210476b74fe9bdc3c7c0df77b35" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::utils::AuditLogger::~AuditLogger</definition>
+        <argsstring>()=default</argsstring>
+        <name>~AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::~AuditLogger</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="229" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a378f58d15791d99778b27dea530d611d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::utils::AuditLogger::AuditLogger</definition>
+        <argsstring>(std::shared_ptr&lt; themis::FieldEncryption &gt; enc, std::shared_ptr&lt; VCCPKIClient &gt; pki, AuditLoggerConfig cfg)</argsstring>
+        <name>AuditLogger</name>
+        <qualifiedname>themis::utils::AuditLogger::AuditLogger</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; themis::FieldEncryption &gt;</type>
+          <declname>enc</declname>
+        </param>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1utils_1_1_v_c_c_p_k_i_client" kindref="compound">VCCPKIClient</ref> &gt;</type>
+          <declname>pki</declname>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1utils_1_1_audit_logger_config" kindref="compound">AuditLoggerConfig</ref></type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="237" column="5" bodyfile="src/utils/audit_logger.cpp" bodystart="151" bodyend="170"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1acde0eeb1d9c02eb027c184ac8b370c65" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::enable</definition>
+        <argsstring>(bool enabled=true) noexcept</argsstring>
+        <name>enable</name>
+        <qualifiedname>themis::utils::AuditLogger::enable</qualifiedname>
+        <param>
+          <type>bool</type>
+          <declname>enabled</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="241" column="10" bodyfile="include/utils/audit_logger.h" bodystart="241" bodyend="241"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a8bd5bcb7deb63ba1d7cd26593b3924a1" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::disable</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>disable</name>
+        <qualifiedname>themis::utils::AuditLogger::disable</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="242" column="10" bodyfile="include/utils/audit_logger.h" bodystart="242" bodyend="242"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a2d831a77b357c33085ae9465f9372c93" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLogger::enabled</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::utils::AuditLogger::enabled</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="243" column="10" bodyfile="include/utils/audit_logger.h" bodystart="243" bodyend="243"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::logEvent</definition>
+        <argsstring>(const nlohmann::json &amp;event)</argsstring>
+        <name>logEvent</name>
+        <qualifiedname>themis::utils::AuditLogger::logEvent</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Log an audit event with automatic formatting and chaining. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log Event.</para>
+<para>Logs an event to the audit trail. If hash chaining is enabled, the event is cryptographically linked to the previous event. If encryption is enabled, the event is encrypted before writing.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>JSON object containing event data</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void (failure is logged, not signaled - see @error_contract below)</para>
+</simplesect>
+@error_contract <table rows="5" cols="5"><row>
+<entry thead="yes"><para>Condition  </para>
+</entry><entry thead="yes"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref>  </para>
+</entry><entry thead="yes"><para>Severity  </para>
+</entry><entry thead="yes"><para>Logging  </para>
+</entry><entry thead="yes"><para>Recovery  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Log file cannot be opened (backend unavailable)  </para>
+</entry><entry thead="no"><para>AUDIT_PERSISTENCE_FAILED (9012)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>path + OS error  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Write to file fails (I/O error, disk full)  </para>
+</entry><entry thead="no"><para>AUDIT_WRITE_FAILED (9011)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>path + bytes attempted  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Encryption of event fails (key unavailable)  </para>
+</entry><entry thead="no"><para>AUDIT_ENCRYPTION_FAILED (9015)  </para>
+</entry><entry thead="no"><para>Critical  </para>
+</entry><entry thead="no"><para>key_id  </para>
+</entry><entry thead="no"><para>Throw (fail-closed)  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>Log rotation fails  </para>
+</entry><entry thead="no"><para>AUDIT_ROTATION_FAILED (9013)  </para>
+</entry><entry thead="no"><para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref>  </para>
+</entry><entry thead="no"><para>log_path + rotated count  </para>
+</entry><entry thead="no"><para>Continue, skip rotation  </para>
+</entry></row>
+</table>
+</para>
+<para>@degradation fail-closed – backend unavailable propagates as exception; no silent drop @bounded_resources<itemizedlist>
+<listitem><para>Buffer capacity: cfg.max_buffer_size (default: 1GB)</para>
+</listitem><listitem><para>Event size: Individual events capped at 10MB</para>
+</listitem><listitem><para>Queue depth: max cfg.max_queued_events entries</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe via internal mutex (file_mu_) @performance O(n) where n is event JSON size; async batch writes if configured</para>
+<para><simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> 9010-9019 for audit error taxonomy </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1utils_1_1_audit_logger_1af4f18bfa8760b67e43606b07276401b9" kindref="member">logSecurityEvent()</ref> for security-specific event logging</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: dump(), size(), err_ctx(), logErrorContext(), substr(), std::chrono::system_clock::now(), time_since_epoch(), count(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="280" column="18" bodyfile="src/utils/audit_logger.cpp" bodystart="346" bodyend="555"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a0dc8d6677348c7bd8b0de7629ad18306" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::AuditLogger::getEvents</definition>
+        <argsstring>(int64_t start_ms=0, int64_t end_ms=0, const std::string &amp;filter=&quot;&quot;) const</argsstring>
+        <name>getEvents</name>
+        <qualifiedname>themis::utils::AuditLogger::getEvents</qualifiedname>
+        <param>
+          <type>int64_t</type>
+          <declname>start_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>int64_t</type>
+          <declname>end_ms</declname>
+          <defval>0</defval>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>filter</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="282" column="28" bodyfile="src/utils/audit_logger.cpp" bodystart="557" bodyend="559"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1aa7f854ea52c2281c93baf6ccfa0d22e8" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::getTotalEventCount</definition>
+        <argsstring>() const</argsstring>
+        <name>getTotalEventCount</name>
+        <qualifiedname>themis::utils::AuditLogger::getTotalEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="287" column="20" bodyfile="src/utils/audit_logger.cpp" bodystart="561" bodyend="563"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a7970121b200c04a8bf95df530d66a2ae" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::utils::AuditLogger::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="289" column="18" bodyfile="src/utils/audit_logger.cpp" bodystart="569" bodyend="571"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1af4f18bfa8760b67e43606b07276401b9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::logSecurityEvent</definition>
+        <argsstring>(SecurityEventType event_type, const std::string &amp;user_id, const std::string &amp;resource, const nlohmann::json &amp;details={})</argsstring>
+        <name>logSecurityEvent</name>
+        <qualifiedname>themis::utils::AuditLogger::logSecurityEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>resource</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log a security event with structured data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log a security event.</para>
+<para>Logs a high-level security event (authentication, authorization, key management, etc.) with automatic timestamp, user context, and resource tagging.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security event type (enum) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User/service account performing the action </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource being accessed (e.g., entity key, API endpoint) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Additional event-specific details (optional)</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>void (see @error_contract below)</para>
+</simplesect>
+@error_contract<itemizedlist>
+<listitem><para>If event_type invalid: logs ERR_AUDIT_FORMAT_INVALID and skips event</para>
+</listitem><listitem><para>If user_id or resource empty: logs ERR_AUDIT_SERIALIZATION_FAILED with warning</para>
+</listitem><listitem><para>If details JSON too large: logs ERR_AUDIT_BUFFER_OVERFLOW and truncates</para>
+</listitem><listitem><para>All error paths fall through to <ref refid="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" kindref="member">logEvent()</ref> error handling</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe @performance O(1) for event type resolution; delegates to <ref refid="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" kindref="member">logEvent()</ref> for write</para>
+<para><simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref> for valid event types </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" kindref="member">logEvent()</ref> for write operation details</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Security event type. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">resource</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event payload/details.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: securityEventTypeToString(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), empty(), <ref refid="logger_8h_1ade0528e3f53f4548ffa6867f699a9444" kindref="member">THEMIS_WARN()</ref>, <ref refid="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" kindref="member">logEvent()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="316" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="689" bodyend="726"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a6743e3143395894030ad94c9e2edf551" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::utils::AuditLogger::verifyChainIntegrity</definition>
+        <argsstring>()</argsstring>
+        <name>verifyChainIntegrity</name>
+        <qualifiedname>themis::utils::AuditLogger::verifyChainIntegrity</qualifiedname>
+        <briefdescription>
+<para>Verify integrity of audit log hash chain. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Chain Integrity.</para>
+<para>If hash chaining is enabled, verifies that the cryptographic chain linking audit events is intact. Detects tampering or log rotation issues.</para>
+<para><simplesect kind="return"><para>true if chain is valid or chaining disabled; false if tampering detected</para>
+</simplesect>
+@error_contract<itemizedlist>
+<listitem><para>If chain file missing/unreadable: returns false (logs ERR_AUDIT_LOG_WRITE_FAILED)</para>
+</listitem><listitem><para>If hash verification fails: returns false (logs ERR_AUDIT_SERVICE_DEGRADED warning)</para>
+</listitem><listitem><para>If internal error: returns false (logs ERR_AUDIT_CLEANUP_FAILED context)</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe @performance O(n) where n is log file size; consider caching in production</para>
+<para><simplesect kind="note"><para>Should be called before critical operations to detect tampering </para>
+</simplesect>
+<simplesect kind="see"><para>ErrorCode::ERR_AUDIT_ROTATION_FAILED for related rotation <ref refid="namespacethemis_1_1errors" kindref="compound">errors</ref></para>
+</simplesect>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: std::filesystem::exists(), ifs(), std::string(), std::getline(), empty(), nlohmann::json::parse(), contains(), <ref refid="logger_8h_1ade0528e3f53f4548ffa6867f699a9444" kindref="member">THEMIS_WARN()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="342" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="811" bodyend="866"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a6f3083884647f005d44ec6c134e13890" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::flush</definition>
+        <argsstring>()</argsstring>
+        <name>flush</name>
+        <qualifiedname>themis::utils::AuditLogger::flush</qualifiedname>
+        <briefdescription>
+<para>Flush audit log to disk. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Flush.</para>
+<para>Flushes pending audit events to disk. If fsync is enabled in config, ensures data is durably written to storage.</para>
+<para><simplesect kind="return"><para>void (see @error_contract below)</para>
+</simplesect>
+@error_contract<itemizedlist>
+<listitem><para>If disk full: logs ERR_AUDIT_DISK_FULL and triggers rotation/cleanup</para>
+</listitem><listitem><para>If write permission denied: logs ERR_AUDIT_PERMISSION_DENIED</para>
+</listitem><listitem><para>If fsync fails: logs ERR_AUDIT_SERVICE_DEGRADED (non-fatal)</para>
+</listitem><listitem><para>All failures logged but flush continues with what it can</para>
+</listitem></itemizedlist>
+</para>
+<para>@thread_safety Thread-safe @performance O(pending_events); blocks until flush complete if fsync enabled</para>
+<para><simplesect kind="note"><para>Resource Limits (Phase 2.6):<itemizedlist>
+<listitem><para>Queue Depth: Default 10,000 pending events max; older events dropped if exceeded</para>
+</listitem><listitem><para>Event Size: Individual event JSON limited to 64 KB; larger events truncated</para>
+</listitem><listitem><para>Memory: Bounded queue allocated on initialization; no unbounded growth</para>
+</listitem><listitem><para>Disk I/O: Batched writes every 100 events or 100ms (configurable) </para>
+</listitem></itemizedlist>
+</para>
+</simplesect>
+<simplesect kind="note"><para>Critical for audit durability; should be called periodically </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="namespacethemis_1_1utils_1a06bcf365c98dd5d12c5d9b66705c6ac7" kindref="member">ErrorCode</ref> for diagnostics</para>
+</simplesect>
+Calls: lock(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="369" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="1030" bodyend="1034"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a84e6ab7d65b338667be6075b2a5fa3db" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::utils::AuditLogger::getChainState</definition>
+        <argsstring>() const</argsstring>
+        <name>getChainState</name>
+        <qualifiedname>themis::utils::AuditLogger::getChainState</qualifiedname>
+        <briefdescription>
+<para>Get current hash chain state. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>JSON with last_hash, entry_count, last_timestamp </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">chain_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="375" column="20" bodyfile="src/utils/audit_logger.cpp" bodystart="868" bodyend="882"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1ae335731878740a5442351ac357e9ab9c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; AuditLogger::AuditLogEntry &gt; themis::utils::AuditLogger::enumerateEntries</definition>
+        <argsstring>() const</argsstring>
+        <name>enumerateEntries</name>
+        <qualifiedname>themis::utils::AuditLogger::enumerateEntries</qualifiedname>
+        <briefdescription>
+<para>Enumerate all audit log entries with their timestamps. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Vector of audit log entries </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="390" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="1064" bodyend="1113"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a4f5a28c5da4c9c65cd1876bd2704762c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::archiveOldEntries</definition>
+        <argsstring>(std::chrono::system_clock::time_point older_than, const std::string &amp;archive_path)</argsstring>
+        <name>archiveOldEntries</name>
+        <qualifiedname>themis::utils::AuditLogger::archiveOldEntries</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>older_than</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>archive_path</declname>
+        </param>
+        <briefdescription>
+<para>Archive audit log entries older than specified timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Archive Old Entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Archive entries created before this timestamp </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>archive_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to archive file (appends to existing archive) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries archived</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">archive_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the archive. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::filesystem::exists(), ifs(), std::getline(), empty(), nlohmann::json::parse(), contains(), std::chrono::system_clock::time_point(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="398" column="12" bodyfile="src/utils/audit_logger.cpp" bodystart="1122" bodyend="1221"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1abd41f06ea6430126fe5c2b010b900c76" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::utils::AuditLogger::purgeOldEntries</definition>
+        <argsstring>(std::chrono::system_clock::time_point older_than)</argsstring>
+        <name>purgeOldEntries</name>
+        <qualifiedname>themis::utils::AuditLogger::purgeOldEntries</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>older_than</declname>
+        </param>
+        <briefdescription>
+<para>Purge audit log entries older than specified timestamp. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Purge Old Entries.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Purge entries created before this timestamp </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Number of entries purged</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">older_than</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), std::filesystem::exists(), ifs(), std::getline(), empty(), nlohmann::json::parse(), contains(), std::chrono::system_clock::time_point(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="406" column="12" bodyfile="src/utils/audit_logger.cpp" bodystart="1229" bodyend="1313"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a2c5844b4fd758af8b4266ffc89f80fdb" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1utils_1_1_audit_logger_1_1_audit_log_entry" kindref="compound">AuditLogEntry</ref> &gt;</type>
+        <definition>std::vector&lt; AuditLogger::AuditLogEntry &gt; themis::utils::AuditLogger::searchEntries</definition>
+        <argsstring>(const SearchQuery &amp;query) const</argsstring>
+        <name>searchEntries</name>
+        <qualifiedname>themis::utils::AuditLogger::searchEntries</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_audit_logger_1_1_search_query" kindref="compound">SearchQuery</ref> &amp;</type>
+          <declname>query</declname>
+        </param>
+        <briefdescription>
+<para>Search audit log entries matching the given criteria. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reads the log file sequentially and returns every plaintext record that satisfies all specified filters. Encrypted entries are included as-is (payload.type == &quot;ciphertext&quot;) without attempting decryption.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Search parameters. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Matching entries in chronological order. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lk. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">file_mu_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="440" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="1631" bodyend="1732"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a97382e866d8225682563a79b5479dd5e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report" kindref="compound">ComplianceReport</ref></type>
+        <definition>AuditLogger::ComplianceReport themis::utils::AuditLogger::generateComplianceReport</definition>
+        <argsstring>(std::chrono::system_clock::time_point from, std::chrono::system_clock::time_point to)</argsstring>
+        <name>generateComplianceReport</name>
+        <qualifiedname>themis::utils::AuditLogger::generateComplianceReport</qualifiedname>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>from</declname>
+        </param>
+        <param>
+          <type>std::chrono::system_clock::time_point</type>
+          <declname>to</declname>
+        </param>
+        <briefdescription>
+<para>Generate a compliance report for the specified time window. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Generate Compliance Report.</para>
+<para>Aggregates event counts, identifies top users, and verifies chain integrity across the window.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Start of the reporting period. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>End of the reporting period. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Populated <ref refid="structthemis_1_1utils_1_1_audit_logger_1_1_compliance_report" kindref="compound">ComplianceReport</ref>.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">from</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">to</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1utils_1_1_audit_logger_1a6743e3143395894030ad94c9e2edf551" kindref="member">verifyChainIntegrity()</ref>, nlohmann::json::object(), std::filesystem::exists(), lk(), ifs(), std::getline(), empty(), nlohmann::json::parse(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="469" column="22" bodyfile="src/utils/audit_logger.cpp" bodystart="1741" bodyend="1840"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a16ce2a585ee9fe5418007d8d6ba97eec" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::getLogPath</definition>
+        <argsstring>() const</argsstring>
+        <name>getLogPath</name>
+        <qualifiedname>themis::utils::AuditLogger::getLogPath</qualifiedname>
+        <briefdescription>
+<para>Get the configured log file path. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="476" column="17" bodyfile="include/utils/audit_logger.h" bodystart="476" bodyend="476"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1af2c58a8e8219f7bb8b2ccd9d94ce2530" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::logTaskSchedulerEvent</definition>
+        <argsstring>(SecurityEventType event_type, const std::string &amp;task_id, const std::string &amp;user_id, const nlohmann::json &amp;details={})</argsstring>
+        <name>logTaskSchedulerEvent</name>
+        <qualifiedname>themis::utils::AuditLogger::logTaskSchedulerEvent</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>user_id</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>details</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Log a task scheduler event with resource metrics and anomaly detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> Scheduler Event.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> scheduler event type </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>User/service account executing the task </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Event details including resource consumption and metrics</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">user_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the user. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">details</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: securityEventTypeToString(), std::chrono::system_clock::now(), time_since_epoch(), count(), is_null(), empty(), items(), contains(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="485" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="1324" bodyend="1391"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a2468c41ede7819c1416d08c41af6c858" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::AuditLogger::calculateAnomalyScore</definition>
+        <argsstring>(const std::string &amp;task_id, double execution_time_ms, const nlohmann::json &amp;resource_usage)</argsstring>
+        <name>calculateAnomalyScore</name>
+        <qualifiedname>themis::utils::AuditLogger::calculateAnomalyScore</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_time_ms</declname>
+        </param>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>resource_usage</declname>
+        </param>
+        <briefdescription>
+<para>Calculate anomaly score for a task execution. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calculate Anomaly Score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> identifier </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Execution time in milliseconds </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>resource_usage</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Resource consumption metrics </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Anomaly score (0.0 = normal, &gt;2.0 = anomalous)</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: lock(), updateTaskBaseline(), calculateZScore(), std::chrono::system_clock::now(), count(), std::max(), std::abs(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="499" column="12" bodyfile="src/utils/audit_logger.cpp" bodystart="1401" bodyend="1445"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-static-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1abad945dc78ef861dba0b402e87ef6312" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; uint8_t &gt;</type>
+        <definition>std::vector&lt; uint8_t &gt; themis::utils::AuditLogger::sha256</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;data)</argsstring>
+        <name>sha256</name>
+        <qualifiedname>themis::utils::AuditLogger::sha256</qualifiedname>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>data</declname>
+        </param>
+        <briefdescription>
+<para>Sha256. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: out(), SHA256(), data(), size(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="529" column="24" bodyfile="src/utils/audit_logger.cpp" bodystart="178" bodyend="182"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1aaa21861b4804729c0f76bdc76bcad6cd" prot="private" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::securityEventTypeToString</definition>
+        <argsstring>(SecurityEventType type)</argsstring>
+        <name>securityEventTypeToString</name>
+        <qualifiedname>themis::utils::AuditLogger::securityEventTypeToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref></type>
+          <declname>type</declname>
+        </param>
+        <briefdescription>
+<para>Security Event Type To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">type</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements securityEventTypeToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="536" column="24" bodyfile="src/utils/audit_logger.cpp" bodystart="580" bodyend="679"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a929c560db609456ec87f8332f3166b71" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::appendJsonLine</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>appendJsonLine</name>
+        <qualifiedname>themis::utils::AuditLogger::appendJsonLine</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>Append Json Line. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: lk(), std::filesystem::create_directories(), std::filesystem::path(), parent_path(), <ref refid="namespacethemis_1_1utils_1aba772fbe54adf8b16188ebcadf696949" kindref="member">themis::utils::makeErrorContext()</ref>, std::to_string(), <ref refid="namespacethemis_1_1utils_1a1d7488007dabd100fdd2536f837d44bf" kindref="member">themis::utils::logErrorWithContext()</ref>, rotateLogIfNeeded(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="530" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="190" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a675ad0f3571718b8627f17ef061b6323" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::rotateLogIfNeeded</definition>
+        <argsstring>()</argsstring>
+        <name>rotateLogIfNeeded</name>
+        <qualifiedname>themis::utils::AuditLogger::rotateLogIfNeeded</qualifiedname>
+        <briefdescription>
+<para>rotate primary log when max_file_size_bytes is reached (file_mu_ must be held) </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Rotate Log If Needed.</para>
+<para>Calls: std::filesystem::exists(), std::filesystem::file_size(), std::to_string(), std::filesystem::remove(), std::filesystem::rename(), <ref refid="logger_8h_1a39e87e8a08bc7617cdd677afcb210e82" kindref="member">THEMIS_INFO()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="531" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="297" bodyend="339"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1ada7a20734f496e94b058943d39dfa3f9" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::forwardToSiem</definition>
+        <argsstring>(const nlohmann::json &amp;event)</argsstring>
+        <name>forwardToSiem</name>
+        <qualifiedname>themis::utils::AuditLogger::forwardToSiem</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+<para>Forward To Siem. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">event</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: contains(), formatAsCef(), formatAsSyslog(), formatAsJson(), socket(), <ref refid="logger_8h_1ac57df04ff125f5183ff1d602a0cad21f" kindref="member">THEMIS_ERROR()</ref>, htons(), inet_pton(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="532" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="890" bodyend="1024"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a014a91b0df700dcc34b91c05cdfa5c3e" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::loadChainState</definition>
+        <argsstring>()</argsstring>
+        <name>loadChainState</name>
+        <qualifiedname>themis::utils::AuditLogger::loadChainState</qualifiedname>
+        <briefdescription>
+<para>Load Chain State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: lock(), std::filesystem::exists(), std::string(), std::chrono::system_clock::now(), ifs(), value(), contains(), std::chrono::system_clock::time_point(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="533" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="733" bodyend="766"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1aa23e6bd8c80e66418b2c4e714b519691" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::saveChainState</definition>
+        <argsstring>()</argsstring>
+        <name>saveChainState</name>
+        <qualifiedname>themis::utils::AuditLogger::saveChainState</qualifiedname>
+        <briefdescription>
+<para>Save Chain State. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Calls: time_since_epoch(), count(), std::filesystem::path(), std::filesystem::create_directories(), parent_path(), ofs(), dump(), <ref refid="logger_8h_1ac57df04ff125f5183ff1d602a0cad21f" kindref="member">THEMIS_ERROR()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="534" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="772" bodyend="790"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a45cce2745a1b1cda1e204834850ab2d2" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::computeEntryHash</definition>
+        <argsstring>(const nlohmann::json &amp;entry) const</argsstring>
+        <name>computeEntryHash</name>
+        <qualifiedname>themis::utils::AuditLogger::computeEntryHash</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>entry</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="535" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="792" bodyend="804"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a6e91be12e2895f5f8fcb7c5cd3239080" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::formatAsJson</definition>
+        <argsstring>(const nlohmann::json &amp;event) const</argsstring>
+        <name>formatAsJson</name>
+        <qualifiedname>themis::utils::AuditLogger::formatAsJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="539" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="1503" bodyend="1505"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a9c4beccb10f3491df632f6809044a8b5" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::formatAsCef</definition>
+        <argsstring>(const nlohmann::json &amp;event, SecurityEventType event_type) const</argsstring>
+        <name>formatAsCef</name>
+        <qualifiedname>themis::utils::AuditLogger::formatAsCef</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="540" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="1507" bodyend="1569"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a0880a8d933a7598da4aac2dc21683873" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::utils::AuditLogger::formatAsSyslog</definition>
+        <argsstring>(const nlohmann::json &amp;event, SecurityEventType event_type) const</argsstring>
+        <name>formatAsSyslog</name>
+        <qualifiedname>themis::utils::AuditLogger::formatAsSyslog</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>event</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1utils_1a76ffcd4b05eba5a284bcca9ea15e880e" kindref="member">SecurityEventType</ref></type>
+          <declname>event_type</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="541" column="17" bodyfile="src/utils/audit_logger.cpp" bodystart="1571" bodyend="1625"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a198638a521130a75ce74b445753b41ef" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::updateTaskBaseline</definition>
+        <argsstring>(const std::string &amp;task_id, double execution_time_ms)</argsstring>
+        <name>updateTaskBaseline</name>
+        <qualifiedname>themis::utils::AuditLogger::updateTaskBaseline</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task_id</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>execution_time_ms</declname>
+        </param>
+        <briefdescription>
+<para>Update <ref refid="classthemis_1_1utils_1_1_task" kindref="compound">Task</ref> Baseline. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">task_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the task. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">execution_time_ms</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), count(), std::sqrt(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="544" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="1453" bodyend="1490"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1a1006efa96a4155512567f62359f2f5cd" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::utils::AuditLogger::calculateZScore</definition>
+        <argsstring>(double value, double mean, double stddev) const</argsstring>
+        <name>calculateZScore</name>
+        <qualifiedname>themis::utils::AuditLogger::calculateZScore</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>value</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>mean</declname>
+        </param>
+        <param>
+          <type>double</type>
+          <declname>stddev</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="545" column="12" bodyfile="src/utils/audit_logger.cpp" bodystart="1492" bodyend="1497"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1utils_1_1_audit_logger_1aa47c6dc930d7a53003ff6eb2f0affb5d" prot="private" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::utils::AuditLogger::logErrorContext</definition>
+        <argsstring>(const ErrorContext &amp;ctx)</argsstring>
+        <name>logErrorContext</name>
+        <qualifiedname>themis::utils::AuditLogger::logErrorContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1utils_1_1_error_context" kindref="compound">ErrorContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Log error context for diagnostics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Log <ref refid="classthemis_1_1_error" kindref="compound">Error</ref> Context.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="classthemis_1_1_error" kindref="compound">Error</ref> context with details about the error</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: nlohmann::json::parse(), toJSON(), lock(), appendJsonLine(), what(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/utils/audit_logger.h" line="551" column="10" bodyfile="src/utils/audit_logger.cpp" bodystart="1042" bodyend="1061"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Minimal Audit <ref refid="classthemis_1_1utils_1_1_logger" kindref="compound">Logger</ref> supporting Encrypt-then-Sign batches (single-entry for now). </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/utils/audit_logger.h" line="217" column="1" bodyfile="include/utils/audit_logger.h" bodystart="217" bodyend="552"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a929c560db609456ec87f8332f3166b71" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>appendJsonLine</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a4f5a28c5da4c9c65cd1876bd2704762c" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>archiveOldEntries</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a8b31a18e2ee29a245a6ec52714e3ae0d" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>AuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a283e109bc77d9d662350dc9093b23866" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>AuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a021d40020b796c6c804c0c96e1854ff6" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>AuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a44423692669596c776d9e7b21e1e7850" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>AuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a378f58d15791d99778b27dea530d611d" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>AuditLogger</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a6d49b5792aedd340a3ff167e755ea507" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>baselines_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a2468c41ede7819c1416d08c41af6c858" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>calculateAnomalyScore</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a1006efa96a4155512567f62359f2f5cd" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>calculateZScore</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1abe1060cc52c5b3949b4f028561dfdd51" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a0e37eb9756978890aefd5d1f61817854" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>chain_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a7970121b200c04a8bf95df530d66a2ae" prot="public" virt="virtual"><scope>themis::utils::AuditLogger</scope><name>clear</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a45cce2745a1b1cda1e204834850ab2d2" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>computeEntryHash</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1add99314798986fcc7d8b58d5cda386b3" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>DEFAULT_MAX_BUFFER_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1aba37700f828e0a3bf7332e96469ef16d" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>DEFAULT_MAX_QUEUED_EVENTS</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a8bd5bcb7deb63ba1d7cd26593b3924a1" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>disable</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1acde0eeb1d9c02eb027c184ac8b370c65" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>enable</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a2d831a77b357c33085ae9465f9372c93" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>enabled</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a86d7ff63f35760363aca789ca09a7d94" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>enc_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1acd8b9b607ddfde018502d9e46ca3fe13" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>entry_count_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1ae335731878740a5442351ac357e9ab9c" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>enumerateEntries</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1ad039bc7a3f3b0c44e5b4eb213ceb000a" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>file_mu_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a6f3083884647f005d44ec6c134e13890" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>flush</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a9c4beccb10f3491df632f6809044a8b5" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>formatAsCef</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a6e91be12e2895f5f8fcb7c5cd3239080" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>formatAsJson</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a0880a8d933a7598da4aac2dc21683873" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>formatAsSyslog</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1ada7a20734f496e94b058943d39dfa3f9" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>forwardToSiem</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a97382e866d8225682563a79b5479dd5e" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>generateComplianceReport</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a84e6ab7d65b338667be6075b2a5fa3db" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>getChainState</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a0dc8d6677348c7bd8b0de7629ad18306" prot="public" virt="virtual"><scope>themis::utils::AuditLogger</scope><name>getEvents</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a16ce2a585ee9fe5418007d8d6ba97eec" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>getLogPath</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1aa7f854ea52c2281c93baf6ccfa0d22e8" prot="public" virt="virtual"><scope>themis::utils::AuditLogger</scope><name>getTotalEventCount</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1ac72f6b4e155a0efb1d231373b3d839e6" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>last_hash_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a3cd9aabe9e1108f5ca2ee23fb31a70e9" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>last_timestamp_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a014a91b0df700dcc34b91c05cdfa5c3e" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>loadChainState</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1aa47c6dc930d7a53003ff6eb2f0affb5d" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>logErrorContext</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a4a1b4ed142d2f1f4f590d2f0914a9fc0" prot="public" virt="virtual"><scope>themis::utils::AuditLogger</scope><name>logEvent</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1af4f18bfa8760b67e43606b07276401b9" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>logSecurityEvent</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1af2c58a8e8219f7bb8b2ccd9d94ce2530" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>logTaskSchedulerEvent</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a237b8f4ef7ea426ec3fa00d969d8d608" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>MAX_EVENT_SIZE</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1ae43de033bb970ba046176c7b0d03c415" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>MAX_QUEUE_DEPTH</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1abfe31cbc2c42a7a11d8db533bdcd2d2e" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>pki_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1abd41f06ea6430126fe5c2b010b900c76" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>purgeOldEntries</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a675ad0f3571718b8627f17ef061b6323" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>rotateLogIfNeeded</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1aa23e6bd8c80e66418b2c4e714b519691" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>saveChainState</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a2c5844b4fd758af8b4266ffc89f80fdb" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>searchEntries</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1aaa21861b4804729c0f76bdc76bcad6cd" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>securityEventTypeToString</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1abad945dc78ef861dba0b402e87ef6312" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>sha256</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a223ba4dab6971a71288972316dea6ea3" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>task_baselines_</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a198638a521130a75ce74b445753b41ef" prot="private" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>updateTaskBaseline</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a6743e3143395894030ad94c9e2edf551" prot="public" virt="non-virtual"><scope>themis::utils::AuditLogger</scope><name>verifyChainIntegrity</name></member>
+      <member refid="classthemis_1_1utils_1_1_audit_logger_1a8ef4e210476b74fe9bdc3c7c0df77b35" prot="public" virt="virtual"><scope>themis::utils::AuditLogger</scope><name>~AuditLogger</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,192 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1_scoped_file_descriptor" kind="class" language="C++" prot="public">
+    <compoundname>themis::ScopedFileDescriptor</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1_scoped_file_descriptor_1a65e1f7d0be83c5cfe50e6321545e9957" prot="private" static="no" mutable="no">
+        <type>int</type>
+        <definition>int themis::ScopedFileDescriptor::fd_</definition>
+        <argsstring></argsstring>
+        <name>fd_</name>
+        <qualifiedname>themis::ScopedFileDescriptor::fd_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="213" column="9" bodyfile="src/storage/wal_storage.cpp" bodystart="213" bodyend="213"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" prot="public" static="no" const="no" explicit="yes" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedFileDescriptor::ScopedFileDescriptor</definition>
+        <argsstring>(int fd=-1) noexcept</argsstring>
+        <name>ScopedFileDescriptor</name>
+        <qualifiedname>themis::ScopedFileDescriptor::ScopedFileDescriptor</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="177" column="14" bodyfile="src/storage/wal_storage.cpp" bodystart="177" bodyend="177"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1af858d3762c4e6cc4525e72c8b6f9cca8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedFileDescriptor::~ScopedFileDescriptor</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedFileDescriptor</name>
+        <qualifiedname>themis::ScopedFileDescriptor::~ScopedFileDescriptor</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="179" column="5" bodyfile="src/storage/wal_storage.cpp" bodystart="179" bodyend="183"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a8e176a54a3bac43d2cf2b01a21809592" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedFileDescriptor::ScopedFileDescriptor</definition>
+        <argsstring>(const ScopedFileDescriptor &amp;)=delete</argsstring>
+        <name>ScopedFileDescriptor</name>
+        <qualifiedname>themis::ScopedFileDescriptor::ScopedFileDescriptor</qualifiedname>
+        <param>
+          <type>const ScopedFileDescriptor &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="185" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1ac50507dd13681f876ca065232ad36450" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" kindref="member">ScopedFileDescriptor</ref> &amp;</type>
+        <definition>ScopedFileDescriptor &amp; themis::ScopedFileDescriptor::operator=</definition>
+        <argsstring>(const ScopedFileDescriptor &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ScopedFileDescriptor::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" kindref="member">ScopedFileDescriptor</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="186" column="26"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a07e5fc11bfb3ed42828e7096a34a925e" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::ScopedFileDescriptor::ScopedFileDescriptor</definition>
+        <argsstring>(ScopedFileDescriptor &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedFileDescriptor</name>
+        <qualifiedname>themis::ScopedFileDescriptor::ScopedFileDescriptor</qualifiedname>
+        <param>
+          <type>ScopedFileDescriptor &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="188" column="5" bodyfile="src/storage/wal_storage.cpp" bodystart="188" bodyend="189"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a7b963230733dfe5c2c32b2cbde8a46ba" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" kindref="member">ScopedFileDescriptor</ref> &amp;</type>
+        <definition>ScopedFileDescriptor &amp; themis::ScopedFileDescriptor::operator=</definition>
+        <argsstring>(ScopedFileDescriptor &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::ScopedFileDescriptor::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" kindref="member">ScopedFileDescriptor</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="191" column="26" bodyfile="src/storage/wal_storage.cpp" bodystart="191" bodyend="197"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a797c84d244070c5d2d5ebb8a566ad104" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ScopedFileDescriptor::get</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>get</name>
+        <qualifiedname>themis::ScopedFileDescriptor::get</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="199" column="9" bodyfile="src/storage/wal_storage.cpp" bodystart="199" bodyend="199"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1aae3927bfc3f22f6dbdb52a5856f51f4a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::ScopedFileDescriptor::reset</definition>
+        <argsstring>(int fd=-1) noexcept</argsstring>
+        <name>reset</name>
+        <qualifiedname>themis::ScopedFileDescriptor::reset</qualifiedname>
+        <param>
+          <type>int</type>
+          <declname>fd</declname>
+          <defval>-1</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="201" column="10" bodyfile="src/storage/wal_storage.cpp" bodystart="201" bodyend="206"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1_scoped_file_descriptor_1a7e1028121cd372035a114f86834b1f1a" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>int</type>
+        <definition>int themis::ScopedFileDescriptor::release</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>release</name>
+        <qualifiedname>themis::ScopedFileDescriptor::release</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/storage/wal_storage.cpp" line="208" column="9" bodyfile="src/storage/wal_storage.cpp" bodystart="208" bodyend="210"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/storage/wal_storage.cpp" line="175" column="1" bodyfile="src/storage/wal_storage.cpp" bodystart="175" bodyend="214"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a65e1f7d0be83c5cfe50e6321545e9957" prot="private" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>fd_</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a797c84d244070c5d2d5ebb8a566ad104" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>get</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1ac50507dd13681f876ca065232ad36450" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a7b963230733dfe5c2c32b2cbde8a46ba" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a7e1028121cd372035a114f86834b1f1a" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>release</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1aae3927bfc3f22f6dbdb52a5856f51f4a" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>reset</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a7ece703975ee1ad996ae837892388e8f" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>ScopedFileDescriptor</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a8e176a54a3bac43d2cf2b01a21809592" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>ScopedFileDescriptor</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1a07e5fc11bfb3ed42828e7096a34a925e" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>ScopedFileDescriptor</name></member>
+      <member refid="classthemis_1_1_scoped_file_descriptor_1af858d3762c4e6cc4525e72c8b6f9cca8" prot="public" virt="non-virtual"><scope>themis::ScopedFileDescriptor</scope><name>~ScopedFileDescriptor</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

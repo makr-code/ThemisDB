@@ -1,0 +1,578 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1query_1_1test" kind="namespace" language="C++">
+    <compoundname>themis::query::test</compoundname>
+    <innerclass refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" prot="public">themis::query::test::PlanCacheHardeningTest</innerclass>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2db638da97ce4296e934aff1d41596d2" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>QueryOptimizer::Plan</type>
+        <definition>static QueryOptimizer::Plan themis::query::test::makeEmptyPlan</definition>
+        <argsstring>()</argsstring>
+        <name>makeEmptyPlan</name>
+        <qualifiedname>themis::query::test::makeEmptyPlan</qualifiedname>
+        <briefdescription>
+<para>Build a minimal default Plan (no predicates). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="43" column="29" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="43" bodyend="45"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1af152d4d7639772cbcc9b0c6ad5ff19b7" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PlanCache::Statistics</type>
+        <definition>static PlanCache::Statistics themis::query::test::makeStats</definition>
+        <argsstring>(const std::string &amp;table, size_t rows)</argsstring>
+        <name>makeStats</name>
+        <qualifiedname>themis::query::test::makeStats</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>table</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>rows</declname>
+        </param>
+        <briefdescription>
+<para>Build Statistics with a single table cardinality entry. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="48" column="30" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="48" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1abe3af9c58746f96a5c78da2f923d1556" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>PlanCache::Config</type>
+        <definition>static PlanCache::Config themis::query::test::smallConfig</definition>
+        <argsstring>(size_t cap=3)</argsstring>
+        <name>smallConfig</name>
+        <qualifiedname>themis::query::test::smallConfig</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>cap</declname>
+          <defval>3</defval>
+        </param>
+        <briefdescription>
+<para>Small-capacity cache config used in eviction tests. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="53" column="26" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1aa5abe5c2fab1ae18418461f5ccca5e68" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, LRUEviction_CapacityOne_OldestEvicted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>LRUEviction_CapacityOne_OldestEvicted</type>
+        </param>
+        <briefdescription>
+<para>When capacity is 1 and a second plan is inserted the first is evicted. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000001"><xreftitle>Test</xreftitle><xrefdescription><para>LRUEviction_CapacityOne_OldestEvicted </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="88" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="88" bodyend="99"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ab5465f5f8e6c226dd35e1a71e982578b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, LRUEviction_CapacityFull_LRUEntryEvicted)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>LRUEviction_CapacityFull_LRUEntryEvicted</type>
+        </param>
+        <briefdescription>
+<para>After capacity is reached the least-recently-used entry is removed. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000002"><xreftitle>Test</xreftitle><xrefdescription><para>LRUEviction_CapacityFull_LRUEntryEvicted </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="105" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="105" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2ae316ba0727f1ef8464093a66ebdcdf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, LRUEviction_RecentAccessPromotion_ProtectsItem)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>LRUEviction_RecentAccessPromotion_ProtectsItem</type>
+        </param>
+        <briefdescription>
+<para>A re-accessed item is moved to MRU position, protecting it from eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000003"><xreftitle>Test</xreftitle><xrefdescription><para>LRUEviction_RecentAccessPromotion_ProtectsItem </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="127" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="127" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a1e48b09e4e41543e147a284802dadfaa" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, LRUEviction_SizeNeverExceedsCapacity)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>LRUEviction_SizeNeverExceedsCapacity</type>
+        </param>
+        <briefdescription>
+<para>The cache size never grows beyond max_entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000004"><xreftitle>Test</xreftitle><xrefdescription><para>LRUEviction_SizeNeverExceedsCapacity </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="146" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="146" bodyend="154"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a18a31671bc682a0231d1b8338ca0f03a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, StatsDrift_10xRatio_PlanInvalidated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>StatsDrift_10xRatio_PlanInvalidated</type>
+        </param>
+        <briefdescription>
+<para>A cardinality ratio ≥ 10× triggers plan invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000005"><xreftitle>Test</xreftitle><xrefdescription><para>StatsDrift_10xRatio_PlanInvalidated </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="164" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="164" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a0ad4a8438f2b636a1e3929ac7ab59892" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, StatsDrift_BelowThreshold_PlanValid)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>StatsDrift_BelowThreshold_PlanValid</type>
+        </param>
+        <briefdescription>
+<para>A cardinality ratio &lt; 10× does NOT invalidate the plan. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000006"><xreftitle>Test</xreftitle><xrefdescription><para>StatsDrift_BelowThreshold_PlanValid </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="182" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="182" bodyend="194"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a546f8f5ed834b75ac2d35bc857e2f590" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, StatsDrift_MissingTable_PlanInvalidated)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>StatsDrift_MissingTable_PlanInvalidated</type>
+        </param>
+        <briefdescription>
+<para>If a table referenced in the snapshot is absent from current stats the plan is stale. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000007"><xreftitle>Test</xreftitle><xrefdescription><para>StatsDrift_MissingTable_PlanInvalidated </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="200" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="200" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ab44be37c1265d8be634e37c6fbb32e8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, ConcurrentAccess_MultipleWriters_NoDataCorruption)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentAccess_MultipleWriters_NoDataCorruption</type>
+        </param>
+        <briefdescription>
+<para>Many threads writing concurrently must not cause crashes or corruption. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000008"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentAccess_MultipleWriters_NoDataCorruption </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="220" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="220" bodyend="246"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a787587b03c26b45f7bd423eab16d36f9" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, ConcurrentAccess_ReadersAndWriters_ThreadSafe)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>ConcurrentAccess_ReadersAndWriters_ThreadSafe</type>
+        </param>
+        <briefdescription>
+<para>Mixed reader / writer threads must not race or deadlock. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000009"><xreftitle>Test</xreftitle><xrefdescription><para>ConcurrentAccess_ReadersAndWriters_ThreadSafe </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="252" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="252" bodyend="292"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a147f9ecbff4c34fc75f16b1cc1044750" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, HitMissRatio_AccurateAfterKnownSequence)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>HitMissRatio_AccurateAfterKnownSequence</type>
+        </param>
+        <briefdescription>
+<para>Hit and miss counters reflect the exact access sequence. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000010"><xreftitle>Test</xreftitle><xrefdescription><para>HitMissRatio_AccurateAfterKnownSequence </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="302" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="302" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a81452536bd414452fe4f80c1783c3007" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, HitMissRatio_EmptyCache_ZeroRate)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>HitMissRatio_EmptyCache_ZeroRate</type>
+        </param>
+        <briefdescription>
+<para>An empty cache reports 0.0 hit rate and zero counters. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000011"><xreftitle>Test</xreftitle><xrefdescription><para>HitMissRatio_EmptyCache_ZeroRate </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="326" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="326" bodyend="334"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2114a60950cc20dcbb27e56b3290b8db" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, TableInvalidation_RemovesAllAffectedPlans)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TableInvalidation_RemovesAllAffectedPlans</type>
+        </param>
+        <briefdescription>
+<para>invalidateTable() removes every plan that references the named table. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000012"><xreftitle>Test</xreftitle><xrefdescription><para>TableInvalidation_RemovesAllAffectedPlans </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="344" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="344" bodyend="358"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a94cfae15735d5fb36df9218c51ce563e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, TableInvalidation_PreservesUnaffectedPlans)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TableInvalidation_PreservesUnaffectedPlans</type>
+        </param>
+        <briefdescription>
+<para>Plans referencing other tables are untouched by invalidation. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000013"><xreftitle>Test</xreftitle><xrefdescription><para>TableInvalidation_PreservesUnaffectedPlans </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="364" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="364" bodyend="375"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1ac5649c80e61b8e0ba88597282b35eff0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, TableInvalidation_ReturnsCorrectCount)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>TableInvalidation_ReturnsCorrectCount</type>
+        </param>
+        <briefdescription>
+<para>invalidateTable() returns the precise count of removed entries. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000014"><xreftitle>Test</xreftitle><xrefdescription><para>TableInvalidation_ReturnsCorrectCount </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="381" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="381" bodyend="392"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a2f5da7e756424ad0cb4ab2410fb76757" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, CacheWarming_PlanFoundOnFirstLookup)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CacheWarming_PlanFoundOnFirstLookup</type>
+        </param>
+        <briefdescription>
+<para>Pre-populated plans are returned immediately without a miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000015"><xreftitle>Test</xreftitle><xrefdescription><para>CacheWarming_PlanFoundOnFirstLookup </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="402" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="402" bodyend="421"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a0c651273c50be484a14fe260bb02d752" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, CacheWarming_StatsReflectWarmHits)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>CacheWarming_StatsReflectWarmHits</type>
+        </param>
+        <briefdescription>
+<para>After warming, hit count equals the number of warm lookups. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000016"><xreftitle>Test</xreftitle><xrefdescription><para>CacheWarming_StatsReflectWarmHits </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="427" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="427" bodyend="441"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a92da0b1fcde5bd3fc109af0a172a4d6d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, AgeExpiry_ZeroMaxAge_PlansImmediatelyStale)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>AgeExpiry_ZeroMaxAge_PlansImmediatelyStale</type>
+        </param>
+        <briefdescription>
+<para>Plans are considered expired when max_plan_age is zero seconds. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000017"><xreftitle>Test</xreftitle><xrefdescription><para>AgeExpiry_ZeroMaxAge_PlansImmediatelyStale </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="451" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="451" bodyend="461"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a25b1c99d0d57640d6d024a1c5576870e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, AgeExpiry_EvictExpired_ClearsStaleEntries)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>AgeExpiry_EvictExpired_ClearsStaleEntries</type>
+        </param>
+        <briefdescription>
+<para>evictExpired() removes all entries whose age exceeds max_plan_age. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000018"><xreftitle>Test</xreftitle><xrefdescription><para>AgeExpiry_EvictExpired_ClearsStaleEntries </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="467" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="467" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a049f31ac1c0c99da8dad9ff2cf1add94" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, EdgeCase_EmptyQueryString_FingerprintableAndStorable)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_EmptyQueryString_FingerprintableAndStorable</type>
+        </param>
+        <briefdescription>
+<para>An empty query string is handled without crash; fingerprint is deterministic. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000019"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_EmptyQueryString_FingerprintableAndStorable </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="488" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="488" bodyend="500"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a478c73a5d67f35c0f7b94cc46ef8fff8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, EdgeCase_VeryLongQuery_StoredAndRetrieved)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_VeryLongQuery_StoredAndRetrieved</type>
+        </param>
+        <briefdescription>
+<para>A 10 KiB query string is stored and retrieved correctly. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000020"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_VeryLongQuery_StoredAndRetrieved </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="506" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="506" bodyend="517"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a946999a6b830919ebede20dde5e694ec" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, EdgeCase_UnicodeInQueryFingerprint_DeterministicHash)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_UnicodeInQueryFingerprint_DeterministicHash</type>
+        </param>
+        <briefdescription>
+<para>UTF-8 multi-byte characters produce a stable, correct-length fingerprint. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000021"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_UnicodeInQueryFingerprint_DeterministicHash </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="523" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="523" bodyend="537"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1query_1_1test_1a78f65ddd6716564ab86e5c1e7a4ceac3" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::query::test::TEST_F</definition>
+        <argsstring>(PlanCacheHardeningTest, EdgeCase_ClearResetsAllState)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::query::test::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1query_1_1test_1_1_plan_cache_hardening_test" kindref="compound">PlanCacheHardeningTest</ref></type>
+        </param>
+        <param>
+          <type>EdgeCase_ClearResetsAllState</type>
+        </param>
+        <briefdescription>
+<para>clear() removes all entries and resets the size counter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><xrefsect id="test_1_test000022"><xreftitle>Test</xreftitle><xrefdescription><para>EdgeCase_ClearResetsAllState </para>
+</xrefdescription></xrefsect></para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="543" column="1" bodyfile="tests/graph/test_graph_plan_cache_hardening.cpp" bodystart="543" bodyend="555"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/graph/test_graph_plan_cache_hardening.cpp" line="36" column="1"/>
+  </compounddef>
+</doxygen>

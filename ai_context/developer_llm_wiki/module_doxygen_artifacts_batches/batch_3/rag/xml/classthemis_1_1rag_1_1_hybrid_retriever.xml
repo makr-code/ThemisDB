@@ -1,0 +1,537 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1rag_1_1_hybrid_retriever" kind="class" language="C++" prot="public">
+    <compoundname>themis::rag::HybridRetriever</compoundname>
+    <includes refid="hybrid__retriever_8h" local="no">hybrid_retriever.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_hybrid_retriever_1aa27d989bc525609544df7b264a514a53" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref></type>
+        <definition>HybridRetrieverConfig themis::rag::HybridRetriever::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::rag::HybridRetriever::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="207" column="27" bodyfile="include/rag/hybrid_retriever.h" bodystart="207" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1rag_1_1_hybrid_retriever_1a2666ebc46543a5035b263a73c884dee1" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;IVectorizer&gt; themis::rag::HybridRetriever::vectorizer_</definition>
+        <argsstring></argsstring>
+        <name>vectorizer_</name>
+        <qualifiedname>themis::rag::HybridRetriever::vectorizer_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="208" column="21" bodyfile="include/rag/hybrid_retriever.h" bodystart="208" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::HybridRetriever::HybridRetriever</definition>
+        <argsstring>()</argsstring>
+        <name>HybridRetriever</name>
+        <qualifiedname>themis::rag::HybridRetriever::HybridRetriever</qualifiedname>
+        <briefdescription>
+<para>Construct with default configuration (RRF, equal weights, top_k=10). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="117" column="5" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="90" bodyend="91"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a36d4d404e38caa2fd2a11a75e3a42adf" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::HybridRetriever::HybridRetriever</definition>
+        <argsstring>(const HybridRetrieverConfig &amp;config)</argsstring>
+        <name>HybridRetriever</name>
+        <qualifiedname>themis::rag::HybridRetriever::HybridRetriever</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Construct with custom configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Retriever configuration. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any config parameter is invalid. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="124" column="14" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="93" bodyend="96"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a8d2dc6e69dc999dcdd518c636d0d9cfe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::HybridRetriever::~HybridRetriever</definition>
+        <argsstring>()=default</argsstring>
+        <name>~HybridRetriever</name>
+        <qualifiedname>themis::rag::HybridRetriever::~HybridRetriever</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="126" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a5f1a3e8f749b0bba86f8b3188e9f3e03" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::HybridRetriever::HybridRetriever</definition>
+        <argsstring>(const HybridRetriever &amp;)=default</argsstring>
+        <name>HybridRetriever</name>
+        <qualifiedname>themis::rag::HybridRetriever::HybridRetriever</qualifiedname>
+        <param>
+          <type>const HybridRetriever &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="128" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a3a9e764a97986f299ac90251537db53d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref> &amp;</type>
+        <definition>HybridRetriever &amp; themis::rag::HybridRetriever::operator=</definition>
+        <argsstring>(const HybridRetriever &amp;)=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::HybridRetriever::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="129" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1ae54b330b1560601118a67fcf34738eb3" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::rag::HybridRetriever::HybridRetriever</definition>
+        <argsstring>(HybridRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>HybridRetriever</name>
+        <qualifiedname>themis::rag::HybridRetriever::HybridRetriever</qualifiedname>
+        <param>
+          <type>HybridRetriever &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="130" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1adce4239e6c3868ccac5e85d44c3ed57d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref> &amp;</type>
+        <definition>HybridRetriever &amp; themis::rag::HybridRetriever::operator=</definition>
+        <argsstring>(HybridRetriever &amp;&amp;) noexcept=default</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::rag::HybridRetriever::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref> &amp;&amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="131" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref></type>
+        <definition>HybridFusionResult themis::rag::HybridRetriever::fuse</definition>
+        <argsstring>(const std::vector&lt; judge::RetrievedDocument &gt; &amp;bm25_candidates, const std::vector&lt; judge::RetrievedDocument &gt; &amp;vector_candidates) const</argsstring>
+        <name>fuse</name>
+        <qualifiedname>themis::rag::HybridRetriever::fuse</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>bm25_candidates</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>vector_candidates</declname>
+        </param>
+        <briefdescription>
+<para>Fuse BM25 and vector candidate lists into a single ranked list. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Either or both candidate lists may be empty; fusion degrades gracefully to the non-empty list in that case.</para>
+<para>The <computeroutput>similarity_score</computeroutput> field of every returned document is set to the fused hybrid score.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>bm25_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BM25 / sparse-retrieval results in any order. The <computeroutput>similarity_score</computeroutput> field is used as the raw BM25 score when use_rrf = false. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>vector_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Vector / dense-retrieval results in any order. The <computeroutput>similarity_score</computeroutput> field is used as the raw vector score when use_rrf = false. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused result with documents sorted by descending hybrid score. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="150" column="24" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="150" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a4a1add9cf52904df5b0ee89795a7de27" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::HybridRetriever::setVectorizer</definition>
+        <argsstring>(std::shared_ptr&lt; IVectorizer &gt; vectorizer)</argsstring>
+        <name>setVectorizer</name>
+        <qualifiedname>themis::rag::HybridRetriever::setVectorizer</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref> &gt;</type>
+          <declname>vectorizer</declname>
+        </param>
+        <briefdescription>
+<para>Inject a dense vectorizer used by <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1ad6ea8f1c460407cd63476b1a1318c377" kindref="member">retrieveWithVectorizer()</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Vectorizer.</para>
+<para>Passing <computeroutput>nullptr</computeroutput> disables the integration path. The vectorizer must be initialized before calling <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1ad6ea8f1c460407cd63476b1a1318c377" kindref="member">retrieveWithVectorizer()</ref>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>vectorizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Shared vectorizer instance (may be null).</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">vectorizer</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::move(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="163" column="10" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="138" bodyend="140"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a3fe66a25d146a3553baf31b140863e5b" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref> &gt;</type>
+        <definition>std::shared_ptr&lt; IVectorizer &gt; themis::rag::HybridRetriever::getVectorizer</definition>
+        <argsstring>() const</argsstring>
+        <name>getVectorizer</name>
+        <qualifiedname>themis::rag::HybridRetriever::getVectorizer</qualifiedname>
+        <briefdescription>
+<para>Return the currently configured vectorizer (may be null). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="168" column="22" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="142" bodyend="144"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1ad6ea8f1c460407cd63476b1a1318c377" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref></type>
+        <definition>HybridFusionResult themis::rag::HybridRetriever::retrieveWithVectorizer</definition>
+        <argsstring>(const std::string &amp;query, const std::vector&lt; judge::RetrievedDocument &gt; &amp;bm25_candidates) const</argsstring>
+        <name>retrieveWithVectorizer</name>
+        <qualifiedname>themis::rag::HybridRetriever::retrieveWithVectorizer</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>query</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>bm25_candidates</declname>
+        </param>
+        <briefdescription>
+<para>Build dense candidates via configured <ref refid="classthemis_1_1rag_1_1_i_vectorizer" kindref="compound">IVectorizer</ref> and fuse them with BM25. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>This is an integration helper for DPR-style bi-encoders: query text is encoded via <computeroutput>encodeQuery()</computeroutput>, each BM25 candidate content is encoded via <computeroutput>encodePassage()</computeroutput>, cosine similarity is used as dense score, then standard <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" kindref="member">fuse()</ref> is applied.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>query</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Query text to encode. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>bm25_candidates</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>BM25/sparse candidates (input pool for dense scoring). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Fused hybrid result. </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if query is empty. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::runtime_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if no vectorizer is configured or not initialized. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="184" column="25" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="166" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref> &amp;</type>
+        <definition>const HybridRetrieverConfig &amp; themis::rag::HybridRetriever::getConfig</definition>
+        <argsstring>() const</argsstring>
+        <name>getConfig</name>
+        <qualifiedname>themis::rag::HybridRetriever::getConfig</qualifiedname>
+        <briefdescription>
+<para>Return current configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="192" column="33" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="119" bodyend="121"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a74798579e2c26d14af8bd0424054abb8" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::HybridRetriever::setConfig</definition>
+        <argsstring>(const HybridRetrieverConfig &amp;config)</argsstring>
+        <name>setConfig</name>
+        <qualifiedname>themis::rag::HybridRetriever::setConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Update configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Set Config.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if any config parameter is invalid.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: <ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1a0228d9d2dca51103f8b119409f402a4d" kindref="member">validateConfig()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="198" column="10" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="128" bodyend="131"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a0228d9d2dca51103f8b119409f402a4d" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::rag::HybridRetriever::validateConfig</definition>
+        <argsstring>(const HybridRetrieverConfig &amp;config)</argsstring>
+        <name>validateConfig</name>
+        <qualifiedname>themis::rag::HybridRetriever::validateConfig</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1rag_1_1_hybrid_retriever_config" kindref="compound">HybridRetrieverConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <briefdescription>
+<para>Validate a configuration object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Validate Config.</para>
+<para><parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>describing the first violation found.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::invalid_argument</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if an error occurs.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Implements validateConfig without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="204" column="17" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="104" bodyend="117"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a90adefbf22ed198c3265bd48b6c11754" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref></type>
+        <definition>HybridFusionResult themis::rag::HybridRetriever::fuseRRF</definition>
+        <argsstring>(const std::vector&lt; judge::RetrievedDocument &gt; &amp;bm25_candidates, const std::vector&lt; judge::RetrievedDocument &gt; &amp;vector_candidates) const</argsstring>
+        <name>fuseRRF</name>
+        <qualifiedname>themis::rag::HybridRetriever::fuseRRF</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>bm25_candidates</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>vector_candidates</declname>
+        </param>
+        <briefdescription>
+<para>RRF fusion path (use_rrf = true). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="211" column="24" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="213" bodyend="289"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1rag_1_1_hybrid_retriever_1a8a934132aa2f4c6c226c3b21ec152c97" prot="private" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1rag_1_1_hybrid_fusion_result" kindref="compound">HybridFusionResult</ref></type>
+        <definition>HybridFusionResult themis::rag::HybridRetriever::fuseLinear</definition>
+        <argsstring>(const std::vector&lt; judge::RetrievedDocument &gt; &amp;bm25_candidates, const std::vector&lt; judge::RetrievedDocument &gt; &amp;vector_candidates) const</argsstring>
+        <name>fuseLinear</name>
+        <qualifiedname>themis::rag::HybridRetriever::fuseLinear</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>bm25_candidates</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1rag_1_1judge_1_1_retrieved_document" kindref="compound">judge::RetrievedDocument</ref> &gt; &amp;</type>
+          <declname>vector_candidates</declname>
+        </param>
+        <briefdescription>
+<para>Linear combination path (use_rrf = false). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/hybrid_retriever.h" line="217" column="24" bodyfile="src/rag/hybrid_retriever.cpp" bodystart="295" bodyend="374"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>RAG-level hybrid retriever fusing BM25 and vector candidate lists. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Usage (RRF, default): <programlisting><codeline><highlight class="normal">HybridRetrieverConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.bm25_weight<sp/><sp/><sp/>=<sp/>0.4;</highlight></codeline>
+<codeline><highlight class="normal">cfg.vector_weight<sp/>=<sp/>0.6;</highlight></codeline>
+<codeline><highlight class="normal">cfg.top_k<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>10;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25_candidates,<sp/>vector_candidates);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>doc<sp/>:<sp/>result.documents)<sp/>{</highlight></codeline>
+<codeline><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/>doc.id<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;<sp/><sp/>score=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>doc.similarity_score<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;\n&quot;</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">}</highlight></codeline>
+</programlisting></para>
+<para>Usage (linear combination): <programlisting><codeline><highlight class="normal">HybridRetrieverConfig<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.use_rrf<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.bm25_weight<sp/><sp/><sp/><sp/>=<sp/>0.3;</highlight></codeline>
+<codeline><highlight class="normal">cfg.vector_weight<sp/><sp/>=<sp/>0.7;</highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" kindref="member">HybridRetriever</ref><sp/>retriever(cfg);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>result<sp/>=<sp/>retriever.fuse(bm25_candidates,<sp/>vector_candidates);</highlight></codeline>
+</programlisting></para>
+<para>Performance targets:<itemizedlist>
+<listitem><para>RRF mode: &lt;1 ms for 100 candidates</para>
+</listitem><listitem><para>Linear mode: &lt;1 ms for 100 candidates</para>
+</listitem><listitem><para>Recall@10 (RRF, balanced weights): ≥ 85 % </para>
+</listitem></itemizedlist>
+</para>
+    </detaileddescription>
+    <location file="include/rag/hybrid_retriever.h" line="112" column="1" bodyfile="include/rag/hybrid_retriever.h" bodystart="112" bodyend="221"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa27d989bc525609544df7b264a514a53" prot="private" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>config_</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a59668eb561798fb677664fa616055c4c" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>fuse</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a8a934132aa2f4c6c226c3b21ec152c97" prot="private" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>fuseLinear</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a90adefbf22ed198c3265bd48b6c11754" prot="private" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>fuseRRF</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a923400d147601ef6091debdace71be8d" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>getConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a3fe66a25d146a3553baf31b140863e5b" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>getVectorizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1aa6aea77b1051e9e62af40c4733ef8b7c" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>HybridRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a36d4d404e38caa2fd2a11a75e3a42adf" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>HybridRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a5f1a3e8f749b0bba86f8b3188e9f3e03" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>HybridRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1ae54b330b1560601118a67fcf34738eb3" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>HybridRetriever</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a3a9e764a97986f299ac90251537db53d" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1adce4239e6c3868ccac5e85d44c3ed57d" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1ad6ea8f1c460407cd63476b1a1318c377" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>retrieveWithVectorizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a74798579e2c26d14af8bd0424054abb8" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>setConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a4a1add9cf52904df5b0ee89795a7de27" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>setVectorizer</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a0228d9d2dca51103f8b119409f402a4d" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>validateConfig</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a2666ebc46543a5035b263a73c884dee1" prot="private" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>vectorizer_</name></member>
+      <member refid="classthemis_1_1rag_1_1_hybrid_retriever_1a8d2dc6e69dc999dcdd518c636d0d9cfe" prot="public" virt="non-virtual"><scope>themis::rag::HybridRetriever</scope><name>~HybridRetriever</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

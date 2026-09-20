@@ -1,0 +1,374 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="bench__server__http3__gates_8cpp" kind="file" language="C++">
+    <compoundname>bench_server_http3_gates.cpp</compoundname>
+    <includes local="no">benchmark/benchmark.h</includes>
+    <includes refid="server__api__contract_8h" local="yes">server/server_api_contract.h</includes>
+    <includes local="no">atomic</includes>
+    <includes local="no">cstdint</includes>
+    <includes local="no">string</includes>
+    <incdepgraph>
+      <node id="1">
+        <label>benchmarks/server/bench_server_http3_gates.cpp</label>
+        <link refid="bench__server__http3__gates_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="3">
+        <label>server/server_api_contract.h</label>
+        <link refid="server__api__contract_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="7">
+        <label>atomic</label>
+      </node>
+      <node id="2">
+        <label>benchmark/benchmark.h</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstddef</label>
+      </node>
+      <node id="8">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <innerclass refid="struct_bench_peer_endpoint" prot="public">BenchPeerEndpoint</innerclass>
+    <innerclass refid="struct_bench_quic_conn_state" prot="public">BenchQuicConnState</innerclass>
+    <innerclass refid="struct_bench_session_token" prot="public">BenchSessionToken</innerclass>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="bench__server__http3__gates_8cpp_1a4516079280e4e6c32374bb39b1dd4fe9" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t kHttp3GatesSeed</definition>
+        <argsstring></argsstring>
+        <name>kHttp3GatesSeed</name>
+        <initializer>= 7331U</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="54" column="27" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="54" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1a277a4829131770fa252fc3c40fc63756" prot="public" static="yes" nodiscard="yes" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool benchAcceptEarlyData</definition>
+        <argsstring>(const BenchSessionToken &amp;tok) noexcept</argsstring>
+        <name>benchAcceptEarlyData</name>
+        <param>
+          <type>const <ref refid="struct_bench_session_token" kindref="compound">BenchSessionToken</ref> &amp;</type>
+          <declname>tok</declname>
+        </param>
+        <briefdescription>
+<para>Inline 0-RTT gate decision — mirrors <ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref> in test file. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="91" column="21" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="91" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1ab119d312bfddc676e7a11a75025f3106" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void SVR_H3_01_ConnectionMigrationLatency</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>SVR_H3_01_ConnectionMigrationLatency</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark the hot path of connection migration bookkeeping. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the CPU overhead of accepting a peer address change:<itemizedlist>
+<listitem><para>draining-state guard (atomic load)</para>
+</listitem><listitem><para>endpoint update (struct assignment)</para>
+</listitem><listitem><para>migration counter increment (atomic fetch_add)</para>
+</listitem></itemizedlist>
+</para>
+<para>This represents the fast path exercised by Http3Session::onPathMigration() in production each time a QUIC Connection ID is seen from a new address.</para>
+<para><simplesect kind="note"><para>No real QUIC connections or UDP sockets are opened. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="115" column="13" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="115" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1a01722573d2914e871fa0d293b702af10" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kMicrosecond) -&gt; Iterations(100000) -&gt;Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kMicrosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="132" column="5" declfile="benchmarks/server/bench_server_http3_gates.cpp" declline="132" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1ac20e93acbf24ddd2024f360931e2020a" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void SVR_H3_02_ZeroRttDecisionAccept</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>SVR_H3_02_ZeroRttDecisionAccept</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+<para>Benchmark the fast-path 0-RTT token validation decision. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Measures the CPU cost of the security gate that decides whether early data from a 0-RTT session is accepted or rejected:<itemizedlist>
+<listitem><para>valid-token check (bool read)</para>
+</listitem><listitem><para>replay-protection check (bool read)</para>
+</listitem></itemizedlist>
+</para>
+<para>This is the innermost decision point exercised on every QUIC 0-RTT resumption attempt. The gate must impose negligible latency (≤ 1 µs p99) to avoid adding meaningful overhead to the QUIC handshake fast path.</para>
+<para><simplesect kind="note"><para>Tests both the accept path (valid, not-replayed) and the reject path (replayed) to cover both code branches. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="157" column="13" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="157" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1a01f3a14db2f5cc0d54ba83ec7cd8dbfb" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>Unit</definition>
+        <argsstring>(benchmark::kNanosecond) -&gt; Iterations(500000) -&gt;Repetitions(5) -&gt;ReportAggregatesOnly(true)</argsstring>
+        <name>Unit</name>
+        <param>
+          <type>benchmark::kNanosecond</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="167" column="5" declfile="benchmarks/server/bench_server_http3_gates.cpp" declline="167" declcolumn="5"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1af7acf13e08176fe4fe69c1be5e0b9453" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void SVR_H3_02_ZeroRttDecisionReject</definition>
+        <argsstring>(benchmark::State &amp;state)</argsstring>
+        <name>SVR_H3_02_ZeroRttDecisionReject</name>
+        <param>
+          <type>benchmark::State &amp;</type>
+          <declname>state</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="172" column="13" bodyfile="benchmarks/server/bench_server_http3_gates.cpp" bodystart="172" bodyend="179"/>
+      </memberdef>
+      <memberdef kind="function" id="bench__server__http3__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>BENCHMARK_MAIN</definition>
+        <argsstring>()</argsstring>
+        <name>BENCHMARK_MAIN</name>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="benchmarks/server/bench_server_http3_gates.cpp" line="187" column="1" declfile="benchmarks/server/bench_server_http3_gates.cpp" declline="187" declcolumn="1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Phase 2 Protocol-Hardening HTTP/3 release-gate benchmarks. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Provides reproducible latency measurements for HTTP/3 QUIC connection migration and 0-RTT session resumption paths identified in src/server/ROADMAP.md (Phase 2 — Multi-Transport Resilience).</para>
+<para>Results are used as promotion gates: a regression beyond 10% vs the baseline blocks GA promotion.</para>
+<sect1 id="bench__server__http3__gates_8cpp_1autotoc_md3_1s1"><sect2 id="bench__server__http3__gates_8cpp_1autotoc_md3">
+<title>Benchmark families</title><para><heading level="3">SVR-H3-01 — Connection-Migration Latency</heading>
+</para>
+<para>Overhead of onPathMigration() including endpoint update and atomic migration-count increment. Simulates a client address change mid-stream without live ngtcp2 conn (in-process stub).</para>
+<para><heading level="3">SVR-H3-02 — 0-RTT Resumption Decision Latency</heading>
+</para>
+<para>CPU cost of the session-token validity check (<ref refid="class_stub_zero_rtt_gate" kindref="compound">StubZeroRttGate</ref> path), representing the fast-path decision at the security gate before any early data is accepted or rejected.</para>
+</sect2></sect1>
+<sect1 id="bench__server__http3__gates_8cpp_1autotoc_md4_1s1"><sect2 id="bench__server__http3__gates_8cpp_1autotoc_md4">
+<title>Hard release gates</title><para><table rows="3" cols="3"><row>
+<entry thead="yes"><para>Gate ID  </para>
+</entry><entry thead="yes"><para>Benchmark  </para>
+</entry><entry thead="yes"><para>Threshold  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SVR-H3-01  </para>
+</entry><entry thead="no"><para>SVR-H3-01  </para>
+</entry><entry thead="no"><para>p99 ≤ 5 µs  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>GATE-SVR-H3-02  </para>
+</entry><entry thead="no"><para>SVR-H3-02  </para>
+</entry><entry thead="no"><para>p99 ≤ 1 µs  </para>
+</entry></row>
+</table>
+</para>
+<para>All benchmarks:<itemizedlist>
+<listitem><para>Use kHttp3GatesSeed = 7331 for deterministic data generation.</para>
+</listitem><listitem><para>Run with default Google Benchmark iteration management.</para>
+</listitem><listitem><para>No real UDP sockets or QUIC sessions are opened.</para>
+</listitem></itemizedlist>
+</para>
+<para><simplesect kind="see"><para>src/server/ROADMAP.md — Phase 2 Protocol and Gateway Hardening </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="server__api__contract_8h" kindref="compound">include/server/server_api_contract.h</ref> — contract constants </para>
+</simplesect>
+<simplesect kind="see"><para><ref refid="test__server__http3__stress__focused_8cpp" kindref="compound">tests/server/test_server_http3_stress_focused.cpp</ref> — SH3-01..SH3-12 </para>
+</simplesect>
+</para>
+</sect2></sect1>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;benchmark/benchmark.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="43"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="server__api__contract_8h" kindref="compound">server/server_api_contract.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="44"><highlight class="normal"></highlight></codeline>
+<codeline lineno="45"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="48"><highlight class="normal"></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1server" kindref="compound">themis::server</ref>;</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Benchmark<sp/>seed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="53"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="54"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/>uint32_t<sp/>kHttp3GatesSeed<sp/>=<sp/>7331U;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Minimal<sp/>in-process<sp/>stubs<sp/>(mirrors<sp/>test<sp/>stubs;<sp/>no<sp/>QUIC<sp/>lib<sp/>dependency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="struct_bench_peer_endpoint" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref><sp/>{</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/><ref refid="struct_bench_peer_endpoint_1a7bb969ed9718a197ce0acb40092ab3ee" kindref="member">address</ref>;</highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>uint16_t<sp/><sp/><sp/><sp/><ref refid="struct_bench_peer_endpoint_1a1863d9a1e31728ba65919cb91485a107" kindref="member">port</ref>;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71" refid="struct_bench_quic_conn_state" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bench_quic_conn_state" kindref="compound">BenchQuicConnState</ref><sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state_1af4320d316159606d8da97bbe39cb8496" kindref="member">current_peer</ref>;</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;uint32_t&gt;<sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" kindref="member">migration_count</ref>{0};</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state_1af89da3163fb153451be0adfe905e54a5" kindref="member">draining</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="struct_bench_quic_conn_state_1a47ed0000482eceb6940b0e310b1906a7" kindref="member">onPathMigration</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref>&amp;<sp/>new_peer)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(<ref refid="struct_bench_quic_conn_state_1af89da3163fb153451be0adfe905e54a5" kindref="member">draining</ref>.load(std::memory_order_acquire))<sp/>{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal">;<sp/>}</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state_1af4320d316159606d8da97bbe39cb8496" kindref="member">current_peer</ref><sp/>=<sp/>new_peer;</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" kindref="member">migration_count</ref>.fetch_add(1,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="81"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"></highlight></codeline>
+<codeline lineno="84" refid="struct_bench_session_token" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="struct_bench_session_token" kindref="compound">BenchSessionToken</ref><sp/>{</highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">char</highlight><highlight class="normal">*<sp/><ref refid="struct_bench_session_token_1a584b802d929faa1944972cd6a19d510c" kindref="member">token_id</ref>;</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_bench_session_token_1a6f5d67e93c24ffdc7aead246f6fc5baf" kindref="member">valid</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="struct_bench_session_token_1a130b305f5132c0789e8ff021ba640440" kindref="member">replayed</ref><sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="88"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal">[[nodiscard]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keyword">inline</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>benchAcceptEarlyData(</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="struct_bench_session_token" kindref="compound">BenchSessionToken</ref>&amp;<sp/>tok)<sp/></highlight><highlight class="keyword">noexcept</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="93"><highlight class="normal">{</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>tok.valid<sp/>&amp;&amp;<sp/>!tok.replayed;</highlight></codeline>
+<codeline lineno="95"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SVR-H3-01<sp/>—<sp/>Connection-Migration<sp/>Latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-SVR-H3-01:<sp/>p99<sp/>≤<sp/>5<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="115"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SVR_H3_01_ConnectionMigrationLatency(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_bench_quic_conn_state" kindref="compound">BenchQuicConnState</ref><sp/>conn;</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_bench_quic_conn_state_1af4320d316159606d8da97bbe39cb8496" kindref="member">current_peer</ref><sp/>=<sp/>{</highlight><highlight class="stringliteral">&quot;10.0.0.1&quot;</highlight><highlight class="normal">,<sp/>44000};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"></highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_bench_peer_endpoint" kindref="compound">BenchPeerEndpoint</ref><sp/>new_peer{</highlight><highlight class="stringliteral">&quot;10.0.0.2&quot;</highlight><highlight class="normal">,<sp/>44001};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>conn.<ref refid="struct_bench_quic_conn_state_1a47ed0000482eceb6940b0e310b1906a7" kindref="member">onPathMigration</ref>(new_peer);</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prevent<sp/>the<sp/>compiler<sp/>from<sp/>optimising<sp/>the<sp/>loop<sp/>body<sp/>away</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(conn.<ref refid="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" kindref="member">migration_count</ref>.load());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Reset<sp/>counter<sp/>so<sp/>repeated<sp/>benchmark<sp/>runs<sp/>start<sp/>clean</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/>conn.<ref refid="struct_bench_quic_conn_state_1a97d854464df18c8c965a9cf7c63c155e" kindref="member">migration_count</ref>.store(0,<sp/>std::memory_order_relaxed);</highlight></codeline>
+<codeline lineno="129"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(SVR_H3_01_ConnectionMigrationLatency)</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kMicrosecond)</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(100000)</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight></codeline>
+<codeline lineno="137"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="comment">//<sp/>SVR-H3-02<sp/>—<sp/>0-RTT<sp/>Resumption<sp/>Decision<sp/>Latency</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>GATE-SVR-H3-02:<sp/>p99<sp/>≤<sp/>1<sp/>µs</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="comment">//<sp/>─────────────────────────────────────────────────────────────────────────────</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight></codeline>
+<codeline lineno="157"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SVR_H3_02_ZeroRttDecisionAccept(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_bench_session_token" kindref="compound">BenchSessionToken</ref><sp/>token{</highlight><highlight class="stringliteral">&quot;session-bench-123&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*valid=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*replayed=*/</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="159"><highlight class="normal"></highlight></codeline>
+<codeline lineno="160"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="161"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>accepted<sp/>=<sp/>benchAcceptEarlyData(token);</highlight></codeline>
+<codeline lineno="162"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(accepted);</highlight></codeline>
+<codeline lineno="163"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="164"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"></highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(SVR_H3_02_ZeroRttDecisionAccept)</highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kNanosecond)</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500000)</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="171"><highlight class="normal"></highlight></codeline>
+<codeline lineno="172"><highlight class="normal"></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/>SVR_H3_02_ZeroRttDecisionReject(benchmark::State&amp;<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="struct_bench_session_token" kindref="compound">BenchSessionToken</ref><sp/>token{</highlight><highlight class="stringliteral">&quot;session-bench-replayed&quot;</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*valid=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">,<sp/></highlight><highlight class="comment">/*replayed=*/</highlight><highlight class="keyword">true</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"></highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>_<sp/>:<sp/>state)<sp/>{</highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>accepted<sp/>=<sp/>benchAcceptEarlyData(token);</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>benchmark::DoNotOptimize(accepted);</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="179"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"></highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><ref refid="bench__api__endpoints_8cpp_1a9dcb1088d0e7014ad8abbaed338bfe93" kindref="member">BENCHMARK</ref>(SVR_H3_02_ZeroRttDecisionReject)</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Unit(benchmark::kNanosecond)</highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Iterations(500000)</highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;Repetitions(5)</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/>-&gt;ReportAggregatesOnly(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"></highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><ref refid="bench__server__http3__gates_8cpp_1a5851750faa9cfec10f7cad1f3b89697e" kindref="member">BENCHMARK_MAIN</ref>();</highlight></codeline>
+    </programlisting>
+    <location file="benchmarks/server/bench_server_http3_gates.cpp"/>
+  </compounddef>
+</doxygen>

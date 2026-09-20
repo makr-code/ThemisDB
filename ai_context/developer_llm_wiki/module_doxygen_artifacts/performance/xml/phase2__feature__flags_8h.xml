@@ -1,0 +1,308 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="phase2__feature__flags_8h" kind="file" language="C++">
+    <compoundname>phase2_feature_flags.h</compoundname>
+    <includes local="no">atomic</includes>
+    <includes local="no">mutex</includes>
+    <includes local="no">string</includes>
+    <includes local="no">cstdint</includes>
+    <includedby refid="cicada_8cpp" local="yes">src/performance/cicada.cpp</includedby>
+    <includedby refid="dostoevsky_8cpp" local="yes">src/performance/dostoevsky.cpp</includedby>
+    <includedby refid="ligra_8cpp" local="yes">src/performance/ligra.cpp</includedby>
+    <includedby refid="phase2__feature__flags_8cpp" local="yes">src/performance/phase2_feature_flags.cpp</includedby>
+    <includedby refid="rabitq_8cpp" local="yes">src/performance/rabitq.cpp</includedby>
+    <includedby refid="wisckey_8cpp" local="yes">src/performance/wisckey.cpp</includedby>
+    <incdepgraph>
+      <node id="1">
+        <label>include/performance/phase2_feature_flags.h</label>
+        <link refid="phase2__feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="3">
+        <label>mutex</label>
+      </node>
+      <node id="4">
+        <label>string</label>
+      </node>
+    </incdepgraph>
+    <invincdepgraph>
+      <node id="1">
+        <label>include/performance/phase2_feature_flags.h</label>
+        <link refid="phase2__feature__flags_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>src/performance/cicada.cpp</label>
+        <link refid="cicada_8cpp"/>
+      </node>
+      <node id="3">
+        <label>src/performance/dostoevsky.cpp</label>
+        <link refid="dostoevsky_8cpp"/>
+      </node>
+      <node id="4">
+        <label>src/performance/ligra.cpp</label>
+        <link refid="ligra_8cpp"/>
+      </node>
+      <node id="5">
+        <label>src/performance/phase2_feature_flags.cpp</label>
+        <link refid="phase2__feature__flags_8cpp"/>
+      </node>
+      <node id="6">
+        <label>src/performance/rabitq.cpp</label>
+        <link refid="rabitq_8cpp"/>
+      </node>
+      <node id="7">
+        <label>src/performance/wisckey.cpp</label>
+        <link refid="wisckey_8cpp"/>
+      </node>
+    </invincdepgraph>
+    <innerclass refid="structthemis_1_1performance_1_1_hardware_capabilities" prot="public">themis::performance::HardwareCapabilities</innerclass>
+    <innerclass refid="classthemis_1_1performance_1_1_phase2_feature_flags" prot="public">themis::performance::Phase2FeatureFlags</innerclass>
+    <innernamespace refid="namespacethemis">themis</innernamespace>
+    <innernamespace refid="namespacethemis_1_1performance">themis::performance</innernamespace>
+    <sectiondef kind="define">
+      <memberdef kind="define" id="phase2__feature__flags_8h_1af3fc27c890d8215405d6e10a90222d9a" prot="public" static="no">
+        <name>THEMIS_PHASE2_WISCKEY_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="125" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase2__feature__flags_8h_1a28779fe9fb88f27d2316b2fd7c677986" prot="public" static="no">
+        <name>THEMIS_PHASE2_DOSTOEVSKY_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="131" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase2__feature__flags_8h_1a2b976409fa21d43fff30c6c00b25a930" prot="public" static="no">
+        <name>THEMIS_PHASE2_CICADA_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="137" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="137" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase2__feature__flags_8h_1a376e1218cf9b92ce0b4d7ab4d597e5d4" prot="public" static="no">
+        <name>THEMIS_PHASE2_LIGRA_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="143" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="143" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="define" id="phase2__feature__flags_8h_1a5da3562d3123e90220d2720cec31c688" prot="public" static="no">
+        <name>THEMIS_PHASE2_RABITQ_ENABLED</name>
+        <param></param>
+        <initializer>(false)</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/phase2_feature_flags.h" line="149" column="14" bodyfile="include/performance/phase2_feature_flags.h" bodystart="149" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Canonical Doxygen file header for ThemisDB-generated maturity metadata. </para>
+    </briefdescription>
+    <detaileddescription>
+<para><simplesect kind="version"><para>0.0.47 </para>
+</simplesect>
+<simplesect kind="note"><para>Maturity: 🟢 PRODUCTION-READY </para>
+</simplesect>
+<simplesect kind="note"><para>Score: 86/100 </para>
+</simplesect>
+<simplesect kind="note"><para>Status: Production Ready </para>
+</simplesect>
+<simplesect kind="note"><para>This block is auto-generated and will be overwritten. </para>
+</simplesect>
+</para>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Phase<sp/>2<sp/>Performance<sp/>Optimizations<sp/>Feature<sp/>Flags</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="13"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Based<sp/>on<sp/>scientific<sp/>research<sp/>from<sp/>PR<sp/>#156<sp/>(45+<sp/>peer-reviewed<sp/>papers)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="14"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Implementation<sp/>framework<sp/>from<sp/>PR<sp/>#157</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Expected<sp/>gains<sp/>(Phase<sp/>2):<sp/>+100-200%<sp/>overall<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Timeframe:<sp/>3-6<sp/>months<sp/>implementation<sp/>effort</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Hardware<sp/>Requirements:</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>WiscKey:<sp/>SSD<sp/>or<sp/>NVMe<sp/>(sequential<sp/>I/O<sp/>optimized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Dostoevsky:<sp/>Multi-core<sp/>CPU<sp/>(2+<sp/>cores<sp/>recommended)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Cicada:<sp/>Multi-core<sp/>CPU<sp/>with<sp/>TSC<sp/>(RDTSC)<sp/>support<sp/>for<sp/>OCC<sp/>versioning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>Ligra:<sp/>Multi-core<sp/>CPU<sp/>(degree<sp/>≥<sp/>4<sp/>threads<sp/>for<sp/>efficiency)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"></highlight><highlight class="comment">//<sp/>-<sp/>RaBitQ:<sp/>x86/x64<sp/>with<sp/>SSE2+<sp/>or<sp/>ARM<sp/>NEON<sp/>for<sp/>SIMD<sp/>quantization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"></highlight><highlight class="preprocessor">#pragma<sp/>once</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="27"><highlight class="normal"></highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;atomic&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;mutex&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="30"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;cstdint&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
+<codeline lineno="34"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">performance</ref><sp/>{</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="37" refid="structthemis_1_1performance_1_1_hardware_capabilities" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">struct<sp/></highlight><highlight class="normal"><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref><sp/>{</highlight></codeline>
+<codeline lineno="38" refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad57a36990e9ff958e2b877f93a6f4edc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad57a36990e9ff958e2b877f93a6f4edc" kindref="member">has_sse2</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="39" refid="structthemis_1_1performance_1_1_hardware_capabilities_1a6f8ba21392ae4bf7c515380eb62d622a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1a6f8ba21392ae4bf7c515380eb62d622a" kindref="member">has_avx2</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="40" refid="structthemis_1_1performance_1_1_hardware_capabilities_1a9cab28d100f669840f9fbad7542536a3" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1a9cab28d100f669840f9fbad7542536a3" kindref="member">has_arm_neon</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="41" refid="structthemis_1_1performance_1_1_hardware_capabilities_1a447cb1fe718100fc49105386b406073a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1a447cb1fe718100fc49105386b406073a" kindref="member">has_rdtsc</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="42" refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad746f4c0967d8be62ed7b2a1df417262" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1ad746f4c0967d8be62ed7b2a1df417262" kindref="member">has_cmpxchg16b</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="43" refid="structthemis_1_1performance_1_1_hardware_capabilities_1afa47adb1dbae3d207c7581e2d7eec524" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/>uint32_t<sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1afa47adb1dbae3d207c7581e2d7eec524" kindref="member">num_cores</ref>{1};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="44" refid="structthemis_1_1performance_1_1_hardware_capabilities_1a367df316c0e0ff23923037c836aef987" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities_1a367df316c0e0ff23923037c836aef987" kindref="member">has_ssd</ref>{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="45"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="50" refid="classthemis_1_1performance_1_1_phase2_feature_flags" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal">Phase2FeatureFlags<sp/>{</highlight></codeline>
+<codeline lineno="51"><highlight class="normal"></highlight><highlight class="keyword">public</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="52" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase2FeatureFlags&amp;<sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">instance</ref>()<sp/>{</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>Phase2FeatureFlags<sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a9bffe9e65d51a67d7ad8fcbae5339936" kindref="member">instance</ref>;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="56"><highlight class="normal"></highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>WiscKey:<sp/>Key/Value<sp/>Separation<sp/>for<sp/>LSM<sp/>Trees<sp/>(FAST&apos;16)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+40-60%<sp/>write<sp/>throughput<sp/>for<sp/>values<sp/>&gt;1KB</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prerequisite:<sp/>SSD/NVMe<sp/>storage<sp/>(fail-closed:<sp/>throws<sp/>if<sp/>has_ssd<sp/>is<sp/>false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="60" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aaf29343d9e0f4ceb4a1acbabb1a8e484" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aaf29343d9e0f4ceb4a1acbabb1a8e484" kindref="member">wisckey_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>wisckey_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="61" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a3f537acdae578b01ccc56f4a2530169a" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a3f537acdae578b01ccc56f4a2530169a" kindref="member">set_wisckey_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>wisckey_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="62" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a34a3bfe5dbb6b13aeadeff253509b563" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a34a3bfe5dbb6b13aeadeff253509b563" kindref="member">wisckey_hardware_supported</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_.has_ssd;<sp/>}</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"></highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Dostoevsky:<sp/>Adaptive<sp/>LSM<sp/>Tree<sp/>Merging<sp/>(SIGMOD&apos;18)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+25-35%<sp/>mixed<sp/>workloads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prerequisite:<sp/>2+<sp/>cores<sp/>for<sp/>effective<sp/>merging<sp/>decisions</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="67" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa06f6999efaff353e4a72975f82363e1" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa06f6999efaff353e4a72975f82363e1" kindref="member">dostoevsky_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>dostoevsky_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="68" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a7f2dbda58115af6baa9a94786cb780b5" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a7f2dbda58115af6baa9a94786cb780b5" kindref="member">set_dostoevsky_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>dostoevsky_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="69" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1ab94e35a5de4a4ddbd0e444c1af82ae39" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1ab94e35a5de4a4ddbd0e444c1af82ae39" kindref="member">dostoevsky_hardware_supported</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_.num_cores<sp/>&gt;=<sp/>2;<sp/>}</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"></highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Cicada:<sp/>Optimistic<sp/>Concurrency<sp/>Control<sp/>(SIGMOD&apos;17)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+100-150%<sp/>transaction<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prerequisite:<sp/>RDTSC<sp/>for<sp/>version<sp/>clock,<sp/>CMPXCHG16B<sp/>for<sp/>lock-free<sp/>reads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="74" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1adb615795e02508bfa5f9a63851382f38" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1adb615795e02508bfa5f9a63851382f38" kindref="member">cicada_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>cicada_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="75" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a609c904d6c55dafcc452611aa01cc621" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a609c904d6c55dafcc452611aa01cc621" kindref="member">set_cicada_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>cicada_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="76" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a8bc34924295b31d9e6c3e3b514f30366" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a8bc34924295b31d9e6c3e3b514f30366" kindref="member">cicada_hardware_supported</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_.has_rdtsc<sp/>&amp;&amp;<sp/>capabilities_.has_cmpxchg16b;</highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Ligra:<sp/>Parallel<sp/>Graph<sp/>Processing<sp/>(PPoPP&apos;13)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>+200-300%<sp/>graph<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prerequisite:<sp/>4+<sp/>cores<sp/>for<sp/>scalable<sp/>frontier<sp/>processing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2b88192cc8cba447a9e9b49089bc3344" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2b88192cc8cba447a9e9b49089bc3344" kindref="member">ligra_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>ligra_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="84" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a0ca6bc5bc89278cfad526b458ff133da" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a0ca6bc5bc89278cfad526b458ff133da" kindref="member">set_ligra_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>ligra_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="85" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa6cc95644a05ea44e68e967eabb6a9dc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa6cc95644a05ea44e68e967eabb6a9dc" kindref="member">ligra_hardware_supported</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_.num_cores<sp/>&gt;=<sp/>4;<sp/>}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>RaBitQ:<sp/>2-bit<sp/>Vector<sp/>Quantization<sp/>(SIGMOD&apos;24)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Expected<sp/>gain:<sp/>16x<sp/>memory<sp/>reduction,<sp/>+50-80%<sp/>throughput</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Prerequisite:<sp/>SSE2/AVX2<sp/>(x86)<sp/>or<sp/>ARM<sp/>NEON<sp/>for<sp/>SIMD<sp/>quantization</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="90" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a25c490e821d73cb6911375eecfb481bf" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a25c490e821d73cb6911375eecfb481bf" kindref="member">rabitq_enabled</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>rabitq_enabled_.load(std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="91" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5b90bc19054eb301a1dabc291f6d3785" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5b90bc19054eb301a1dabc291f6d3785" kindref="member">set_rabitq_enabled</ref>(</highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>enabled)<sp/>{<sp/>rabitq_enabled_.store(enabled,<sp/>std::memory_order_relaxed);<sp/>}</highlight></codeline>
+<codeline lineno="92" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5a8a82703aefbd4afec9c76f93282512" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a5a8a82703aefbd4afec9c76f93282512" kindref="member">rabitq_hardware_supported</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_.has_sse2<sp/>||<sp/>capabilities_.has_avx2<sp/>||<sp/>capabilities_.has_arm_neon;</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="95"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97" refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2cfb4115fb01ad5f474110556fbd58bc" refkind="member"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref>&amp;<sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a2cfb4115fb01ad5f474110556fbd58bc" kindref="member">hardware_capabilities</ref>()</highlight><highlight class="keyword"><sp/>const<sp/></highlight><highlight class="normal">{<sp/></highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>capabilities_;<sp/></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1aa8bb5e78561ff3b849d2b93c2e3ff0ba" kindref="member">detect_hardware_capabilities</ref>();</highlight></codeline>
+<codeline lineno="103"><highlight class="normal"></highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Load<sp/>configuration<sp/>from<sp/>JSON<sp/>file</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">void</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags_1a33b8fac94b416f2f6ccd8e125778fdef" kindref="member">load_from_config</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>std::string&amp;<sp/>config_path);</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"></highlight><highlight class="keyword">private</highlight><highlight class="normal">:</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">Phase2FeatureFlags</ref>();</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">~Phase2FeatureFlags</ref>()<sp/>=<sp/></highlight><highlight class="keywordflow">default</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="110"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">Phase2FeatureFlags</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">Phase2FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">Phase2FeatureFlags</ref>&amp;<sp/>operator=(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="classthemis_1_1performance_1_1_phase2_feature_flags" kindref="compound">Phase2FeatureFlags</ref>&amp;)<sp/>=<sp/></highlight><highlight class="keyword">delete</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_hardware_capabilities" kindref="compound">HardwareCapabilities</ref><sp/>capabilities_;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>wisckey_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>dostoevsky_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>cicada_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>ligra_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>rabitq_enabled_{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="119"><highlight class="normal">};</highlight></codeline>
+<codeline lineno="120"><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Macro<sp/>helpers<sp/>for<sp/>compile-time<sp/>+<sp/>runtime<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="122"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_WISCKEY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="123"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_WISCKEY_ENABLED()<sp/>(::themis::performance::Phase2FeatureFlags::instance().wisckey_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="124"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="125" refid="phase2__feature__flags_8h_1af3fc27c890d8215405d6e10a90222d9a" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_WISCKEY_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="126"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_DOSTOEVSKY</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="129"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_DOSTOEVSKY_ENABLED()<sp/>(::themis::performance::Phase2FeatureFlags::instance().dostoevsky_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="130"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="131" refid="phase2__feature__flags_8h_1a28779fe9fb88f27d2316b2fd7c677986" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_DOSTOEVSKY_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="132"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="133"><highlight class="normal"></highlight></codeline>
+<codeline lineno="134"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_CICADA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="135"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_CICADA_ENABLED()<sp/>(::themis::performance::Phase2FeatureFlags::instance().cicada_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="137" refid="phase2__feature__flags_8h_1a2b976409fa21d43fff30c6c00b25a930" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_CICADA_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="138"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="140"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_LIGRA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="141"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_LIGRA_ENABLED()<sp/>(::themis::performance::Phase2FeatureFlags::instance().ligra_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="142"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="143" refid="phase2__feature__flags_8h_1a376e1218cf9b92ce0b4d7ab4d597e5d4" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_LIGRA_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="144"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="145"><highlight class="normal"></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"></highlight><highlight class="preprocessor">#ifdef<sp/>THEMIS_ENABLE_RABITQ</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_RABITQ_ENABLED()<sp/>(::themis::performance::Phase2FeatureFlags::instance().rabitq_enabled())</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="148"><highlight class="normal"></highlight><highlight class="preprocessor">#else</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="149" refid="phase2__feature__flags_8h_1a5da3562d3123e90220d2720cec31c688" refkind="member"><highlight class="normal"></highlight><highlight class="preprocessor"><sp/><sp/><sp/><sp/>#define<sp/>THEMIS_PHASE2_RABITQ_ENABLED()<sp/>(false)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="150"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>performance</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="153"><highlight class="normal">}<sp/></highlight><highlight class="comment">//<sp/>namespace<sp/>themis</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="include/performance/phase2_feature_flags.h"/>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,133 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1rag_1_1_index_result" kind="struct" language="C++" prot="public">
+    <compoundname>themis::rag::IndexResult</compoundname>
+    <includes refid="rag__ingestion__bridge_8h" local="no">rag_ingestion_bridge.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1a060583b241f295151177e09774d0b196" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::rag::IndexResult::ok</definition>
+        <argsstring></argsstring>
+        <name>ok</name>
+        <qualifiedname>themis::rag::IndexResult::ok</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+<para>True on success. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="33" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="33" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1aef531567ec3b25b46a338f905cd8a2a2" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::IndexResult::doc_id</definition>
+        <argsstring></argsstring>
+        <name>doc_id</name>
+        <qualifiedname>themis::rag::IndexResult::doc_id</qualifiedname>
+        <briefdescription>
+<para>Assigned document identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="34" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="34" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1a699b43c04a2e475ae3e955c303cc8d14" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::IndexResult::collection</definition>
+        <argsstring></argsstring>
+        <name>collection</name>
+        <qualifiedname>themis::rag::IndexResult::collection</qualifiedname>
+        <briefdescription>
+<para>Target collection name. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="35" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="35" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1a3b31cafd388ab8c30466cc370e5e8842" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::IndexResult::entity_count</definition>
+        <argsstring></argsstring>
+        <name>entity_count</name>
+        <qualifiedname>themis::rag::IndexResult::entity_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of NER entities extracted. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="36" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="36" bodyend="36"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1ad95701adfb6ee902f99bebc95289438d" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::rag::IndexResult::vector_count</definition>
+        <argsstring></argsstring>
+        <name>vector_count</name>
+        <qualifiedname>themis::rag::IndexResult::vector_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+<para>Number of vector chunks written. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="37" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="37" bodyend="37"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1aea08875ceeadff84dac72cbb0468a18c" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::rag::IndexResult::error</definition>
+        <argsstring></argsstring>
+        <name>error</name>
+        <qualifiedname>themis::rag::IndexResult::error</qualifiedname>
+        <briefdescription>
+<para>Human-readable error when ok == false. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/rag_ingestion_bridge.h" line="38" column="17" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="38" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1rag_1_1_index_result_1a4d4100b645495645c5192bfd9363b5dc" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::rag::IndexResult::score</definition>
+        <argsstring></argsstring>
+        <name>score</name>
+        <qualifiedname>themis::rag::IndexResult::score</qualifiedname>
+        <initializer>{0.0f}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/rag/wiki_index_store.h" line="31" column="17" bodyfile="include/rag/wiki_index_store.h" bodystart="31" bodyend="31"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Result produced by <computeroutput><ref refid="classthemis_1_1rag_1_1_r_a_g_ingestion_bridge_1a1b93f02d1d5e763bf76d1aadb9c44fc1" kindref="member">RAGIngestionBridge::indexDocument()</ref></computeroutput>. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Result of a BM25+ ranking or RRF fusion query. </para>
+    </detaileddescription>
+    <location file="include/rag/rag_ingestion_bridge.h" line="32" column="1" bodyfile="include/rag/rag_ingestion_bridge.h" bodystart="32" bodyend="39"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1rag_1_1_index_result_1a699b43c04a2e475ae3e955c303cc8d14" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>collection</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1aef531567ec3b25b46a338f905cd8a2a2" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>doc_id</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1a3b31cafd388ab8c30466cc370e5e8842" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>entity_count</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1aea08875ceeadff84dac72cbb0468a18c" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>error</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1a060583b241f295151177e09774d0b196" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>ok</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1a4d4100b645495645c5192bfd9363b5dc" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>score</name></member>
+      <member refid="structthemis_1_1rag_1_1_index_result_1ad95701adfb6ee902f99bebc95289438d" prot="public" virt="non-virtual"><scope>themis::rag::IndexResult</scope><name>vector_count</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

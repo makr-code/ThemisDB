@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_column_histogram_1_1_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::ColumnHistogram::Bucket</compoundname>
+    <includes refid="optimizer__cost__model__enhancements_8h" local="no">optimizer_cost_model_enhancements.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1aa89ed4d5ec39cd38194293d924c1be26" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ColumnHistogram::Bucket::rangeStart</definition>
+        <argsstring></argsstring>
+        <name>rangeStart</name>
+        <qualifiedname>themis::query::ColumnHistogram::Bucket::rangeStart</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="25" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="25" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ad9b0747c588a7953e79a9dcf2417de9c" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::query::ColumnHistogram::Bucket::rangeEnd</definition>
+        <argsstring></argsstring>
+        <name>rangeEnd</name>
+        <qualifiedname>themis::query::ColumnHistogram::Bucket::rangeEnd</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="26" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="26" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ac9a58c9e65c07734d427ddf21eb55ef4" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ColumnHistogram::Bucket::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::query::ColumnHistogram::Bucket::frequency</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="27" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="27" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1a13fc10318cd2a6a079314aa3e6370322" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::ColumnHistogram::Bucket::distinctValues</definition>
+        <argsstring></argsstring>
+        <name>distinctValues</name>
+        <qualifiedname>themis::query::ColumnHistogram::Bucket::distinctValues</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/query/optimizer_cost_model_enhancements.h" line="28" column="16" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="28" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/query/optimizer_cost_model_enhancements.h" line="24" column="5" bodyfile="src/query/optimizer_cost_model_enhancements.h" bodystart="24" bodyend="29"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1a13fc10318cd2a6a079314aa3e6370322" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram::Bucket</scope><name>distinctValues</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ac9a58c9e65c07734d427ddf21eb55ef4" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram::Bucket</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1ad9b0747c588a7953e79a9dcf2417de9c" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram::Bucket</scope><name>rangeEnd</name></member>
+      <member refid="structthemis_1_1query_1_1_column_histogram_1_1_bucket_1aa89ed4d5ec39cd38194293d924c1be26" prot="public" virt="non-virtual"><scope>themis::query::ColumnHistogram::Bucket</scope><name>rangeStart</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

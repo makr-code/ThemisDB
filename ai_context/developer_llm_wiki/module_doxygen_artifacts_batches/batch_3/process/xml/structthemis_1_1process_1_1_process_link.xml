@@ -1,0 +1,161 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1process_1_1_process_link" kind="struct" language="C++" prot="public">
+    <compoundname>themis::process::ProcessLink</compoundname>
+    <includes refid="process__linker_8h" local="no">process_linker.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1aacfbc5b3876a0ec0ba238d9037bb74dd" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessLink::link_id</definition>
+        <argsstring></argsstring>
+        <name>link_id</name>
+        <qualifiedname>themis::process::ProcessLink::link_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="109" column="17" bodyfile="include/process/process_linker.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1a4f259a207a379356b4b46564c7f9bbcc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessLink::source_id</definition>
+        <argsstring></argsstring>
+        <name>source_id</name>
+        <qualifiedname>themis::process::ProcessLink::source_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="110" column="17" bodyfile="include/process/process_linker.h" bodystart="110" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1a4b750437dcdeab4a91be9d08533a0aef" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::process::ProcessLink::target_id</definition>
+        <argsstring></argsstring>
+        <name>target_id</name>
+        <qualifiedname>themis::process::ProcessLink::target_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="111" column="17" bodyfile="include/process/process_linker.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1a2f40c2da3669baeba27e11d87d2778cd" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939" kindref="member">ProcessLinkType</ref></type>
+        <definition>ProcessLinkType themis::process::ProcessLink::link_type</definition>
+        <argsstring></argsstring>
+        <name>link_type</name>
+        <qualifiedname>themis::process::ProcessLink::link_type</qualifiedname>
+        <initializer>{<ref refid="namespacethemis_1_1process_1a8d0ffb5cc058d2dd891e1252c3879939a1b401b3cb564c9bee1e804c893d1d5b9" kindref="member">ProcessLinkType::CROSS_REFERENCE</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="112" column="21" bodyfile="include/process/process_linker.h" bodystart="112" bodyend="112"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1abf900c0ddcc11bb1ca13f9552b041be6" prot="public" static="no" mutable="no">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::process::ProcessLink::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::process::ProcessLink::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="113" column="20" bodyfile="include/process/process_linker.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1process_1_1_process_link_1a8520b84357fb19108b2a94f5cb13928e" prot="public" static="no" mutable="no">
+        <type>int64_t</type>
+        <definition>int64_t themis::process::ProcessLink::created_at_ms</definition>
+        <argsstring></argsstring>
+        <name>created_at_ms</name>
+        <qualifiedname>themis::process::ProcessLink::created_at_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="114" column="13" bodyfile="include/process/process_linker.h" bodystart="114" bodyend="114"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_link_1a93af0d38fbfd48f255352c100e0fac59" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>json themis::process::ProcessLink::toDocument</definition>
+        <argsstring>() const</argsstring>
+        <name>toDocument</name>
+        <qualifiedname>themis::process::ProcessLink::toDocument</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="116" column="21" bodyfile="src/process/process_linker.cpp" bodystart="143" bodyend="152"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1process_1_1_process_link_1a7083c4c69a5b77028c0ac417d3988be0" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1process_1_1_process_link" kindref="compound">ProcessLink</ref></type>
+        <definition>ProcessLink themis::process::ProcessLink::fromDocument</definition>
+        <argsstring>(const nlohmann::json &amp;doc)</argsstring>
+        <name>fromDocument</name>
+        <qualifiedname>themis::process::ProcessLink::fromDocument</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>doc</declname>
+        </param>
+        <briefdescription>
+<para>From Document. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">doc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(), <ref refid="namespacethemis_1_1process_1afe0c3356eb7230184b169a2d21cc3f94" kindref="member">processLinkTypeFromString()</ref>, json::object(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_linker.h" line="117" column="24" bodyfile="src/process/process_linker.cpp" bodystart="160" bodyend="169"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Typed relationship between two process entities (instance↔instance or model↔model). </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Stored under <computeroutput>proc:link:</computeroutput> &lt;source_id&gt;:&lt;target_id&gt;:&lt;link_type_str&gt;. </para>
+    </detaileddescription>
+    <location file="include/process/process_linker.h" line="108" column="1" bodyfile="include/process/process_linker.h" bodystart="108" bodyend="118"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1process_1_1_process_link_1a8520b84357fb19108b2a94f5cb13928e" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>created_at_ms</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1a7083c4c69a5b77028c0ac417d3988be0" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>fromDocument</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1aacfbc5b3876a0ec0ba238d9037bb74dd" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>link_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1a2f40c2da3669baeba27e11d87d2778cd" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>link_type</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1abf900c0ddcc11bb1ca13f9552b041be6" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>properties</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1a4f259a207a379356b4b46564c7f9bbcc" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>source_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1a4b750437dcdeab4a91be9d08533a0aef" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>target_id</name></member>
+      <member refid="structthemis_1_1process_1_1_process_link_1a93af0d38fbfd48f255352c100e0fac59" prot="public" virt="non-virtual"><scope>themis::process::ProcessLink</scope><name>toDocument</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

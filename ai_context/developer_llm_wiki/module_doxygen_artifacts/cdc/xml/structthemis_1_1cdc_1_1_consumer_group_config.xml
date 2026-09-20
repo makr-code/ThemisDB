@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1cdc_1_1_consumer_group_config" kind="struct" language="C++" prot="public">
+    <compoundname>themis::cdc::ConsumerGroupConfig</compoundname>
+    <includes refid="consumer__group_8h" local="no">consumer_group.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::cdc::ConsumerGroupConfig::group_id</definition>
+        <argsstring></argsstring>
+        <name>group_id</name>
+        <qualifiedname>themis::cdc::ConsumerGroupConfig::group_id</qualifiedname>
+        <briefdescription>
+<para>Unique group identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="57" column="17" bodyfile="include/cdc/consumer_group.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::cdc::ConsumerGroupConfig::consumer_count</definition>
+        <argsstring></argsstring>
+        <name>consumer_count</name>
+        <qualifiedname>themis::cdc::ConsumerGroupConfig::consumer_count</qualifiedname>
+        <initializer>{1}</initializer>
+        <briefdescription>
+<para>Number of partitions (consumers) in this group. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="58" column="14" bodyfile="include/cdc/consumer_group.h" bodystart="58" bodyend="58"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_consumer_group_config_1a5d4a6839c3450eed6eb6d70b592e12a2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::cdc::ConsumerGroupConfig::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::cdc::ConsumerGroupConfig::toJson</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="60" column="20" bodyfile="include/cdc/consumer_group.h" bodystart="60" bodyend="62"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-static-func">
+      <memberdef kind="function" id="structthemis_1_1cdc_1_1_consumer_group_config_1a754013c4432e6dd829060bab317ef6e0" prot="public" static="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="structthemis_1_1cdc_1_1_consumer_group_config" kindref="compound">ConsumerGroupConfig</ref></type>
+        <definition>static ConsumerGroupConfig themis::cdc::ConsumerGroupConfig::fromJson</definition>
+        <argsstring>(const nlohmann::json &amp;j)</argsstring>
+        <name>fromJson</name>
+        <qualifiedname>themis::cdc::ConsumerGroupConfig::fromJson</qualifiedname>
+        <param>
+          <type>const nlohmann::json &amp;</type>
+          <declname>j</declname>
+        </param>
+        <briefdescription>
+<para>From Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">j</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: value(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/cdc/consumer_group.h" line="70" column="32" bodyfile="include/cdc/consumer_group.h" bodystart="70" bodyend="75"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/cdc/consumer_group.h" line="56" column="1" bodyfile="include/cdc/consumer_group.h" bodystart="56" bodyend="76"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_config_1a2e412b45966bda830ab6868cb99d2750" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupConfig</scope><name>consumer_count</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_config_1a754013c4432e6dd829060bab317ef6e0" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupConfig</scope><name>fromJson</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_config_1a886c470318a748072ddb420ba50a82b8" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupConfig</scope><name>group_id</name></member>
+      <member refid="structthemis_1_1cdc_1_1_consumer_group_config_1a5d4a6839c3450eed6eb6d70b592e12a2" prot="public" virt="non-virtual"><scope>themis::cdc::ConsumerGroupConfig</scope><name>toJson</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

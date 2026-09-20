@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_query_compiler_1_1_stats" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::QueryCompiler::Stats</compoundname>
+    <includes refid="query__compiler_8h" local="no">query_compiler.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a187c30da38d22cec7a69ec5b9d8aa6aa" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::total_calls</definition>
+        <argsstring></argsstring>
+        <name>total_calls</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::total_calls</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="109" column="16" bodyfile="include/query/query_compiler.h" bodystart="109" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1addf470c1fcba69c80ad14f1a275b5cbc" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::hot_hits</definition>
+        <argsstring></argsstring>
+        <name>hot_hits</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::hot_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="111" column="16" bodyfile="include/query/query_compiler.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a0f6285ace987fe5e143cd38af2788a82" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::cold_hits</definition>
+        <argsstring></argsstring>
+        <name>cold_hits</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::cold_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="113" column="16" bodyfile="include/query/query_compiler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a4fcf0f141127ffbc83cb7178a1619ebb" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::compilations</definition>
+        <argsstring></argsstring>
+        <name>compilations</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::compilations</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="115" column="16" bodyfile="include/query/query_compiler.h" bodystart="115" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a9a9643ec51aa9a8836a0e51f0b5a8c1d" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::compilation_timeouts</definition>
+        <argsstring></argsstring>
+        <name>compilation_timeouts</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::compilation_timeouts</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="117" column="16" bodyfile="include/query/query_compiler.h" bodystart="117" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a71cefd879c6c209e192d5c485d8fd1bd" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::compilation_failures</definition>
+        <argsstring></argsstring>
+        <name>compilation_failures</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::compilation_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="119" column="16" bodyfile="include/query/query_compiler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_query_compiler_1_1_stats_1adbbf5a9e69daf4b347a72046d1af9b73" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::QueryCompiler::Stats::cache_size</definition>
+        <argsstring></argsstring>
+        <name>cache_size</name>
+        <qualifiedname>themis::query::QueryCompiler::Stats::cache_size</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/query_compiler.h" line="121" column="16" bodyfile="include/query/query_compiler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/query_compiler.h" line="108" column="5" bodyfile="include/query/query_compiler.h" bodystart="108" bodyend="122"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1adbbf5a9e69daf4b347a72046d1af9b73" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>cache_size</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a0f6285ace987fe5e143cd38af2788a82" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>cold_hits</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a71cefd879c6c209e192d5c485d8fd1bd" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>compilation_failures</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a9a9643ec51aa9a8836a0e51f0b5a8c1d" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>compilation_timeouts</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a4fcf0f141127ffbc83cb7178a1619ebb" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>compilations</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1addf470c1fcba69c80ad14f1a275b5cbc" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>hot_hits</name></member>
+      <member refid="structthemis_1_1query_1_1_query_compiler_1_1_stats_1a187c30da38d22cec7a69ec5b9d8aa6aa" prot="public" virt="non-virtual"><scope>themis::query::QueryCompiler::Stats</scope><name>total_calls</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

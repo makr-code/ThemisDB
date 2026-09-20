@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1fts_1_1_execution_options" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::fts::ExecutionOptions</compoundname>
+    <includes refid="fts__executor_8h" local="no">fts_executor.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_execution_options_1adc6d08c70f5c083af12acba03ac032a8" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::fts::ExecutionOptions::limit</definition>
+        <argsstring></argsstring>
+        <name>limit</name>
+        <qualifiedname>themis::query::fts::ExecutionOptions::limit</qualifiedname>
+        <initializer>= 100</initializer>
+        <briefdescription>
+<para>Max results to return. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="64" column="10" bodyfile="include/query/fts_executor.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_execution_options_1a76cc4a1472dc0a246d37c48b6225711c" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::query::fts::ExecutionOptions::timeout</definition>
+        <argsstring></argsstring>
+        <name>timeout</name>
+        <qualifiedname>themis::query::fts::ExecutionOptions::timeout</qualifiedname>
+        <initializer>{1000}</initializer>
+        <briefdescription>
+<para><ref refid="structthemis_1_1query_1_1_query" kindref="compound">Query</ref> time budget. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="65" column="29" bodyfile="include/query/fts_executor.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_execution_options_1a572cdc0659fdf89a3c9c4cc09032ecd4" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::fts::ExecutionOptions::include_snippets</definition>
+        <argsstring></argsstring>
+        <name>include_snippets</name>
+        <qualifiedname>themis::query::fts::ExecutionOptions::include_snippets</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Generate snippets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="66" column="8" bodyfile="include/query/fts_executor.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1fts_1_1_execution_options_1a51e71bf2ca928be5af15a59cf0554b98" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::query::fts::ExecutionOptions::parallel_merge</definition>
+        <argsstring></argsstring>
+        <name>parallel_merge</name>
+        <qualifiedname>themis::query::fts::ExecutionOptions::parallel_merge</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+<para>Use N threads for large result sets. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/fts_executor.h" line="67" column="8" bodyfile="include/query/fts_executor.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/query/fts_executor.h" line="63" column="1" bodyfile="include/query/fts_executor.h" bodystart="63" bodyend="68"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a572cdc0659fdf89a3c9c4cc09032ecd4" prot="public" virt="non-virtual"><scope>themis::query::fts::ExecutionOptions</scope><name>include_snippets</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_execution_options_1adc6d08c70f5c083af12acba03ac032a8" prot="public" virt="non-virtual"><scope>themis::query::fts::ExecutionOptions</scope><name>limit</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a51e71bf2ca928be5af15a59cf0554b98" prot="public" virt="non-virtual"><scope>themis::query::fts::ExecutionOptions</scope><name>parallel_merge</name></member>
+      <member refid="structthemis_1_1query_1_1fts_1_1_execution_options_1a76cc4a1472dc0a246d37c48b6225711c" prot="public" virt="non-virtual"><scope>themis::query::fts::ExecutionOptions</scope><name>timeout</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

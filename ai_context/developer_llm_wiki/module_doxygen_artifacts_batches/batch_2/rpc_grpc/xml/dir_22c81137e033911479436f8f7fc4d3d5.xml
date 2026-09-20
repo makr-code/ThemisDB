@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="dir_22c81137e033911479436f8f7fc4d3d5" kind="dir">
+    <compoundname>src/rpc_grpc</compoundname>
+    <innerfile refid="bidi__stream__adapter_8h">bidi_stream_adapter.h</innerfile>
+    <innerfile refid="circuit__breaker_8cpp">circuit_breaker.cpp</innerfile>
+    <innerfile refid="grpc__plugin_8cpp">grpc_plugin.cpp</innerfile>
+    <innerfile refid="grpc__plugin_8h">grpc_plugin.h</innerfile>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="src/rpc_grpc/"/>
+  </compounddef>
+</doxygen>

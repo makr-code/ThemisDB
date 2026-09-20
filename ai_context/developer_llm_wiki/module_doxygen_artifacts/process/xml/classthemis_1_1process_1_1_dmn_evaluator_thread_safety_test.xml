@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::process::DmnEvaluatorThreadSafetyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1a1b64af1a95193e47bd562a7835def71d" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1process_1_1_dmn_evaluator" kindref="compound">DmnEvaluator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;DmnEvaluator&gt; themis::process::DmnEvaluatorThreadSafetyTest::evaluator</definition>
+        <argsstring></argsstring>
+        <name>evaluator</name>
+        <qualifiedname>themis::process::DmnEvaluatorThreadSafetyTest::evaluator</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="94" column="21" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="94" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1ab1f3f0c428f81b35eab2e172cb330895" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::process::DmnEvaluatorThreadSafetyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::process::DmnEvaluatorThreadSafetyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/process/test_critical_batch1_fixes.cpp" line="69" column="10" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="69" bodyend="92"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::DmnEvaluatorThreadSafetyTest</label>
+        <link refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::process::DmnEvaluatorThreadSafetyTest</label>
+        <link refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/process/test_critical_batch1_fixes.cpp" line="67" column="1" bodyfile="tests/process/test_critical_batch1_fixes.cpp" bodystart="67" bodyend="95"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1a1b64af1a95193e47bd562a7835def71d" prot="protected" virt="non-virtual"><scope>themis::process::DmnEvaluatorThreadSafetyTest</scope><name>evaluator</name></member>
+      <member refid="classthemis_1_1process_1_1_dmn_evaluator_thread_safety_test_1ab1f3f0c428f81b35eab2e172cb330895" prot="protected" virt="non-virtual"><scope>themis::process::DmnEvaluatorThreadSafetyTest</scope><name>SetUp</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

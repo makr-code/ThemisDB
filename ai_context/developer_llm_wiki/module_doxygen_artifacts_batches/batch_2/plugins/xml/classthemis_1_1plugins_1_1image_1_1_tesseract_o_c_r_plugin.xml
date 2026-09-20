@@ -1,0 +1,383 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin" kind="class" language="C++" prot="public">
+    <compoundname>themis::plugins::image::TesseractOCRPlugin</compoundname>
+    <basecompoundref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" prot="public" virt="non-virtual">themis::plugins::image::IImageAnalysisBackend</basecompoundref>
+    <includes refid="tesseract__ocr__plugin_8h" local="no">tesseract_ocr_plugin.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a22febbdb67ce73c11f46d404ef3a8d24" prot="private" static="no" mutable="no">
+        <type>std::unique_ptr&lt; Impl &gt;</type>
+        <definition>std::unique_ptr&lt;Impl&gt; themis::plugins::image::TesseractOCRPlugin::impl_</definition>
+        <argsstring></argsstring>
+        <name>impl_</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::impl_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="175" column="21" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="175" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ae537b78bdec1956f1f2ad3c08bf0caba" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::plugins::image::TesseractOCRPlugin::last_result_mtx_</definition>
+        <argsstring></argsstring>
+        <name>last_result_mtx_</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::last_result_mtx_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="176" column="24" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="176" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a120347cf001870e9721a31431f4dbf65" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" kindref="compound">OcrResult</ref></type>
+        <definition>OcrResult themis::plugins::image::TesseractOCRPlugin::last_ocr_result_</definition>
+        <argsstring></argsstring>
+        <name>last_ocr_result_</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::last_ocr_result_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="177" column="15" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="177" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ab14947d353eafa49b27f23d530879a06" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::TesseractOCRPlugin::TesseractOCRPlugin</definition>
+        <argsstring>()</argsstring>
+        <name>TesseractOCRPlugin</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::TesseractOCRPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="92" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a8d1750837eea122e3a876b4b394fab1a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::plugins::image::TesseractOCRPlugin::~TesseractOCRPlugin</definition>
+        <argsstring>() override</argsstring>
+        <name>~TesseractOCRPlugin</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::~TesseractOCRPlugin</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="93" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a102e04ee512c306f7620583430021e86" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_plugin_info" kindref="compound">PluginInfo</ref></type>
+        <definition>PluginInfo themis::plugins::image::TesseractOCRPlugin::getInfo</definition>
+        <argsstring>() const override</argsstring>
+        <name>getInfo</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::getInfo</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ac664bdf7a977de578a81ba3d96cd31d9">getInfo</reimplements>
+        <briefdescription>
+<para>Returns plugin metadata. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="100" column="16"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::TesseractOCRPlugin::initialize</definition>
+        <argsstring>(const PluginConfig &amp;config, BackendType backend=BackendType::AUTO) override</argsstring>
+        <name>initialize</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::initialize</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a36b385163cfc2ca851e0c0d8fbfb9d47">initialize</reimplements>
+        <param>
+          <type>const <ref refid="classthemis_1_1plugins_1_1image_1_1_plugin_config" kindref="compound">PluginConfig</ref> &amp;</type>
+          <declname>config</declname>
+        </param>
+        <param>
+          <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+          <declname>backend</declname>
+          <defval><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3eae1f2d5134ed2543d38a0de9751cf75d9" kindref="member">BackendType::AUTO</ref></defval>
+        </param>
+        <briefdescription>
+<para>Initialise the plugin and create the Tesseract engine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>config</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Plugin configuration (see class-level doc for keys). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>backend</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Ignored (Tesseract is CPU-only); stored for reporting. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true on success; false if Tesseract initialisation fails. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="109" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a81a84e99bb942abab5ed58d62e91bd04" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type>void</type>
+        <definition>void themis::plugins::image::TesseractOCRPlugin::shutdown</definition>
+        <argsstring>() override</argsstring>
+        <name>shutdown</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::shutdown</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a69422fd58faae539c471593633105f8b">shutdown</reimplements>
+        <briefdescription>
+<para>Destroy Tesseract API handle and release resources. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="113" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a5135729111d305190474e85ac1d338cf" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::TesseractOCRPlugin::isReady</definition>
+        <argsstring>() const override</argsstring>
+        <name>isReady</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::isReady</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a68d426d8bcfd7f3ab282040bb8b68f43">isReady</reimplements>
+        <briefdescription>
+<para>Returns true after successful <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937" kindref="member">initialize()</ref></computeroutput>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="116" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac71f736d0149f045272138c162b9722a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3e" kindref="member">BackendType</ref></type>
+        <definition>BackendType themis::plugins::image::TesseractOCRPlugin::getBackend</definition>
+        <argsstring>() const override</argsstring>
+        <name>getBackend</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::getBackend</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a322978d54abc5e1c2e7100251d554a73">getBackend</reimplements>
+        <briefdescription>
+<para>Always returns <ref refid="namespacethemis_1_1plugins_1_1image_1ae7baa7bd29a8b3a4b107bb23456a4e3ea2b55387dd066c5bac646ac61543d152d" kindref="member">BackendType::CPU</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="119" column="17"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref></type>
+        <definition>DetectionResult themis::plugins::image::TesseractOCRPlugin::detectObjects</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr, float confidence_threshold=0.0f) override</argsstring>
+        <name>detectObjects</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::detectObjects</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5a267413dbf1c09545d923306a4293f">detectObjects</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <param>
+          <type>float</type>
+          <declname>confidence_threshold</declname>
+          <defval>0.0f</defval>
+        </param>
+        <briefdescription>
+<para>Perform OCR and return text regions as bounding boxes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each recognised word is returned as a <ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box" kindref="compound">DetectionResult::BoundingBox</ref> with <computeroutput>label</computeroutput> set to the word text and <computeroutput>confidence</computeroutput> set to the Tesseract word confidence (normalised 0–1). The full transcript is accessible via <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac7255496c0d2a5bb4c52d10656c4c0f6" kindref="member">getLastOcrResult()</ref></computeroutput>.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>image_data</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Raw image bytes (JPEG / PNG / BMP / TIFF). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>metadata</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Optional image metadata; may be nullptr. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>confidence_threshold</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Minimum word confidence (0–1); defaults to the <computeroutput>min_confidence</computeroutput> config value when 0. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para><ref refid="structthemis_1_1plugins_1_1image_1_1_detection_result" kindref="compound">DetectionResult</ref> where each &quot;detection&quot; is an OCR word box. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="135" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a98bcd8ea26266d43f9b2f5a27ca7d85c" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_embedding_result" kindref="compound">EmbeddingResult</ref></type>
+        <definition>EmbeddingResult themis::plugins::image::TesseractOCRPlugin::generateEmbedding</definition>
+        <argsstring>(const std::vector&lt; uint8_t &gt; &amp;image_data, const ImageMetadata *metadata=nullptr) override</argsstring>
+        <name>generateEmbedding</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::generateEmbedding</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ad2cd652429ba25ff254c395b33ab2405">generateEmbedding</reimplements>
+        <param>
+          <type>const std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>image_data</declname>
+        </param>
+        <param>
+          <type>const <ref refid="structthemis_1_1plugins_1_1image_1_1_image_metadata" kindref="compound">ImageMetadata</ref> *</type>
+          <declname>metadata</declname>
+          <defval>nullptr</defval>
+        </param>
+        <briefdescription>
+<para>generateEmbedding – not supported by this plugin. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns an error result; use the ONNX CLIP plugin for embeddings. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="145" column="21"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3fe34076a6f721481487574c0a40b6ae" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>bool</type>
+        <definition>bool themis::plugins::image::TesseractOCRPlugin::healthCheck</definition>
+        <argsstring>() const override</argsstring>
+        <name>healthCheck</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::healthCheck</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae8a4a1518f9f743bc80e761fb386c71f">healthCheck</reimplements>
+        <briefdescription>
+<para>Runs a trivial sanity check on the Tesseract handle. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="150" column="10"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3dd5e80131112df175220fd308cfc83d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="virtual">
+        <type>nlohmann::json</type>
+        <definition>nlohmann::json themis::plugins::image::TesseractOCRPlugin::getStatistics</definition>
+        <argsstring>() const override</argsstring>
+        <name>getStatistics</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::getStatistics</qualifiedname>
+        <reimplements refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a4dd70719358570f90287a3128219fdaa">getStatistics</reimplements>
+        <briefdescription>
+<para>Returns JSON statistics. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Keys: <computeroutput>inference_total</computeroutput>, <computeroutput>inference_errors</computeroutput>, <computeroutput>latency_ms_avg</computeroutput>, <computeroutput>words_total</computeroutput>, <computeroutput>language</computeroutput>, <computeroutput>tessdata_path</computeroutput>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="158" column="20"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac7255496c0d2a5bb4c52d10656c4c0f6" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1plugins_1_1image_1_1_ocr_result" kindref="compound">OcrResult</ref></type>
+        <definition>OcrResult themis::plugins::image::TesseractOCRPlugin::getLastOcrResult</definition>
+        <argsstring>() const</argsstring>
+        <name>getLastOcrResult</name>
+        <qualifiedname>themis::plugins::image::TesseractOCRPlugin::getLastOcrResult</qualifiedname>
+        <briefdescription>
+<para>Return the full OCR result from the most recent <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" kindref="member">detectObjects()</ref></computeroutput> call on this instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Thread-Safety: caller must not call <computeroutput><ref refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" kindref="member">detectObjects()</ref></computeroutput> concurrently on the same instance; use separate plugin instances per thread. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/tesseract_ocr_plugin.h" line="171" column="15"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Tesseract OCR plugin. </para>
+    </briefdescription>
+    <detaileddescription>
+<para>Implements <ref refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend" kindref="compound">IImageAnalysisBackend</ref> using the Tesseract C API. When Tesseract is not present at compile-time (HAVE_TESSERACT undefined) the plugin initialises successfully but returns informative error results instead of crashing. </para>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>themis::plugins::image::IImageAnalysisBackend</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::TesseractOCRPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>themis::plugins::image::IImageAnalysisBackend</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend"/>
+      </node>
+      <node id="1">
+        <label>themis::plugins::image::TesseractOCRPlugin</label>
+        <link refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="include/plugins/tesseract_ocr_plugin.h" line="90" column="1" bodyfile="include/plugins/tesseract_ocr_plugin.h" bodystart="90" bodyend="178"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a29e9ae0fedaaa3307a67a05ebfef9897" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>answerVisualQuestion</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1adf5dcca25088b14bd69b49644ea5576b" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>detectObjects</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1ae5718e9255a235d2702d9c75cbd83621" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>generateCaption</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a98bcd8ea26266d43f9b2f5a27ca7d85c" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>generateEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1abeaf477311e0ef7bfe82937acff4995c" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>generateEmbeddingBatch</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a130fa298b597b4188e0f87469f2aa658" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>generateImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1adffa0e43217733fb94f9591d89c67922" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>generateTextEmbedding</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac71f736d0149f045272138c162b9722a" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>getBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a102e04ee512c306f7620583430021e86" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>getInfo</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ac7255496c0d2a5bb4c52d10656c4c0f6" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>getLastOcrResult</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3dd5e80131112df175220fd308cfc83d" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>getStatistics</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a3fe34076a6f721481487574c0a40b6ae" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>healthCheck</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a22febbdb67ce73c11f46d404ef3a8d24" prot="private" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>impl_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a4f9216469f2ba63116ee9c407ae67937" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>initialize</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a5135729111d305190474e85ac1d338cf" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>isReady</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a120347cf001870e9721a31431f4dbf65" prot="private" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>last_ocr_result_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ae537b78bdec1956f1f2ad3c08bf0caba" prot="private" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>last_result_mtx_</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a6895112fadb2adc1dcd59ae22471d9fc" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>segmentImage</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a81a84e99bb942abab5ed58d62e91bd04" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>shutdown</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1ab14947d353eafa49b27f23d530879a06" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>TesseractOCRPlugin</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a8b168db20202728f716815962cc116ec" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>warmup</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_i_image_analysis_backend_1a99dc62ca5a3a4ea24cbb4e9d189d01ca" prot="public" virt="virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>~IImageAnalysisBackend</name></member>
+      <member refid="classthemis_1_1plugins_1_1image_1_1_tesseract_o_c_r_plugin_1a8d1750837eea122e3a876b4b394fab1a" prot="public" virt="non-virtual"><scope>themis::plugins::image::TesseractOCRPlugin</scope><name>~TesseractOCRPlugin</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

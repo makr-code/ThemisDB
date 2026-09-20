@@ -1,0 +1,245 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1testing_1_1_mock_connection" kind="class" language="C++" prot="public">
+    <compoundname>themis::testing::MockConnection</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">storage::DatabaseConnectionManager::Connection</basecompoundref>
+    <sectiondef kind="public-static-attrib">
+      <memberdef kind="variable" id="classthemis_1_1testing_1_1_mock_connection_1a94e92e8b198a27aa27241348e62e6cda" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt; size_t &gt; themis::testing::MockConnection::instance_count</definition>
+        <argsstring></argsstring>
+        <name>instance_count</name>
+        <qualifiedname>themis::testing::MockConnection::instance_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="28" column="24" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="28" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1testing_1_1_mock_connection_1ae12bf10a0d9d1b65ae07bbeed65c79cf" prot="public" static="yes" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt; size_t &gt; themis::testing::MockConnection::closed_count</definition>
+        <argsstring></argsstring>
+        <name>closed_count</name>
+        <qualifiedname>themis::testing::MockConnection::closed_count</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="29" column="24" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="29" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1testing_1_1_mock_connection_1a03a497529dad87e87e22af79c3ddb6ec" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::testing::MockConnection::is_valid_</definition>
+        <argsstring></argsstring>
+        <name>is_valid_</name>
+        <qualifiedname>themis::testing::MockConnection::is_valid_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="68" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="68" bodyend="68"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1testing_1_1_mock_connection_1adf05d19bc64b86ad15be532a131b9e8e" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::testing::MockConnection::was_closed_</definition>
+        <argsstring></argsstring>
+        <name>was_closed_</name>
+        <qualifiedname>themis::testing::MockConnection::was_closed_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="69" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1testing_1_1_mock_connection_1a8cd0ae6f9e907f270a8ca131be8546b6" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::testing::MockConnection::last_error_</definition>
+        <argsstring></argsstring>
+        <name>last_error_</name>
+        <qualifiedname>themis::testing::MockConnection::last_error_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="70" column="17" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="70" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a18dfe676553fbbaafa45d35e82743647" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::MockConnection::MockConnection</definition>
+        <argsstring>()</argsstring>
+        <name>MockConnection</name>
+        <qualifiedname>themis::testing::MockConnection::MockConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="31" column="5" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="31" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1ab83db59614f6ef38d9fb78b47f7b34f6" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::testing::MockConnection::~MockConnection</definition>
+        <argsstring>() override</argsstring>
+        <name>~MockConnection</name>
+        <qualifiedname>themis::testing::MockConnection::~MockConnection</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="35" column="5" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="35" bodyend="40"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a5fe0da46981d4aa80a625f7272470a60" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::testing::MockConnection::isValid</definition>
+        <argsstring>() const override</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::testing::MockConnection::isValid</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="42" column="11" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="42" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a0a6e86e75ec90227e4cc40b9d5af72d5" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::testing::MockConnection::ping</definition>
+        <argsstring>() override</argsstring>
+        <name>ping</name>
+        <qualifiedname>themis::testing::MockConnection::ping</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="46" column="11" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="46" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a8cdcd9ccda42cfec72a14e24ecabc06d" prot="public" static="no" nodiscard="yes" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::testing::MockConnection::getError</definition>
+        <argsstring>() const override</argsstring>
+        <name>getError</name>
+        <qualifiedname>themis::testing::MockConnection::getError</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="50" column="18" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="50" bodyend="52"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a4362c55850bbc5bcdc989a3a2e85ea95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::testing::MockConnection::close</definition>
+        <argsstring>() override</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::testing::MockConnection::close</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="54" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="54" bodyend="58"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a0f02eaf393c5282d6698334092e21b95" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::testing::MockConnection::simulateError</definition>
+        <argsstring>(std::string error)</argsstring>
+        <name>simulateError</name>
+        <qualifiedname>themis::testing::MockConnection::simulateError</qualifiedname>
+        <param>
+          <type>std::string</type>
+          <declname>error</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="60" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="60" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1testing_1_1_mock_connection_1a064f8bf8efdbd81fe8cd251a59592f6e" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::testing::MockConnection::wasClosedProperly</definition>
+        <argsstring>() const</argsstring>
+        <name>wasClosedProperly</name>
+        <qualifiedname>themis::testing::MockConnection::wasClosedProperly</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/connection_leak_tests.cpp" line="65" column="10" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="65" bodyend="65"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>storage::DatabaseConnectionManager::Connection</label>
+      </node>
+      <node id="1">
+        <label>themis::testing::MockConnection</label>
+        <link refid="classthemis_1_1testing_1_1_mock_connection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>storage::DatabaseConnectionManager::Connection</label>
+      </node>
+      <node id="1">
+        <label>themis::testing::MockConnection</label>
+        <link refid="classthemis_1_1testing_1_1_mock_connection"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/connection_leak_tests.cpp" line="26" column="1" bodyfile="tests/transaction/connection_leak_tests.cpp" bodystart="26" bodyend="71"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a4362c55850bbc5bcdc989a3a2e85ea95" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>close</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1ae12bf10a0d9d1b65ae07bbeed65c79cf" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>closed_count</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a8cdcd9ccda42cfec72a14e24ecabc06d" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>getError</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a94e92e8b198a27aa27241348e62e6cda" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>instance_count</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a03a497529dad87e87e22af79c3ddb6ec" prot="private" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>is_valid_</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a5fe0da46981d4aa80a625f7272470a60" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>isValid</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a8cd0ae6f9e907f270a8ca131be8546b6" prot="private" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>last_error_</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a18dfe676553fbbaafa45d35e82743647" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>MockConnection</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a0a6e86e75ec90227e4cc40b9d5af72d5" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>ping</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a0f02eaf393c5282d6698334092e21b95" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>simulateError</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1adf05d19bc64b86ad15be532a131b9e8e" prot="private" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>was_closed_</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1a064f8bf8efdbd81fe8cd251a59592f6e" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>wasClosedProperly</name></member>
+      <member refid="classthemis_1_1testing_1_1_mock_connection_1ab83db59614f6ef38d9fb78b47f7b34f6" prot="public" virt="non-virtual"><scope>themis::testing::MockConnection</scope><name>~MockConnection</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

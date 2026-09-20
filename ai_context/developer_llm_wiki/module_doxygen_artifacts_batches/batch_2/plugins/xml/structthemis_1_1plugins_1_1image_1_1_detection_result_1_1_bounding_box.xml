@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box" kind="struct" language="C++" prot="public">
+    <compoundname>themis::plugins::image::DetectionResult::BoundingBox</compoundname>
+    <includes refid="image__analysis__interface_8h" local="no">image_analysis_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1affbc5185977f0d35b0162624c0131994" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::DetectionResult::BoundingBox::x</definition>
+        <argsstring></argsstring>
+        <name>x</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::x</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="131" column="15" bodyfile="include/plugins/image_analysis_interface.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1abab33fc3f4434f077137cd619c76d1cf" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::DetectionResult::BoundingBox::y</definition>
+        <argsstring></argsstring>
+        <name>y</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::y</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="132" column="15" bodyfile="include/plugins/image_analysis_interface.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a8dac7c424ac8dbc0f567c9df7780f13c" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::DetectionResult::BoundingBox::width</definition>
+        <argsstring></argsstring>
+        <name>width</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::width</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="133" column="15" bodyfile="include/plugins/image_analysis_interface.h" bodystart="133" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a66281d7897593016af21deb6cdf66bd4" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::DetectionResult::BoundingBox::height</definition>
+        <argsstring></argsstring>
+        <name>height</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::height</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="134" column="15" bodyfile="include/plugins/image_analysis_interface.h" bodystart="134" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a736a832a999ed8a34eed04ecf0fca614" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::plugins::image::DetectionResult::BoundingBox::label</definition>
+        <argsstring></argsstring>
+        <name>label</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::label</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="135" column="21" bodyfile="include/plugins/image_analysis_interface.h" bodystart="135" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1aa5cab94b42558ef022ba69279ba52b68" prot="public" static="no" mutable="no">
+        <type>float</type>
+        <definition>float themis::plugins::image::DetectionResult::BoundingBox::confidence</definition>
+        <argsstring></argsstring>
+        <name>confidence</name>
+        <qualifiedname>themis::plugins::image::DetectionResult::BoundingBox::confidence</qualifiedname>
+        <initializer>= 0.0f</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/plugins/image_analysis_interface.h" line="136" column="15" bodyfile="include/plugins/image_analysis_interface.h" bodystart="136" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/plugins/image_analysis_interface.h" line="130" column="5" bodyfile="include/plugins/image_analysis_interface.h" bodystart="130" bodyend="137"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1aa5cab94b42558ef022ba69279ba52b68" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>confidence</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a66281d7897593016af21deb6cdf66bd4" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>height</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a736a832a999ed8a34eed04ecf0fca614" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>label</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1a8dac7c424ac8dbc0f567c9df7780f13c" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>width</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1affbc5185977f0d35b0162624c0131994" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>x</name></member>
+      <member refid="structthemis_1_1plugins_1_1image_1_1_detection_result_1_1_bounding_box_1abab33fc3f4434f077137cd619c76d1cf" prot="public" virt="non-virtual"><scope>themis::plugins::image::DetectionResult::BoundingBox</scope><name>y</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

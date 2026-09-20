@@ -1,0 +1,208 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan" kind="struct" language="C++" prot="public">
+    <compoundname>themis::query::PlanCache::CachedPlan</compoundname>
+    <includes refid="plan__cache_8h" local="no">plan_cache.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a724bf372d5ca1adf859877510a579725" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::CachedPlan::query_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>query_fingerprint</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::query_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="51" column="21" bodyfile="include/query/plan_cache.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1aaa6fb76c2d68b86cd8e1c373803f6f75" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan" kindref="compound">QueryOptimizer::Plan</ref></type>
+        <definition>QueryOptimizer::Plan themis::query::PlanCache::CachedPlan::plan</definition>
+        <argsstring></argsstring>
+        <name>plan</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::plan</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="52" column="30" bodyfile="include/query/plan_cache.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a1b5d4e62752f1b21aa621cf94541f537" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1query_1_1_plan_cache_1_1_parameter_info" kindref="compound">ParameterInfo</ref> &gt;</type>
+        <definition>std::vector&lt;ParameterInfo&gt; themis::query::PlanCache::CachedPlan::parameters</definition>
+        <argsstring></argsstring>
+        <name>parameters</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::parameters</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="53" column="21" bodyfile="include/query/plan_cache.h" bodystart="53" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1abcebeba0d777f3483aa5250ccd577657" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::query::PlanCache::CachedPlan::created_at</definition>
+        <argsstring></argsstring>
+        <name>created_at</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::created_at</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="54" column="47" bodyfile="include/query/plan_cache.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1acf643cd74d051fe3c53ad447b018727e" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics" kindref="compound">Statistics</ref></type>
+        <definition>Statistics themis::query::PlanCache::CachedPlan::statistics_snapshot</definition>
+        <argsstring></argsstring>
+        <name>statistics_snapshot</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::statistics_snapshot</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="55" column="20" bodyfile="include/query/plan_cache.h" bodystart="55" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a5d1eda04a990b69a1756175aace2e36a" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::query::PlanCache::CachedPlan::topology_fingerprint</definition>
+        <argsstring></argsstring>
+        <name>topology_fingerprint</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::topology_fingerprint</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="56" column="21" bodyfile="include/query/plan_cache.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a3cd9c55688ed450b5b93346b0cc090e6" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::CachedPlan::estimated_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>estimated_size_bytes</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::estimated_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="57" column="16" bodyfile="include/query/plan_cache.h" bodystart="57" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a7f78401190ffdff8d851bfaa04391bd2" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::query::PlanCache::CachedPlan::consecutive_execution_failures</definition>
+        <argsstring></argsstring>
+        <name>consecutive_execution_failures</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::consecutive_execution_failures</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="58" column="16" bodyfile="include/query/plan_cache.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1af1c4c60a00f288e24b14837e6e3aa9a2" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::query::PlanCache::CachedPlan::referenced_tables</definition>
+        <argsstring></argsstring>
+        <name>referenced_tables</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::referenced_tables</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="60" column="21" bodyfile="include/query/plan_cache.h" bodystart="60" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a5a1b4c5b211a07bef9ade9706c0f80d2" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::query::PlanCache::CachedPlan::isExpired</definition>
+        <argsstring>(std::chrono::seconds max_age) const</argsstring>
+        <name>isExpired</name>
+        <qualifiedname>themis::query::PlanCache::CachedPlan::isExpired</qualifiedname>
+        <param>
+          <type>std::chrono::seconds</type>
+          <declname>max_age</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/query/plan_cache.h" line="62" column="14" bodyfile="include/query/plan_cache.h" bodystart="62" bodyend="66"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::OptimizerCostModel::SerializationAdvice</label>
+        <link refid="structthemis_1_1_optimizer_cost_model_1_1_serialization_advice"/>
+      </node>
+      <node id="1">
+        <label>themis::query::PlanCache::CachedPlan</label>
+        <link refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan"/>
+        <childnode refid="2" relation="usage">
+          <edgelabel>plan</edgelabel>
+        </childnode>
+        <childnode refid="5" relation="usage">
+          <edgelabel>statistics_snapshot</edgelabel>
+        </childnode>
+      </node>
+      <node id="5">
+        <label>themis::query::PlanCache::Statistics</label>
+        <link refid="structthemis_1_1query_1_1_plan_cache_1_1_statistics"/>
+      </node>
+      <node id="2">
+        <label>themis::query::QueryOptimizer::Plan</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan"/>
+        <childnode refid="3" relation="usage">
+          <edgelabel>serialization_advice</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>scope_bounds</edgelabel>
+        </childnode>
+      </node>
+      <node id="4">
+        <label>themis::query::QueryOptimizer::Plan::ScopeBounds</label>
+        <link refid="structthemis_1_1query_1_1_query_optimizer_1_1_plan_1_1_scope_bounds"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/query/plan_cache.h" line="50" column="5" bodyfile="include/query/plan_cache.h" bodystart="50" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a7f78401190ffdff8d851bfaa04391bd2" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>consecutive_execution_failures</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1abcebeba0d777f3483aa5250ccd577657" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>created_at</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a3cd9c55688ed450b5b93346b0cc090e6" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>estimated_size_bytes</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a5a1b4c5b211a07bef9ade9706c0f80d2" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>isExpired</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a1b5d4e62752f1b21aa621cf94541f537" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>parameters</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1aaa6fb76c2d68b86cd8e1c373803f6f75" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>plan</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a724bf372d5ca1adf859877510a579725" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>query_fingerprint</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1af1c4c60a00f288e24b14837e6e3aa9a2" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>referenced_tables</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1acf643cd74d051fe3c53ad447b018727e" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>statistics_snapshot</name></member>
+      <member refid="structthemis_1_1query_1_1_plan_cache_1_1_cached_plan_1a5d1eda04a990b69a1756175aace2e36a" prot="public" virt="non-virtual"><scope>themis::query::PlanCache::CachedPlan</scope><name>topology_fingerprint</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

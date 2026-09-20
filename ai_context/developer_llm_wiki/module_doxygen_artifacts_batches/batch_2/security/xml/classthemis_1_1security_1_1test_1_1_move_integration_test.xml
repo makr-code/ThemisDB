@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1security_1_1test_1_1_move_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::security::test::MoveIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <innerclass refid="structthemis_1_1security_1_1test_1_1_move_integration_test_1_1_complex_object" prot="protected">themis::security::test::MoveIntegrationTest::ComplexObject</innerclass>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::test::MoveIntegrationTest</label>
+        <link refid="classthemis_1_1security_1_1test_1_1_move_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::security::test::MoveIntegrationTest</label>
+        <link refid="classthemis_1_1security_1_1test_1_1_move_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_safe_move.cpp" line="353" column="1" bodyfile="tests/security/test_safe_move.cpp" bodystart="353" bodyend="376"/>
+    <listofallmembers>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

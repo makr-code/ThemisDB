@@ -1,0 +1,381 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__gpu__kernel__timeout__enforcer_8cpp" kind="file" language="C++">
+    <compoundname>test_gpu_kernel_timeout_enforcer.cpp</compoundname>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes refid="gpu__safe__raii_8h" local="yes">gpu/gpu_safe_raii.h</includes>
+    <includes refid="kernel__timeout__enforcer_8h" local="yes">gpu/kernel_timeout_enforcer.h</includes>
+    <includes local="no">chrono</includes>
+    <includes local="no">stdexcept</includes>
+    <includes local="no">thread</includes>
+    <incdepgraph>
+      <node id="3">
+        <label>gpu/gpu_safe_raii.h</label>
+        <link refid="gpu__safe__raii_8h"/>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>gpu/kernel_timeout_enforcer.h</label>
+        <link refid="kernel__timeout__enforcer_8h"/>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/gpu/test_gpu_kernel_timeout_enforcer.cpp</label>
+        <link refid="test__gpu__kernel__timeout__enforcer_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+      </node>
+      <node id="4">
+        <label>atomic</label>
+      </node>
+      <node id="5">
+        <label>chrono</label>
+      </node>
+      <node id="6">
+        <label>cstddef</label>
+      </node>
+      <node id="7">
+        <label>cstdint</label>
+      </node>
+      <node id="13">
+        <label>functional</label>
+      </node>
+      <node id="2">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="8">
+        <label>stdexcept</label>
+      </node>
+      <node id="9">
+        <label>string</label>
+      </node>
+      <node id="10">
+        <label>thread</label>
+      </node>
+      <node id="11">
+        <label>utility</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUKernelTimeoutEnforcerTest, ExecuteWithTimeoutCompletesWithinBudget)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUKernelTimeoutEnforcerTest</type>
+        </param>
+        <param>
+          <type>ExecuteWithTimeoutCompletesWithinBudget</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="12" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="12" bodyend="22"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1aff2d7391d0b9cbd5f9a79e744cdd0a7c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUKernelTimeoutEnforcerTest, ExecuteWithTimeoutReturnsFalseOnTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUKernelTimeoutEnforcerTest</type>
+        </param>
+        <param>
+          <type>ExecuteWithTimeoutReturnsFalseOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="24" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="24" bodyend="34"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1a74ee4e8fa906de282e07d91e55e7b887" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUKernelTimeoutEnforcerTest, ExecuteWithFallbackRunsCpuPathOnTimeout)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUKernelTimeoutEnforcerTest</type>
+        </param>
+        <param>
+          <type>ExecuteWithFallbackRunsCpuPathOnTimeout</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="36" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="36" bodyend="49"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1a010198848f3f09a836749b464b5d3081" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUKernelTimeoutEnforcerTest, ExecuteWithFallbackRunsCpuPathOnException)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUKernelTimeoutEnforcerTest</type>
+        </param>
+        <param>
+          <type>ExecuteWithFallbackRunsCpuPathOnException</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="51" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="51" bodyend="64"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1ab960b6d98b88aead6fc12327b58819cf" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUKernelTimeoutEnforcerTest, ExecuteWithFallbackRethrowsWithoutCpuPath)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUKernelTimeoutEnforcerTest</type>
+        </param>
+        <param>
+          <type>ExecuteWithFallbackRethrowsWithoutCpuPath</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="66" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="66" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1a4beaaf390037fd63093fba9cfbae40bc" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeRaiiTest, KernelTimeoutGuardReportsTimeoutWithoutDestroyingStream)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUSafeRaiiTest</type>
+        </param>
+        <param>
+          <type>KernelTimeoutGuardReportsTimeoutWithoutDestroyingStream</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="80" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1af7095832be7791003302c0af64ae6ee1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeRaiiTest, KernelTimeoutGuardStaysClearAfterEarlyCompletion)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUSafeRaiiTest</type>
+        </param>
+        <param>
+          <type>KernelTimeoutGuardStaysClearAfterEarlyCompletion</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="87" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="87" bodyend="93"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1a08fa7119c61eee03ac7cc479d008142d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeRaiiTest, DeviceMemoryGuardDefaultConstructsEmpty)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUSafeRaiiTest</type>
+        </param>
+        <param>
+          <type>DeviceMemoryGuardDefaultConstructsEmpty</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="95" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="95" bodyend="100"/>
+      </memberdef>
+      <memberdef kind="function" id="test__gpu__kernel__timeout__enforcer_8cpp_1a4600a61866576fbbe8207b15f446ceb1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(GPUSafeRaiiTest, DeviceMemoryGuardThrowsWhenCudaRuntimeUnavailable)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>GPUSafeRaiiTest</type>
+        </param>
+        <param>
+          <type>DeviceMemoryGuardThrowsWhenCudaRuntimeUnavailable</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" line="103" column="1" bodyfile="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp" bodystart="103" bodyend="110"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="gpu__safe__raii_8h" kindref="compound">gpu/gpu_safe_raii.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="kernel__timeout__enforcer_8h" kindref="compound">gpu/kernel_timeout_enforcer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;chrono&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;stdexcept&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1gpu" kindref="compound">themis::gpu</ref>;</highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight></codeline>
+<codeline lineno="12"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUKernelTimeoutEnforcerTest,<sp/>ExecuteWithTimeoutCompletesWithinBudget)<sp/>{</highlight></codeline>
+<codeline lineno="13"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref><sp/>enforcer;</highlight></codeline>
+<codeline lineno="14"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelTimeoutEnforcer::KernelConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" kindref="member">timeout_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="16"><highlight class="normal"></highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>completed<sp/>=<sp/>enforcer.<ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a7f152ccb12638ede3f60944e25aa3178" kindref="member">executeWithTimeout</ref>(</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/>std::this_thread::sleep_for(std::chrono::milliseconds(5));<sp/>},</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config);</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"></highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(completed);</highlight></codeline>
+<codeline lineno="22"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"></highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUKernelTimeoutEnforcerTest,<sp/>ExecuteWithTimeoutReturnsFalseOnTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref><sp/>enforcer;</highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelTimeoutEnforcer::KernelConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" kindref="member">timeout_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>completed<sp/>=<sp/>enforcer.<ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a7f152ccb12638ede3f60944e25aa3178" kindref="member">executeWithTimeout</ref>(</highlight></codeline>
+<codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/>std::this_thread::sleep_for(std::chrono::milliseconds(30));<sp/>},</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config);</highlight></codeline>
+<codeline lineno="32"><highlight class="normal"></highlight></codeline>
+<codeline lineno="33"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(completed);</highlight></codeline>
+<codeline lineno="34"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="35"><highlight class="normal"></highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUKernelTimeoutEnforcerTest,<sp/>ExecuteWithFallbackRunsCpuPathOnTimeout)<sp/>{</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref><sp/>enforcer;</highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelTimeoutEnforcer::KernelConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" kindref="member">timeout_ms</ref><sp/>=<sp/>10;</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_fallback_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>used_gpu<sp/>=<sp/>enforcer.<ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a4ede5531c8fcbf1cf7d5392bf515c0ad" kindref="member">executeWithFallback</ref>(</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/>std::this_thread::sleep_for(std::chrono::milliseconds(30));<sp/>},</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;cpu_fallback_ran]()<sp/>{<sp/>cpu_fallback_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="45"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config);</highlight></codeline>
+<codeline lineno="46"><highlight class="normal"></highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(used_gpu);</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cpu_fallback_ran);</highlight></codeline>
+<codeline lineno="49"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"></highlight></codeline>
+<codeline lineno="51"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUKernelTimeoutEnforcerTest,<sp/>ExecuteWithFallbackRunsCpuPathOnException)<sp/>{</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref><sp/>enforcer;</highlight></codeline>
+<codeline lineno="53"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelTimeoutEnforcer::KernelConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="54"><highlight class="normal"><sp/><sp/><sp/><sp/>config.<ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config_1a7b42406c5f47cd089585e8481f84674c" kindref="member">timeout_ms</ref><sp/>=<sp/>50;</highlight></codeline>
+<codeline lineno="55"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>cpu_fallback_ran<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">;</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>used_gpu<sp/>=<sp/>enforcer.<ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a4ede5531c8fcbf1cf7d5392bf515c0ad" kindref="member">executeWithFallback</ref>(</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;gpu<sp/>failure&quot;</highlight><highlight class="normal">);<sp/>},</highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;cpu_fallback_ran]()<sp/>{<sp/>cpu_fallback_ran<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;<sp/>},</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(used_gpu);</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(cpu_fallback_ran);</highlight></codeline>
+<codeline lineno="64"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"></highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUKernelTimeoutEnforcerTest,<sp/>ExecuteWithFallbackRethrowsWithoutCpuPath)<sp/>{</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer" kindref="compound">KernelTimeoutEnforcer</ref><sp/>enforcer;</highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1gpu_1_1_kernel_timeout_enforcer_1_1_kernel_config" kindref="compound">KernelTimeoutEnforcer::KernelConfig</ref><sp/>config;</highlight></codeline>
+<codeline lineno="69"><highlight class="normal"></highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="71"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(enforcer.<ref refid="classthemis_1_1gpu_1_1_kernel_timeout_enforcer_1a4ede5531c8fcbf1cf7d5392bf515c0ad" kindref="member">executeWithFallback</ref>(</highlight></codeline>
+<codeline lineno="73"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{<sp/></highlight><highlight class="keywordflow">throw</highlight><highlight class="normal"><sp/>std::runtime_error(</highlight><highlight class="stringliteral">&quot;gpu<sp/>failure&quot;</highlight><highlight class="normal">);<sp/>},</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>config));</highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}(),</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="78"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"></highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUSafeRaiiTest,<sp/>KernelTimeoutGuardReportsTimeoutWithoutDestroyingStream)<sp/>{</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref><sp/>guard(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>20);</highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(50));</highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(guard.didTimeout());</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.markCompleted();</highlight></codeline>
+<codeline lineno="85"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="86"><highlight class="normal"></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUSafeRaiiTest,<sp/>KernelTimeoutGuardStaysClearAfterEarlyCompletion)<sp/>{</highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_kernel_timeout_guard" kindref="compound">KernelTimeoutGuard</ref><sp/>guard(</highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">,<sp/>100);</highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(10));</highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>guard.markCompleted();</highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>std::this_thread::sleep_for(std::chrono::milliseconds(20));</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(guard.didTimeout());</highlight></codeline>
+<codeline lineno="93"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="94"><highlight class="normal"></highlight></codeline>
+<codeline lineno="95"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUSafeRaiiTest,<sp/>DeviceMemoryGuardDefaultConstructsEmpty)<sp/>{</highlight></codeline>
+<codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard&lt;int&gt;</ref><sp/>guard;</highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(guard.<ref refid="classthemis_1_1gpu_1_1_device_memory_guard_1abd7bc4c772bb8e70b80726c549f662fb" kindref="member">isValid</ref>());</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.<ref refid="classthemis_1_1gpu_1_1_device_memory_guard_1a337c6863fd7710f88302c889d9cf0698" kindref="member">size</ref>(),<sp/>0u);</highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(guard.<ref refid="classthemis_1_1gpu_1_1_device_memory_guard_1ae97e94e666bb0dac16f179fbc807862f" kindref="member">get</ref>(),<sp/></highlight><highlight class="keyword">nullptr</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="101"><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"></highlight><highlight class="preprocessor">#if<sp/>!THEMIS_GPU_SAFE_RAII_HAS_CUDA</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><ref refid="test__gpu__kernel__timeout__enforcer_8cpp_1ae9b6880968eaacf33b94d8faf48be77c" kindref="member">TEST</ref>(GPUSafeRaiiTest,<sp/>DeviceMemoryGuardThrowsWhenCudaRuntimeUnavailable)<sp/>{</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_THROW(</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>[]()<sp/>{</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1gpu_1_1_device_memory_guard" kindref="compound">DeviceMemoryGuard&lt;int&gt;</ref><sp/>guard(4);</highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">static_cast&lt;</highlight><highlight class="keywordtype">void</highlight><highlight class="keyword">&gt;</highlight><highlight class="normal">(guard);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}(),</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::runtime_error);</highlight></codeline>
+<codeline lineno="110"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="111"><highlight class="normal"></highlight><highlight class="preprocessor">#endif</highlight></codeline>
+    </programlisting>
+    <location file="tests/gpu/test_gpu_kernel_timeout_enforcer.cpp"/>
+  </compounddef>
+</doxygen>

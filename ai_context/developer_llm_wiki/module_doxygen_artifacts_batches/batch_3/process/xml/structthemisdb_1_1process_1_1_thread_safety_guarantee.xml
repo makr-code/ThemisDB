@@ -1,0 +1,124 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemisdb_1_1process_1_1_thread_safety_guarantee" kind="struct" language="C++" prot="public">
+    <compoundname>themisdb::process::ThreadSafetyGuarantee</compoundname>
+    <includes refid="process__federation__contract_8h" local="no">process_federation_contract.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a20d93b9f576cfeba305046f7f418a9cb" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemisdb_1_1process_1a9f336abe131c4545f344e3cff8e6a4b0" kindref="member">ConcurrencyPattern</ref></type>
+        <definition>ConcurrencyPattern themisdb::process::ThreadSafetyGuarantee::pattern</definition>
+        <argsstring></argsstring>
+        <name>pattern</name>
+        <qualifiedname>themisdb::process::ThreadSafetyGuarantee::pattern</qualifiedname>
+        <briefdescription>
+<para>Concurrency pattern used. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="236" column="22" bodyfile="include/process/process_federation_contract.h" bodystart="236" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a965622873253785a2ef703f53cab1be0" prot="public" static="no" mutable="no">
+        <type>std::int32_t</type>
+        <definition>std::int32_t themisdb::process::ThreadSafetyGuarantee::max_concurrent_readers</definition>
+        <argsstring></argsstring>
+        <name>max_concurrent_readers</name>
+        <qualifiedname>themisdb::process::ThreadSafetyGuarantee::max_concurrent_readers</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+<para>Maximum concurrent readers allowed (-1 = unlimited). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="239" column="16" bodyfile="include/process/process_federation_contract.h" bodystart="239" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_thread_safety_guarantee_1ae922f5738818703d43bddc221b9d5b26" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themisdb::process::ThreadSafetyGuarantee::is_replicated_atomic</definition>
+        <argsstring></argsstring>
+        <name>is_replicated_atomic</name>
+        <qualifiedname>themisdb::process::ThreadSafetyGuarantee::is_replicated_atomic</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+<para>Whether operation is atomic across replicas. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="242" column="8" bodyfile="include/process/process_federation_contract.h" bodystart="242" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a980ff072b088f44725d90bc21ebed14e" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themisdb::process::ThreadSafetyGuarantee::consistency_level</definition>
+        <argsstring></argsstring>
+        <name>consistency_level</name>
+        <qualifiedname>themisdb::process::ThreadSafetyGuarantee::consistency_level</qualifiedname>
+        <briefdescription>
+<para>Consistency level (strong, eventual, snapshot). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/process/process_federation_contract.h" line="245" column="15" bodyfile="include/process/process_federation_contract.h" bodystart="245" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Thread-safety guarantee per component. </para>
+    </briefdescription>
+    <detaileddescription>
+<sect1 id="structthemisdb_1_1process_1_1_thread_safety_guarantee_1thread_safety_table">
+<title>Component Guarantees</title><para><table rows="6" cols="3"><row>
+<entry thead="yes"><para>Component  </para>
+</entry><entry thead="yes"><para>Pattern  </para>
+</entry><entry thead="yes"><para>Details  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ProcessModelManager  </para>
+</entry><entry thead="no"><para>Snapshot Isolation  </para>
+</entry><entry thead="no"><para>Readers see consistent snapshots across replicas  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>ProcessLinker  </para>
+</entry><entry thead="no"><para>Fine-Grained Locking  </para>
+</entry><entry thead="no"><para>Per-link atomicity; independent links don&apos;t block  </para>
+</entry></row>
+<row>
+<entry thead="no"><para>BpmnSerializer  </para>
+</entry><entry thead="no"><para>Stateless  </para>
+</entry><entry thead="no"><para>Fully thread-safe; no shared state  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1process_1_1_federation_consensus_manager" kindref="compound">FederationConsensusManager</ref>  </para>
+</entry><entry thead="no"><para>Replicated State Machine  </para>
+</entry><entry thead="no"><para>Single leader writer; followers read-only  </para>
+</entry></row>
+<row>
+<entry thead="no"><para><ref refid="classthemisdb_1_1process_1_1_process_audit_logger" kindref="compound">ProcessAuditLogger</ref>  </para>
+</entry><entry thead="no"><para>Fine-Grained Locking  </para>
+</entry><entry thead="no"><para>Per-log-entry atomicity  </para>
+</entry></row>
+</table>
+</para>
+<para><simplesect kind="invariant"><para>All locks acquired in order: consensus_mutex_ → replica_mutex_ → log_mutex_ </para>
+</simplesect>
+<simplesect kind="invariant"><para>No thread holds more than 2 locks simultaneously </para>
+</simplesect>
+<simplesect kind="invariant"><para>No deadlock: acyclic lock dependency graph </para>
+</simplesect>
+</para>
+</sect1>
+    </detaileddescription>
+    <location file="include/process/process_federation_contract.h" line="234" column="1" bodyfile="include/process/process_federation_contract.h" bodystart="234" bodyend="246"/>
+    <listofallmembers>
+      <member refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a980ff072b088f44725d90bc21ebed14e" prot="public" virt="non-virtual"><scope>themisdb::process::ThreadSafetyGuarantee</scope><name>consistency_level</name></member>
+      <member refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1ae922f5738818703d43bddc221b9d5b26" prot="public" virt="non-virtual"><scope>themisdb::process::ThreadSafetyGuarantee</scope><name>is_replicated_atomic</name></member>
+      <member refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a965622873253785a2ef703f53cab1be0" prot="public" virt="non-virtual"><scope>themisdb::process::ThreadSafetyGuarantee</scope><name>max_concurrent_readers</name></member>
+      <member refid="structthemisdb_1_1process_1_1_thread_safety_guarantee_1a20d93b9f576cfeba305046f7f418a9cb" prot="public" virt="non-virtual"><scope>themisdb::process::ThreadSafetyGuarantee</scope><name>pattern</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1content_1_1_geo_extraction_data" kind="struct" language="C++" prot="public">
+    <compoundname>themis::content::GeoExtractionData</compoundname>
+    <includes refid="content__plugin__interface_8h" local="no">content_plugin_interface.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_geo_extraction_data_1aa79044b84250091174add545280d0692" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::pair&lt; double, double &gt; &gt;</type>
+        <definition>std::vector&lt;std::pair&lt;double, double&gt; &gt; themis::content::GeoExtractionData::coordinates</definition>
+        <argsstring></argsstring>
+        <name>coordinates</name>
+        <qualifiedname>themis::content::GeoExtractionData::coordinates</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="62" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="62" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_geo_extraction_data_1a08db27dfe946c2f64ea0196e1936ad88" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::GeoExtractionData::crs</definition>
+        <argsstring></argsstring>
+        <name>crs</name>
+        <qualifiedname>themis::content::GeoExtractionData::crs</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="63" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_geo_extraction_data_1ac56665c2385821c22de42e0e89a98397" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1content_1a660a809ae51c41c3a1cffbf20336fb6c" kindref="member">json</ref></type>
+        <definition>json themis::content::GeoExtractionData::properties</definition>
+        <argsstring></argsstring>
+        <name>properties</name>
+        <qualifiedname>themis::content::GeoExtractionData::properties</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="64" column="10" bodyfile="include/content/content_plugin_interface.h" bodystart="64" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_geo_extraction_data_1a459314c4bcaebadf79e9fcabe4c1ebfc" prot="public" static="no" mutable="no">
+        <type>std::array&lt; double, 4 &gt;</type>
+        <definition>std::array&lt;double, 4&gt; themis::content::GeoExtractionData::bounds</definition>
+        <argsstring></argsstring>
+        <name>bounds</name>
+        <qualifiedname>themis::content::GeoExtractionData::bounds</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+<para>minX, minY, maxX, maxY (zero-initialised; CON-023) </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="65" column="16" bodyfile="include/content/content_plugin_interface.h" bodystart="65" bodyend="65"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1content_1_1_geo_extraction_data_1a49b83e3f56b6e8656d960593e737bdee" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::content::GeoExtractionData::geometry_type</definition>
+        <argsstring></argsstring>
+        <name>geometry_type</name>
+        <qualifiedname>themis::content::GeoExtractionData::geometry_type</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/content/content_plugin_interface.h" line="66" column="17" bodyfile="include/content/content_plugin_interface.h" bodystart="66" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/content/content_plugin_interface.h" line="61" column="1" bodyfile="include/content/content_plugin_interface.h" bodystart="61" bodyend="67"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1content_1_1_geo_extraction_data_1a459314c4bcaebadf79e9fcabe4c1ebfc" prot="public" virt="non-virtual"><scope>themis::content::GeoExtractionData</scope><name>bounds</name></member>
+      <member refid="structthemis_1_1content_1_1_geo_extraction_data_1aa79044b84250091174add545280d0692" prot="public" virt="non-virtual"><scope>themis::content::GeoExtractionData</scope><name>coordinates</name></member>
+      <member refid="structthemis_1_1content_1_1_geo_extraction_data_1a08db27dfe946c2f64ea0196e1936ad88" prot="public" virt="non-virtual"><scope>themis::content::GeoExtractionData</scope><name>crs</name></member>
+      <member refid="structthemis_1_1content_1_1_geo_extraction_data_1a49b83e3f56b6e8656d960593e737bdee" prot="public" virt="non-virtual"><scope>themis::content::GeoExtractionData</scope><name>geometry_type</name></member>
+      <member refid="structthemis_1_1content_1_1_geo_extraction_data_1ac56665c2385821c22de42e0e89a98397" prot="public" virt="non-virtual"><scope>themis::content::GeoExtractionData</scope><name>properties</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

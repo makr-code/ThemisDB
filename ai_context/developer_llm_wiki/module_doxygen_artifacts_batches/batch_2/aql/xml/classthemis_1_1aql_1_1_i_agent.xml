@@ -1,0 +1,188 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1aql_1_1_i_agent" kind="class" language="C++" prot="public" abstract="yes">
+    <compoundname>themis::aql::IAgent</compoundname>
+    <derivedcompoundref refid="classthemis_1_1aql_1_1_re_act_agent" prot="public" virt="non-virtual">themis::aql::ReActAgent</derivedcompoundref>
+    <includes refid="aql__agent_8h" local="no">aql_agent.h</includes>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1a3dd94b836aabaf986d3863291d9afe8b" prot="public" static="no" const="no" explicit="no" inline="no" virt="virtual">
+        <type></type>
+        <definition>virtual themis::aql::IAgent::~IAgent</definition>
+        <argsstring>()=default</argsstring>
+        <name>~IAgent</name>
+        <qualifiedname>themis::aql::IAgent::~IAgent</qualifiedname>
+        <briefdescription>
+<para><ref refid="classthemis_1_1aql_1_1_i_agent" kindref="compound">IAgent</ref>. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="88" column="13"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1a62578d0254bec0ef950d02d58abb7b0e" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type><ref refid="structthemis_1_1aql_1_1_agent_result" kindref="compound">AgentResult</ref></type>
+        <definition>virtual AgentResult themis::aql::IAgent::execute</definition>
+        <argsstring>(const std::string &amp;task, const json &amp;context=json::object())=0</argsstring>
+        <name>execute</name>
+        <qualifiedname>themis::aql::IAgent::execute</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_re_act_agent_1a76bfc2e7781403f579040433361dd76b">execute</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>task</declname>
+        </param>
+        <param>
+          <type>const <ref refid="namespacethemis_1_1aql_1a33b74478135fa9f5b404669fed4bb549" kindref="member">json</ref> &amp;</type>
+          <declname>context</declname>
+          <defval>json::object()</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="90" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1adc146842b634cccd5077e7ae94d9a7d0" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::aql::IAgent::registerTool</definition>
+        <argsstring>(const AgentTool &amp;tool)=0</argsstring>
+        <name>registerTool</name>
+        <qualifiedname>themis::aql::IAgent::registerTool</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_re_act_agent_1a1636ee5da6d353841e4aeb29396c7af5">registerTool</reimplementedby>
+        <param>
+          <type>const <ref refid="structthemis_1_1aql_1_1_agent_tool" kindref="compound">AgentTool</ref> &amp;</type>
+          <declname>tool</declname>
+        </param>
+        <briefdescription>
+<para>Register Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">tool</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="99" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1a234a53a1e0ecc26a8f21df540efa8438" prot="public" static="no" const="no" explicit="no" inline="no" virt="pure-virtual">
+        <type>void</type>
+        <definition>virtual void themis::aql::IAgent::removeTool</definition>
+        <argsstring>(const std::string &amp;name)=0</argsstring>
+        <name>removeTool</name>
+        <qualifiedname>themis::aql::IAgent::removeTool</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_re_act_agent_1ae0dd33147e41c5b16f837744417a94ca">removeTool</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Remove Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="105" column="18"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1a554863abf058e4cc831c76e0e587730d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1aql_1_1_agent_tool" kindref="compound">AgentTool</ref> &gt;</type>
+        <definition>virtual std::vector&lt; AgentTool &gt; themis::aql::IAgent::getTools</definition>
+        <argsstring>() const =0</argsstring>
+        <name>getTools</name>
+        <qualifiedname>themis::aql::IAgent::getTools</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_re_act_agent_1acff63ec87d6f09bf908bf8ee6c207d18">getTools</reimplementedby>
+        <briefdescription>
+<para>Get Tools. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="111" column="25"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1aql_1_1_i_agent_1abd1a8cf879a54d88f3206b82c2521360" prot="public" static="no" const="yes" explicit="no" inline="no" virt="pure-virtual">
+        <type>bool</type>
+        <definition>virtual bool themis::aql::IAgent::hasTool</definition>
+        <argsstring>(const std::string &amp;name) const =0</argsstring>
+        <name>hasTool</name>
+        <qualifiedname>themis::aql::IAgent::hasTool</qualifiedname>
+        <reimplementedby refid="classthemis_1_1aql_1_1_re_act_agent_1a4f104858bbbe20c612024d677849b861">hasTool</reimplementedby>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>name</declname>
+        </param>
+        <briefdescription>
+<para>Has Tool. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/aql/aql_agent.h" line="118" column="18"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>themis::aql::IAgent</label>
+        <link refid="classthemis_1_1aql_1_1_i_agent"/>
+      </node>
+      <node id="2">
+        <label>themis::aql::ReActAgent</label>
+        <link refid="classthemis_1_1aql_1_1_re_act_agent"/>
+        <childnode refid="1" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <location file="include/aql/aql_agent.h" line="82" column="1" bodyfile="include/aql/aql_agent.h" bodystart="82" bodyend="119"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1a62578d0254bec0ef950d02d58abb7b0e" prot="public" virt="pure-virtual"><scope>themis::aql::IAgent</scope><name>execute</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1a554863abf058e4cc831c76e0e587730d" prot="public" virt="pure-virtual"><scope>themis::aql::IAgent</scope><name>getTools</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1abd1a8cf879a54d88f3206b82c2521360" prot="public" virt="pure-virtual"><scope>themis::aql::IAgent</scope><name>hasTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1adc146842b634cccd5077e7ae94d9a7d0" prot="public" virt="pure-virtual"><scope>themis::aql::IAgent</scope><name>registerTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1a234a53a1e0ecc26a8f21df540efa8438" prot="public" virt="pure-virtual"><scope>themis::aql::IAgent</scope><name>removeTool</name></member>
+      <member refid="classthemis_1_1aql_1_1_i_agent_1a3dd94b836aabaf986d3863291d9afe8b" prot="public" virt="virtual"><scope>themis::aql::IAgent</scope><name>~IAgent</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

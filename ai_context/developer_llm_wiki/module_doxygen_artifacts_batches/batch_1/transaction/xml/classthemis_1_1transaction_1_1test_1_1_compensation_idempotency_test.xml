@@ -1,0 +1,100 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::transaction::test::CompensationIdempotencyTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aff9f90d0c46eacdae586eb3fab4d48c6" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1_s_a_g_a_orchestrator" kindref="compound">SAGAOrchestrator</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;SAGAOrchestrator&gt; themis::transaction::test::CompensationIdempotencyTest::saga_orchestrator_</definition>
+        <argsstring></argsstring>
+        <name>saga_orchestrator_</name>
+        <qualifiedname>themis::transaction::test::CompensationIdempotencyTest::saga_orchestrator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="183" column="19" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="183" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1a984aabaf8d3cdec8e6668ed29fce8062" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1transaction_1_1test_1_1_compensation_log" kindref="compound">CompensationLog</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;CompensationLog&gt; themis::transaction::test::CompensationIdempotencyTest::compensation_log_</definition>
+        <argsstring></argsstring>
+        <name>compensation_log_</name>
+        <qualifiedname>themis::transaction::test::CompensationIdempotencyTest::compensation_log_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="184" column="19" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="184" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aee540aceda64dfb0c3cdecd2069c9ced" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CompensationIdempotencyTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::transaction::test::CompensationIdempotencyTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="173" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="173" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1acc75afc1e00fd6308ec325f2f18b43f0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::transaction::test::CompensationIdempotencyTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::transaction::test::CompensationIdempotencyTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="178" column="8" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="178" bodyend="181"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CompensationIdempotencyTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::transaction::test::CompensationIdempotencyTest</label>
+        <link refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/transaction/test_saga_orchestration_hardening.cpp" line="171" column="1" bodyfile="tests/transaction/test_saga_orchestration_hardening.cpp" bodystart="171" bodyend="185"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1a984aabaf8d3cdec8e6668ed29fce8062" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CompensationIdempotencyTest</scope><name>compensation_log_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aff9f90d0c46eacdae586eb3fab4d48c6" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CompensationIdempotencyTest</scope><name>saga_orchestrator_</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1aee540aceda64dfb0c3cdecd2069c9ced" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CompensationIdempotencyTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1transaction_1_1test_1_1_compensation_idempotency_test_1acc75afc1e00fd6308ec325f2f18b43f0" prot="protected" virt="non-virtual"><scope>themis::transaction::test::CompensationIdempotencyTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

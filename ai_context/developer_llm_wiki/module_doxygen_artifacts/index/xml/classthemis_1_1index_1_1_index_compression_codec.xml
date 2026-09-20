@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1index_1_1_index_compression_codec" kind="class" language="C++" prot="public">
+    <compoundname>themis::index::IndexCompressionCodec</compoundname>
+    <includes refid="index__compression_8h" local="no">index_compression.h</includes>
+    <innerclass refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" prot="public">themis::index::IndexCompressionCodec::Config</innerclass>
+    <innerclass refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" prot="public">themis::index::IndexCompressionCodec::Stats</innerclass>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_index_compression_codec_1ae0fffa5ae5e251a329caa9674895bee4" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" kindref="compound">Config</ref></type>
+        <definition>Config themis::index::IndexCompressionCodec::cfg_</definition>
+        <argsstring></argsstring>
+        <name>cfg_</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::cfg_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="339" column="23" bodyfile="include/index/index_compression.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_index_compression_codec_1a1ce68ffbc4070b2534d1c093fd4e1503" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_bloom_filter" kindref="compound">BloomFilter</ref></type>
+        <definition>BloomFilter themis::index::IndexCompressionCodec::bloom_</definition>
+        <argsstring></argsstring>
+        <name>bloom_</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::bloom_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="340" column="23" bodyfile="include/index/index_compression.h" bodystart="340" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_index_compression_codec_1afdf27244dd05b316a6ef1bb2a33ea8e2" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1index_1_1_dictionary_codec" kindref="compound">DictionaryCodec</ref></type>
+        <definition>DictionaryCodec themis::index::IndexCompressionCodec::dict_codec_</definition>
+        <argsstring></argsstring>
+        <name>dict_codec_</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::dict_codec_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="341" column="23" bodyfile="include/index/index_compression.h" bodystart="341" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1index_1_1_index_compression_codec_1ae877f1fdb1bb287dac9b8468be0974c3" prot="private" static="no" mutable="yes">
+        <type><ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" kindref="compound">Stats</ref></type>
+        <definition>Stats themis::index::IndexCompressionCodec::stats_</definition>
+        <argsstring></argsstring>
+        <name>stats_</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::stats_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="342" column="23" bodyfile="include/index/index_compression.h" bodystart="342" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::IndexCompressionCodec::IndexCompressionCodec</definition>
+        <argsstring>()</argsstring>
+        <name>IndexCompressionCodec</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::IndexCompressionCodec</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="275" column="14" bodyfile="src/index/index_compression.cpp" bodystart="440" bodyend="444"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a661225a47f630040321415d1a70457f9" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::index::IndexCompressionCodec::IndexCompressionCodec</definition>
+        <argsstring>(const Config &amp;cfg)</argsstring>
+        <name>IndexCompressionCodec</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::IndexCompressionCodec</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" kindref="compound">Config</ref> &amp;</type>
+          <declname>cfg</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="276" column="14" bodyfile="src/index/index_compression.cpp" bodystart="446" bodyend="450"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1aff5c5926cbd9b9e56444d4cc9854517c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_config" kindref="compound">Config</ref> &amp;</type>
+        <definition>const Config &amp; themis::index::IndexCompressionCodec::config</definition>
+        <argsstring>() const</argsstring>
+        <name>config</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="280" column="18" bodyfile="include/index/index_compression.h" bodystart="280" bodyend="280"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a6e5b04191f64cd4a94db7ee4ea23247e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::IndexCompressionCodec::trainDictionary</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sample_values)</argsstring>
+        <name>trainDictionary</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::trainDictionary</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sample_values</declname>
+        </param>
+        <briefdescription>
+<para>Train the dictionary codec from a sample of index field values. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Train Dictionary.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sample_values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="285" column="10" bodyfile="src/index/index_compression.cpp" bodystart="456" bodyend="462"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1ae116e4cf0767bf2a153311721b543690" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::IndexCompressionCodec::dictionaryReady</definition>
+        <argsstring>() const</argsstring>
+        <name>dictionaryReady</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::dictionaryReady</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="287" column="10" bodyfile="include/index/index_compression.h" bodystart="287" bodyend="287"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a421025b7c239f7a8620651a3f9f25df3" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::index::IndexCompressionCodec::encodeValue</definition>
+        <argsstring>(std::string_view value) const</argsstring>
+        <name>encodeValue</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::encodeValue</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>value</declname>
+        </param>
+        <briefdescription>
+<para>Encode a value through the dictionary (returns kMissCode on miss). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="290" column="14" bodyfile="src/index/index_compression.cpp" bodystart="464" bodyend="474"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1afb166016dc8897bbf1b968c0d9742f05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::index::IndexCompressionCodec::decodeValue</definition>
+        <argsstring>(uint32_t code) const</argsstring>
+        <name>decodeValue</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::decodeValue</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Decode a dictionary code back to its string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="293" column="17" bodyfile="src/index/index_compression.cpp" bodystart="476" bodyend="478"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a0988af5e48a61768c46165a9af06d34b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::IndexCompressionCodec::bloomInsert</definition>
+        <argsstring>(std::string_view key)</argsstring>
+        <name>bloomInsert</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::bloomInsert</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Register a key in the Bloom filter. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Bloom Insert.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: insert(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="298" column="10" bodyfile="src/index/index_compression.cpp" bodystart="485" bodyend="491"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1aaa763e203749288342fe617a82aba1ef" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::index::IndexCompressionCodec::bloomMightContain</definition>
+        <argsstring>(std::string_view key) const</argsstring>
+        <name>bloomMightContain</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::bloomMightContain</qualifiedname>
+        <param>
+          <type>std::string_view</type>
+          <declname>key</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a key might exist (false == definitely absent). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="301" column="10" bodyfile="src/index/index_compression.cpp" bodystart="493" bodyend="503"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1abc221c6d2d5548defd7199fddebb310c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::IndexCompressionCodec::resetBloom</definition>
+        <argsstring>()</argsstring>
+        <name>resetBloom</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::resetBloom</qualifiedname>
+        <briefdescription>
+<para>Reset the Bloom filter (e.g. after a full index rebuild). </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Reset Bloom.</para>
+<para>Calls: clear(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="304" column="10" bodyfile="src/index/index_compression.cpp" bodystart="509" bodyend="515"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a6427b2b415839ca0c55d68ed5d2021b1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1index_1_1_prefix_block" kindref="compound">PrefixBlock</ref> &gt;</type>
+        <definition>std::vector&lt; PrefixBlock &gt; themis::index::IndexCompressionCodec::compressKeys</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;sorted_keys)</argsstring>
+        <name>compressKeys</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::compressKeys</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>sorted_keys</declname>
+        </param>
+        <briefdescription>
+<para>Compress Keys. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress a sorted list of index keys into prefix-compressed blocks. Also updates Bloom filter and stats.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_keys</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="310" column="17" bodyfile="src/index/index_compression.cpp" bodystart="522" bodyend="557"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1ae6542e896318a8ddd5139f89b30fc1de" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::IndexCompressionCodec::decompressKeys</definition>
+        <argsstring>(const std::vector&lt; PrefixBlock &gt; &amp;blocks)</argsstring>
+        <name>decompressKeys</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::decompressKeys</qualifiedname>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1index_1_1_prefix_block" kindref="compound">PrefixBlock</ref> &gt; &amp;</type>
+          <declname>blocks</declname>
+        </param>
+        <briefdescription>
+<para>Reconstruct the original key list from compressed blocks. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress Keys.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">blocks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="314" column="17" bodyfile="src/index/index_compression.cpp" bodystart="564" bodyend="570"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a6fa7eae5d94fff87f72d2810a17f4550" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref></type>
+        <definition>RunLengthBlock themis::index::IndexCompressionCodec::compressValues</definition>
+        <argsstring>(const std::vector&lt; std::string &gt; &amp;values)</argsstring>
+        <name>compressValues</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::compressValues</qualifiedname>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>values</declname>
+        </param>
+        <briefdescription>
+<para>Compress a list of index values using RLE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Compress Values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">values</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="320" column="20" bodyfile="src/index/index_compression.cpp" bodystart="577" bodyend="594"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1abd07e172b8b9ddf80a07bf59330414f5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt; std::string &gt; themis::index::IndexCompressionCodec::decompressValues</definition>
+        <argsstring>(const RunLengthBlock &amp;block)</argsstring>
+        <name>decompressValues</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::decompressValues</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_run_length_block" kindref="compound">RunLengthBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+<para>Decompress an RLE block. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decompress Values.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="323" column="17" bodyfile="src/index/index_compression.cpp" bodystart="601" bodyend="605"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1aaa19626823899ca673e3c3a08a7efeb6" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref></type>
+        <definition>DeltaBlock themis::index::IndexCompressionCodec::encodePKs</definition>
+        <argsstring>(const std::vector&lt; int64_t &gt; &amp;sorted_pks)</argsstring>
+        <name>encodePKs</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::encodePKs</qualifiedname>
+        <param>
+          <type>const std::vector&lt; int64_t &gt; &amp;</type>
+          <declname>sorted_pks</declname>
+        </param>
+        <briefdescription>
+<para>Encode sorted integer primary-key suffixes. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Encode PKs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">sorted_pks</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="328" column="16" bodyfile="src/index/index_compression.cpp" bodystart="612" bodyend="619"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a7c0ce445e8229346988e06f1b9b4f381" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; int64_t &gt;</type>
+        <definition>std::vector&lt; int64_t &gt; themis::index::IndexCompressionCodec::decodePKs</definition>
+        <argsstring>(const DeltaBlock &amp;block)</argsstring>
+        <name>decodePKs</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::decodePKs</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref> &amp;</type>
+          <declname>block</declname>
+        </param>
+        <briefdescription>
+<para>Decode a <ref refid="structthemis_1_1index_1_1_delta_block" kindref="compound">DeltaBlock</ref> back to PK integers. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Decode PKs.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">block</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: <ref refid="classthemis_1_1index_1_1_delta_encoder_1a8dfc49d5a85d6336fc8ce03d0a1ee217" kindref="member">DeltaEncoder::decode()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="331" column="17" bodyfile="src/index/index_compression.cpp" bodystart="627" bodyend="629"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1a58205842cee42b2a6bf5f392b78e555c" prot="public" static="no" const="yes" explicit="no" inline="yes" virt="non-virtual">
+        <type>const <ref refid="structthemis_1_1index_1_1_index_compression_codec_1_1_stats" kindref="compound">Stats</ref> &amp;</type>
+        <definition>const Stats &amp; themis::index::IndexCompressionCodec::stats</definition>
+        <argsstring>() const</argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="335" column="17" bodyfile="include/index/index_compression.h" bodystart="335" bodyend="335"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1index_1_1_index_compression_codec_1aa969a9bef79557417a3951c85e147641" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::index::IndexCompressionCodec::resetStats</definition>
+        <argsstring>()</argsstring>
+        <name>resetStats</name>
+        <qualifiedname>themis::index::IndexCompressionCodec::resetStats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/index/index_compression.h" line="336" column="18" bodyfile="include/index/index_compression.h" bodystart="336" bodyend="336"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>High-level codec that combines all compression techniques.</para>
+<para>Typical usage: <programlisting><codeline><highlight class="normal">IndexCompressionCodec::Config<sp/>cfg;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_prefix_compression<sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_delta_encoding<sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_rle<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_dict_encoding<sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.enable_bloom_filter<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">;</highlight></codeline>
+<codeline><highlight class="normal">cfg.algorithm<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/><ref refid="namespacethemis_1_1index_1a8cc565ef833715bded080fd643d4d6a3a8406cc2302e19183037b61249546b234" kindref="member">CompressionAlgorithm::ZSTD</ref>;</highlight></codeline>
+<codeline><highlight class="normal">cfg.compression_level<sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>=<sp/>3;</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"><ref refid="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" kindref="member">IndexCompressionCodec</ref><sp/>codec(cfg);</highlight></codeline>
+<codeline><highlight class="normal">codec.trainDictionary(sample_values);</highlight></codeline>
+<codeline><highlight class="normal"></highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>blocks<sp/>=<sp/>codec.compressKeys(sorted_index_keys);</highlight></codeline>
+<codeline><highlight class="normal"></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>keys<sp/><sp/><sp/>=<sp/>codec.decompressKeys(blocks);</highlight></codeline>
+</programlisting> </para>
+    </detaileddescription>
+    <location file="include/index/index_compression.h" line="243" column="1" bodyfile="include/index/index_compression.h" bodystart="243" bodyend="343"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a1ce68ffbc4070b2534d1c093fd4e1503" prot="private" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>bloom_</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a0988af5e48a61768c46165a9af06d34b" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>bloomInsert</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1aaa763e203749288342fe617a82aba1ef" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>bloomMightContain</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1ae0fffa5ae5e251a329caa9674895bee4" prot="private" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>cfg_</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a6427b2b415839ca0c55d68ed5d2021b1" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>compressKeys</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a6fa7eae5d94fff87f72d2810a17f4550" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>compressValues</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1aff5c5926cbd9b9e56444d4cc9854517c" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>config</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a7c0ce445e8229346988e06f1b9b4f381" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>decodePKs</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1afb166016dc8897bbf1b968c0d9742f05" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>decodeValue</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1ae6542e896318a8ddd5139f89b30fc1de" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>decompressKeys</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1abd07e172b8b9ddf80a07bf59330414f5" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>decompressValues</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1afdf27244dd05b316a6ef1bb2a33ea8e2" prot="private" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>dict_codec_</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1ae116e4cf0767bf2a153311721b543690" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>dictionaryReady</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1aaa19626823899ca673e3c3a08a7efeb6" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>encodePKs</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a421025b7c239f7a8620651a3f9f25df3" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>encodeValue</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1af5e80c4f952b291b808226e2cf6226f3" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>IndexCompressionCodec</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a661225a47f630040321415d1a70457f9" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>IndexCompressionCodec</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1abc221c6d2d5548defd7199fddebb310c" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>resetBloom</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1aa969a9bef79557417a3951c85e147641" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>resetStats</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a58205842cee42b2a6bf5f392b78e555c" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>stats</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1ae877f1fdb1bb287dac9b8468be0974c3" prot="private" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>stats_</name></member>
+      <member refid="classthemis_1_1index_1_1_index_compression_codec_1a6e5b04191f64cd4a94db7ee4ea23247e" prot="public" virt="non-virtual"><scope>themis::index::IndexCompressionCodec</scope><name>trainDictionary</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

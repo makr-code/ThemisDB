@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_audit_logger_integration_test" kind="class" language="C++" prot="public">
+    <compoundname>AuditLoggerIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" prot="protected" static="no" mutable="no">
+        <type>std::filesystem::path</type>
+        <definition>std::filesystem::path AuditLoggerIntegrationTest::tmp_dir_</definition>
+        <argsstring></argsstring>
+        <name>tmp_dir_</name>
+        <qualifiedname>AuditLoggerIntegrationTest::tmp_dir_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="409" column="27" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="409" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_audit_logger_integration_test_1a2e76a30349292ccdf508d95b5f7e1b82" prot="protected" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string AuditLoggerIntegrationTest::log_path_</definition>
+        <argsstring></argsstring>
+        <name>log_path_</name>
+        <qualifiedname>AuditLoggerIntegrationTest::log_path_</qualifiedname>
+        <initializer>= {}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="410" column="17" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="410" bodyend="410"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_audit_logger_integration_test_1a7f2788e350ee38dd445b933bc7fc1920" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditLoggerIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>AuditLoggerIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="412" column="10" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="412" bodyend="416"/>
+      </memberdef>
+      <memberdef kind="function" id="class_audit_logger_integration_test_1ada769b78a7ae801b3f6fe543eb01cc69" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void AuditLoggerIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>AuditLoggerIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/security/test_auth_anomaly_detection.cpp" line="418" column="10" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="418" bodyend="420"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>AuditLoggerIntegrationTest</label>
+        <link refid="class_audit_logger_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>AuditLoggerIntegrationTest</label>
+        <link refid="class_audit_logger_integration_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/security/test_auth_anomaly_detection.cpp" line="407" column="1" bodyfile="tests/security/test_auth_anomaly_detection.cpp" bodystart="407" bodyend="421"/>
+    <listofallmembers>
+      <member refid="class_audit_logger_integration_test_1a2e76a30349292ccdf508d95b5f7e1b82" prot="protected" virt="non-virtual"><scope>AuditLoggerIntegrationTest</scope><name>log_path_</name></member>
+      <member refid="class_audit_logger_integration_test_1a7f2788e350ee38dd445b933bc7fc1920" prot="protected" virt="non-virtual"><scope>AuditLoggerIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="class_audit_logger_integration_test_1ada769b78a7ae801b3f6fe543eb01cc69" prot="protected" virt="non-virtual"><scope>AuditLoggerIntegrationTest</scope><name>TearDown</name></member>
+      <member refid="class_audit_logger_integration_test_1abeb5d25ddb767daf713bbf82e752ea5a" prot="protected" virt="non-virtual"><scope>AuditLoggerIntegrationTest</scope><name>tmp_dir_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

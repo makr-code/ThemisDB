@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::perf::test::HTTP2StreamBufferTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test_1adbe738e676a6158ffcf112ec9e1d1f5c" prot="protected" static="no">
+        <type><ref refid="classthemis_1_1server_1_1perf_1_1_h_t_t_p2_stream_buffer" kindref="compound">HTTP2StreamBuffer</ref></type>
+        <definition>using themis::server::perf::test::HTTP2StreamBufferTest::StreamBuffer = HTTP2StreamBuffer</definition>
+        <argsstring></argsstring>
+        <name>StreamBuffer</name>
+        <qualifiedname>themis::server::perf::test::HTTP2StreamBufferTest::StreamBuffer</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/server/test_server_phase2_focused.cpp" line="265" column="5" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="265" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::HTTP2StreamBufferTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::server::perf::test::HTTP2StreamBufferTest</label>
+        <link refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/server/test_server_phase2_focused.cpp" line="263" column="1" bodyfile="tests/server/test_server_phase2_focused.cpp" bodystart="263" bodyend="266"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1perf_1_1test_1_1_h_t_t_p2_stream_buffer_test_1adbe738e676a6158ffcf112ec9e1d1f5c" prot="protected" virt="non-virtual"><scope>themis::server::perf::test::HTTP2StreamBufferTest</scope><name>StreamBuffer</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,148 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state" kind="struct" language="C++" prot="private">
+    <compoundname>themis::performance::AdvancedCacheManager::PartitionState</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a4252645168946728a490e86eab259517" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_cache_partition" kindref="compound">CachePartition</ref></type>
+        <definition>CachePartition themis::performance::AdvancedCacheManager::PartitionState::cfg</definition>
+        <argsstring></argsstring>
+        <name>cfg</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::cfg</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="252" column="34" bodyfile="include/performance/advanced_cache_manager.h" bodystart="252" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a9d1370b0976ddf8027b25908d6cbdd89" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::performance::AdvancedCacheManager::PartitionState::capacity</definition>
+        <argsstring></argsstring>
+        <name>capacity</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::capacity</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>max entries derived from size_mb </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="253" column="34" bodyfile="include/performance/advanced_cache_manager.h" bodystart="253" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1ab47261fc9b0e6b2824c928dfa90c9235" prot="public" static="no" mutable="no">
+        <type>std::list&lt; Entry &gt;</type>
+        <definition>std::list&lt;Entry&gt; themis::performance::AdvancedCacheManager::PartitionState::lru_list</definition>
+        <argsstring></argsstring>
+        <name>lru_list</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::lru_list</qualifiedname>
+        <briefdescription>
+<para>front = most recent </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="254" column="27" bodyfile="include/performance/advanced_cache_manager.h" bodystart="254" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1aff5a00a5444520a05dd2960a73b895e9" prot="public" static="no" mutable="no">
+        <type>std::unordered_map&lt; std::string, std::list&lt; Entry &gt;::iterator &gt;</type>
+        <definition>std::unordered_map&lt;std::string, std::list&lt;Entry&gt;::iterator&gt; themis::performance::AdvancedCacheManager::PartitionState::index</definition>
+        <argsstring></argsstring>
+        <name>index</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::index</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="255" column="29" bodyfile="include/performance/advanced_cache_manager.h" bodystart="255" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1addf33d622d5f9e67826b95b39136e648" prot="public" static="no" mutable="no">
+        <type>BloomFilter</type>
+        <definition>BloomFilter themis::performance::AdvancedCacheManager::PartitionState::bloom</definition>
+        <argsstring></argsstring>
+        <name>bloom</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::bloom</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="256" column="34" bodyfile="include/performance/advanced_cache_manager.h" bodystart="256" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a24dcb6c5bce144af923b4592922552f2" prot="public" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1performance_1_1_partition_stats" kindref="compound">PartitionStats</ref></type>
+        <definition>PartitionStats themis::performance::AdvancedCacheManager::PartitionState::stats</definition>
+        <argsstring></argsstring>
+        <name>stats</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::stats</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="257" column="34" bodyfile="include/performance/advanced_cache_manager.h" bodystart="257" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1af1d8f78a439da507316845fc2452ca02" prot="public" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::performance::AdvancedCacheManager::PartitionState::mtx</definition>
+        <argsstring></argsstring>
+        <name>mtx</name>
+        <qualifiedname>themis::performance::AdvancedCacheManager::PartitionState::mtx</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/performance/advanced_cache_manager.h" line="258" column="34" bodyfile="include/performance/advanced_cache_manager.h" bodystart="258" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <collaborationgraph>
+      <node id="3">
+        <label>themis::performance::AdvancedCacheManager::BloomFilter</label>
+      </node>
+      <node id="1">
+        <label>themis::performance::AdvancedCacheManager::PartitionState</label>
+        <childnode refid="2" relation="usage">
+          <edgelabel>cfg</edgelabel>
+        </childnode>
+        <childnode refid="3" relation="usage">
+          <edgelabel>bloom</edgelabel>
+        </childnode>
+        <childnode refid="4" relation="usage">
+          <edgelabel>stats</edgelabel>
+        </childnode>
+      </node>
+      <node id="2">
+        <label>themis::performance::CachePartition</label>
+        <link refid="structthemis_1_1performance_1_1_cache_partition"/>
+      </node>
+      <node id="4">
+        <label>themis::performance::PartitionStats</label>
+        <link refid="structthemis_1_1performance_1_1_partition_stats"/>
+      </node>
+    </collaborationgraph>
+    <location file="include/performance/advanced_cache_manager.h" line="251" column="5" bodyfile="include/performance/advanced_cache_manager.h" bodystart="251" bodyend="259"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1addf33d622d5f9e67826b95b39136e648" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>bloom</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a9d1370b0976ddf8027b25908d6cbdd89" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>capacity</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a4252645168946728a490e86eab259517" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>cfg</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1aff5a00a5444520a05dd2960a73b895e9" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>index</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1ab47261fc9b0e6b2824c928dfa90c9235" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>lru_list</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1af1d8f78a439da507316845fc2452ca02" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>mtx</name></member>
+      <member refid="structthemis_1_1performance_1_1_advanced_cache_manager_1_1_partition_state_1a24dcb6c5bce144af923b4592922552f2" prot="public" virt="non-virtual"><scope>themis::performance::AdvancedCacheManager::PartitionState</scope><name>stats</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

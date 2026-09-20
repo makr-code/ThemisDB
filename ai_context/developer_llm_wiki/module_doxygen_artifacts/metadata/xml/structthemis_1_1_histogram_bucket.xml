@@ -1,0 +1,83 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_histogram_bucket" kind="struct" language="C++" prot="public">
+    <compoundname>themis::HistogramBucket</compoundname>
+    <includes refid="statistics__collector_8h" local="no">statistics_collector.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_histogram_bucket_1a50d36c2f51e7794f94435eca23a219ba" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HistogramBucket::lower_bound</definition>
+        <argsstring></argsstring>
+        <name>lower_bound</name>
+        <qualifiedname>themis::HistogramBucket::lower_bound</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Lower bound (inclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="42" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="42" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_histogram_bucket_1aecde9b10fec4cb657c6adec85f6936d6" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::HistogramBucket::upper_bound</definition>
+        <argsstring></argsstring>
+        <name>upper_bound</name>
+        <qualifiedname>themis::HistogramBucket::upper_bound</qualifiedname>
+        <briefdescription>
+<para>Upper bound (exclusive). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="43" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="43" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_histogram_bucket_1a033b8145678a0cf55ab84a39777b7dae" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::HistogramBucket::frequency</definition>
+        <argsstring></argsstring>
+        <name>frequency</name>
+        <qualifiedname>themis::HistogramBucket::frequency</qualifiedname>
+        <briefdescription>
+<para>Number of values in this bucket. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="44" column="12" bodyfile="include/metadata/statistics_collector.h" bodystart="44" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_histogram_bucket_1a8fb69e6d18f273edfc8f02e6bf51f68f" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1a05f3ebcfd8adc466a47cf4dc737e124e" kindref="member">json</ref></type>
+        <definition>json themis::HistogramBucket::toJSON</definition>
+        <argsstring>() const</argsstring>
+        <name>toJSON</name>
+        <qualifiedname>themis::HistogramBucket::toJSON</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/metadata/statistics_collector.h" line="46" column="10" bodyfile="src/metadata/statistics_collector.cpp" bodystart="58" bodyend="64"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Histogram bucket for value distribution analysis. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/metadata/statistics_collector.h" line="41" column="1" bodyfile="include/metadata/statistics_collector.h" bodystart="41" bodyend="47"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_histogram_bucket_1a033b8145678a0cf55ab84a39777b7dae" prot="public" virt="non-virtual"><scope>themis::HistogramBucket</scope><name>frequency</name></member>
+      <member refid="structthemis_1_1_histogram_bucket_1a50d36c2f51e7794f94435eca23a219ba" prot="public" virt="non-virtual"><scope>themis::HistogramBucket</scope><name>lower_bound</name></member>
+      <member refid="structthemis_1_1_histogram_bucket_1a8fb69e6d18f273edfc8f02e6bf51f68f" prot="public" virt="non-virtual"><scope>themis::HistogramBucket</scope><name>toJSON</name></member>
+      <member refid="structthemis_1_1_histogram_bucket_1aecde9b10fec4cb657c6adec85f6936d6" prot="public" virt="non-virtual"><scope>themis::HistogramBucket</scope><name>upper_bound</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

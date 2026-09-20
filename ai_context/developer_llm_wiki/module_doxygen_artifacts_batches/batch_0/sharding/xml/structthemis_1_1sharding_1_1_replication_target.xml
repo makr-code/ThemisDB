@@ -1,0 +1,78 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1sharding_1_1_replication_target" kind="struct" language="C++" prot="public">
+    <compoundname>themis::sharding::ReplicationTarget</compoundname>
+    <includes refid="cloud__backup_8h" local="no">cloud_backup.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_target_1a197c736f382345f29d655cd9ed5fdd0f" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::sharding::ReplicationTarget::datacenter_id</definition>
+        <argsstring></argsstring>
+        <name>datacenter_id</name>
+        <qualifiedname>themis::sharding::ReplicationTarget::datacenter_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="98" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_target_1aac479f3b9aee7d3906734302d599ede7" prot="public" static="no" mutable="no">
+        <type>std::vector&lt; std::string &gt;</type>
+        <definition>std::vector&lt;std::string&gt; themis::sharding::ReplicationTarget::shard_endpoints</definition>
+        <argsstring></argsstring>
+        <name>shard_endpoints</name>
+        <qualifiedname>themis::sharding::ReplicationTarget::shard_endpoints</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="99" column="17" bodyfile="include/sharding/cloud_backup.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_target_1a5a4f8d59b540968681b0b2949b8d884a" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::sharding::ReplicationTarget::enabled</definition>
+        <argsstring></argsstring>
+        <name>enabled</name>
+        <qualifiedname>themis::sharding::ReplicationTarget::enabled</qualifiedname>
+        <initializer>= false</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="100" column="10" bodyfile="include/sharding/cloud_backup.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1sharding_1_1_replication_target_1af53c2b148ebbdec9343b50bbf2dc0dde" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::sharding::ReplicationTarget::last_sync</definition>
+        <argsstring></argsstring>
+        <name>last_sync</name>
+        <qualifiedname>themis::sharding::ReplicationTarget::last_sync</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/sharding/cloud_backup.h" line="101" column="43" bodyfile="include/sharding/cloud_backup.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+<para>Multi-datacenter replication target </para>
+    </detaileddescription>
+    <location file="include/sharding/cloud_backup.h" line="97" column="1" bodyfile="include/sharding/cloud_backup.h" bodystart="97" bodyend="102"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1sharding_1_1_replication_target_1a197c736f382345f29d655cd9ed5fdd0f" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationTarget</scope><name>datacenter_id</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_target_1a5a4f8d59b540968681b0b2949b8d884a" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationTarget</scope><name>enabled</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_target_1af53c2b148ebbdec9343b50bbf2dc0dde" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationTarget</scope><name>last_sync</name></member>
+      <member refid="structthemis_1_1sharding_1_1_replication_target_1aac479f3b9aee7d3906734302d599ede7" prot="public" virt="non-virtual"><scope>themis::sharding::ReplicationTarget</scope><name>shard_endpoints</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

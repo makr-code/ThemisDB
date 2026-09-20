@@ -1,0 +1,204 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_stress_replication_slot" kind="class" language="C++" prot="public">
+    <compoundname>StressReplicationSlot</compoundname>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="class_stress_replication_slot_1a988d32a5294472c2bda79f9462f2a0b9" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressReplicationSlot::lsn_</definition>
+        <argsstring></argsstring>
+        <name>lsn_</name>
+        <qualifiedname>StressReplicationSlot::lsn_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="75" column="17" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="class_stress_replication_slot_1a4712c99feb1fd6a1c7945fc68912c584" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; uint64_t &gt;</type>
+        <definition>std::atomic&lt;uint64_t&gt; StressReplicationSlot::acked_</definition>
+        <argsstring></argsstring>
+        <name>acked_</name>
+        <qualifiedname>StressReplicationSlot::acked_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="76" column="17" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="76" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="class_stress_replication_slot_1a8d431c00fbe4d668a201f6b1e48f1330" prot="public" static="no" const="no" explicit="yes" inline="yes" virt="non-virtual">
+        <type></type>
+        <definition>StressReplicationSlot::StressReplicationSlot</definition>
+        <argsstring>(uint64_t start_lsn)</argsstring>
+        <name>StressReplicationSlot</name>
+        <qualifiedname>StressReplicationSlot::StressReplicationSlot</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>start_lsn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="43" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="43" bodyend="44"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1a94a9b7ca32e44a2b4f7bfd7d762b441b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>StressReplicationSlot::StressReplicationSlot</definition>
+        <argsstring>(const StressReplicationSlot &amp;)=delete</argsstring>
+        <name>StressReplicationSlot</name>
+        <qualifiedname>StressReplicationSlot::StressReplicationSlot</qualifiedname>
+        <param>
+          <type>const <ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="46" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1a0f6495b1fe681c7333008aeb35153f89" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;</type>
+        <definition>StressReplicationSlot &amp; StressReplicationSlot::operator=</definition>
+        <argsstring>(const StressReplicationSlot &amp;)=delete</argsstring>
+        <name>operator=</name>
+        <qualifiedname>StressReplicationSlot::operator=</qualifiedname>
+        <param>
+          <type>const <ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="47" column="27"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1a7585915c84be01129d27e70941247613" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>StressReplicationSlot::StressReplicationSlot</definition>
+        <argsstring>(StressReplicationSlot &amp;&amp;other) noexcept</argsstring>
+        <name>StressReplicationSlot</name>
+        <qualifiedname>StressReplicationSlot::StressReplicationSlot</qualifiedname>
+        <param>
+          <type><ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="49" column="5" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="49" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1ab5b7386a48815d25ecaba44be52a3511" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;</type>
+        <definition>StressReplicationSlot &amp; StressReplicationSlot::operator=</definition>
+        <argsstring>(StressReplicationSlot &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>StressReplicationSlot::operator=</qualifiedname>
+        <param>
+          <type><ref refid="class_stress_replication_slot" kindref="compound">StressReplicationSlot</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="53" column="27" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="53" bodyend="59"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1ac849f5a06da049988227f2ab3e2e6764" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressReplicationSlot::advance</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>advance</name>
+        <qualifiedname>StressReplicationSlot::advance</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="61" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="61" bodyend="63"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1aa0fcb4fb0cdcb61cd8256ef5bfa763bc" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void StressReplicationSlot::ack</definition>
+        <argsstring>(uint64_t lsn) noexcept</argsstring>
+        <name>ack</name>
+        <qualifiedname>StressReplicationSlot::ack</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>lsn</declname>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="65" column="10" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="65" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1a41030ab9cb0b56019c913b49d6466a9a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressReplicationSlot::lsn</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>lsn</name>
+        <qualifiedname>StressReplicationSlot::lsn</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="71" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="71" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="class_stress_replication_slot_1aa5d7eb97eaa14b8f8c6e95cc0c91400a" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t StressReplicationSlot::acked</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>acked</name>
+        <qualifiedname>StressReplicationSlot::acked</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="72" column="14" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="72" bodyend="72"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="tests/replication/test_replication_highcardinality_stress.cpp" line="41" column="1" bodyfile="tests/replication/test_replication_highcardinality_stress.cpp" bodystart="41" bodyend="77"/>
+    <listofallmembers>
+      <member refid="class_stress_replication_slot_1aa0fcb4fb0cdcb61cd8256ef5bfa763bc" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>ack</name></member>
+      <member refid="class_stress_replication_slot_1aa5d7eb97eaa14b8f8c6e95cc0c91400a" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>acked</name></member>
+      <member refid="class_stress_replication_slot_1a4712c99feb1fd6a1c7945fc68912c584" prot="private" virt="non-virtual"><scope>StressReplicationSlot</scope><name>acked_</name></member>
+      <member refid="class_stress_replication_slot_1ac849f5a06da049988227f2ab3e2e6764" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>advance</name></member>
+      <member refid="class_stress_replication_slot_1a41030ab9cb0b56019c913b49d6466a9a" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>lsn</name></member>
+      <member refid="class_stress_replication_slot_1a988d32a5294472c2bda79f9462f2a0b9" prot="private" virt="non-virtual"><scope>StressReplicationSlot</scope><name>lsn_</name></member>
+      <member refid="class_stress_replication_slot_1a0f6495b1fe681c7333008aeb35153f89" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>operator=</name></member>
+      <member refid="class_stress_replication_slot_1ab5b7386a48815d25ecaba44be52a3511" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>operator=</name></member>
+      <member refid="class_stress_replication_slot_1a8d431c00fbe4d668a201f6b1e48f1330" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>StressReplicationSlot</name></member>
+      <member refid="class_stress_replication_slot_1a94a9b7ca32e44a2b4f7bfd7d762b441b" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>StressReplicationSlot</name></member>
+      <member refid="class_stress_replication_slot_1a7585915c84be01129d27e70941247613" prot="public" virt="non-virtual"><scope>StressReplicationSlot</scope><name>StressReplicationSlot</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

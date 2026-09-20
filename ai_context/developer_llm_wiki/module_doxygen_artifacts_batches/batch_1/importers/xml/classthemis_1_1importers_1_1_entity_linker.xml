@@ -1,0 +1,288 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1importers_1_1_entity_linker" kind="class" language="C++" prot="public">
+    <compoundname>themis::importers::EntityLinker</compoundname>
+    <includes refid="entity__linker_8h" local="no">entity_linker.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1importers_1_1_entity_linker_1a4cfd7fccba1806ecf9d5d7c8cf005e65" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref> &gt;</type>
+        <definition>std::vector&lt;EntityLink&gt; themis::importers::EntityLinker::links_</definition>
+        <argsstring></argsstring>
+        <name>links_</name>
+        <qualifiedname>themis::importers::EntityLinker::links_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="120" column="17" bodyfile="include/importers/entity_linker.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1a3048f7ec20139c4cc7be6cff1fc60572" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::importers::EntityLinker::EntityLinker</definition>
+        <argsstring>()=default</argsstring>
+        <name>EntityLinker</name>
+        <qualifiedname>themis::importers::EntityLinker::EntityLinker</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="70" column="5"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1a100cdacf180d6dc0e5b28e1e33e553e2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::importers::EntityLinker::createLink</definition>
+        <argsstring>(const EntityLink &amp;link, const ImportOptions &amp;options)</argsstring>
+        <name>createLink</name>
+        <qualifiedname>themis::importers::EntityLinker::createLink</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref> &amp;</type>
+          <declname>link</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <briefdescription>
+<para>Create Link. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">link</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+<parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">link</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="78" column="10" bodyfile="src/importers/entity_linker.cpp" bodystart="98" bodyend="107"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1ad602c3a2f83cc46810d885f60797061e" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="struct_import_stats" kindref="compound">ImportStats</ref></type>
+        <definition>ImportStats themis::importers::EntityLinker::linkBatch</definition>
+        <argsstring>(const std::string &amp;collection_name, const std::vector&lt; EntityLink &gt; &amp;links, const ImportOptions &amp;options, size_t batch_size=1000)</argsstring>
+        <name>linkBatch</name>
+        <qualifiedname>themis::importers::EntityLinker::linkBatch</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; <ref refid="structthemis_1_1importers_1_1_entity_link" kindref="compound">EntityLink</ref> &gt; &amp;</type>
+          <declname>links</declname>
+        </param>
+        <param>
+          <type>const <ref refid="struct_import_options" kindref="compound">ImportOptions</ref> &amp;</type>
+          <declname>options</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>batch_size</declname>
+          <defval>1000</defval>
+        </param>
+        <briefdescription>
+<para>Link Batch. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">param</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">links</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">options</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">size_t</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: size(), <ref refid="classthemis_1_1importers_1_1_entity_linker_1a100cdacf180d6dc0e5b28e1e33e553e2" kindref="member">createLink()</ref>. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="83" column="17" bodyfile="src/importers/entity_linker.cpp" bodystart="118" bodyend="132"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1a9a50acfc389b9d270026c51d81c4bd05" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::vector&lt; <ref refid="structthemis_1_1importers_1_1_link_audit_entry" kindref="compound">LinkAuditEntry</ref> &gt;</type>
+        <definition>std::vector&lt; LinkAuditEntry &gt; themis::importers::EntityLinker::getLinksForEntity</definition>
+        <argsstring>(const std::string &amp;entity_id, const std::string &amp;collection_name) const</argsstring>
+        <name>getLinksForEntity</name>
+        <qualifiedname>themis::importers::EntityLinker::getLinksForEntity</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>entity_id</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <briefdescription>
+<para>Get Links For Entity. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">entity_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Identifier of the entity. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">collection_name</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Name of the collection. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="96" column="17" bodyfile="src/importers/entity_linker.cpp" bodystart="134" bodyend="161"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1a6f8e0a9a98497334c2f6715b66673e77" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1importers_1a84b56ae1dcca94dd46d609f9fdf8fba1" kindref="member">json</ref></type>
+        <definition>json themis::importers::EntityLinker::exportLinkGraph</definition>
+        <argsstring>(const std::string &amp;collection_name, const std::vector&lt; std::string &gt; &amp;entity_ids, bool include_confidence_scores=true) const</argsstring>
+        <name>exportLinkGraph</name>
+        <qualifiedname>themis::importers::EntityLinker::exportLinkGraph</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>collection_name</declname>
+        </param>
+        <param>
+          <type>const std::vector&lt; std::string &gt; &amp;</type>
+          <declname>entity_ids</declname>
+        </param>
+        <param>
+          <type>bool</type>
+          <declname>include_confidence_scores</declname>
+          <defval>true</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="101" column="10" bodyfile="src/importers/entity_linker.cpp" bodystart="163" bodyend="203"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1ab8cf5312dbac0808257de1b19f0f62e2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::importers::EntityLinker::linkCount</definition>
+        <argsstring>() const</argsstring>
+        <name>linkCount</name>
+        <qualifiedname>themis::importers::EntityLinker::linkCount</qualifiedname>
+        <briefdescription>
+<para>Link Count. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="111" column="12" bodyfile="src/importers/entity_linker.cpp" bodystart="205" bodyend="207"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1importers_1_1_entity_linker_1aedb0c90db8d2d860410fec167072060f" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::importers::EntityLinker::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::importers::EntityLinker::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/importers/entity_linker.h" line="116" column="10" bodyfile="src/importers/entity_linker.cpp" bodystart="213" bodyend="215"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/importers/entity_linker.h" line="68" column="1" bodyfile="include/importers/entity_linker.h" bodystart="68" bodyend="121"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1aedb0c90db8d2d860410fec167072060f" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>clear</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1a100cdacf180d6dc0e5b28e1e33e553e2" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>createLink</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1a3048f7ec20139c4cc7be6cff1fc60572" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>EntityLinker</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1a6f8e0a9a98497334c2f6715b66673e77" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>exportLinkGraph</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1a9a50acfc389b9d270026c51d81c4bd05" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>getLinksForEntity</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1ad602c3a2f83cc46810d885f60797061e" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>linkBatch</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1ab8cf5312dbac0808257de1b19f0f62e2" prot="public" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>linkCount</name></member>
+      <member refid="classthemis_1_1importers_1_1_entity_linker_1a4cfd7fccba1806ecf9d5d7c8cf005e65" prot="private" virt="non-virtual"><scope>themis::importers::EntityLinker</scope><name>links_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

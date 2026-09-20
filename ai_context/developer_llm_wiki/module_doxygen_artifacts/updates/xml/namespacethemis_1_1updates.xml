@@ -1,0 +1,2233 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="namespacethemis_1_1updates" kind="namespace" language="C++">
+    <compoundname>themis::updates</compoundname>
+    <innerclass refid="structthemis_1_1updates_1_1_a_b_test_config" prot="public">themis::updates::ABTestConfig</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_alerting_rule" prot="public">themis::updates::AlertingRule</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_blackout_period" prot="public">themis::updates::BlackoutPeriod</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_blue_green_config" prot="public">themis::updates::BlueGreenConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_blue_green_deployment" prot="public">themis::updates::BlueGreenDeployment</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_blue_green_status" prot="public">themis::updates::BlueGreenStatus</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_build_verification_result" prot="public">themis::updates::BuildVerificationResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_config" prot="public">themis::updates::CanaryConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_canary_deployment" prot="public">themis::updates::CanaryDeployment</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_deployment_stage" prot="public">themis::updates::CanaryDeploymentStage</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_metrics_snapshot" prot="public">themis::updates::CanaryMetricsSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_canary_rollout" prot="public">themis::updates::CanaryRollout</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_stage" prot="public">themis::updates::CanaryStage</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_canary_status" prot="public">themis::updates::CanaryStatus</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_checkpoint" prot="public">themis::updates::Checkpoint</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_node" prot="public">themis::updates::ClusterNode</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_node_status" prot="public">themis::updates::ClusterNodeStatus</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_cluster_update_manager" prot="public">themis::updates::ClusterUpdateManager</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_options" prot="public">themis::updates::ClusterUpdateOptions</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_progress" prot="public">themis::updates::ClusterUpdateProgress</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_cluster_update_result" prot="public">themis::updates::ClusterUpdateResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_column_def" prot="public">themis::updates::ColumnDef</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_column_modification" prot="public">themis::updates::ColumnModification</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_coordinated_update_config" prot="public">themis::updates::CoordinatedUpdateConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_coordinated_update_manager" prot="public">themis::updates::CoordinatedUpdateManager</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_coordinated_update_result" prot="public">themis::updates::CoordinatedUpdateResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_delta_apply_result" prot="public">themis::updates::DeltaApplyResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_delta_manifest" prot="public">themis::updates::DeltaManifest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_delta_update_engine" prot="public">themis::updates::DeltaUpdateEngine</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_dependency" prot="public">themis::updates::Dependency</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_dependency_conflict" prot="public">themis::updates::DependencyConflict</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_dependency_resolver" prot="public">themis::updates::DependencyResolver</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_dependency_version_checker" prot="public">themis::updates::DependencyVersionChecker</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_deployment_state" prot="public">themis::updates::DeploymentState</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_diagnostic_emitter" prot="public">themis::updates::DiagnosticEmitter</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_diagnostic_emitter_test" prot="public">themis::updates::DiagnosticEmitterTest</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_diagnostic_listener" prot="public">themis::updates::DiagnosticListener</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_disk_space_checker" prot="public">themis::updates::DiskSpaceChecker</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_download_batch_stats" prot="public">themis::updates::DownloadBatchStats</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_download_result" prot="public">themis::updates::DownloadResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_download_task" prot="public">themis::updates::DownloadTask</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_drop_column_options" prot="public">themis::updates::DropColumnOptions</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_edge_case_result" prot="public">themis::updates::EdgeCaseResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_edge_case_stats" prot="public">themis::updates::EdgeCaseStats</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_error_context" prot="public">themis::updates::ErrorContext</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_evp_md_ctx_raii" prot="public">themis::updates::EvpMdCtxRaii</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_file_delta" prot="public">themis::updates::FileDelta</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_file_raii" prot="public">themis::updates::FileRaii</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_hardware_snapshot" prot="public">themis::updates::HardwareSnapshot</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_hardware_telemetry_reporter" prot="public">themis::updates::HardwareTelemetryReporter</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_health_check_result" prot="public">themis::updates::HealthCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_hot_reload_engine" prot="public">themis::updates::HotReloadEngine</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_hardware_info_provider" prot="public">themis::updates::IHardwareInfoProvider</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_health_check" prot="public">themis::updates::IHealthCheck</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_migration_iterator" prot="public">themis::updates::IMigrationIterator</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_migration_storage" prot="public">themis::updates::IMigrationStorage</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_index_def" prot="public">themis::updates::IndexDef</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_in_place_migration_result" prot="public">themis::updates::InPlaceMigrationResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_in_place_schema_migrator" prot="public">themis::updates::InPlaceSchemaMigrator</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_i_performance_metrics_provider" prot="public">themis::updates::IPerformanceMetricsProvider</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_latency_stats" prot="public">themis::updates::LatencyStats</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_maintenance_window" prot="public">themis::updates::MaintenanceWindow</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_managed_resource" prot="public">themis::updates::ManagedResource</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_manifest_database" prot="public">themis::updates::ManifestDatabase</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_memory_headroom_checker" prot="public">themis::updates::MemoryHeadroomChecker</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_change_preview" prot="public">themis::updates::MigrationChangePreview</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_context" prot="public">themis::updates::MigrationContext</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_migration_error" prot="public">themis::updates::MigrationError</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_result" prot="public">themis::updates::MigrationResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_test_case" prot="public">themis::updates::MigrationTestCase</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_test_case_result" prot="public">themis::updates::MigrationTestCaseResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_migration_test_result" prot="public">themis::updates::MigrationTestResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_node_descriptor" prot="public">themis::updates::NodeDescriptor</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_node_update_status" prot="public">themis::updates::NodeUpdateStatus</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_notification_webhook" prot="public">themis::updates::NotificationWebhook</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_operator_diagnostics" prot="public">themis::updates::OperatorDiagnostics</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_pager_duty_config" prot="public">themis::updates::PagerDutyConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_parallel_downloader" prot="public">themis::updates::ParallelDownloader</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_patch_apply_error" prot="public">themis::updates::PatchApplyError</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_performance_snapshot" prot="public">themis::updates::PerformanceSnapshot</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_preflight_check_result" prot="public">themis::updates::PreflightCheckResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_preflight_health_checker" prot="public">themis::updates::PreflightHealthChecker</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_recovery_procedure" prot="public">themis::updates::RecoveryProcedure</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_release_file" prot="public">themis::updates::ReleaseFile</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_release_manifest" prot="public">themis::updates::ReleaseManifest</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_reload_result" prot="public">themis::updates::ReloadResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_resolution_result" prot="public">themis::updates::ResolutionResult</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_rollback_result" prot="public">themis::updates::RollbackResult</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_rollout_error" prot="public">themis::updates::RolloutError</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_schema_migration" prot="public">themis::updates::SchemaMigration</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_schema_migration_tester" prot="public">themis::updates::SchemaMigrationTester</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_slack_config" prot="public">themis::updates::SlackConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_state_transition_error" prot="public">themis::updates::StateTransitionError</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_system_hardware_info_provider" prot="public">themis::updates::SystemHardwareInfoProvider</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_telemetry_config" prot="public">themis::updates::TelemetryConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_temp_file_raii" prot="public">themis::updates::TempFileRaii</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_temporary_dir_guard" prot="public">themis::updates::TemporaryDirGuard</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_tenant_update_scheduler" prot="public">themis::updates::TenantUpdateScheduler</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_tenant_update_status" prot="public">themis::updates::TenantUpdateStatus</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_batch" prot="public">themis::updates::UpdateBatch</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_engine_base" prot="public">themis::updates::UpdateEngineBase</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_engine_derived" prot="public">themis::updates::UpdateEngineDerived</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_event_payload" prot="public">themis::updates::UpdateEventPayload</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_history_entry" prot="public">themis::updates::UpdateHistoryEntry</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_history_logger" prot="public">themis::updates::UpdateHistoryLogger</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_incident" prot="public">themis::updates::UpdateIncident</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_policy" prot="public">themis::updates::UpdatePolicy</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_updates_config" prot="public">themis::updates::UpdatesConfig</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_updates_edge_case_handler" prot="public">themis::updates::UpdatesEdgeCaseHandler</innerclass>
+    <innerclass refid="classthemis_1_1updates_1_1_update_state_machine" prot="public">themis::updates::UpdateStateMachine</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_step" prot="public">themis::updates::UpdateStep</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_update_transaction_entry" prot="public">themis::updates::UpdateTransactionEntry</innerclass>
+    <innerclass refid="structthemis_1_1updates_1_1_verification_result" prot="public">themis::updates::VerificationResult</innerclass>
+    <innernamespace refid="namespacethemis_1_1updates_1_1benchmark">themis::updates::benchmark</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates_1_1test">themis::updates::test</innernamespace>
+    <innernamespace refid="namespacethemis_1_1updates_1_1testing">themis::updates::testing</innernamespace>
+    <sectiondef kind="enum">
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DeploymentSlot</name>
+        <qualifiedname>themis::updates::DeploymentSlot</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1b3e1ee9bff86431dea6b181365ba65f" prot="public">
+          <name>BLUE</name>
+          <briefdescription>
+<para>First slot – the default initial active slot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a9de0e5dd94e861317e74964bed179fa0" prot="public">
+          <name>GREEN</name>
+          <briefdescription>
+<para>Second slot – used for staged deployments. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a8d069917ec494cc042c27acaad671f52" prot="public">
+          <name>kBlue</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2041391a736228a16328458487d05556a1299e6e2ec6371a79385cd3a862f7cc9" prot="public">
+          <name>kGreen</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Identifies one of two deployment slots. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>At any point exactly one slot is <emphasis>active</emphasis> (serving live traffic) and the other is <emphasis>standby</emphasis> (idle or running the new candidate version). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/blue_green_deployment.h" line="30" column="1" bodyfile="include/updates/blue_green_deployment.h" bodystart="30" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>ClusterNodeState</name>
+        <qualifiedname>themis::updates::ClusterNodeState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6a83fb962e26a218fee9b429eb62dbc6" prot="public">
+          <name>DRAINING</name>
+          <briefdescription>
+<para>Draining active connections before update. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a6af03e66d770a160658b53d1ac9ce3f5" prot="public">
+          <name>APPLYING</name>
+          <briefdescription>
+<para>Applying the update on the node (download + install). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0acee3a250774f2737dbe133597fc3c9bd" prot="public">
+          <name>HEALTH_CHECK</name>
+          <briefdescription>
+<para>Running post-update health check. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a2cd13db0d3dae49248e556109d0386c2" prot="public">
+          <name>REJOINING</name>
+          <briefdescription>
+<para>Node is rejoining the cluster after update. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Update successfully applied and node is healthy. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Update failed (or was not attempted). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0aed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+<para>Node was rolled back to the previous version after failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7330b8d50a823f1480ec17ad47247de0a203ec08f57cb105eeb2b121ba6503b52" prot="public">
+          <name>SKIPPED</name>
+          <briefdescription>
+<para>Node was skipped (e.g., already at target version). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Per-node state within a cluster update. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/cluster_update_manager.h" line="31" column="1" bodyfile="include/updates/cluster_update_manager.h" bodystart="31" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>NodeUpdateState</name>
+        <qualifiedname>themis::updates::NodeUpdateState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ac69f06e1a9b016d133907b4e5f5864d2" prot="public">
+          <name>PENDING</name>
+          <briefdescription>
+<para>Not yet started. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410aca69f96c768067fbff6c911ca87bccc9" prot="public">
+          <name>IN_PROGRESS</name>
+          <briefdescription>
+<para>Update is being applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410a8f7afecbc8fbc4cd0f50a57d1172482e" prot="public">
+          <name>COMPLETED</name>
+          <briefdescription>
+<para>Update successfully applied. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410ab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Update failed (or was not attempted). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ad7750566d217d6192daa966b07dc5410aed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+<para>Update was rolled back after a failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Per-node update state in a coordinated session. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/coordinated_update_manager.h" line="79" column="1" bodyfile="include/updates/coordinated_update_manager.h" bodystart="79" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>PatchAlgorithm</name>
+        <qualifiedname>themis::updates::PatchAlgorithm</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a2bd08bad05935b812bf5f1952a6c1ba4" prot="public">
+          <name>BSDIFF</name>
+          <briefdescription>
+<para>bsdiff – best compression ratio, slower generation </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aa1456db3fdbd5fe2360befb91791ceff" prot="public">
+          <name>XDELTA3</name>
+          <briefdescription>
+<para>xdelta3 – fast, good compression </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797aea47a233c3d7aff43d4c541947f69d13" prot="public">
+          <name>VCDIFF</name>
+          <briefdescription>
+<para>RFC 3284 VCDIFF encoding, compressed with zstd (pure C++). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797a99b99fef5a48ea31c7f4c40a6367883a" prot="public">
+          <name>ZSTD_DICT</name>
+          <briefdescription>
+<para>zstd dictionary-based compression (base file as dict) </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Supported binary patch algorithms. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/delta_update_engine.h" line="28" column="1" bodyfile="include/updates/delta_update_engine.h" bodystart="28" bodyend="33"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UpdateEvent</name>
+        <qualifiedname>themis::updates::UpdateEvent</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5ad1d848f37bfa84efc9a007258eecc6ae" prot="public">
+          <name>UPDATE_SUCCESS</name>
+          <briefdescription>
+<para>A new version was applied successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5a6e565897dfd09c42173e86b93f5751c5" prot="public">
+          <name>UPDATE_FAILED</name>
+          <briefdescription>
+<para>Applying a new version failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5a95c89c7311aa57f5f4102a203d855298" prot="public">
+          <name>ROLLBACK_SUCCESS</name>
+          <briefdescription>
+<para>A rollback completed successfully. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a1c20f6c63fdcff1f1f6ccbccbaaa6eb5aab4bdb9a0f526aff52468b8d460abb2b" prot="public">
+          <name>ROLLBACK_FAILED</name>
+          <briefdescription>
+<para>A rollback attempt failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Type of update lifecycle event triggering a notification. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/notification_webhook.h" line="25" column="1" bodyfile="include/updates/notification_webhook.h" bodystart="25" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RollbackStrategy</name>
+        <qualifiedname>themis::updates::RollbackStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181a008f6cdd0c190839e9885cf9f9e2a652" prot="public">
+          <name>AUTOMATIC</name>
+          <briefdescription>
+<para>Roll back all applied steps automatically on any failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a251c676450ea8e5fdca35b56b15cc181aa60a6a471c0681e5a49c4f5d00f6bc5a" prot="public">
+          <name>MANUAL</name>
+          <briefdescription>
+<para>Leave the database in the failed state; caller handles rollback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Strategy used when a migration encounters an error. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="40" column="1" bodyfile="include/updates/schema_migration.h" bodystart="40" bodyend="43"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfc" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>OnlineDDLPhase</name>
+        <qualifiedname>themis::updates::OnlineDDLPhase</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcaa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+<para>No migration in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcacbf80ffef5186173a7a6cfcde62c0ea2" prot="public">
+          <name>SHADOW_CREATE</name>
+          <briefdescription>
+<para>Shadow table created with new schema. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcabfbc61f0b55c64bf9745cc2918cfb3d6" prot="public">
+          <name>DUAL_WRITE</name>
+          <briefdescription>
+<para>Writes replicated to both main and shadow tables. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfca8736bfdf193f959cb26399152d79e584" prot="public">
+          <name>BACKFILL</name>
+          <briefdescription>
+<para>Historical rows being copied to shadow table. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfca9c28f82f7589ec786410a6723417d568" prot="public">
+          <name>CONSISTENCY_CHECK</name>
+          <briefdescription>
+<para>Data consistency between tables being verified. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcab24abf31dbf1f65e29257a61c20abdaf" prot="public">
+          <name>ATOMIC_SWAP</name>
+          <briefdescription>
+<para>Shadow table atomically renamed to replace main. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfca3bdb81b260b21a403c3e23fadf1e8f7c" prot="public">
+          <name>CLEANUP</name>
+          <briefdescription>
+<para>Old (main) table dropped; migration complete. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a2dd1953b5da3cfd4ecc79c252b294dfcaed701d1c3d474e00c7a2f416f8d6858c" prot="public">
+          <name>ROLLED_BACK</name>
+          <briefdescription>
+<para>Migration rolled back after failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Phase of the online DDL algorithm. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/schema_migration.h" line="48" column="1" bodyfile="include/updates/schema_migration.h" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UpdatePriority</name>
+        <qualifiedname>themis::updates::UpdatePriority</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204a99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Security patches and data-integrity fixes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204a1e23852820b9154316c7c06e2b7ba051" prot="public">
+          <name>NORMAL</name>
+          <briefdescription>
+<para>Feature releases and minor patches. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a1130798a8742ca2057bbbe0bd9852204a41bc94cbd8eebea13ce0491b2ac11b88" prot="public">
+          <name>LOW</name>
+          <briefdescription>
+<para>Optional enhancements; applied only when explicitly approved. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Priority tier for an update. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Determines scheduling and consent rules:<itemizedlist>
+<listitem><para>CRITICAL : when <computeroutput><ref refid="structthemis_1_1updates_1_1_update_policy_1a1d1ad4a19c56edb5e67f8ce7955f2a6e" kindref="member">UpdatePolicy::critical_auto_update</ref></computeroutput> is true, bypasses blackout periods, maintenance-window restrictions, and the manual-consent requirement.</para>
+</listitem><listitem><para>NORMAL : follows regular maintenance windows and consent rules.</para>
+</listitem><listitem><para>LOW : treated identically to NORMAL by the scheduler (follows maintenance windows and consent rules); callers may use this tier as a semantic hint, but no special deferral logic is applied automatically. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/tenant_update_scheduler.h" line="44" column="1" bodyfile="include/updates/tenant_update_scheduler.h" bodystart="44" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daa" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>UpdatesError</name>
+        <qualifiedname>themis::updates::UpdatesError</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaf80e32da8beb05fa5c71267998ea0c9a" prot="public">
+          <name>kNoRollbackTarget</name>
+          <initializer>= 7400</initializer>
+          <briefdescription>
+<para>No prior deployment slot to roll back to. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa7e296be9253ed9ec1f9e2a6910459740" prot="public">
+          <name>kChecksumMismatch</name>
+          <initializer>= 7401</initializer>
+          <briefdescription>
+<para>Artifact checksum validation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa06191f02e256f57553faf1ad941b7308" prot="public">
+          <name>kArtifactMissing</name>
+          <initializer>= 7402</initializer>
+          <briefdescription>
+<para>Required build artifact not found. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa9de7962ec8946f55afde6f4bd67609c7" prot="public">
+          <name>kPatchIncompatible</name>
+          <initializer>= 7403</initializer>
+          <briefdescription>
+<para>Patch incompatible with running version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaa306f6148ff0bb8762477c4ee29c51ed4" prot="public">
+          <name>kSwitchInProgress</name>
+          <initializer>= 7404</initializer>
+          <briefdescription>
+<para>Traffic switch already in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5aa874734e9182aff5a36ba1de982daaaa9310378f62c7c151bcf1ecd606df526" prot="public">
+          <name>kCanaryAborted</name>
+          <initializer>= 7405</initializer>
+          <briefdescription>
+<para>Canary rollout aborted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Error codes for the updates module. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_api_contract.h" line="67" column="1" bodyfile="include/updates/updates_api_contract.h" bodystart="67" bodyend="74"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8" prot="public" static="no" strong="yes">
+        <type>int32_t</type>
+        <name>DeploymentSlot</name>
+        <qualifiedname>themis::updates::DeploymentSlot</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8a1b3e1ee9bff86431dea6b181365ba65f" prot="public">
+          <name>BLUE</name>
+          <briefdescription>
+<para>First slot – the default initial active slot. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8a9de0e5dd94e861317e74964bed179fa0" prot="public">
+          <name>GREEN</name>
+          <briefdescription>
+<para>Second slot – used for staged deployments. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8a8d069917ec494cc042c27acaad671f52" prot="public">
+          <name>kBlue</name>
+          <initializer>= 0</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1ac7aca241fc526ccaae5884e741fd6ce8a1299e6e2ec6371a79385cd3a862f7cc9" prot="public">
+          <name>kGreen</name>
+          <initializer>= 1</initializer>
+          <briefdescription>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Deployment slot identifier. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_api_contract.h" line="77" column="1" bodyfile="include/updates/updates_api_contract.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" prot="public" static="no" strong="yes">
+        <type>uint16_t</type>
+        <name>DiagnosticErrorCode</name>
+        <qualifiedname>themis::updates::DiagnosticErrorCode</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a31f101efbfd415022a25b20a84f724bf" prot="public">
+          <name>STATE_INVALID_TRANSITION</name>
+          <initializer>= 7400</initializer>
+          <briefdescription>
+<para>Attempted invalid state transition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ab7a7c50d6df6c55ec368fafdc16a811b" prot="public">
+          <name>STATE_ALREADY_IN_PROGRESS</name>
+          <initializer>= 7401</initializer>
+          <briefdescription>
+<para>Another update already in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a22b2012289d77eae452faa2e5f73ca0f" prot="public">
+          <name>STATE_FAILED_LOCKED</name>
+          <initializer>= 7402</initializer>
+          <briefdescription>
+<para>State locked in FAILED; requires reset. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a33bd1b253ab38075f0ae5bcdb324d8f3" prot="public">
+          <name>STATE_TRANSITION_TIMEOUT</name>
+          <initializer>= 7403</initializer>
+          <briefdescription>
+<para>State transition did not complete in time. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ae5b6ee8cc63423ca5427998df0e7a857" prot="public">
+          <name>STATE_HISTORY_CORRUPT</name>
+          <initializer>= 7404</initializer>
+          <briefdescription>
+<para>Persisted state history corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a9d76b637cc37202908efda43adf60422" prot="public">
+          <name>ROLLBACK_CHECKPOINT_NOT_FOUND</name>
+          <initializer>= 7420</initializer>
+          <briefdescription>
+<para>Target checkpoint does not exist. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a3767353561d244f58e9406d15c9a1855" prot="public">
+          <name>ROLLBACK_NO_CHECKPOINTS</name>
+          <initializer>= 7421</initializer>
+          <briefdescription>
+<para>No checkpoints available for rollback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465aab4bdb9a0f526aff52468b8d460abb2b" prot="public">
+          <name>ROLLBACK_FAILED</name>
+          <initializer>= 7422</initializer>
+          <briefdescription>
+<para>Rollback operation failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a39803f651a2a6f0db3bde726b6cac6a5" prot="public">
+          <name>ROLLBACK_CASCADE_DETECTED</name>
+          <initializer>= 7423</initializer>
+          <briefdescription>
+<para>Rollback cascade prevented. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ad971c346c419c04bea79ba1c6a376cc2" prot="public">
+          <name>ROLLBACK_PARTIAL_SUCCESS</name>
+          <initializer>= 7424</initializer>
+          <briefdescription>
+<para>Partial rollback succeeded; some nodes failed. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ae7f7baaae57178400684c9e634b3e53a" prot="public">
+          <name>ROLLBACK_DEFERRED</name>
+          <initializer>= 7425</initializer>
+          <briefdescription>
+<para>Rollback queued for retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a10c14172694bf1e969f7d4602267982a" prot="public">
+          <name>ROLLBACK_ISOLATION_ACTIVE</name>
+          <initializer>= 7426</initializer>
+          <briefdescription>
+<para>Node isolation in place from prior rollback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ac42b06114f062d1a8652221fe1c63d04" prot="public">
+          <name>PATCH_APPLY_FAILED</name>
+          <initializer>= 7440</initializer>
+          <briefdescription>
+<para>Failed to apply delta patch. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a3431eeb7a9a6c5d8388455441e306cd5" prot="public">
+          <name>PATCH_CHECKSUM_MISMATCH</name>
+          <initializer>= 7441</initializer>
+          <briefdescription>
+<para>File checksum does not match manifest. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465adc59d50974013645f1caca6196777b35" prot="public">
+          <name>PATCH_INCOMPATIBLE_BASE</name>
+          <initializer>= 7442</initializer>
+          <briefdescription>
+<para>Patch incompatible with current version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a9eed6b215808ee9b195e231bdf0bfe1d" prot="public">
+          <name>PATCH_INCOMPLETE</name>
+          <initializer>= 7443</initializer>
+          <briefdescription>
+<para>Patch file incomplete or truncated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a9ae4829dcb165378643bd1f4980b7794" prot="public">
+          <name>PATCH_DECODE_ERROR</name>
+          <initializer>= 7444</initializer>
+          <briefdescription>
+<para>Failed to decode patch format. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465af0fc848d79f32c305a5d9c0155192ba3" prot="public">
+          <name>NETWORK_PARTITION</name>
+          <initializer>= 7460</initializer>
+          <briefdescription>
+<para>Network partition detected. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a6185c0c1a8b7affb246ad18947c9b3ae" prot="public">
+          <name>COORDINATION_TIMEOUT</name>
+          <initializer>= 7461</initializer>
+          <briefdescription>
+<para>Coordination timeout waiting for peer. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ae86151a65f068027a551bfc9801590d4" prot="public">
+          <name>COORDINATION_PEER_FAILED</name>
+          <initializer>= 7462</initializer>
+          <briefdescription>
+<para>Peer node failed during coordination. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a0add9a424fc9ec2cf4a77dac7f45cc7c" prot="public">
+          <name>COORDINATION_QUORUM_LOST</name>
+          <initializer>= 7463</initializer>
+          <briefdescription>
+<para>Lost quorum during coordinated update. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a444e2e3b1e84fdfd24066bf26316787a" prot="public">
+          <name>COORDINATION_ORDERING_VIOLATION</name>
+          <initializer>= 7464</initializer>
+          <briefdescription>
+<para>Update sequence order violated. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465ab483ec80acedb354b20055b1f9064247" prot="public">
+          <name>CASCADE_DETECTED</name>
+          <initializer>= 7480</initializer>
+          <briefdescription>
+<para>Cascading failure detected and stopped. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465aa156fbc7dc93fa037b4a888d7de9d076" prot="public">
+          <name>DATA_LOSS_RISK</name>
+          <initializer>= 7481</initializer>
+          <briefdescription>
+<para>Operation carries data loss risk. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a5a2ff7a2f2c3b40268e57995408f8e9d" prot="public">
+          <name>UNSUPPORTED_OPERATION</name>
+          <initializer>= 7482</initializer>
+          <briefdescription>
+<para>Operation not supported in current state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a4a739fa42dcdbdb8dfe5a5e4d9c5a627" prot="public">
+          <name>RESOURCE_EXHAUSTED</name>
+          <initializer>= 7483</initializer>
+          <briefdescription>
+<para>System resources exhausted (e.g., disk, memory). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465a9a10f345b0f755d461a8673a5e9ef6b4" prot="public">
+          <name>UNKNOWN_ERROR</name>
+          <initializer>= 7499</initializer>
+          <briefdescription>
+<para>Unknown/unclassified error. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Unified error codes for the Updates module. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Range: 7400–7499 (100 codes)<itemizedlist>
+<listitem><para>7400–7419: State machine errors</para>
+</listitem><listitem><para>7420–7439: Rollback and checkpoint errors</para>
+</listitem><listitem><para>7440–7459: Patch application errors</para>
+</listitem><listitem><para>7460–7479: Network/coordination errors</para>
+</listitem><listitem><para>7480–7499: Miscellaneous/cascade errors </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="46" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="46" bodyend="83"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>DiagnosticSeverity</name>
+        <qualifiedname>themis::updates::DiagnosticSeverity</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da551b723eafd6a31d444fcb2f5920fbd3" prot="public">
+          <name>INFO</name>
+          <briefdescription>
+<para>Normal operation progress; no action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da32bd8a1db2275458673903bdb84cb277" prot="public">
+          <name>WARN</name>
+          <briefdescription>
+<para>Degraded path or retry in progress; monitor. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57dabb1ca97ec761fc37101737ba0aa2e7c5" prot="public">
+          <name>ERROR</name>
+          <briefdescription>
+<para>Operation failed but isolated to single node/operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57da99cd1c61610c76a57cb8d10d6df6b870" prot="public">
+          <name>CRITICAL</name>
+          <briefdescription>
+<para>Unrecoverable failure or data loss risk; immediate action required. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Severity level for diagnostic events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Used to prioritize operator attention and automation response. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="90" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="90" bodyend="95"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RootCauseClass</name>
+        <qualifiedname>themis::updates::RootCauseClass</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa4fa14085f6ffdab537a4db71c596ddd0" prot="public">
+          <name>ARTIFACT</name>
+          <briefdescription>
+<para>Corrupted or invalid update artifact. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aab9493189e36ddf81cabe5a2c63f62bc3" prot="public">
+          <name>CHECKSUM</name>
+          <briefdescription>
+<para>Integrity check failure (hash, signature, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa1cc8525d85aba163458b6c05d94a8a8e" prot="public">
+          <name>INCOMPATIBILITY</name>
+          <briefdescription>
+<para>Version/schema/format incompatibility. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa25835188a2355e9530d3a10fcbe4c65b" prot="public">
+          <name>NETWORK</name>
+          <briefdescription>
+<para>Network connectivity or partition. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aab8743560872184e487aa025cf47ad68a" prot="public">
+          <name>CASCADE</name>
+          <briefdescription>
+<para>Cascading failure from upstream operation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa2b848a8cc886d253d21a77c43cd50aae" prot="public">
+          <name>STATE</name>
+          <briefdescription>
+<para>Invalid or unexpected state machine state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa4f49da9035f276c0947466eb7c42249a" prot="public">
+          <name>RESOURCE</name>
+          <briefdescription>
+<para>Resource exhaustion (disk, memory, etc.). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7aa696b031073e74bf2cb98e5ef201d4aa3" prot="public">
+          <name>UNKNOWN</name>
+          <briefdescription>
+<para>Root cause unknown. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Root cause classification for an error. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Helps operators and automated systems diagnose and respond appropriately. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="102" column="1" bodyfile="include/updates/updates_diagnostics.h" bodystart="102" bodyend="111"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24a" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>FailureScenario</name>
+        <qualifiedname>themis::updates::FailureScenario</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa14e2e5f315d2433967a8b8501b7bf15c" prot="public">
+          <name>COORDINATOR_UNREACHABLE</name>
+          <briefdescription>
+<para>Coordinator timeout and canary cycles. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa5b89ae69537702092f0a50324a7781c7" prot="public">
+          <name>PARTIAL_MIGRATION_FAILURE</name>
+          <briefdescription>
+<para>Migration fails on subset of nodes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aaa10e957831f5d40d23df3ed4b09b4ee4" prot="public">
+          <name>CANARY_TIMEOUT_CYCLE</name>
+          <briefdescription>
+<para>Canary repeatedly times out. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa90ff1a1b6d215971134696ea2da3c907" prot="public">
+          <name>BLUE_GREEN_ROLLBACK_FAILURE</name>
+          <briefdescription>
+<para>Node failure during rollback. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aae4298182e52c2b757c6e980a84a72acf" prot="public">
+          <name>RESOURCE_EXHAUSTION</name>
+          <briefdescription>
+<para>Memory, disk, file handle limits hit. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa2fe963b63d8d2a8165a97d6fae8f55a3" prot="public">
+          <name>MANIFEST_CORRUPTION</name>
+          <briefdescription>
+<para>Update artifact corrupted. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa797b069b1b04ddfbaa9aba018fdc3273" prot="public">
+          <name>CLUSTER_PARTITION</name>
+          <briefdescription>
+<para>Network partition in cluster. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a297081975ca4fb354d0f52dd369dd24aa87a52d62b0159f1b141728f36da1dc1d" prot="public">
+          <name>DEADLOCK_RACE_CONDITION</name>
+          <briefdescription>
+<para>Mutual dependency or concurrent access issue. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Enumeration of common failure scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Each scenario has diagnostic symptoms, root causes, and proven recovery procedures. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="45" column="1" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="45" bodyend="54"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8af" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RecoveryAction</name>
+        <qualifiedname>themis::updates::RecoveryAction</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaf7c607da1cb078ebdbfd6a5f5af30c7d" prot="public">
+          <name>IMMEDIATE_ABORT</name>
+          <briefdescription>
+<para>Abort current operation immediately. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa6c73198023cd851dfeda3f7865d8ccd9" prot="public">
+          <name>ISOLATED_ROLLBACK</name>
+          <briefdescription>
+<para>Rollback on affected node only. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa5a3de987a830c29a312b1cbe4d7135b0" prot="public">
+          <name>FULL_CLUSTER_ROLLBACK</name>
+          <briefdescription>
+<para>Rollback all nodes to prior state. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afab5b5842849c3388d9c676a7377d3b4ed" prot="public">
+          <name>RESOURCE_CLEANUP</name>
+          <briefdescription>
+<para>Free resources and retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa0597701cd80d04f364980f9752bcf070" prot="public">
+          <name>MANUAL_INTERVENTION</name>
+          <briefdescription>
+<para>Requires operator investigation. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afaec7a8dc0566aedc08aab5d272838a636" prot="public">
+          <name>GRACEFUL_DEGRADE</name>
+          <briefdescription>
+<para>Degrade to read-only or partial mode. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a21ecbc1034e7b1e9a5653951e048f8afa448d97e44f52322670fac70cee727f66" prot="public">
+          <name>RESTART_COORDINATOR</name>
+          <briefdescription>
+<para>Restart coordinator and retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Recovery action type for a failure scenario. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_operator_diagnostics.h" line="59" column="1" bodyfile="include/updates/updates_operator_diagnostics.h" bodystart="59" bodyend="67"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>UpdateState</name>
+        <qualifiedname>themis::updates::UpdateState</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecaa5daf7f2ebbba4975d61dab1c40188c7" prot="public">
+          <name>IDLE</name>
+          <briefdescription>
+<para>No update in progress. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca35045f0a8eec8847a85db7df2624c390" prot="public">
+          <name>DOWNLOADING</name>
+          <briefdescription>
+<para>Downloading release files. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca4ea687957de9caaad1e098e3e95aae9e" prot="public">
+          <name>VERIFYING</name>
+          <briefdescription>
+<para>Verifying signatures and hashes. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca6af03e66d770a160658b53d1ac9ce3f5" prot="public">
+          <name>APPLYING</name>
+          <briefdescription>
+<para>Atomically applying file updates. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbeca704940fadc36a1ea05e200e3ccaeb298" prot="public">
+          <name>ROLLING_BACK</name>
+          <briefdescription>
+<para>Rolling back to previous version. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbecab9e14d9b2886bcff408b85aefa780419" prot="public">
+          <name>FAILED</name>
+          <briefdescription>
+<para>Unrecoverable failure; requires manual reset. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>States for the update state machine. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>State transitions: IDLE → DOWNLOADING → VERIFYING → APPLYING → IDLE (success) → ROLLING_BACK → IDLE Any state → FAILED (on unrecoverable error) FAILED → IDLE (after reset) </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="41" column="1" bodyfile="include/updates/update_state_machine.h" bodystart="41" bodyend="48"/>
+      </memberdef>
+      <memberdef kind="enum" id="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cb" prot="public" static="no" strong="yes">
+        <type></type>
+        <name>RollbackFallbackStrategy</name>
+        <qualifiedname>themis::updates::RollbackFallbackStrategy</qualifiedname>
+        <enumvalue id="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cbaf7c607da1cb078ebdbfd6a5f5af30c7d" prot="public">
+          <name>IMMEDIATE_ABORT</name>
+          <briefdescription>
+<para>Stop on first rollback failure (fail-fast). </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cbade6b8bc172e42b37eb67273d3a4718e5" prot="public">
+          <name>PARTIAL_CONTINUE</name>
+          <briefdescription>
+<para>Continue rolling back other nodes despite local failure. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <enumvalue id="namespacethemis_1_1updates_1a792bd5fd2184366a191fd40223c960cba7f5e3f26a1a530c4cc7f9b80e963e9cc" prot="public">
+          <name>DEFER</name>
+          <briefdescription>
+<para>Queue failed rollback for later retry. </para>
+          </briefdescription>
+          <detaileddescription>
+          </detaileddescription>
+        </enumvalue>
+        <briefdescription>
+<para>Strategy for handling rollback failures in coordinated scenarios. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="since"><para>1.8.1 (Q3 2026) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="80" column="1" bodyfile="include/updates/update_state_machine.h" bodystart="80" bodyend="84"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="typedef">
+      <memberdef kind="typedef" id="namespacethemis_1_1updates_1a686689d5d57b36622545599b8f390585" prot="public" static="no">
+        <type>std::function&lt; int(const int &amp;)&gt;</type>
+        <definition>using themis::updates::ConstCorrectCallback = std::function&lt;int(const int&amp;)&gt;</definition>
+        <argsstring></argsstring>
+        <name>ConstCorrectCallback</name>
+        <qualifiedname>themis::updates::ConstCorrectCallback</qualifiedname>
+        <briefdescription>
+<para>Example of const-correct callback. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7507</para>
+</simplesect>
+Pattern for <ref refid="hot__reload__engine_8cpp" kindref="compound">hot_reload_engine.cpp</ref>:289 Callback signatures should mark const parameters:</para>
+<para>// BAD: non-const when it should be const std::function&lt;int(int&amp;)&gt; bad_callback = ...;</para>
+<para>// GOOD: const where appropriate std::function&lt;int(const int&amp;)&gt; good_callback = ...; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="339" column="1" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="339" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1updates_1a4c9cf7564a0748b1a15a2e95df137237" prot="public" static="no">
+        <type>std::function&lt; bool(const std::string &amp;, const std::string &amp;, const std::string &amp;, int)&gt;</type>
+        <definition>using themis::updates::TelemetryHttpSendFunc = 
+std::function&lt;bool(const std::string&amp; ,
+                   const std::string&amp; ,
+                   const std::string&amp; ,
+                   int               )&gt;</definition>
+        <argsstring></argsstring>
+        <name>TelemetryHttpSendFunc</name>
+        <qualifiedname>themis::updates::TelemetryHttpSendFunc</qualifiedname>
+        <briefdescription>
+<para>Callable type for sending an HTTP POST request. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Signature: <computeroutput>bool(url, body, content_type, timeout_seconds)</computeroutput><itemizedlist>
+<listitem><para>Returns <computeroutput>true</computeroutput> on HTTP 2xx.</para>
+</listitem><listitem><para>Returns <computeroutput>false</computeroutput> on network error or non-2xx response. </para>
+</listitem></itemizedlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/hardware_telemetry.h" line="270" column="1" bodyfile="include/updates/hardware_telemetry.h" bodystart="270" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1updates_1a13a155834bfa40c77e92bfa6f6efdb7e" prot="public" static="no">
+        <type>nlohmann::json</type>
+        <definition>using themis::updates::json = nlohmann::json</definition>
+        <argsstring></argsstring>
+        <name>json</name>
+        <qualifiedname>themis::updates::json</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/release_manifest.h" line="23" column="1" bodyfile="include/updates/release_manifest.h" bodystart="23" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" prot="public" static="no">
+        <type>uint64_t</type>
+        <definition>using themis::updates::CheckpointId = uint64_t</definition>
+        <argsstring></argsstring>
+        <name>CheckpointId</name>
+        <qualifiedname>themis::updates::CheckpointId</qualifiedname>
+        <briefdescription>
+<para>Opaque identifier returned by createCheckpoint() and accepted by rollbackToCheckpoint(). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="74" column="1" bodyfile="include/updates/update_state_machine.h" bodystart="74" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="typedef" id="namespacethemis_1_1updates_1aa2adf9885ab5b481c03be9fb6b435232" prot="public" static="no">
+        <type>std::function&lt; void(<ref refid="namespacethemis_1_1updates_1a402302f9032b9407b094bbd9b6ee8947" kindref="member">CheckpointId</ref> checkpoint_id, bool success, const std::string &amp;error_msg)&gt;</type>
+        <definition>using themis::updates::RollbackCallback = std::function&lt;void(CheckpointId checkpoint_id, 
+                                           bool success, 
+                                           const std::string&amp; error_msg)&gt;</definition>
+        <argsstring></argsstring>
+        <name>RollbackCallback</name>
+        <qualifiedname>themis::updates::RollbackCallback</qualifiedname>
+        <briefdescription>
+<para>Callback for handling rollback completion or failure. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Invoked after rollbackToCheckpoint() completes (success or failure). Allows callers to implement custom recovery logic.</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>checkpoint_id</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>The checkpoint that was rolled back to </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>success</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>true if rollback succeeded, false otherwise </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>error_msg</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Error description (empty if success) </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="since"><para>1.8.1 (Q3 2026) </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/update_state_machine.h" line="97" column="1" bodyfile="include/updates/update_state_machine.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="var">
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1a4c55ed1a3af3f64475d008419b3e43b8" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>int</type>
+        <definition>int themis::updates::NODE_NOT_FOUND</definition>
+        <argsstring></argsstring>
+        <name>NODE_NOT_FOUND</name>
+        <qualifiedname>themis::updates::NODE_NOT_FOUND</qualifiedname>
+        <initializer>= -1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/cluster_update_manager.cpp" line="75" column="22" bodyfile="src/updates/cluster_update_manager.cpp" bodystart="75" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1acc6fe05573de3307bd54944e1c3937ae" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::updates::MAGIC_ZSTD[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>MAGIC_ZSTD</name>
+        <qualifiedname>themis::updates::MAGIC_ZSTD</qualifiedname>
+        <initializer>= {&apos;T&apos;,&apos;D&apos;,&apos;L&apos;,&apos;T&apos;,&apos;Z&apos;,&apos;S&apos;,&apos;T&apos;,&apos;D&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="156" column="26" bodyfile="src/updates/delta_update_engine.cpp" bodystart="156" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1a8e157a85ec1a15432a2577fa56416334" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::updates::MAGIC_VCD[8]</definition>
+        <argsstring>[8]</argsstring>
+        <name>MAGIC_VCD</name>
+        <qualifiedname>themis::updates::MAGIC_VCD</qualifiedname>
+        <initializer>= {&apos;T&apos;,&apos;D&apos;,&apos;L&apos;,&apos;T&apos;,&apos;V&apos;,&apos;C&apos;,&apos;D&apos;,&apos;\x01&apos;}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="157" column="26" bodyfile="src/updates/delta_update_engine.cpp" bodystart="157" bodyend="157"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1acc8bab0a81ae4e5dd2c600ef38a0c298" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::updates::INSTR_ADD</definition>
+        <argsstring></argsstring>
+        <name>INSTR_ADD</name>
+        <qualifiedname>themis::updates::INSTR_ADD</qualifiedname>
+        <initializer>= 0x01</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="158" column="26" bodyfile="src/updates/delta_update_engine.cpp" bodystart="158" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1a1275f362be858f88bcf910654a5124eb" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>uint8_t</type>
+        <definition>uint8_t themis::updates::INSTR_COPY</definition>
+        <argsstring></argsstring>
+        <name>INSTR_COPY</name>
+        <qualifiedname>themis::updates::INSTR_COPY</qualifiedname>
+        <initializer>= 0x02</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="159" column="26" bodyfile="src/updates/delta_update_engine.cpp" bodystart="159" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1a22c2cc5a9d2e94a84ddf2eb3777441bc" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::WINDOW_SIZE</definition>
+        <argsstring></argsstring>
+        <name>WINDOW_SIZE</name>
+        <qualifiedname>themis::updates::WINDOW_SIZE</qualifiedname>
+        <initializer>= 16 * 1024</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="1045" column="25" bodyfile="src/updates/delta_update_engine.cpp" bodystart="1045" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="namespacethemis_1_1updates_1a435f17c76e2905844bda18d2ce40ce11" prot="public" static="yes" constexpr="yes" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::updates::MIN_COPY_LEN</definition>
+        <argsstring></argsstring>
+        <name>MIN_COPY_LEN</name>
+        <qualifiedname>themis::updates::MIN_COPY_LEN</qualifiedname>
+        <initializer>= 8</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="1046" column="25" bodyfile="src/updates/delta_update_engine.cpp" bodystart="1046" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="namespacethemis_1_1updates_1af2ffa4787f6eb129eafe5296309c77a8" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::updates::safe_multiply_size</definition>
+        <argsstring>(size_t a, size_t b)</argsstring>
+        <name>safe_multiply_size</name>
+        <qualifiedname>themis::updates::safe_multiply_size</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>a</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>b</declname>
+        </param>
+        <briefdescription>
+<para>Safely multiply two size_t values with overflow detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>a</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>First value </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>b</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Second value </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>a * b if safe </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if multiplication would overflow </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Error Code: 7500</para>
+</simplesect>
+Usage: size_t result = safe_multiply_size(cur_size, count); void* dest = realloc(buffer, result); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="48" column="15" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="48" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a5ae75d83dbf8b827334a0b7b47bfb58b" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void *</type>
+        <definition>void * themis::updates::safe_realloc</definition>
+        <argsstring>(void *ptr, size_t cur_size, size_t count)</argsstring>
+        <name>safe_realloc</name>
+        <qualifiedname>themis::updates::safe_realloc</qualifiedname>
+        <param>
+          <type>void *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>cur_size</declname>
+        </param>
+        <param>
+          <type>size_t</type>
+          <declname>count</declname>
+        </param>
+        <briefdescription>
+<para>Safely multiply and allocate memory with overflow detection. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername>ptr</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Current buffer pointer (can be nullptr) </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>cur_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Size of individual elements </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of elements </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Newly allocated buffer </para>
+</simplesect>
+<parameterlist kind="exception"><parameteritem>
+<parameternamelist>
+<parametername>std::overflow_error</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if multiplication overflows </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername>std::bad_alloc</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>if allocation fails </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Error Code: 7500</para>
+</simplesect>
+Example: void* buffer = safe_realloc(nullptr, sizeof(int), 1000); </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="72" column="13" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="72" bodyend="81"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a4a5a08adb0f4adbf1730f92fdbec86ca" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::build_error_message</definition>
+        <argsstring>(const std::string &amp;operation, int retry_count, const std::string &amp;reason)</argsstring>
+        <name>build_error_message</name>
+        <qualifiedname>themis::updates::build_error_message</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>operation</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>retry_count</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>reason</declname>
+        </param>
+        <briefdescription>
+<para>Efficient error message construction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7505</para>
+</simplesect>
+Pattern for <ref refid="parallel__downloader_8cpp" kindref="compound">parallel_downloader.cpp</ref>:512 Avoid excessive string copies in error paths:</para>
+<para>// BAD: Multiple copies std::string msg = &quot;Error: &quot; + &quot;retry &quot; + std::to_string(n) + &quot; failed&quot;;</para>
+<para>// GOOD: Single build operation std::string msg; msg.reserve(100); // Pre-allocate if needed msg += &quot;Error: retry &quot;; msg += std::to_string(n); msg += &quot; failed&quot;; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="284" column="20" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="284" bodyend="296"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a98545096d79622ac228d2e776381fcd0" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>void</type>
+        <definition>void themis::updates::demonstrate_lambda_capture</definition>
+        <argsstring>(const T &amp;used_value)</argsstring>
+        <name>demonstrate_lambda_capture</name>
+        <qualifiedname>themis::updates::demonstrate_lambda_capture</qualifiedname>
+        <param>
+          <type>const T &amp;</type>
+          <declname>used_value</declname>
+        </param>
+        <briefdescription>
+<para>Example of proper lambda capture. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7506</para>
+</simplesect>
+Pattern for <ref refid="manifest__database_8cpp" kindref="compound">manifest_database.cpp</ref>:378 Only capture what is actually used:</para>
+<para>// BAD: unused_var captured but not used auto bad_lambda = [used_var, unused_var]() { return used_var; };</para>
+<para>// GOOD: Only used variables captured auto good_lambda = [used_var]() { return used_var; }; </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="316" column="13" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="316" bodyend="320"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a3f22f467e9044d578bb5b8edbc8b2a7d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>std::vector&lt; T &gt;</type>
+        <definition>std::vector&lt; T &gt; themis::updates::make_vector_safe</definition>
+        <argsstring>()</argsstring>
+        <name>make_vector_safe</name>
+        <qualifiedname>themis::updates::make_vector_safe</qualifiedname>
+        <briefdescription>
+<para>Example of vector move semantics in return. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7508</para>
+</simplesect>
+Pattern for <ref refid="dependency__resolver_8cpp" kindref="compound">dependency_resolver.cpp</ref>:267 Ensure vectors are moved, not copied:</para>
+<para>// This is already optimized with RVO/move: std::vector&lt;int&gt; make_vector() { std::vector&lt;int&gt; v = {1, 2, 3}; return v; // Compiler applies RVO or move semantics } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="359" column="20" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="359" bodyend="364"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1ac9e847799ef207d5684633b4eeee048d" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <templateparamlist>
+          <param>
+            <type>typename T</type>
+          </param>
+        </templateparamlist>
+        <type>T *</type>
+        <definition>T * themis::updates::get_value</definition>
+        <argsstring>(T *ptr, const T &amp;default_value)</argsstring>
+        <name>get_value</name>
+        <qualifiedname>themis::updates::get_value</qualifiedname>
+        <param>
+          <type>T *</type>
+          <declname>ptr</declname>
+        </param>
+        <param>
+          <type>const T &amp;</type>
+          <declname>default_value</declname>
+        </param>
+        <briefdescription>
+<para>Example of consistent null check ordering. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7510</para>
+</simplesect>
+Pattern for <ref refid="tenant__update__scheduler_8cpp" kindref="compound">tenant_update_scheduler.cpp</ref>:195 Check for null BEFORE dereferencing:</para>
+<para>// BAD: implicit null check buried auto it = map.find(key); if (it != map.end()) { ... } // OK but less clear</para>
+<para>// GOOD: Explicit null check first if (ptr != nullptr) { *ptr = value; } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="423" column="10" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="423" bodyend="429"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1af765b680329498603b4a4a81b6394069" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::updates::safe_size_comparison</definition>
+        <argsstring>(size_t size_value, int count_value)</argsstring>
+        <name>safe_size_comparison</name>
+        <qualifiedname>themis::updates::safe_size_comparison</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>size_value</declname>
+        </param>
+        <param>
+          <type>int</type>
+          <declname>count_value</declname>
+        </param>
+        <briefdescription>
+<para>Safe comparison between size_t and int. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Error Code: 7511</para>
+</simplesect>
+Pattern for <ref refid="notification__webhook_8cpp" kindref="compound">notification_webhook.cpp</ref>:304 Avoid implicit conversions in size_t/int comparisons:</para>
+<para>// BAD: implicit conversion warning if (size_t_var &gt; int_var) { ... }</para>
+<para>// GOOD: explicit cast or use same type if (static_cast&lt;int&gt;(size_t_var) &gt; int_var) { ... } if (size_t_var &gt; static_cast&lt;size_t&gt;(int_var)) { ... } </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/batch5_safety_helpers.h" line="449" column="13" bodyfile="include/updates/batch5_safety_helpers.h" bodystart="449" bodyend="455"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1acc805158e8e3fc33153f1b3910a55f1f" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="structthemis_1_1updates_1_1_build_verification_result" kindref="compound">BuildVerificationResult</ref></type>
+        <definition>BuildVerificationResult themis::updates::verifyBuildSignature</definition>
+        <argsstring>()</argsstring>
+        <name>verifyBuildSignature</name>
+        <qualifiedname>themis::updates::verifyBuildSignature</qualifiedname>
+        <briefdescription>
+<para>Verify the compile-time Ed25519 build signature. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Verify Build Signature.</para>
+<para>The result is computed once and cached for the lifetime of the process. Calling this function from multiple threads simultaneously is safe.</para>
+<para><simplesect kind="return"><para><computeroutput><ref refid="structthemis_1_1updates_1_1_build_verification_result" kindref="compound">BuildVerificationResult</ref></computeroutput> with <computeroutput>verified=true</computeroutput> iff the binary is a genuine official ThemisDB release.</para>
+</simplesect>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: std::call_once(), doVerify(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/build_verifier.cpp" line="248" column="25" bodyfile="src/updates/build_verifier.cpp" bodystart="248" bodyend="253" declfile="include/updates/build_verifier.h" declline="44" declcolumn="26"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a7008d73e5b5413419a36087510210db8" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::updates::buildChannel</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>buildChannel</name>
+        <qualifiedname>themis::updates::buildChannel</qualifiedname>
+        <briefdescription>
+<para>Return the cached build-channel string without performing cryptographic verification. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Returns <computeroutput>THEMIS_BUILD_CHANNEL</computeroutput> directly. Does NOT imply the signature is valid – use <computeroutput><ref refid="namespacethemis_1_1updates_1acc805158e8e3fc33153f1b3910a55f1f" kindref="member">verifyBuildSignature()</ref>.verified</computeroutput> for that. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/build_verifier.cpp" line="255" column="12" bodyfile="src/updates/build_verifier.cpp" bodystart="255" bodyend="257" declfile="include/updates/build_verifier.h" declline="53" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1ad8a30202424c6cfb85b01bed908fd703" prot="public" static="no" nodiscard="yes" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>const char *</type>
+        <definition>const char * themis::updates::buildId</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>buildId</name>
+        <qualifiedname>themis::updates::buildId</qualifiedname>
+        <briefdescription>
+<para>Return the cached build-id (short Git SHA) string. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/build_verifier.cpp" line="259" column="12" bodyfile="src/updates/build_verifier.cpp" bodystart="259" bodyend="261" declfile="include/updates/build_verifier.h" declline="58" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a020b2f9206d4c70e19637d86966012b0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::patchAlgorithmToString</definition>
+        <argsstring>(PatchAlgorithm algo)</argsstring>
+        <name>patchAlgorithmToString</name>
+        <qualifiedname>themis::updates::patchAlgorithmToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref></type>
+          <declname>algo</declname>
+        </param>
+        <briefdescription>
+<para>Patch Algorithm To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">algo</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements patchAlgorithmToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="261" column="13" bodyfile="src/updates/delta_update_engine.cpp" bodystart="261" bodyend="269" declfile="include/updates/delta_update_engine.h" declline="293" declcolumn="13"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a103f0caebc6d93e77ef788a5ce6acb00" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::optional&lt; <ref refid="namespacethemis_1_1updates_1a3591f0d9ce3c474e439181c5ef22b797" kindref="member">PatchAlgorithm</ref> &gt;</type>
+        <definition>std::optional&lt; PatchAlgorithm &gt; themis::updates::patchAlgorithmFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>patchAlgorithmFromString</name>
+        <qualifiedname>themis::updates::patchAlgorithmFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Patch Algorithm From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements patchAlgorithmFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="277" column="15" bodyfile="src/updates/delta_update_engine.cpp" bodystart="277" bodyend="291" declfile="include/updates/delta_update_engine.h" declline="294" declcolumn="15"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a240b3b4a36b932bd55a88fdcb65e4aed" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+        <definition>DiagnosticSeverity themis::updates::severityForErrorCode</definition>
+        <argsstring>(DiagnosticErrorCode code)</argsstring>
+        <name>severityForErrorCode</name>
+        <qualifiedname>themis::updates::severityForErrorCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Map diagnostic error code to severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="166" column="27" bodyfile="include/updates/updates_diagnostics.h" bodystart="166" bodyend="176"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a8bad2a97b4cd79c4305aa64b0a3517ac" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1af6168213612402069ae83cc1231c7a7a" kindref="member">RootCauseClass</ref></type>
+        <definition>RootCauseClass themis::updates::rootCauseForErrorCode</definition>
+        <argsstring>(DiagnosticErrorCode code)</argsstring>
+        <name>rootCauseForErrorCode</name>
+        <qualifiedname>themis::updates::rootCauseForErrorCode</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Map error code to root cause. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="181" column="23" bodyfile="include/updates/updates_diagnostics.h" bodystart="181" bodyend="211"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a7d3b048d913cf96944f1be200e0c652f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::severityName</definition>
+        <argsstring>(DiagnosticSeverity s)</argsstring>
+        <name>severityName</name>
+        <qualifiedname>themis::updates::severityName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a76a19f06c0d0177d4ee1be662fbcb57d" kindref="member">DiagnosticSeverity</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for a diagnostic severity. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="216" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="216" bodyend="224"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a551f8cb28440f631a62c3ba3266f4c6f" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::updates::errorCodeName</definition>
+        <argsstring>(DiagnosticErrorCode code)</argsstring>
+        <name>errorCodeName</name>
+        <qualifiedname>themis::updates::errorCodeName</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a7438c190509f090b57c64b4140cbe465" kindref="member">DiagnosticErrorCode</ref></type>
+          <declname>code</declname>
+        </param>
+        <briefdescription>
+<para>Human-readable name for an error code. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/updates/updates_diagnostics.h" line="229" column="20" bodyfile="include/updates/updates_diagnostics.h" bodystart="229" bodyend="260"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a5cf7e8c1bbe5cc3181b9ae6fecf12100" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>static bool themis::updates::isSafePath</definition>
+        <argsstring>(const std::string &amp;rel_path, const std::string &amp;base_dir)</argsstring>
+        <name>isSafePath</name>
+        <qualifiedname>themis::updates::isSafePath</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>rel_path</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>base_dir</declname>
+        </param>
+        <briefdescription>
+<para>============================================================================ Security helper: path traversal prevention ============================================================================ </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">rel_path</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Path to the rel. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">base_dir</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds.</para>
+</simplesect>
+Calls: empty(), find(), p(), is_absolute(), has_root_name(), has_root_directory(), fs::weakly_canonical(), fs::path(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="93" column="13" bodyfile="src/updates/delta_update_engine.cpp" bodystart="93" bodyend="133"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a8ded2f826ca7556e0179b6ae86daed49" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>static void themis::updates::appendU32LE</definition>
+        <argsstring>(std::vector&lt; uint8_t &gt; &amp;buf, uint32_t val)</argsstring>
+        <name>appendU32LE</name>
+        <qualifiedname>themis::updates::appendU32LE</qualifiedname>
+        <param>
+          <type>std::vector&lt; uint8_t &gt; &amp;</type>
+          <declname>buf</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>val</declname>
+        </param>
+        <briefdescription>
+<para>Append U32 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="inout">buf</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input/output parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">val</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: push_back(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="1054" column="13" bodyfile="src/updates/delta_update_engine.cpp" bodystart="1054" bodyend="1059"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1ae65a8e86ffda01bbec1aa7661b9da4fc" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>uint32_t</type>
+        <definition>static uint32_t themis::updates::readU32LE</definition>
+        <argsstring>(const uint8_t *p)</argsstring>
+        <name>readU32LE</name>
+        <qualifiedname>themis::updates::readU32LE</qualifiedname>
+        <param>
+          <type>const uint8_t *</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Read U32 LE. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements readU32LE without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/delta_update_engine.cpp" line="1067" column="17" bodyfile="src/updates/delta_update_engine.cpp" bodystart="1067" bodyend="1072"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1aa83a1dca75947a0ad81a37a67e70b258" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>static std::string themis::updates::stateToString</definition>
+        <argsstring>(UpdateState s)</argsstring>
+        <name>stateToString</name>
+        <qualifiedname>themis::updates::stateToString</qualifiedname>
+        <param>
+          <type><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref></type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>State To String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateToString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/update_state_machine.cpp" line="40" column="20" bodyfile="src/updates/update_state_machine.cpp" bodystart="40" bodyend="50"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1aea7d90aaa03fc186dfcabc13331e6620" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1updates_1a5acf06ad09fcfa241bb095e4a1bdfbec" kindref="member">UpdateState</ref></type>
+        <definition>static UpdateState themis::updates::stateFromString</definition>
+        <argsstring>(const std::string &amp;s)</argsstring>
+        <name>stateFromString</name>
+        <qualifiedname>themis::updates::stateFromString</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>s</declname>
+        </param>
+        <briefdescription>
+<para>State From String. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">s</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Implements stateFromString without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="src/updates/update_state_machine.cpp" line="58" column="20" bodyfile="src/updates/update_state_machine.cpp" bodystart="58" bodyend="78"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1aa3ce3f98cc5066368233eb4593150ed1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TEST_F</definition>
+        <argsstring>(DiagnosticEmitterTest, FormatErrorMessageContainsKeyFields)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_test" kindref="compound">DiagnosticEmitterTest</ref></type>
+        </param>
+        <param>
+          <type>FormatErrorMessageContainsKeyFields</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="60" column="1" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="60" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1af366007e542d4ef0baec9cf5faf26db7" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TEST_F</definition>
+        <argsstring>(DiagnosticEmitterTest, EmitErrorNotifiesListener)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_test" kindref="compound">DiagnosticEmitterTest</ref></type>
+        </param>
+        <param>
+          <type>EmitErrorNotifiesListener</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="79" column="1" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="79" bodyend="94"/>
+      </memberdef>
+      <memberdef kind="function" id="namespacethemis_1_1updates_1a82325dd29c7bf5906495c1682dc4339c" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::updates::TEST_F</definition>
+        <argsstring>(DiagnosticEmitterTest, EmitInfoNotifiesListener)</argsstring>
+        <name>TEST_F</name>
+        <qualifiedname>themis::updates::TEST_F</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1updates_1_1_diagnostic_emitter_test" kindref="compound">DiagnosticEmitterTest</ref></type>
+        </param>
+        <param>
+          <type>EmitInfoNotifiesListener</type>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/updates/test_updates_diagnostics_focused.cpp" line="96" column="1" bodyfile="tests/updates/test_updates_diagnostics_focused.cpp" bodystart="96" bodyend="103"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/updates/batch5_safety_helpers.h" line="30" column="1"/>
+  </compounddef>
+</doxygen>

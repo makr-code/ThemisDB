@@ -1,0 +1,579 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="classthemis_1_1server_1_1_async_s_s_e_stream" kind="class" language="C++" prot="public">
+    <compoundname>themis::server::AsyncSSEStream</compoundname>
+    <includes refid="changefeed__api__handler_8h" local="no">changefeed_api_handler.h</includes>
+    <innerclass refid="structthemis_1_1server_1_1_async_s_s_e_stream_1_1_queued_event" prot="private">themis::server::AsyncSSEStream::QueuedEvent</innerclass>
+    <sectiondef kind="public-type">
+      <memberdef kind="typedef" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a90febce7646c0cf81a6436df0ea73900" prot="public" static="no">
+        <type><ref refid="structthemis_1_1server_1_1_async_s_s_e_stream_config" kindref="compound">AsyncSSEStreamConfig</ref></type>
+        <definition>using themis::server::AsyncSSEStream::Config = AsyncSSEStreamConfig</definition>
+        <argsstring></argsstring>
+        <name>Config</name>
+        <qualifiedname>themis::server::AsyncSSEStream::Config</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="51" column="5" bodyfile="include/server/changefeed_api_handler.h" bodystart="51" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a18feb1f755ee1c4bc78c66230d1c124a" prot="private" static="no" mutable="no">
+        <type>std::shared_ptr&lt; Changefeed &gt;</type>
+        <definition>std::shared_ptr&lt;Changefeed&gt; themis::server::AsyncSSEStream::changefeed_</definition>
+        <argsstring></argsstring>
+        <name>changefeed_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::changefeed_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="111" column="21" bodyfile="include/server/changefeed_api_handler.h" bodystart="111" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1adb1a6e4e00cf3375a1974eac43e63b7e" prot="private" static="no" mutable="no">
+        <type>std::ostream &amp;</type>
+        <definition>std::ostream&amp; themis::server::AsyncSSEStream::output_</definition>
+        <argsstring></argsstring>
+        <name>output_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::output_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="112" column="18" bodyfile="include/server/changefeed_api_handler.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a1f8041945e630623bfec334a746026d3" prot="private" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::server::AsyncSSEStream::consumer_id_</definition>
+        <argsstring></argsstring>
+        <name>consumer_id_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::consumer_id_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="113" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="113" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a7d91acebcbe0733e7898ffee0275dd4a" prot="private" static="no" mutable="no">
+        <type><ref refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a90febce7646c0cf81a6436df0ea73900" kindref="member">Config</ref></type>
+        <definition>Config themis::server::AsyncSSEStream::config_</definition>
+        <argsstring></argsstring>
+        <name>config_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::config_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="114" column="12" bodyfile="include/server/changefeed_api_handler.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a05a382965fe087ec11daf92b33d279b4" prot="private" static="no" mutable="no">
+        <type>Changefeed::SubscriptionHandle</type>
+        <definition>Changefeed::SubscriptionHandle themis::server::AsyncSSEStream::subscription_handle_</definition>
+        <argsstring></argsstring>
+        <name>subscription_handle_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::subscription_handle_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="116" column="36" bodyfile="include/server/changefeed_api_handler.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a654a9013a80afd3a885b991f907648aa" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::AsyncSSEStream::queue_mutex_</definition>
+        <argsstring></argsstring>
+        <name>queue_mutex_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::queue_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="118" column="24" bodyfile="include/server/changefeed_api_handler.h" bodystart="118" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1ae4206c947a7ae4e4adcdc92041c56c88" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; QueuedEvent &gt;</type>
+        <definition>std::vector&lt;QueuedEvent&gt; themis::server::AsyncSSEStream::event_queue_</definition>
+        <argsstring></argsstring>
+        <name>event_queue_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::event_queue_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="119" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="119" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a9684b512515052cbbd676c1f9d2b6250" prot="private" static="no" mutable="yes">
+        <type>std::mutex</type>
+        <definition>std::mutex themis::server::AsyncSSEStream::delivered_mutex_</definition>
+        <argsstring></argsstring>
+        <name>delivered_mutex_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::delivered_mutex_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="121" column="24" bodyfile="include/server/changefeed_api_handler.h" bodystart="121" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a8a8fea57c6d2f1581ebd645f70c97cc8" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; Changefeed::ChangeEvent &gt;</type>
+        <definition>std::vector&lt;Changefeed::ChangeEvent&gt; themis::server::AsyncSSEStream::delivered_events_</definition>
+        <argsstring></argsstring>
+        <name>delivered_events_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::delivered_events_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="122" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="122" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a5a1ee7e811d3f16e860c8d38d81418a6" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::AsyncSSEStream::active_</definition>
+        <argsstring></argsstring>
+        <name>active_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::active_</qualifiedname>
+        <initializer>{true}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="124" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="124" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1afbdfd4cf14ea49d7aed1a4c20bd60feb" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; bool &gt;</type>
+        <definition>std::atomic&lt;bool&gt; themis::server::AsyncSSEStream::should_close_</definition>
+        <argsstring></argsstring>
+        <name>should_close_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::should_close_</qualifiedname>
+        <initializer>{false}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="125" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="125" bodyend="125"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a5e2f3c8a448e4bed179a9a32fa067378" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::AsyncSSEStream::event_count_</definition>
+        <argsstring></argsstring>
+        <name>event_count_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::event_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="127" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="127" bodyend="127"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a1ea54b39c3087a1000a38793af991686" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::AsyncSSEStream::dropped_events_</definition>
+        <argsstring></argsstring>
+        <name>dropped_events_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::dropped_events_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="128" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="128" bodyend="128"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a8d2b1244ab001f0af644436531a1ba08" prot="private" static="no" mutable="no">
+        <type>std::atomic&lt; size_t &gt;</type>
+        <definition>std::atomic&lt;size_t&gt; themis::server::AsyncSSEStream::heartbeat_count_</definition>
+        <argsstring></argsstring>
+        <name>heartbeat_count_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::heartbeat_count_</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="129" column="17" bodyfile="include/server/changefeed_api_handler.h" bodystart="129" bodyend="129"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1aba78451375e0aac300e9f2ecfbec1040" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::AsyncSSEStream::last_heartbeat_time_</definition>
+        <argsstring></argsstring>
+        <name>last_heartbeat_time_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::last_heartbeat_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="131" column="43" bodyfile="include/server/changefeed_api_handler.h" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1server_1_1_async_s_s_e_stream_1ad4320475d0b93a11730fed6ac906e01e" prot="private" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::server::AsyncSSEStream::stream_start_time_</definition>
+        <argsstring></argsstring>
+        <name>stream_start_time_</name>
+        <qualifiedname>themis::server::AsyncSSEStream::stream_start_time_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="132" column="43" bodyfile="include/server/changefeed_api_handler.h" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a79b6b0ea059f5f6cee0f9cc8d3f6b0bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AsyncSSEStream::AsyncSSEStream</definition>
+        <argsstring>(std::shared_ptr&lt; Changefeed &gt; changefeed, std::ostream &amp;output, const std::string &amp;consumer_id=&quot;&quot;, const Config &amp;config=Config{})</argsstring>
+        <name>AsyncSSEStream</name>
+        <qualifiedname>themis::server::AsyncSSEStream::AsyncSSEStream</qualifiedname>
+        <param>
+          <type>std::shared_ptr&lt; Changefeed &gt;</type>
+          <declname>changefeed</declname>
+        </param>
+        <param>
+          <type>std::ostream &amp;</type>
+          <declname>output</declname>
+        </param>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>consumer_id</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const <ref refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a90febce7646c0cf81a6436df0ea73900" kindref="member">Config</ref> &amp;</type>
+          <declname>config</declname>
+          <defval><ref refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a90febce7646c0cf81a6436df0ea73900" kindref="member">Config</ref>{}</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="53" column="5" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="115" bodyend="130"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a9edfbd107fb618b6769b8fb329b37341" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::server::AsyncSSEStream::~AsyncSSEStream</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>~AsyncSSEStream</name>
+        <qualifiedname>themis::server::AsyncSSEStream::~AsyncSSEStream</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="60" column="5" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="132" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a5ed09db88f05deff8a7ee665c0517905" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::AsyncSSEStream::run</definition>
+        <argsstring>(const std::string &amp;key_prefix=&quot;&quot;, const std::set&lt; Changefeed::ChangeEventType &gt; &amp;event_types={})</argsstring>
+        <name>run</name>
+        <qualifiedname>themis::server::AsyncSSEStream::run</qualifiedname>
+        <param>
+          <type>const std::string &amp;</type>
+          <declname>key_prefix</declname>
+          <defval>&quot;&quot;</defval>
+        </param>
+        <param>
+          <type>const std::set&lt; Changefeed::ChangeEventType &gt; &amp;</type>
+          <declname>event_types</declname>
+          <defval>{}</defval>
+        </param>
+        <briefdescription>
+<para>Run. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">key_prefix</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">event_types</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Calls: THEMIS_WARN(), subscribe(), onChangeEvent(), active(), THEMIS_DEBUG(), id(), std::chrono::seconds(), std::chrono::milliseconds(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="62" column="12" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="230" bodyend="288"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a9357ff7cf3fdc09b6bdea2824178218d" prot="public" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AsyncSSEStream::close</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>close</name>
+        <qualifiedname>themis::server::AsyncSSEStream::close</qualifiedname>
+        <briefdescription>
+<para>Close. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="71" column="10" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="290" bodyend="294"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a9c498b9bec3dafb330904e433f8d8726" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::AsyncSSEStream::getEventCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getEventCount</name>
+        <qualifiedname>themis::server::AsyncSSEStream::getEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="73" column="12" bodyfile="include/server/changefeed_api_handler.h" bodystart="73" bodyend="73"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1ac16c572160f6c36c3a908d4295eb043e" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::AsyncSSEStream::getDroppedEventCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDroppedEventCount</name>
+        <qualifiedname>themis::server::AsyncSSEStream::getDroppedEventCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="75" column="12" bodyfile="include/server/changefeed_api_handler.h" bodystart="75" bodyend="75"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a49e0283536253204aa49b167cccd46c3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>size_t</type>
+        <definition>size_t themis::server::AsyncSSEStream::getHeartbeatCount</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getHeartbeatCount</name>
+        <qualifiedname>themis::server::AsyncSSEStream::getHeartbeatCount</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="77" column="12" bodyfile="include/server/changefeed_api_handler.h" bodystart="77" bodyend="77"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1aa529b44053389fa955591cc2b3236a76" prot="public" static="no" const="yes" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>std::vector&lt; Changefeed::ChangeEvent &gt;</type>
+        <definition>std::vector&lt; Changefeed::ChangeEvent &gt; themis::server::AsyncSSEStream::getDeliveredEvents</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>getDeliveredEvents</name>
+        <qualifiedname>themis::server::AsyncSSEStream::getDeliveredEvents</qualifiedname>
+        <briefdescription>
+<para>Get Delivered Events. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delivered_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="84" column="17" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="296" bodyend="309"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-func">
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1acfedec4169b492daf1926c93b41fb4e3" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AsyncSSEStream::onChangeEvent</definition>
+        <argsstring>(const Changefeed::ChangeEvent &amp;evt) noexcept</argsstring>
+        <name>onChangeEvent</name>
+        <qualifiedname>themis::server::AsyncSSEStream::onChangeEvent</qualifiedname>
+        <param>
+          <type>const Changefeed::ChangeEvent &amp;</type>
+          <declname>evt</declname>
+        </param>
+        <briefdescription>
+<para>On Change Event. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">evt</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="97" column="10" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="136" bodyend="169"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1a19722cfbc752727ba928cf4c7fa70f22" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AsyncSSEStream::drainEventQueue</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>drainEventQueue</name>
+        <qualifiedname>themis::server::AsyncSSEStream::drainEventQueue</qualifiedname>
+        <briefdescription>
+<para>Drain Event Queue. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+<para>Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">queue_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+Lock. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">delivered_mutex_</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value.</para>
+</simplesect>
+</para>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="103" column="10" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="171" bodyend="210"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1server_1_1_async_s_s_e_stream_1ad03a034d9cebb47099f59db54250fd48" prot="private" static="no" const="no" explicit="no" inline="no" noexcept="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::server::AsyncSSEStream::sendHeartbeat</definition>
+        <argsstring>() noexcept</argsstring>
+        <name>sendHeartbeat</name>
+        <qualifiedname>themis::server::AsyncSSEStream::sendHeartbeat</qualifiedname>
+        <briefdescription>
+<para>Send Heartbeat. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="note"><para>Exception safety: noexcept. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/server/changefeed_api_handler.h" line="109" column="10" bodyfile="src/server/changefeed_api_handler.cpp" bodystart="212" bodyend="221"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/server/changefeed_api_handler.h" line="49" column="1" bodyfile="include/server/changefeed_api_handler.h" bodystart="49" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a5a1ee7e811d3f16e860c8d38d81418a6" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>active_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a79b6b0ea059f5f6cee0f9cc8d3f6b0bd" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>AsyncSSEStream</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a18feb1f755ee1c4bc78c66230d1c124a" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>changefeed_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a9357ff7cf3fdc09b6bdea2824178218d" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>close</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a90febce7646c0cf81a6436df0ea73900" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>Config</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a7d91acebcbe0733e7898ffee0275dd4a" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>config_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a1f8041945e630623bfec334a746026d3" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>consumer_id_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a8a8fea57c6d2f1581ebd645f70c97cc8" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>delivered_events_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a9684b512515052cbbd676c1f9d2b6250" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>delivered_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a19722cfbc752727ba928cf4c7fa70f22" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>drainEventQueue</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a1ea54b39c3087a1000a38793af991686" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>dropped_events_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a5e2f3c8a448e4bed179a9a32fa067378" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>event_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1ae4206c947a7ae4e4adcdc92041c56c88" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>event_queue_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1aa529b44053389fa955591cc2b3236a76" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>getDeliveredEvents</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1ac16c572160f6c36c3a908d4295eb043e" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>getDroppedEventCount</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a9c498b9bec3dafb330904e433f8d8726" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>getEventCount</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a49e0283536253204aa49b167cccd46c3" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>getHeartbeatCount</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a8d2b1244ab001f0af644436531a1ba08" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>heartbeat_count_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1aba78451375e0aac300e9f2ecfbec1040" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>last_heartbeat_time_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1acfedec4169b492daf1926c93b41fb4e3" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>onChangeEvent</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1adb1a6e4e00cf3375a1974eac43e63b7e" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>output_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a654a9013a80afd3a885b991f907648aa" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>queue_mutex_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a5ed09db88f05deff8a7ee665c0517905" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>run</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1ad03a034d9cebb47099f59db54250fd48" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>sendHeartbeat</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1afbdfd4cf14ea49d7aed1a4c20bd60feb" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>should_close_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1ad4320475d0b93a11730fed6ac906e01e" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>stream_start_time_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a05a382965fe087ec11daf92b33d279b4" prot="private" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>subscription_handle_</name></member>
+      <member refid="classthemis_1_1server_1_1_async_s_s_e_stream_1a9edfbd107fb618b6769b8fb329b37341" prot="public" virt="non-virtual"><scope>themis::server::AsyncSSEStream</scope><name>~AsyncSSEStream</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer" kind="struct" language="C++" prot="private">
+    <compoundname>themis::TSAutoBuffer::MetricBuffer</compoundname>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1adf34426619440dad40e78a1d2ba72e3f" prot="public" static="no" mutable="no">
+        <type>std::deque&lt; <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &gt;</type>
+        <definition>std::deque&lt;TSStore::DataPoint&gt; themis::TSAutoBuffer::MetricBuffer::points</definition>
+        <argsstring></argsstring>
+        <name>points</name>
+        <qualifiedname>themis::TSAutoBuffer::MetricBuffer::points</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="321" column="20" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="321" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1aa80fa81e4374349b49ff2ce896c161ef" prot="public" static="no" mutable="no">
+        <type>std::chrono::steady_clock::time_point</type>
+        <definition>std::chrono::steady_clock::time_point themis::TSAutoBuffer::MetricBuffer::first_point_time</definition>
+        <argsstring></argsstring>
+        <name>first_point_time</name>
+        <qualifiedname>themis::TSAutoBuffer::MetricBuffer::first_point_time</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="322" column="47" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="322" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1a5764d9603bb40af4f6badb08e728178a" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::TSAutoBuffer::MetricBuffer::memory_bytes</definition>
+        <argsstring></argsstring>
+        <name>memory_bytes</name>
+        <qualifiedname>themis::TSAutoBuffer::MetricBuffer::memory_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="323" column="16" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="323" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1ab38b0c30ceaf6ff484834e3c20a3f7f5" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::MetricBuffer::add</definition>
+        <argsstring>(const TSStore::DataPoint &amp;point)</argsstring>
+        <name>add</name>
+        <qualifiedname>themis::TSAutoBuffer::MetricBuffer::add</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1_t_s_store_1_1_data_point" kindref="compound">TSStore::DataPoint</ref> &amp;</type>
+          <declname>point</declname>
+        </param>
+        <briefdescription>
+<para>Add. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">point</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: empty(), std::chrono::steady_clock::now(), push_back(), size(), dump(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="330" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="330" bodyend="341"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1ad4d1eb0940c3869b01324f43fd05cc70" prot="public" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::TSAutoBuffer::MetricBuffer::clear</definition>
+        <argsstring>()</argsstring>
+        <name>clear</name>
+        <qualifiedname>themis::TSAutoBuffer::MetricBuffer::clear</qualifiedname>
+        <briefdescription>
+<para>Clear. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements clear without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/timeseries/ts_auto_buffer.h" line="347" column="14" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="347" bodyend="350"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/timeseries/ts_auto_buffer.h" line="320" column="5" bodyfile="include/timeseries/ts_auto_buffer.h" bodystart="320" bodyend="351"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1ab38b0c30ceaf6ff484834e3c20a3f7f5" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::MetricBuffer</scope><name>add</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1ad4d1eb0940c3869b01324f43fd05cc70" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::MetricBuffer</scope><name>clear</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1aa80fa81e4374349b49ff2ce896c161ef" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::MetricBuffer</scope><name>first_point_time</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1a5764d9603bb40af4f6badb08e728178a" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::MetricBuffer</scope><name>memory_bytes</name></member>
+      <member refid="structthemis_1_1_t_s_auto_buffer_1_1_metric_buffer_1adf34426619440dad40e78a1d2ba72e3f" prot="public" virt="non-virtual"><scope>themis::TSAutoBuffer::MetricBuffer</scope><name>points</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

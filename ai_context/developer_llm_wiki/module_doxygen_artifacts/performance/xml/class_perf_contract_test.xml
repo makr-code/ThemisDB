@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="class_perf_contract_test" kind="class" language="C++" prot="public">
+    <compoundname>PerfContractTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-static-attrib">
+      <memberdef kind="variable" id="class_perf_contract_test_1a15a7d261dfdd444f1f0ef5b0445bd9be" prot="protected" static="yes" constexpr="yes" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t PerfContractTest::kSeed</definition>
+        <argsstring></argsstring>
+        <name>kSeed</name>
+        <qualifiedname>PerfContractTest::kSeed</qualifiedname>
+        <initializer>= 42</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="34" column="31" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="34" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="class_perf_contract_test_1abd295cef70805b36e09d962664f14055" prot="protected" static="no" mutable="no">
+        <type>std::mt19937</type>
+        <definition>std::mt19937 PerfContractTest::rng_</definition>
+        <argsstring></argsstring>
+        <name>rng_</name>
+        <qualifiedname>PerfContractTest::rng_</qualifiedname>
+        <initializer>{<ref refid="class_perf_contract_test_1a15a7d261dfdd444f1f0ef5b0445bd9be" kindref="member">kSeed</ref>}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="35" column="18" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="35" bodyend="35"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="class_perf_contract_test_1a96aeddcdf3d55e522fc07eb7bfff67c0" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string PerfContractTest::randomKey</definition>
+        <argsstring>(size_t len=16)</argsstring>
+        <name>randomKey</name>
+        <qualifiedname>PerfContractTest::randomKey</qualifiedname>
+        <param>
+          <type>size_t</type>
+          <declname>len</declname>
+          <defval>16</defval>
+        </param>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="37" column="17" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="37" bodyend="44"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="1">
+        <label>PerfContractTest</label>
+        <link refid="class_perf_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="1">
+        <label>PerfContractTest</label>
+        <link refid="class_perf_contract_test"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+    </collaborationgraph>
+    <location file="tests/performance/test_performance_contract_hardening_focused.cpp" line="32" column="1" bodyfile="tests/performance/test_performance_contract_hardening_focused.cpp" bodystart="32" bodyend="45"/>
+    <listofallmembers>
+      <member refid="class_perf_contract_test_1a15a7d261dfdd444f1f0ef5b0445bd9be" prot="protected" virt="non-virtual"><scope>PerfContractTest</scope><name>kSeed</name></member>
+      <member refid="class_perf_contract_test_1a96aeddcdf3d55e522fc07eb7bfff67c0" prot="protected" virt="non-virtual"><scope>PerfContractTest</scope><name>randomKey</name></member>
+      <member refid="class_perf_contract_test_1abd295cef70805b36e09d962664f14055" prot="protected" virt="non-virtual"><scope>PerfContractTest</scope><name>rng_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

@@ -1,0 +1,661 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="test__cycle__metrics_8cpp" kind="file" language="C++">
+    <compoundname>test_cycle_metrics.cpp</compoundname>
+    <includes refid="cycle__metrics_8h" local="yes">performance/cycle_metrics.h</includes>
+    <includes refid="cycle__metrics__config_8h" local="yes">performance/cycle_metrics_config.h</includes>
+    <includes refid="pmu__counters_8h" local="yes">performance/phase4/pmu_counters.h</includes>
+    <includes refid="expected__cycles_8h" local="yes">performance/expected_cycles.h</includes>
+    <includes refid="lockfree__metrics__buffer_8h" local="yes">performance/lockfree_metrics_buffer.h</includes>
+    <includes refid="runtime__config_8h" local="yes">performance/runtime_config.h</includes>
+    <includes local="no">gtest/gtest.h</includes>
+    <includes local="no">thread</includes>
+    <includes local="no">vector</includes>
+    <incdepgraph>
+      <node id="2">
+        <label>performance/cycle_metrics.h</label>
+        <link refid="cycle__metrics_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="4" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+      </node>
+      <node id="9">
+        <label>performance/cycle_metrics_config.h</label>
+        <link refid="cycle__metrics__config_8h"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="11">
+        <label>performance/expected_cycles.h</label>
+        <link refid="expected__cycles_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+      </node>
+      <node id="12">
+        <label>performance/lockfree_metrics_buffer.h</label>
+        <link refid="lockfree__metrics__buffer_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="13" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="14" relation="include">
+        </childnode>
+        <childnode refid="2" relation="include">
+        </childnode>
+      </node>
+      <node id="10">
+        <label>performance/phase4/pmu_counters.h</label>
+        <link refid="pmu__counters_8h"/>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="6" relation="include">
+        </childnode>
+      </node>
+      <node id="15">
+        <label>performance/runtime_config.h</label>
+        <link refid="runtime__config_8h"/>
+        <childnode refid="3" relation="include">
+        </childnode>
+        <childnode refid="5" relation="include">
+        </childnode>
+        <childnode refid="8" relation="include">
+        </childnode>
+        <childnode refid="16" relation="include">
+        </childnode>
+        <childnode refid="7" relation="include">
+        </childnode>
+        <childnode refid="17" relation="include">
+        </childnode>
+      </node>
+      <node id="1">
+        <label>tests/performance/test_cycle_metrics.cpp</label>
+        <link refid="test__cycle__metrics_8cpp"/>
+        <childnode refid="2" relation="include">
+        </childnode>
+        <childnode refid="9" relation="include">
+        </childnode>
+        <childnode refid="10" relation="include">
+        </childnode>
+        <childnode refid="11" relation="include">
+        </childnode>
+        <childnode refid="12" relation="include">
+        </childnode>
+        <childnode refid="15" relation="include">
+        </childnode>
+        <childnode refid="18" relation="include">
+        </childnode>
+        <childnode refid="19" relation="include">
+        </childnode>
+        <childnode refid="20" relation="include">
+        </childnode>
+      </node>
+      <node id="13">
+        <label>array</label>
+      </node>
+      <node id="3">
+        <label>atomic</label>
+      </node>
+      <node id="4">
+        <label>chrono</label>
+      </node>
+      <node id="5">
+        <label>cstdint</label>
+      </node>
+      <node id="6">
+        <label>functional</label>
+      </node>
+      <node id="18">
+        <label>gtest/gtest.h</label>
+      </node>
+      <node id="14">
+        <label>memory</label>
+      </node>
+      <node id="7">
+        <label>mutex</label>
+      </node>
+      <node id="17">
+        <label>shared_mutex</label>
+      </node>
+      <node id="8">
+        <label>string</label>
+      </node>
+      <node id="19">
+        <label>thread</label>
+      </node>
+      <node id="16">
+        <label>unordered_set</label>
+      </node>
+      <node id="20">
+        <label>vector</label>
+      </node>
+    </incdepgraph>
+    <sectiondef kind="func">
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, HardwareCycleCounter)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter" kindref="compound">HardwareCycleCounter</ref></type>
+        </param>
+        <briefdescription>
+<para>Test hardware cycle counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="16" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="16" bodyend="30"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a4c296f50cddf5e8608c3af304f829f93" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, CPUFrequency)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>CPUFrequency</type>
+        </param>
+        <briefdescription>
+<para>Test CPU frequency detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="35" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="35" bodyend="41"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a008b8f23ee7964644bc5d6ad2d24226d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, CPUModel)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>CPUModel</type>
+        </param>
+        <briefdescription>
+<para>Test CPU model detection. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="46" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="46" bodyend="51"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1ad4e5532906c58e1ba7f63ccdf2861c5b" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, ScopedCycleTimer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref></type>
+        </param>
+        <briefdescription>
+<para>Test scoped cycle timer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="56" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="56" bodyend="71"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a340adc93f870205220a9ec3f3e516783" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, ExpectedCycles)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="structthemis_1_1performance_1_1_expected_cycles" kindref="compound">ExpectedCycles</ref></type>
+        </param>
+        <briefdescription>
+<para>Test expected cycles calculations. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="76" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="76" bodyend="92"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a01c76f5d680021758dba467cd0bf1ebe" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, RAGPipelineExpectedValues)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>RAGPipelineExpectedValues</type>
+        </param>
+        <briefdescription>
+<para>Test RAG pipeline expected values. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="97" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="97" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a2aa20762787a8eae569a58802601c273" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, LockFreeRingBuffer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer</ref></type>
+        </param>
+        <briefdescription>
+<para>Test lock-free ring buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="113" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="113" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1af9359c889d4f245e8468069811e56bc5" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, LockFreeRingBufferOverflow)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>LockFreeRingBufferOverflow</type>
+        </param>
+        <briefdescription>
+<para>Test lock-free ring buffer overflow. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="143" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="143" bodyend="159"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a09351dac27482659991ef15f5a7d38ee" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, LockFreeRingBufferConcurrent)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>LockFreeRingBufferConcurrent</type>
+        </param>
+        <briefdescription>
+<para>Test lock-free ring buffer with concurrent access. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="164" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="164" bodyend="208"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a2b7a3c45ae8b921b261b8ab9381cdcd2" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, RuntimeConfig)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_runtime_config" kindref="compound">RuntimeConfig</ref></type>
+        </param>
+        <briefdescription>
+<para>Test runtime configuration. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="213" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="213" bodyend="237"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1a438c08150883dda7556804fca9f62642" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, ThreadLocalMetricsBuffer)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref></type>
+        </param>
+        <briefdescription>
+<para>Test thread-local metrics buffer. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="242" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="242" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="test__cycle__metrics_8cpp_1ab44664d74055b6dda6d78e52b995e984" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>TEST</definition>
+        <argsstring>(CycleMetricsTest, ZeroCostAbstraction)</argsstring>
+        <name>TEST</name>
+        <param>
+          <type>CycleMetricsTest</type>
+        </param>
+        <param>
+          <type>ZeroCostAbstraction</type>
+        </param>
+        <briefdescription>
+<para>Test zero-cost abstraction (compile-time test). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/performance/test_cycle_metrics.cpp" line="271" column="1" bodyfile="tests/performance/test_cycle_metrics.cpp" bodystart="271" bodyend="302"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <programlisting>
+<codeline lineno="1"><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics_8h" kindref="compound">performance/cycle_metrics.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="2"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="cycle__metrics__config_8h" kindref="compound">performance/cycle_metrics_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="3"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="pmu__counters_8h" kindref="compound">performance/phase4/pmu_counters.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="4"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="expected__cycles_8h" kindref="compound">performance/expected_cycles.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="5"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="lockfree__metrics__buffer_8h" kindref="compound">performance/lockfree_metrics_buffer.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="6"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="runtime__config_8h" kindref="compound">performance/runtime_config.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="7"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;thread&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;vector&gt;</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="10"><highlight class="normal"></highlight></codeline>
+<codeline lineno="11"><highlight class="normal"></highlight><highlight class="keyword">using<sp/>namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1performance" kindref="compound">themis::performance</ref>;</highlight></codeline>
+<codeline lineno="12"><highlight class="normal"></highlight></codeline>
+<codeline lineno="16"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter" kindref="compound">HardwareCycleCounter</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="17"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>that<sp/>cycle<sp/>counter<sp/>is<sp/>monotonically<sp/>increasing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="18"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles1<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="19"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles2<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="20"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>cycles3<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1acd0718563b6df51d492083289737808a" kindref="member">HardwareCycleCounter::cpu_cycles</ref>();</highlight></codeline>
+<codeline lineno="21"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="22"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cycles2,<sp/>cycles1);</highlight></codeline>
+<codeline lineno="23"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(cycles3,<sp/>cycles2);</highlight></codeline>
+<codeline lineno="24"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="25"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>RDTSCP<sp/>(serialized)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="26"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rdtscp1<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" kindref="member">HardwareCycleCounter::rdtscp</ref>();</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>rdtscp2<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a5136a8e4aca5d9e101c86b7a3fe2b8c9" kindref="member">HardwareCycleCounter::rdtscp</ref>();</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(rdtscp2,<sp/>rdtscp1);</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="31"><highlight class="normal"></highlight></codeline>
+<codeline lineno="35"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>CPUFrequency)<sp/>{</highlight></codeline>
+<codeline lineno="36"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>freq<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1a108c9eefbcca61eda1b01905ac365c8b" kindref="member">HardwareCycleCounter::cpu_frequency_hz</ref>();</highlight></codeline>
+<codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Frequency<sp/>should<sp/>be<sp/>reasonable<sp/>(1-6<sp/>GHz)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="39"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_GT(freq,<sp/>1&apos;000&apos;000&apos;000ULL);<sp/><sp/></highlight><highlight class="comment">//<sp/>&gt;<sp/>1<sp/>GHz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(freq,<sp/>6&apos;000&apos;000&apos;000ULL);<sp/><sp/></highlight><highlight class="comment">//<sp/>&lt;<sp/>6<sp/>GHz</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="41"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"></highlight></codeline>
+<codeline lineno="46"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>CPUModel)<sp/>{</highlight></codeline>
+<codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::string<sp/>model<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_hardware_cycle_counter_1aded86837d9ca403a97695ab599a807b5" kindref="member">HardwareCycleCounter::cpu_model</ref>();</highlight></codeline>
+<codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(model.empty());</highlight></codeline>
+<codeline lineno="50"><highlight class="normal"><sp/><sp/><sp/><sp/>std::cout<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;CPU<sp/>Model:<sp/>&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>model<sp/>&lt;&lt;<sp/>std::endl;</highlight></codeline>
+<codeline lineno="51"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="52"><highlight class="normal"></highlight></codeline>
+<codeline lineno="56"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="57"><highlight class="normal"><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/>uint64_t<sp/>cycles<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="58"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="59"><highlight class="normal"><sp/><sp/><sp/><sp/>{</highlight></codeline>
+<codeline lineno="60"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_scoped_cycle_timer" kindref="compound">ScopedCycleTimer</ref><sp/>timer(&amp;cycles);</highlight></codeline>
+<codeline lineno="61"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>some<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="62"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="63"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>1000;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="64"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="65"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="66"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="67"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="68"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Should<sp/>have<sp/>measured<sp/>some<sp/>cycles</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="69"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>(void)cycles;</highlight></codeline>
+<codeline lineno="70"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_GT(cycles,<sp/>0);</highlight></codeline>
+<codeline lineno="71"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="72"><highlight class="normal"></highlight></codeline>
+<codeline lineno="76"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="structthemis_1_1performance_1_1_expected_cycles" kindref="compound">ExpectedCycles</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>deviation<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1a36caaffa6a4be48d0f66090b5f6e2df5" kindref="member">ExpectedCycles::deviation_percent</ref>(100,<sp/>100),<sp/>0.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="79"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1a36caaffa6a4be48d0f66090b5f6e2df5" kindref="member">ExpectedCycles::deviation_percent</ref>(110,<sp/>100),<sp/>10.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="80"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_NEAR(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1a36caaffa6a4be48d0f66090b5f6e2df5" kindref="member">ExpectedCycles::deviation_percent</ref>(90,<sp/>100),<sp/>-10.0,<sp/>0.01);</highlight></codeline>
+<codeline lineno="81"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="82"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>tolerance<sp/>checks</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="83"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1aff30ae195a8c837f75da42607bb131dc" kindref="member">ExpectedCycles::is_normal</ref>(100,<sp/>100));</highlight></codeline>
+<codeline lineno="84"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1aff30ae195a8c837f75da42607bb131dc" kindref="member">ExpectedCycles::is_normal</ref>(110,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+10%<sp/>is<sp/>normal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="85"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1aff30ae195a8c837f75da42607bb131dc" kindref="member">ExpectedCycles::is_normal</ref>(200,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+100%<sp/>is<sp/>not<sp/>normal</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="86"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="87"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1a4844a394ff55f089e4a1a3cebc082ff7" kindref="member">ExpectedCycles::is_warning</ref>(125,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+25%<sp/>is<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="88"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1a4844a394ff55f089e4a1a3cebc082ff7" kindref="member">ExpectedCycles::is_warning</ref>(110,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+10%<sp/>is<sp/>not<sp/>warning</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="89"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="90"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1ac6e72c7bb3aa9ea7ce039bb705adc026" kindref="member">ExpectedCycles::is_critical</ref>(200,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+100%<sp/>is<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="91"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1ac6e72c7bb3aa9ea7ce039bb705adc026" kindref="member">ExpectedCycles::is_critical</ref>(120,<sp/>100));<sp/><sp/></highlight><highlight class="comment">//<sp/>+20%<sp/>is<sp/>not<sp/>critical</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="92"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"></highlight></codeline>
+<codeline lineno="97"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>RAGPipelineExpectedValues)<sp/>{</highlight></codeline>
+<codeline lineno="98"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>pointer<sp/>overhead<sp/>is<sp/>negligible</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="99"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_LT(<ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ae33c9a8db6361f56139f50be126f797e" kindref="member">ExpectedCycles::RAGPipeline::POINTER_OVERHEAD_PERCENT</ref>,<sp/>0.001);</highlight></codeline>
+<codeline lineno="100"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="101"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Verify<sp/>total<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="102"><highlight class="normal"><sp/><sp/><sp/><sp/>uint64_t<sp/>expected_total<sp/>=<sp/></highlight></codeline>
+<codeline lineno="103"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a85c60c97fbecba007493f97239a5728c" kindref="member">ExpectedCycles::RAGPipeline::HNSW_10K_SEARCH</ref><sp/>+</highlight></codeline>
+<codeline lineno="104"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a54a834f3ec081d8915fb9213a1ac0ada" kindref="member">ExpectedCycles::RAGPipeline::POINTER_PASSING_OVERHEAD</ref><sp/>+</highlight></codeline>
+<codeline lineno="105"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1ac86430b95e789162db70c55dc4c2cde7" kindref="member">ExpectedCycles::RAGPipeline::LLM_10_TOKENS_7B</ref>;</highlight></codeline>
+<codeline lineno="106"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="107"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(expected_total,<sp/><ref refid="structthemis_1_1performance_1_1_expected_cycles_1_1_r_a_g_pipeline_1a6232c05073c0a0f35abe6e174f22aa46" kindref="member">ExpectedCycles::RAGPipeline::TOTAL</ref>);</highlight></codeline>
+<codeline lineno="108"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="109"><highlight class="normal"></highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer&lt;int, 16&gt;</ref><sp/>buffer;</highlight></codeline>
+<codeline lineno="115"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>empty</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="118"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a49661422409c69cb412e51d5828334bf" kindref="member">size</ref>(),<sp/>0);</highlight></codeline>
+<codeline lineno="119"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="120"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>push</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="121"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(1));</highlight></codeline>
+<codeline lineno="122"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(2));</highlight></codeline>
+<codeline lineno="123"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(3));</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a49661422409c69cb412e51d5828334bf" kindref="member">size</ref>(),<sp/>3);</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>pop</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="128"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value));</highlight></codeline>
+<codeline lineno="130"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>1);</highlight></codeline>
+<codeline lineno="131"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value));</highlight></codeline>
+<codeline lineno="132"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>2);</highlight></codeline>
+<codeline lineno="133"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value));</highlight></codeline>
+<codeline lineno="134"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>3);</highlight></codeline>
+<codeline lineno="135"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="136"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="137"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value));</highlight></codeline>
+<codeline lineno="138"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="139"><highlight class="normal"></highlight></codeline>
+<codeline lineno="143"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>LockFreeRingBufferOverflow)<sp/>{</highlight></codeline>
+<codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer&lt;int, 8&gt;</ref><sp/>buffer;</highlight></codeline>
+<codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="146"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Fill<sp/>buffer<sp/>(capacity<sp/>-<sp/>1<sp/>because<sp/>of<sp/>SPSC<sp/>design)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="147"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>7;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="148"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(i));</highlight></codeline>
+<codeline lineno="149"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="150"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Next<sp/>push<sp/>should<sp/>fail<sp/>(buffer<sp/>full)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(999));</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1acb2e5dfa63f6a46067ecc12e0685415a" kindref="member">dropped_count</ref>(),<sp/>1);</highlight></codeline>
+<codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="155"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Pop<sp/>one,<sp/>then<sp/>push<sp/>should<sp/>succeed</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>{};</highlight></codeline>
+<codeline lineno="157"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value));</highlight></codeline>
+<codeline lineno="158"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(777));</highlight></codeline>
+<codeline lineno="159"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="160"><highlight class="normal"></highlight></codeline>
+<codeline lineno="164"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>LockFreeRingBufferConcurrent)<sp/>{</highlight></codeline>
+<codeline lineno="165"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer" kindref="compound">LockFreeRingBuffer&lt;int, 1024&gt;</ref><sp/>buffer;</highlight></codeline>
+<codeline lineno="166"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="167"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">constexpr</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>NUM_ITEMS<sp/>=<sp/>500;</highlight></codeline>
+<codeline lineno="168"><highlight class="normal"><sp/><sp/><sp/><sp/>std::atomic&lt;bool&gt;<sp/>start_flag{</highlight><highlight class="keyword">false</highlight><highlight class="normal">};</highlight></codeline>
+<codeline lineno="169"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="170"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Producer<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="171"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>producer([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="172"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!start_flag.load())<sp/>{</highlight></codeline>
+<codeline lineno="173"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="174"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="175"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="176"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>NUM_ITEMS;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="177"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a9fe0cfe5619b853dcc861772f4618550" kindref="member">tryPush</ref>(i))<sp/>{</highlight></codeline>
+<codeline lineno="178"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="179"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="180"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="181"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="182"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="183"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Consumer<sp/>thread</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="184"><highlight class="normal"><sp/><sp/><sp/><sp/>std::thread<sp/>consumer([&amp;]()<sp/>{</highlight></codeline>
+<codeline lineno="185"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(!start_flag.load())<sp/>{</highlight></codeline>
+<codeline lineno="186"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="187"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="188"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="189"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>received<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="190"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>value<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="191"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">while</highlight><highlight class="normal"><sp/>(received<sp/>&lt;<sp/>NUM_ITEMS)<sp/>{</highlight></codeline>
+<codeline lineno="192"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">if</highlight><highlight class="normal"><sp/>(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a57701de5e41c44f27b161c77e0485867" kindref="member">tryPop</ref>(value))<sp/>{</highlight></codeline>
+<codeline lineno="193"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>EXPECT_EQ(value,<sp/>received);</highlight></codeline>
+<codeline lineno="194"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>++received;</highlight></codeline>
+<codeline lineno="195"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}<sp/></highlight><highlight class="keywordflow">else</highlight><highlight class="normal"><sp/>{</highlight></codeline>
+<codeline lineno="196"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>std::this_thread::yield();</highlight></codeline>
+<codeline lineno="197"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="198"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="199"><highlight class="normal"><sp/><sp/><sp/><sp/>});</highlight></codeline>
+<codeline lineno="200"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="201"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Start<sp/>both<sp/>threads</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="202"><highlight class="normal"><sp/><sp/><sp/><sp/>start_flag.store(</highlight><highlight class="keyword">true</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="203"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="204"><highlight class="normal"><sp/><sp/><sp/><sp/>producer.join();</highlight></codeline>
+<codeline lineno="205"><highlight class="normal"><sp/><sp/><sp/><sp/>consumer.join();</highlight></codeline>
+<codeline lineno="206"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="207"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_lock_free_ring_buffer_1a1735f7836549397f7437d175dd7be086" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="208"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="209"><highlight class="normal"></highlight></codeline>
+<codeline lineno="213"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="classthemis_1_1performance_1_1_runtime_config" kindref="compound">RuntimeConfig</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="214"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal">&amp;<sp/>config<sp/>=<sp/><ref refid="classthemis_1_1performance_1_1_runtime_config_1ad88e7978b65d8d346789bc2e84b273d5" kindref="member">RuntimeConfig::instance</ref>();</highlight></codeline>
+<codeline lineno="215"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="216"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>sampling<sp/>rate</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="217"><highlight class="normal"><sp/><sp/><sp/><sp/>config.setSamplingRate(1);</highlight></codeline>
+<codeline lineno="218"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getSamplingRate(),<sp/>1);</highlight></codeline>
+<codeline lineno="219"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.shouldMeasure());<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="220"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="221"><highlight class="normal"><sp/><sp/><sp/><sp/>config.setSamplingRate(2);</highlight></codeline>
+<codeline lineno="222"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(config.getSamplingRate(),<sp/>2);</highlight></codeline>
+<codeline lineno="223"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="224"><highlight class="normal"><sp/><sp/><sp/><sp/>config.setSamplingRate(0);</highlight></codeline>
+<codeline lineno="225"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.shouldMeasure());<sp/><sp/></highlight><highlight class="comment">//<sp/>No<sp/>operations</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="226"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="227"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>operation<sp/>filtering</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="228"><highlight class="normal"><sp/><sp/><sp/><sp/>config.enableOperation(</highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="229"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isOperationEnabled(</highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="230"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(config.isOperationEnabled(</highlight><highlight class="stringliteral">&quot;other_op&quot;</highlight><highlight class="normal">));</highlight></codeline>
+<codeline lineno="231"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="232"><highlight class="normal"><sp/><sp/><sp/><sp/>config.disableOperation(</highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="233"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isOperationEnabled(</highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>Empty<sp/>filter<sp/>set<sp/>=&gt;<sp/>all<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="234"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="235"><highlight class="normal"><sp/><sp/><sp/><sp/>config.clearOperationFilters();</highlight></codeline>
+<codeline lineno="236"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(config.isOperationEnabled(</highlight><highlight class="stringliteral">&quot;any_op&quot;</highlight><highlight class="normal">));<sp/><sp/></highlight><highlight class="comment">//<sp/>All<sp/>enabled<sp/>when<sp/>no<sp/>filters</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="237"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="238"><highlight class="normal"></highlight></codeline>
+<codeline lineno="242"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref>)<sp/>{</highlight></codeline>
+<codeline lineno="243"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer" kindref="compound">ThreadLocalMetricsBuffer</ref><sp/>buffer;</highlight></codeline>
+<codeline lineno="244"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="245"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a2ffae96a77cab0649d4f9040b7815780" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="246"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="247"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Record<sp/>some<sp/>metrics</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="248"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="249"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref><sp/>=<sp/>1000;</highlight></codeline>
+<codeline lineno="250"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a71ebc08687e57efd5ad39d8bcb761b00" kindref="member">pointer_passing_cycles</ref><sp/>=<sp/>150;</highlight></codeline>
+<codeline lineno="251"><highlight class="normal"><sp/><sp/><sp/><sp/>metrics.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a3d823b1b1d0e17fde0ad27326a68b59c" kindref="member">llm_inference_cycles</ref><sp/>=<sp/>50000;</highlight></codeline>
+<codeline lineno="252"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="253"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a9a0e1975ab5ec586c28e1dc71c628285" kindref="member">recordOperation</ref>(</highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">,<sp/>metrics));</highlight></codeline>
+<codeline lineno="254"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(buffer.<ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a2ffae96a77cab0649d4f9040b7815780" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="255"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="256"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Drain<sp/>buffer</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="257"><highlight class="normal"><sp/><sp/><sp/><sp/>std::vector&lt;MetricsEntry&gt;<sp/>drained;</highlight></codeline>
+<codeline lineno="258"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordtype">size_t</highlight><highlight class="normal"><sp/>count<sp/>=<sp/>buffer.<ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a602306c681f1e623c1cf360dc1759ad8" kindref="member">drain</ref>(drained);</highlight></codeline>
+<codeline lineno="259"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="260"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(count,<sp/>1);</highlight></codeline>
+<codeline lineno="261"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(drained.size(),<sp/>1);</highlight></codeline>
+<codeline lineno="262"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(drained[0].operation_name,<sp/></highlight><highlight class="stringliteral">&quot;test_op&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="263"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(drained[0].metrics.<ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics_1a5312e94dc3065af443a3a9341e7d6b83" kindref="member">hnsw_search_cycles</ref>,<sp/>1000);</highlight></codeline>
+<codeline lineno="264"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="265"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_TRUE(buffer.<ref refid="classthemis_1_1performance_1_1_thread_local_metrics_buffer_1a2ffae96a77cab0649d4f9040b7815780" kindref="member">empty</ref>());</highlight></codeline>
+<codeline lineno="266"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="267"><highlight class="normal"></highlight></codeline>
+<codeline lineno="271"><highlight class="normal"><ref refid="test__cycle__metrics_8cpp_1a4ec60fc6761210d24ac97392e6f260bd" kindref="member">TEST</ref>(CycleMetricsTest,<sp/>ZeroCostAbstraction)<sp/>{</highlight></codeline>
+<codeline lineno="272"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>This<sp/>test<sp/>verifies<sp/>that<sp/>macros<sp/>compile<sp/>without<sp/>errors</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="273"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>When<sp/>THEMIS_ENABLE_CYCLE_METRICS<sp/>is<sp/>OFF,<sp/>macros<sp/>should<sp/>compile<sp/>to<sp/>nothing</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="274"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="275"><highlight class="normal"><sp/><sp/><sp/><sp/>[[maybe_unused]]<sp/>uint64_t<sp/>cycles<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="276"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="277"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1aa93bb80e80c022d0f5240e44916af75e" kindref="member">THEMIS_MEASURE_CYCLES_START</ref>(cycles);</highlight></codeline>
+<codeline lineno="278"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Do<sp/>some<sp/>work</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="279"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">volatile</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>sum<sp/>=<sp/>0;</highlight></codeline>
+<codeline lineno="280"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">for</highlight><highlight class="normal"><sp/>(</highlight><highlight class="keywordtype">int</highlight><highlight class="normal"><sp/>i<sp/>=<sp/>0;<sp/>i<sp/>&lt;<sp/>100;<sp/>++i)<sp/>{</highlight></codeline>
+<codeline lineno="281"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>sum<sp/>+=<sp/>i;</highlight></codeline>
+<codeline lineno="282"><highlight class="normal"><sp/><sp/><sp/><sp/>}</highlight></codeline>
+<codeline lineno="283"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1aa0618aebc154b540b0d4728bb4dfc9b7" kindref="member">THEMIS_MEASURE_CYCLES_END</ref>(cycles);</highlight></codeline>
+<codeline lineno="284"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="285"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1af22e51e191d54075550e9b485c21a911" kindref="member">THEMIS_SCOPED_CYCLE_TIMER</ref>(cycles);</highlight></codeline>
+<codeline lineno="286"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="287"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1_operation_cycle_metrics" kindref="compound">OperationCycleMetrics</ref><sp/>metrics;</highlight></codeline>
+<codeline lineno="288"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1a75ccb50848b345a07f3f7a6acffbfea1" kindref="member">THEMIS_RECORD_METRICS</ref>(</highlight><highlight class="stringliteral">&quot;test&quot;</highlight><highlight class="normal">,<sp/>metrics);</highlight></codeline>
+<codeline lineno="289"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight></codeline>
+<codeline lineno="290"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1ac85e7c0961993aace4997c4772894e5a" kindref="member">THEMIS_RECORD_FUNCTION_CYCLES</ref>(</highlight><highlight class="stringliteral">&quot;test_func&quot;</highlight><highlight class="normal">,<sp/>cycles);</highlight></codeline>
+<codeline lineno="291"><highlight class="normal"></highlight></codeline>
+<codeline lineno="292"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>PMU<sp/>cache-miss<sp/>macros<sp/>(zero-cost<sp/>when<sp/>THEMIS_ENABLE_PMU_COUNTERS<sp/>is<sp/>OFF)</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="293"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="classthemis_1_1performance_1_1phase4_1_1_cache_miss_analyzer" kindref="compound">::themis::performance::phase4::CacheMissAnalyzer</ref><sp/>pmu_analyzer;</highlight></codeline>
+<codeline lineno="294"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1performance_1_1phase4_1_1_cache_miss_metrics" kindref="compound">::themis::performance::phase4::CacheMissMetrics</ref><sp/><sp/>pmu_metrics;</highlight></codeline>
+<codeline lineno="295"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1a3b9df97f4eafeba6a4159fee8f098aff" kindref="member">THEMIS_PMU_START</ref>(pmu_analyzer);</highlight></codeline>
+<codeline lineno="296"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1ae7fffa37c0b0684a1644c578c678069d" kindref="member">THEMIS_PMU_STOP</ref>(pmu_analyzer,<sp/>pmu_metrics);</highlight></codeline>
+<codeline lineno="297"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="cycle__metrics__config_8h_1a9893881067807cb001cdbdffade2f34c" kindref="member">THEMIS_SCOPED_CACHE_MISS_TIMER</ref>(pmu_analyzer,<sp/>pmu_metrics);</highlight></codeline>
+<codeline lineno="298"><highlight class="normal"></highlight></codeline>
+<codeline lineno="299"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Test<sp/>should<sp/>pass<sp/>regardless<sp/>of<sp/>whether<sp/>metrics<sp/>are<sp/>enabled</highlight><highlight class="normal"></highlight></codeline>
+<codeline lineno="300"><highlight class="normal"><sp/><sp/><sp/><sp/>(void)cycles;</highlight></codeline>
+<codeline lineno="301"><highlight class="normal"><sp/><sp/><sp/><sp/>SUCCEED();</highlight></codeline>
+<codeline lineno="302"><highlight class="normal">}</highlight></codeline>
+<codeline lineno="303"><highlight class="normal"></highlight></codeline>
+<codeline lineno="304"><highlight class="normal"></highlight><highlight class="comment">//<sp/>Main<sp/>removed<sp/>-<sp/>using<sp/>GTest&apos;s<sp/>main<sp/>from<sp/>themis_tests.exe</highlight><highlight class="normal"></highlight></codeline>
+    </programlisting>
+    <location file="tests/performance/test_cycle_metrics.cpp"/>
+  </compounddef>
+</doxygen>

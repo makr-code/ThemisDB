@@ -1,0 +1,166 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+  <compounddef id="structthemis_1_1training_1_1_epoch_metrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::training::EpochMetrics</compoundname>
+    <includes refid="incremental__lora__trainer_8h" local="no">incremental_lora_trainer.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1a689fb60850e8f30dad129d0d498406ca" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EpochMetrics::epoch</definition>
+        <argsstring></argsstring>
+        <name>epoch</name>
+        <qualifiedname>themis::training::EpochMetrics::epoch</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="79" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="79" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1a7e921102a5ec352545c86094d9bbb443" prot="public" static="no" mutable="no">
+        <type>size_t</type>
+        <definition>size_t themis::training::EpochMetrics::steps</definition>
+        <argsstring></argsstring>
+        <name>steps</name>
+        <qualifiedname>themis::training::EpochMetrics::steps</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="80" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="80" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1a8ca04f459e46c09ace17cf46165c6967" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EpochMetrics::train_loss</definition>
+        <argsstring></argsstring>
+        <name>train_loss</name>
+        <qualifiedname>themis::training::EpochMetrics::train_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Mean training loss over all steps in this epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="81" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1aca50989abc99850c712f960e0986bd0d" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EpochMetrics::val_loss</definition>
+        <argsstring></argsstring>
+        <name>val_loss</name>
+        <qualifiedname>themis::training::EpochMetrics::val_loss</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Validation loss at epoch end (0 if not evaluated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="82" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1a9c599456fa4d0d916b5cd52cd1024d05" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EpochMetrics::accuracy</definition>
+        <argsstring></argsstring>
+        <name>accuracy</name>
+        <qualifiedname>themis::training::EpochMetrics::accuracy</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Accuracy at epoch end (0 if not evaluated). </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="83" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1a54c633792107edcf79e75279b57465d5" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EpochMetrics::learning_rate</definition>
+        <argsstring></argsstring>
+        <name>learning_rate</name>
+        <qualifiedname>themis::training::EpochMetrics::learning_rate</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Effective learning rate used in this epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="84" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1abe86d1763f61a244a0287854b3814a91" prot="public" static="no" mutable="no">
+        <type>double</type>
+        <definition>double themis::training::EpochMetrics::elapsed_seconds</definition>
+        <argsstring></argsstring>
+        <name>elapsed_seconds</name>
+        <qualifiedname>themis::training::EpochMetrics::elapsed_seconds</qualifiedname>
+        <initializer>= 0.0</initializer>
+        <briefdescription>
+<para>Wall-clock time for this epoch. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="85" column="12" bodyfile="include/training/incremental_lora_trainer.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1training_1_1_epoch_metrics_1aba257f047f8e10ffd83bd89c862ada59" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::training::EpochMetrics::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::training::EpochMetrics::timestamp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="86" column="43" bodyfile="include/training/incremental_lora_trainer.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1training_1_1_epoch_metrics_1a5f3a275ff0131aea7b7a1994895e3c8a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::training::EpochMetrics::EpochMetrics</definition>
+        <argsstring>()=default</argsstring>
+        <name>EpochMetrics</name>
+        <qualifiedname>themis::training::EpochMetrics::EpochMetrics</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/training/incremental_lora_trainer.h" line="88" column="5"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+<para>Aggregated metrics for a single training epoch. </para>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/training/incremental_lora_trainer.h" line="78" column="1" bodyfile="include/training/incremental_lora_trainer.h" bodystart="78" bodyend="89"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a9c599456fa4d0d916b5cd52cd1024d05" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>accuracy</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1abe86d1763f61a244a0287854b3814a91" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>elapsed_seconds</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a689fb60850e8f30dad129d0d498406ca" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>epoch</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a5f3a275ff0131aea7b7a1994895e3c8a" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>EpochMetrics</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a54c633792107edcf79e75279b57465d5" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>learning_rate</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a7e921102a5ec352545c86094d9bbb443" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>steps</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1aba257f047f8e10ffd83bd89c862ada59" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1a8ca04f459e46c09ace17cf46165c6967" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>train_loss</name></member>
+      <member refid="structthemis_1_1training_1_1_epoch_metrics_1aca50989abc99850c712f960e0986bd0d" prot="public" virt="non-virtual"><scope>themis::training::EpochMetrics</scope><name>val_loss</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>
