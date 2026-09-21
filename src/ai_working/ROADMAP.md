@@ -14,8 +14,8 @@ The `ai_working` module is a documentation-only context and planning artifact co
 
 ## Planned Features
 
-- [ ] Archival automation script for stale wave artifacts (Target: Q4 2026, Target: `scripts/archive_ai_working.py`)
-- [ ] CI artifact freshness validation gate (Target: Q4 2026)
+- [x] Archival automation script for stale wave artifacts (`scripts/archive_ai_working.py --archive-stale` — delivered 2026-09-21)
+- [x] CI artifact freshness validation gate (`scripts/archive_ai_working.py --check-freshness` integrated into `maintenance-ai-working.yml` — delivered 2026-09-21)
 - [ ] Structured artifact index for agent discovery (Target: Q1 2027)
 
 ## Implementation Phases
@@ -60,14 +60,14 @@ The `ai_working` module is a documentation-only context and planning artifact co
 - [x] Changelog maintained
 - [x] Security scope defined
 - [x] Audit compliance snapshot present
-- [ ] Archival automation implemented (planned Q4 2026)
-- [ ] CI artifact freshness gate active (planned Q4 2026)
+- [x] Archival automation implemented (2026-09-21: `scripts/archive_ai_working.py`)
+- [x] CI artifact freshness gate active (2026-09-21: `maintenance-ai-working.yml`)
 
 ## Known Issues and Limitations
 
 - No C++ implementation: governance tooling counts this as a documentation-only module.
 - Doxygen coverage is N/A (no public C++ API symbols exist).
-- Wave-specific planning artifacts in `ai_working/` root accumulate over time; manual archival required until automation is in place.
+- Wave-specific planning artifacts in `ai_working/` root accumulate over time; automated archival runs via `maintenance-ai-working.yml` on schedule.
 
 ## Breaking Changes
 

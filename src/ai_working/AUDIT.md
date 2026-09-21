@@ -33,15 +33,7 @@
 
 ### Open
 
-1. [AW-AUD-01] Archival automation is not yet implemented.
-   - Severity: low
-   - Evidence: Wave-specific artifacts in `ai_working/` root accumulate; manual archival is needed until a script is delivered.
-   - Action: implement `scripts/archive_ai_working.py` in Q4 2026.
-
-2. [AW-AUD-02] CI artifact freshness gate is not yet active.
-   - Severity: low
-   - Evidence: No automated check validates whether working artifacts are stale.
-   - Action: add freshness validation step to CI governance pipeline in Q4 2026.
+None.
 
 ### Closed
 
@@ -49,6 +41,8 @@
 - Stale BATCH1 analytics artifacts archived to `docs/ARCHIVED/ai-working-history/`.
 - Module purpose aligned to repository governance rules.
 - No C++ code drift: no production code exists in this module.
+- [AW-AUD-01] Archival automation implemented: `scripts/archive_ai_working.py --archive-stale` (2026-09-21).
+- [AW-AUD-02] CI artifact freshness gate implemented: `scripts/archive_ai_working.py --check-freshness` integrated into `maintenance-ai-working.yml` (2026-09-21).
 
 ## Compliance Snapshot
 

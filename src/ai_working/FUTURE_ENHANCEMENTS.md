@@ -19,8 +19,8 @@
 
 | Interface | Requirement |
 |---|---|
-| Archival script | deterministic move of stale artifacts into `docs/ARCHIVED/ai-working-history/` |
-| CI governance gate | validate presence of required governance files in `src/ai_working/` |
+| Archival script | deterministic move of stale artifacts into `docs/ARCHIVED/ai-working-history/` — **delivered**: `scripts/archive_ai_working.py --archive-stale` |
+| CI governance gate | validate presence of required governance files in `src/ai_working/` — **delivered**: `scripts/archive_ai_working.py --check-freshness` in `maintenance-ai-working.yml` |
 | Artifact index | optional structured index of active working documents for agent discovery |
 
 ## Implementation Notes
