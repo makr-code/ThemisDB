@@ -274,7 +274,7 @@ jobs:
           PY
 
       - name: Upload final sign-off artifacts
-        if: always() && steps.resolve-payloads.outputs.has_payloads == 'true'
+        if: (success() || failure()) && steps.resolve-payloads.outputs.has_payloads == 'true'
         uses: actions/upload-artifact@v4  # v7.0.1
         with:
           name: ga-signoff-${{ github.run_number }}
