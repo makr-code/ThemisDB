@@ -1,4 +1,4 @@
-/**
+/*
  * @file test_execution_highcardinality_stress.cpp
  * @brief Wave D — Execution Engine High-Cardinality Stress Tests.
  *
@@ -29,6 +29,8 @@
 #include <string>
 #include <thread>
 #include <vector>
+
+/// @cond DOXYGEN_IGNORE
 
 // ─────────────────────────────────────────────────────────────────────────────
 // STUB / SIMULATION NOTE
@@ -261,3 +263,5 @@ TEST_F(ExecutionHighCardinalityStress, WorkStealingUnderLoad) {
     EXPECT_EQ(pool.processed(), pool.submitted())
         << "All submitted tasks must be processed (no starvation/loss)";
 }
+
+/// @endcond

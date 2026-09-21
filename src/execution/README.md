@@ -1,55 +1,83 @@
-# Execution Module
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-21  
+**Last Updated:** 2026-09-21  
+**Status:** active
 
-<!-- Status: PRODUCTION_READY | Phase 1-6 complete | validated: 2026-08-08 -->
-<!-- Links: ARCHITECTURE.md · ROADMAP.md · FUTURE_ENHANCEMENTS.md -->
+# Execution Module
 
 ## Module Purpose
 
-The execution module provides the runtime substrate for distributed query execution, including SLA-aware query scheduling, work-stealing thread pooling, and bounded resource management with deadline-driven scheduling and adaptive thread pool sizing.
+The execution module provides two bounded runtime primitives that higher-level components can compose for in-process execution control:
+
+- `themis::execution::QueryScheduler` implements a thread-safe earliest-deadline-first queue with backpressure, low-priority shedding, and SLA-completion metrics.
+- `themis::resource::WorkStealingThreadPool` executes submitted work on a fixed worker set behind a bounded central dispatch queue.
+
+The current implementation is intentionally compact and deterministic. It does **not** yet implement elastic worker scaling or per-worker dequeue stealing, even though the thread-pool type keeps those extension points reserved in its public contract.
 
 ## Relevant Interfaces
 
 | Interface / File | Role |
 |---|---|
-| query_scheduler.cpp | SLA-aware scheduler with deadline tracking and priority queuing |
-| thread_pool_manager.cpp | Work-stealing thread pool with adaptive scaling |
-| query_scheduler.h | Public scheduler API contract |
-| thread_pool_manager.h | Public thread pool API contract |
+| `include/execution/query_scheduler.h` | Public API for deadline-ordered query admission, dequeue, and SLA metrics |
+| `src/execution/query_scheduler.cpp` | Scheduler implementation with queue-depth backpressure and low-priority shedding |
+| `include/execution/thread_pool_manager.h` | Public API for bounded task submission, drain/wait, statistics, and shutdown |
+| `src/execution/thread_pool_manager.cpp` | Fixed-size worker pool implementation backed by a central dispatch queue |
+| `tests/integration/test_load_balancing.cpp` | Focused scheduler behavior and metrics coverage |
+| `tests/integration/test_resource_pooling.cpp` | Focused thread-pool behavior, shutdown, exception, and throughput coverage |
+| `tests/execution/test_execution_highcardinality_stress.cpp` | Wave-D stress evidence for queue saturation and high-cardinality dispatch |
+| `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Dedicated execution benchmark gates (EX-BM-01..04) |
 
 ## Scope
 
 In scope:
-- SLA-aware query scheduling with deadline tracking
-- Work-stealing thread pool with adaptive scaling
-- Execution-layer resource management and constraint enforcement
-- Deadline enforcement and priority-based dispatch
-- Graceful shutdown and error handling
+- bounded query admission with timeout-based backpressure
+- deadline-ordered dequeue with FIFO tie-breaking for equal deadlines
+- low-priority shedding once the configured shed threshold is reached
+- fixed worker execution with bounded task queueing
+- graceful shutdown and lightweight runtime metrics
 
-Out of scope:
-- Query plan optimization (owned by query module)
-- Distributed coordination beyond thread pool (owned by coordination module)
-- Business-logic query execution semantics
+Out of scope in the current implementation:
+- dynamic priority promotion or fairness buckets
+- cancellation of already-enqueued queries or tasks
+- elastic worker creation/retirement during steady-state execution
+- true per-worker deque population and active work stealing
+- cross-node or distributed execution coordination
 
 ## Runtime Behavior and Limits
 
-- Scheduler enforces configurable queue depth limits with backpressure
-- Thread pool scales adaptively between configured min/max workers
-- All operations are bounded by configured timeouts and resource limits
-- Deadline violations are reported as structured errors with diagnostics
-- Graceful shutdown waits for in-flight operations with configurable timeout
+### QueryScheduler
+- `enqueue()` returns `0` when the scheduler is shutting down, when capacity does not free up before the caller timeout, or when a LOW-priority entry is shed at/above `Config::shed_threshold`.
+- Dequeue order is driven by the computed absolute deadline first and by monotonically increasing query id second; the `SLAPriority` label is tracked for metrics and shedding decisions, not for a separate priority bucket implementation.
+- `Config::urgent_window_ms` and `Config::default_sla_ms` remain reserved compatibility fields in the current implementation and are not consulted by `enqueue()` or `dequeue()`.
+- SLA compliance metrics are only meaningful when callers invoke `reportCompletion()` for executed query ids.
 
-## Sourcecode Verification (Module: execution/readme)
+### WorkStealingThreadPool
+- The pool starts `Config::min_threads` workers during construction and keeps them alive until shutdown.
+- `Config::max_threads` currently bounds internal queue allocation and clamps `min_threads`; it does not trigger elastic worker growth at runtime.
+- `submit()` blocks until queue capacity is available or the caller timeout expires.
+- `waitAll()` polls for an empty dispatch queue and zero pending-item count; it does not guarantee that completed tasks reported their own higher-level side effects.
+- Worker task exceptions are caught, counted in `Statistics::failed`, and do not terminate the pool.
 
-- Verified files:
-  - src/execution/query_scheduler.cpp
-  - src/execution/thread_pool_manager.cpp
-  - include/execution/query_scheduler.h
-  - include/execution/thread_pool_manager.h
-- Verified behavior surfaces:
-  - SLA deadline computation and enforcement
-  - Priority-based FIFO dispatch (CRITICAL > HIGH > NORMAL > LOW)
-  - Work-stealing task dispatch and thread pool lifecycle
-  - Resource constraint enforcement and graceful degradation
-- Note:
-  - forward planning is tracked in ROADMAP.md and FUTURE_ENHANCEMENTS.md
-  - historical entries remain in CHANGELOG.md
+## Integration Notes
+
+- `src/server/http_server.cpp` and `include/server/http_server.h` instantiate both execution primitives when `THEMIS_EXECUTION_MODULE` is enabled.
+- Scheduler and thread-pool shutdown are coordinated during `HttpServer` teardown.
+- The current integration initializes the primitives and exposes them to the server, but request-level query submission/wiring remains higher-level integration work.
+
+## Known Limitations
+
+1. The scheduler does not remove or cancel already-enqueued entries after SLA expiry; deadlines influence ordering and completion accounting, not automatic eviction.
+2. The thread pool uses a shared dispatch queue only; the reserved per-thread queue objects are not populated by `submit()` yet.
+3. `idle_timeout_ms` acts as the worker wait interval before re-checking the queue, not as an idle-thread retirement mechanism.
+4. Runtime metrics are in-memory snapshots only; there is no built-in exporter, tracing hook, or persistence layer in this module.
+
+## Related Documentation
+
+- [`ARCHITECTURE.md`](ARCHITECTURE.md) — component boundaries, state flow, and failure paths
+- [`ROADMAP.md`](ROADMAP.md) — delivery status, remaining gaps, and phased plan
+- [`CHANGELOG.md`](CHANGELOG.md) — implementation and documentation history
+- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — planned feature upgrades from the current bounded baseline
+- [`PERFORMANCE_EXPECTATIONS.md`](PERFORMANCE_EXPECTATIONS.md) — benchmark-linked latency and throughput expectations
+- [`PRODUCTION_REQUIREMENTS.md`](PRODUCTION_REQUIREMENTS.md) — deployment-time configuration and operational minimums
+- [`SECURITY.md`](SECURITY.md) — fail-closed and resource-exhaustion security posture
+- [`AUDIT.md`](AUDIT.md) — source-verified audit summary for the current execution module state

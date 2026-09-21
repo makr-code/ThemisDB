@@ -1,4 +1,4 @@
-/**
+/*
  * @file bench_execution_dedicated_gates.cpp
  * @brief Wave D — Execution Engine Dedicated Benchmark Gates.
  *
@@ -29,6 +29,8 @@
 #include <mutex>
 #include <thread>
 #include <vector>
+
+/// @cond DOXYGEN_IGNORE
 
 // ─────────────────────────────────────────────────────────────────────────────
 // In-process stubs — model execution hot paths without external backends.
@@ -232,3 +234,5 @@ BENCHMARK(BM_EX_BM_04_ConcurrentDispatchThroughput)
     ->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
+
+/// @endcond

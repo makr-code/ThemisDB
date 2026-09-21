@@ -1,35 +1,29 @@
 # EXECUTION DOXYGEN
 
 Author: ThemisDB Contributors
-Created: 2026-09-20
-Last Updated: 2026-09-20
+Created: 2026-09-21
+Last Updated: 2026-09-21
 Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\execution\xml\index.xml`
-- Warnings log: `C:\Projects\ThemisDB\.tmp\module_doxygen_global_e2e\execution\doxygen-warnings.log`
+- XML index: `/tmp/module-doxygen-execution/artifacts/execution/xml/index.xml`
+- Warnings log: `/tmp/module-doxygen-execution/artifacts/execution/doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 6
-- Compounds: 33
-- Classes/Structs: 15
-- Namespaces: 4
+- Compounds: 27
+- Classes/Structs: 10
+- Namespaces: 3
 - File Compounds: 6
 
 ## Namespaces
-- testing
 - themis
 - themis::execution
 - themis::resource
 
 ## Types
 ### Classes
-- BoundedQueue
-- ExecutionHighCardinalityStress
-- StealPool
-- StubBoundedQueue
-- StubWorkStealPool
 - themis::execution::QueryScheduler
 - themis::resource::WorkStealingThreadPool
 
@@ -48,407 +42,230 @@ Status: active
 - Regenerate via scripts/generate_module_doxygen_xml.py --write-module-markdown.
 
 ## Detailed Function Documentation (Soll-Ist)
-- Functions extracted: 61
-
-### BoundedQueue
-
-#### `BoundedQueue(std::size_t capacity)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:43
-- Brief: n/a
-- Parameters:
-  - `capacity` (std::size_t): n/a
-
-#### `bool dequeue(uint64_t &out)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:52
-- Brief: n/a
-- Parameters:
-  - `out` (uint64_t &): n/a
-
-#### `bool enqueue(uint64_t item)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:45
-- Brief: n/a
-- Parameters:
-  - `item` (uint64_t): n/a
-
-#### `std::size_t size() const`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:60
-- Brief: n/a
-- Parameters: none
-
-### StealPool
-
-#### `StealPool(unsigned workers)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:76
-- Brief: n/a
-- Parameters:
-  - `workers` (unsigned): n/a
-
-#### `bool steal(uint64_t &out)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:85
-- Brief: n/a
-- Parameters:
-  - `out` (uint64_t &): n/a
-
-#### `void submit(uint64_t task_id)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:79
-- Brief: n/a
-- Parameters:
-  - `task_id` (uint64_t): n/a
-
-### StubBoundedQueue
-
-#### `StubBoundedQueue(std::size_t capacity)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:43
-- Brief: n/a
-- Parameters:
-  - `capacity` (std::size_t): n/a
-
-#### `bool dequeue(uint64_t &out)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:53
-- Brief: n/a
-- Parameters:
-  - `out` (uint64_t &): n/a
-
-#### `uint64_t dequeued() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:68
-- Brief: n/a
-- Parameters: none
-
-#### `bool enqueue(uint64_t item)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:45
-- Brief: n/a
-- Parameters:
-  - `item` (uint64_t): n/a
-
-#### `uint64_t enqueued() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:67
-- Brief: n/a
-- Parameters: none
-
-#### `uint64_t overflow() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:69
-- Brief: n/a
-- Parameters: none
-
-#### `std::size_t size() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:62
-- Brief: n/a
-- Parameters: none
-
-### StubWorkStealPool
-
-#### `StubWorkStealPool(unsigned workers)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:85
-- Brief: n/a
-- Parameters:
-  - `workers` (unsigned): n/a
-
-#### `void drainStep()`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:96
-- Brief: n/a
-- Parameters: none
-
-#### `uint64_t processed() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:107
-- Brief: n/a
-- Parameters: none
-
-#### `uint64_t remaining() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:109
-- Brief: n/a
-- Parameters: none
-
-#### `void submit(uint64_t task_id)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:88
-- Brief: n/a
-- Parameters:
-  - `task_id` (uint64_t): n/a
-
-#### `uint64_t submitted() const`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:106
-- Brief: n/a
-- Parameters: none
-
-### bench_execution_dedicated_gates.cpp
-
-#### `BENCHMARK_MAIN()`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:234
-- Brief: n/a
-- Parameters: none
-
-#### `void BM_EX_BM_01_EnqueueP95(benchmark::State &state)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:110
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void BM_EX_BM_02_DequeueP95(benchmark::State &state)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:135
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void BM_EX_BM_03_WorkStealThroughput(benchmark::State &state)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:165
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `void BM_EX_BM_04_ConcurrentDispatchThroughput(benchmark::State &state)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:197
-- Brief: n/a
-- Parameters:
-  - `state` (benchmark::State &): n/a
-
-#### `Name("EX-BM-01/EnqueueP95") -> Repetitions(5) ->ReportAggregatesOnly(true) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:125
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` ("EX-BM-01/EnqueueP95"): n/a
-
-#### `Name("EX-BM-02/DequeueP95") -> Repetitions(5) ->ReportAggregatesOnly(true) ->Unit(benchmark::kMicrosecond)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:154
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` ("EX-BM-02/DequeueP95"): n/a
-
-#### `Name("EX-BM-03/WorkStealThroughput") -> Arg(10000) ->Repetitions(5) ->ReportAggregatesOnly(true) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:185
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` ("EX-BM-03/WorkStealThroughput"): n/a
-
-#### `Name("EX-BM-04/ConcurrentDispatchThroughput") -> Arg(5000) ->Repetitions(3) ->ReportAggregatesOnly(true) ->Unit(benchmark::kMillisecond)`
-- Source: `benchmarks/execution/bench_execution_dedicated_gates.cpp`:228
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` ("EX-BM-04/ConcurrentDispatchThroughput"): n/a
-
-### test_execution_highcardinality_stress.cpp
-
-#### `TEST_F(ExecutionHighCardinalityStress, ConcurrentQueueStress)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:180
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (ExecutionHighCardinalityStress): n/a
-  - `<unnamed>` (ConcurrentQueueStress): n/a
-
-#### `TEST_F(ExecutionHighCardinalityStress, HighCardinalityTaskDispatch)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:142
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (ExecutionHighCardinalityStress): n/a
-  - `<unnamed>` (HighCardinalityTaskDispatch): n/a
-
-#### `TEST_F(ExecutionHighCardinalityStress, WorkStealingUnderLoad)`
-- Source: `tests/execution/test_execution_highcardinality_stress.cpp`:237
-- Brief: n/a
-- Parameters:
-  - `<unnamed>` (ExecutionHighCardinalityStress): n/a
-  - `<unnamed>` (WorkStealingUnderLoad): n/a
+- Functions extracted: 29
 
 ### themis::execution::QueryScheduler
 
 #### `QueryScheduler()`
-- Source: `include/execution/query_scheduler.h`:100
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:96
+- Brief: Construct a scheduler with default configuration.
 - Parameters: none
 
 #### `QueryScheduler(const Config &cfg)`
-- Source: `include/execution/query_scheduler.h`:107
-- Brief: Query Scheduler.
+- Source: `include/execution/query_scheduler.h`:102
+- Brief: Construct a scheduler with an explicit configuration snapshot.
 - Parameters:
-  - `cfg` (const Config &): Input parameter.
-- Return: Return value.
-- Details: cfg Input parameter. Return value.
+  - `cfg` (const Config &): Runtime limits and reserved compatibility settings.
+- Details: cfg Runtime limits and reserved compatibility settings.
 
-#### `QueryScheduler(const QueryScheduler &)=delete`
-- Source: `include/execution/query_scheduler.h`:112
-- Brief: n/a
+#### `QueryScheduler(const QueryScheduler &other)=delete`
+- Source: `include/execution/query_scheduler.h`:113
+- Brief: Copying is disabled because the scheduler owns synchronization state.
 - Parameters:
-  - `<unnamed>` (const QueryScheduler &): n/a
+  - `other` (const QueryScheduler &): Unused source scheduler instance.
+- Details: other Unused source scheduler instance.
 
 #### `bool dequeue(QueryEntry &out, std::chrono::milliseconds timeout=std::chrono::seconds(5))`
-- Source: `include/execution/query_scheduler.h`:122
-- Brief: Dequeue.
+- Source: `include/execution/query_scheduler.h`:146
+- Brief: Dequeue the next query ordered by absolute deadline.
 - Parameters:
-  - `out` (QueryEntry &): Input/output parameter.
-  - `timeout` (std::chrono::milliseconds): Input parameter.
-- Return: True when the operation succeeds.
-- Details: out Input/output parameter. timeout Input parameter. True when the operation succeeds. Calls: std::chrono::steady_clock::now(), lk(), wait_until(), empty(), load(), std::move(), top(), pop().
+  - `out` (QueryEntry &): Receives the dequeued entry on success.
+  - `timeout` (std::chrono::milliseconds): Maximum time to wait for queued work.
+- Return: true when an entry was dequeued, otherwise false if the wait timed out or the scheduler reached shutdown with no remaining work.
+- Details: out Receives the dequeued entry on success. timeout Maximum time to wait for an entry before returning false. true when an entry was dequeued, otherwise false if the wait timed out or the scheduler reached shutdown with no remaining work. out Receives the dequeued entry on success. timeout Maximum time to wait for queued work. true when an entry was dequeued, otherwise false.
 
 #### `std::uint64_t enqueue(QueryEntry::ExecuteFn execute, SLAPriority priority=SLAPriority::MEDIUM, long sla_ms=50, std::string name={}, std::chrono::milliseconds timeout=std::chrono::seconds(5))`
-- Source: `include/execution/query_scheduler.h`:115
-- Brief: Enqueue.
+- Source: `include/execution/query_scheduler.h`:132
+- Brief: Enqueue a query for later execution.
 - Parameters:
-  - `execute` (QueryEntry::ExecuteFn): Input parameter.
-  - `priority` (SLAPriority): Input parameter.
-  - `sla_ms` (long): Input parameter.
-  - `name` (std::string): Input parameter.
-  - `timeout` (std::chrono::milliseconds): Input parameter.
-- Return: Return value.
-- Details: execute Input parameter. priority Input parameter. sla_ms Input parameter. name Input parameter. timeout Input parameter. Return value. Calls: load(), std::chrono::steady_clock::now(), std::chrono::milliseconds(), lk(), wait_until(), size(), fetch_add(), std::move().
+  - `execute` (QueryEntry::ExecuteFn): Callable stored in the queued entry.
+  - `priority` (SLAPriority): SLA label used for metrics and shedding decisions.
+  - `sla_ms` (long): Relative deadline budget in milliseconds.
+  - `name` (std::string): Optional diagnostic name.
+  - `timeout` (std::chrono::milliseconds): Maximum time to wait for queue capacity.
+- Return: A non-zero query id on success, or 0 if shutdown is in progress, the wait for capacity times out, or a LOW-priority entry is shed.
+- Details: Enqueue one execution request after waiting for bounded capacity. execute Callable owned by the queued entry. priority Caller-provided SLA label used for metrics and shedding. sla_ms Relative SLA budget in milliseconds; converted to an absolute deadline at enqueue time. name Optional diagnostic name stored with the queued entry. timeout Maximum time to wait for queue capacity before rejecting the submission. A non-zero query id on success, or 0 if shutdown is in progress, the wait for capacity times out, or a LOW-priority entry is shed. execute Callable stored in the queued entry. priority SLA label used for metrics and shedding decisions. sla_ms Relative deadline budget in milliseconds. name Optional diagnostic name. timeout Maximum time to wait for queue capacity. A non-zero query id on success, or 0 if the queue stays full, the scheduler is shutting down, or a LOW-priority item is shed.
 
 #### `bool is_shutdown() const noexcept`
-- Source: `include/execution/query_scheduler.h`:140
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:183
+- Brief: Report whether shutdown has started.
 - Parameters: none
+- Return: true once shutdown has been requested.
+- Details: true once shutdown has been requested.
 
 #### `Metrics metrics() const noexcept`
-- Source: `include/execution/query_scheduler.h`:130
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:166
+- Brief: Return a consistent snapshot of the current scheduler metrics.
 - Parameters: none
+- Return: Scheduler metrics copied under the internal mutex.
+- Details: Scheduler metrics copied under the internal mutex.
 
-#### `QueryScheduler & operator=(const QueryScheduler &)=delete`
-- Source: `include/execution/query_scheduler.h`:113
-- Brief: n/a
+#### `QueryScheduler & operator=(const QueryScheduler &other)=delete`
+- Source: `include/execution/query_scheduler.h`:120
+- Brief: Copy assignment is disabled because the scheduler owns synchronization state.
 - Parameters:
-  - `<unnamed>` (const QueryScheduler &): n/a
+  - `other` (const QueryScheduler &): Unused source scheduler instance.
+- Return: This scheduler instance; the operator is deleted and cannot be used.
+- Details: other Unused source scheduler instance. This scheduler instance; the operator is deleted and cannot be used.
 
 #### `void reportCompletion(std::uint64_t query_id, std::chrono::steady_clock::time_point completion_time=std::chrono::steady_clock::now())`
-- Source: `include/execution/query_scheduler.h`:125
-- Brief: Report Completion.
+- Source: `include/execution/query_scheduler.h`:157
+- Brief: Report completion status for a previously enqueued query id.
 - Parameters:
-  - `query_id` (std::uint64_t): Identifier of the query.
-  - `completion_time` (std::chrono::steady_clock::time_point): Input parameter.
-- Details: query_id Identifier of the query. completion_time Input parameter. Calls: lk(), find(), end(), erase().
+  - `query_id` (std::uint64_t): Identifier returned by enqueue().
+  - `completion_time` (std::chrono::steady_clock::time_point): Completion timestamp used for SLA accounting.
+- Details: Record the observed completion time for a previously queued query. query_id Identifier returned by enqueue(). completion_time Completion timestamp used for SLA accounting. Missing ids are ignored. Callers that rely on Metrics::completed_total and Metrics::sla_compliance_pct must invoke this method explicitly. query_id Identifier returned by enqueue(). completion_time Completion timestamp used for SLA accounting.
 
 #### `void shutdown() noexcept`
-- Source: `include/execution/query_scheduler.h`:138
-- Brief: Shutdown.
+- Source: `include/execution/query_scheduler.h`:177
+- Brief: Stop accepting new entries and wake blocked waiters.
 - Parameters: none
-- Details: Exception safety: noexcept.
 
 #### `std::size_t size() const noexcept`
-- Source: `include/execution/query_scheduler.h`:132
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:172
+- Brief: Return the current queue depth.
 - Parameters: none
+- Return: Number of entries currently stored in the scheduler queue.
+- Details: Number of entries currently stored in the scheduler queue.
 
 #### `~QueryScheduler()`
-- Source: `include/execution/query_scheduler.h`:109
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:107
+- Brief: Destroy the scheduler after initiating shutdown.
 - Parameters: none
 
 ### themis::execution::QueryScheduler::EarliestDeadlineFirst
 
 #### `bool operator()(const QueryEntry &a, const QueryEntry &b) const`
-- Source: `include/execution/query_scheduler.h`:147
-- Brief: n/a
+- Source: `include/execution/query_scheduler.h`:198
+- Brief: Order two queued entries for the internal priority queue.
 - Parameters:
-  - `a` (const QueryEntry &): n/a
-  - `b` (const QueryEntry &): n/a
+  - `a` (const QueryEntry &): Left-hand entry.
+  - `b` (const QueryEntry &): Right-hand entry.
+- Return: true when a should be ordered behind b.
+- Details: a Left-hand entry. b Right-hand entry. true when a should be ordered behind b.
 
 ### themis::resource::WorkItem
 
 #### `WorkItem(Fn f, std::string n={})`
-- Source: `include/execution/thread_pool_manager.h`:48
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:44
+- Brief: Construct a work item.
 - Parameters:
-  - `f` (Fn): n/a
-  - `n` (std::string): n/a
+  - `f` (Fn): Callable to run on a worker thread.
+  - `n` (std::string): Optional diagnostic name.
+- Details: f Callable to run on a worker thread. n Optional diagnostic name.
 
 ### themis::resource::WorkStealingThreadPool
 
 #### `WorkStealingThreadPool()`
-- Source: `include/execution/thread_pool_manager.h`:74
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:82
+- Brief: Construct a pool with default configuration.
 - Parameters: none
 
 #### `WorkStealingThreadPool(const Config &cfg)`
-- Source: `include/execution/thread_pool_manager.h`:81
-- Brief: Work Stealing Thread Pool.
+- Source: `include/execution/thread_pool_manager.h`:88
+- Brief: Construct a pool with an explicit configuration.
 - Parameters:
-  - `cfg` (const Config &): Input parameter.
-- Return: Return value.
-- Details: cfg Input parameter. Return value.
+  - `cfg` (const Config &): Worker-count and queue-capacity settings.
+- Details: cfg Worker-count and queue-capacity settings.
 
-#### `WorkStealingThreadPool(const WorkStealingThreadPool &)=delete`
-- Source: `include/execution/thread_pool_manager.h`:86
-- Brief: n/a
+#### `WorkStealingThreadPool(const WorkStealingThreadPool &other)=delete`
+- Source: `include/execution/thread_pool_manager.h`:99
+- Brief: Copying is disabled because the pool owns worker threads and synchronization state.
 - Parameters:
-  - `<unnamed>` (const WorkStealingThreadPool &): n/a
+  - `other` (const WorkStealingThreadPool &): Unused source pool instance.
+- Details: other Unused source pool instance.
 
 #### `bool is_shutdown() const noexcept`
-- Source: `include/execution/thread_pool_manager.h`:101
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:151
+- Brief: Report whether shutdown has started.
 - Parameters: none
+- Return: true once shutdown has been requested.
+- Details: true once shutdown has been requested.
 
-#### `WorkStealingThreadPool & operator=(const WorkStealingThreadPool &)=delete`
-- Source: `include/execution/thread_pool_manager.h`:87
-- Brief: n/a
+#### `WorkStealingThreadPool & operator=(const WorkStealingThreadPool &other)=delete`
+- Source: `include/execution/thread_pool_manager.h`:106
+- Brief: Copy assignment is disabled because the pool owns worker threads and synchronization state.
 - Parameters:
-  - `<unnamed>` (const WorkStealingThreadPool &): n/a
+  - `other` (const WorkStealingThreadPool &): Unused source pool instance.
+- Return: This pool instance; the operator is deleted and cannot be used.
+- Details: other Unused source pool instance. This pool instance; the operator is deleted and cannot be used.
 
 #### `void shutdown(std::chrono::milliseconds drain_timeout=std::chrono::seconds(30))`
-- Source: `include/execution/thread_pool_manager.h`:99
-- Brief: Shutdown.
+- Source: `include/execution/thread_pool_manager.h`:145
+- Brief: Stop accepting work, drain pending items, wake workers, and join them.
 - Parameters:
-  - `drain_timeout` (std::chrono::milliseconds): Input parameter.
-- Details: drain_timeout Input parameter. Calls: exchange(), waitAll(), notify_all(), lk(), joinable(), join(), clear().
+  - `drain_timeout` (std::chrono::milliseconds): Maximum time to wait for pending items to drain.
+- Details: Drain the queue, wake all workers, and join them. drain_timeout Maximum time to wait for queue drain before forcing the wake/join sequence. drain_timeout Maximum time to wait for pending items to drain.
 
 #### `Statistics statistics() const noexcept`
-- Source: `include/execution/thread_pool_manager.h`:97
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:139
+- Brief: Return a snapshot of worker, queue, and latency statistics.
 - Parameters: none
+- Return: Statistics copied from the current pool state.
+- Details: Statistics copied from the current pool state.
 
 #### `bool submit(WorkItem item, std::chrono::milliseconds timeout=std::chrono::seconds(5))`
-- Source: `include/execution/thread_pool_manager.h`:89
-- Brief: Submit.
+- Source: `include/execution/thread_pool_manager.h`:115
+- Brief: Submit a work item to the bounded dispatch queue.
 - Parameters:
-  - `item` (WorkItem): Input parameter.
-  - `timeout` (std::chrono::milliseconds): Input parameter.
-- Return: True when the operation succeeds.
-- Details: item Input parameter. timeout Input parameter. True when the operation succeeds. Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), push_back(), std::move(), fetch_add(), unlock().
+  - `item` (WorkItem): Work item to enqueue.
+  - `timeout` (std::chrono::milliseconds): Maximum time to wait for queue capacity.
+- Return: true on success, or false if shutdown is in progress or the queue stays full until timeout elapses.
+- Details: Submit one work item into the bounded central dispatch queue. item Work item to move into the pool. timeout Maximum time to wait for queue capacity. true on success, or false if shutdown is in progress or the queue stays full until timeout elapses. item Work item to enqueue. timeout Maximum time to wait for queue capacity. true when the work item was accepted, otherwise false.
 
 #### `bool submit(std::function< void()> fn, std::string name={}, std::chrono::milliseconds timeout=std::chrono::seconds(5))`
-- Source: `include/execution/thread_pool_manager.h`:92
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:125
+- Brief: Submit a callable directly.
 - Parameters:
-  - `fn` (std::function< void()>): n/a
-  - `name` (std::string): n/a
-  - `timeout` (std::chrono::milliseconds): n/a
+  - `fn` (std::function< void()>): Callable to execute.
+  - `name` (std::string): Optional diagnostic label.
+  - `timeout` (std::chrono::milliseconds): Maximum time to wait for queue capacity.
+- Return: Same result semantics as submit(WorkItem, timeout).
+- Details: fn Callable to execute. name Optional diagnostic label. timeout Maximum time to wait for queue capacity. Same result semantics as submit(WorkItem, timeout).
 
 #### `std::size_t thread_count() const noexcept`
-- Source: `include/execution/thread_pool_manager.h`:105
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:159
+- Brief: Return the number of currently active worker threads.
 - Parameters: none
+- Return: Active worker count.
+- Details: Active worker count.
 
 #### `bool tryGetWork(std::size_t own_idx, WorkItem &out)`
-- Source: `include/execution/thread_pool_manager.h`:144
-- Brief: Try Get Work.
+- Source: `include/execution/thread_pool_manager.h`:201
+- Brief: Try to obtain the next work item.
 - Parameters:
-  - `own_idx` (std::size_t): Input parameter.
-  - `out` (WorkItem &): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: ------------------------------------------------------------------------ tryGetWork — try dispatch queue first, then steal from peers ------------------------------------------------------------------------ own_idx Input parameter. out Input/output parameter. True when the operation succeeds. size_t Input parameter. out Input/output parameter. True when the operation succeeds. Calls: lk(), empty(), std::move(), front(), pop_front(), fetch_sub(), notify_one().
+  - `own_idx` (std::size_t): Index of the requesting worker (reserved for future steal paths).
+  - `out` (WorkItem &): Receives the acquired work item on success.
+- Return: true when work was acquired.
+- Details: Try to acquire one pending work item for a worker. own_idx Index of the requesting worker. out Receives the next work item on success. true when work was acquired. The current implementation reads only from the shared dispatch queue. own_idx is reserved for future steal-path activation. own_idx Index of the requesting worker (reserved for future steal paths). out Receives the acquired work item on success. true when a work item was acquired from the shared dispatch queue.
 
 #### `bool waitAll(std::chrono::milliseconds timeout=std::chrono::seconds(30))`
-- Source: `include/execution/thread_pool_manager.h`:95
-- Brief: Wait All.
+- Source: `include/execution/thread_pool_manager.h`:133
+- Brief: Wait until the pending queue drains or the timeout elapses.
 - Parameters:
-  - `timeout` (std::chrono::milliseconds): Input parameter.
-- Return: True when the operation succeeds.
-- Details: timeout Input parameter. True when the operation succeeds. Calls: std::chrono::steady_clock::now(), lk(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+  - `timeout` (std::chrono::milliseconds): Maximum time to poll for queue drain completion.
+- Return: true when the queue drained before the deadline, otherwise false.
+- Details: Wait until the bounded dispatch queue drains or the timeout elapses. timeout Maximum time to poll for an empty queue. true when the queue drained before the deadline, otherwise false. timeout Maximum time to poll for queue drain completion. true when the queue drained before the deadline, otherwise false.
 
 #### `void workerLoop(std::size_t thread_idx)`
-- Source: `include/execution/thread_pool_manager.h`:137
-- Brief: Worker Loop.
+- Source: `include/execution/thread_pool_manager.h`:190
+- Brief: Worker-thread main loop.
 - Parameters:
-  - `thread_idx` (std::size_t): Input parameter.
-- Details: thread_idx Input parameter. thread_idx Input parameter. Calls: std::chrono::milliseconds(), load(), tryGetWork(), lk(), wait_for(), empty(), std::chrono::steady_clock::now(), fn().
+  - `thread_idx` (std::size_t): Worker index used for reserved per-thread bookkeeping.
+- Details: Run the worker loop until shutdown is requested. thread_idx Index of the worker inside the pre-created queue array. thread_idx Worker index used for reserved per-thread bookkeeping.
 
 #### `~WorkStealingThreadPool()`
-- Source: `include/execution/thread_pool_manager.h`:83
-- Brief: n/a
+- Source: `include/execution/thread_pool_manager.h`:93
+- Brief: Destroy the pool after initiating shutdown.
 - Parameters: none
 
 ### themis::resource::WorkStealingThreadPool::ThreadQueue
 
 #### `bool trySteal(WorkItem &out)`
-- Source: `include/execution/thread_pool_manager.h`:122
-- Brief: Try to steal one item from the back.
+- Source: `include/execution/thread_pool_manager.h`:175
+- Brief: Try to steal one item from the back of a reserved per-thread queue.
 - Parameters:
-  - `out` (WorkItem &): Input/output parameter.
-- Return: True when the operation succeeds.
-- Details: out Input/output parameter. True when the operation succeeds. Calls: lk(), empty(), std::move(), back(), pop_back().
+  - `out` (WorkItem &): Receives the stolen work item on success.
+- Return: true when a work item was available.
+- Details: out Receives the stolen work item on success. true when a work item was available.
 

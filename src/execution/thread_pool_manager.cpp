@@ -1,8 +1,6 @@
 /**
  * @file thread_pool_manager.cpp
- * @brief Phase 3 P3-03-C: Work-stealing thread pool — implementation.
- * @version 1.0.0
- * @note Status: Block B P3-03-C delivery
+ * @brief Implementation of the bounded execution worker pool.
  */
 
 #include "execution/thread_pool_manager.h"
@@ -33,11 +31,6 @@ WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
 
     // Pre-create per-thread queues up to max_threads.
     {
-        /**
-         * @brief Lk.
-         * @param[in] queues_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(queues_mutex_);
         queues_.reserve(cfg_.max_threads);
         for (std::size_t i = 0; i < cfg_.max_threads; ++i) {
@@ -47,11 +40,6 @@ WorkStealingThreadPool::WorkStealingThreadPool(const Config& cfg)
 
     // Start min_threads workers.
     {
-        /**
-         * @brief Lk.
-         * @param[in] workers_mutex_ Input parameter.
-         * @return Return value.
-         */
         std::lock_guard<std::mutex> lk(workers_mutex_);
         workers_.reserve(cfg_.min_threads);
         for (std::size_t i = 0; i < cfg_.min_threads; ++i) {
@@ -71,11 +59,10 @@ WorkStealingThreadPool::~WorkStealingThreadPool() {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Submit.
- * @param[in] item Input parameter.
- * @param[in] timeout Input parameter.
- * @return True when the operation succeeds.
- * @details Calls: load(), std::chrono::steady_clock::now(), lk(), wait_until(), push_back(), std::move(), fetch_add(), unlock().
+ * @brief Submit one work item into the bounded central dispatch queue.
+ * @param[in] item Work item to enqueue.
+ * @param[in] timeout Maximum time to wait for queue capacity.
+ * @return `true` when the work item was accepted, otherwise `false`.
  */
 bool WorkStealingThreadPool::submit(WorkItem item,
                                     std::chrono::milliseconds timeout) {
@@ -109,13 +96,11 @@ bool WorkStealingThreadPool::submit(std::function<void()> fn, std::string name,
 }
 
 /**
- * @brief --------------------------------------------------------------------------- tryGetWork — try dispatch queue first, then steal from peers ---------------------------------------------------------------------------
- * @param[in] size_t Input parameter.
- * @param[in,out] out Input/output parameter.
- * @return True when the operation succeeds.
- * @details Calls: lk(), empty(), std::move(), front(), pop_front(), fetch_sub(), notify_one().
+ * @brief Try to acquire one pending work item for a worker.
+ * @param[in] own_idx Index of the requesting worker (reserved for future steal paths).
+ * @param[out] out Receives the acquired work item on success.
+ * @return `true` when a work item was acquired from the shared dispatch queue.
  */
-
 bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) {
     // Pop from the shared dispatch queue.  Per-thread work deques are
     // pre-allocated but not yet populated by submit(), so the steal path
@@ -138,9 +123,8 @@ bool WorkStealingThreadPool::tryGetWork(std::size_t /*own_idx*/, WorkItem& out) 
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Worker Loop.
- * @param[in] thread_idx Input parameter.
- * @details Calls: std::chrono::milliseconds(), load(), tryGetWork(), lk(), wait_for(), empty(), std::chrono::steady_clock::now(), fn().
+ * @brief Run the worker loop until shutdown is requested.
+ * @param[in] thread_idx Worker index used for reserved per-thread bookkeeping.
  */
 void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
     const auto idle_timeout =
@@ -207,10 +191,9 @@ void WorkStealingThreadPool::workerLoop(std::size_t thread_idx) {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Wait All.
- * @param[in] timeout Input parameter.
- * @return True when the operation succeeds.
- * @details Calls: std::chrono::steady_clock::now(), lk(), empty(), load(), std::this_thread::sleep_for(), std::chrono::milliseconds().
+ * @brief Wait until the bounded dispatch queue drains or the timeout elapses.
+ * @param[in] timeout Maximum time to poll for queue drain completion.
+ * @return `true` when the queue drained before the deadline, otherwise `false`.
  */
 bool WorkStealingThreadPool::waitAll(std::chrono::milliseconds timeout) {
     const auto deadline = std::chrono::steady_clock::now() + timeout;
@@ -239,11 +222,6 @@ WorkStealingThreadPool::statistics() const noexcept {
     st.completed      = completed_.load(std::memory_order_relaxed);
     st.failed         = failed_.load(std::memory_order_relaxed);
 
-    /**
-     * @brief Lk.
-     * @param[in] latency_mutex_ Input parameter.
-     * @return Return value.
-     */
     std::lock_guard<std::mutex> lk(latency_mutex_);
     if (!latency_samples_us_.empty()) {
         auto sorted = latency_samples_us_;
@@ -268,9 +246,8 @@ std::size_t WorkStealingThreadPool::thread_count() const noexcept {
 // ---------------------------------------------------------------------------
 
 /**
- * @brief Shutdown.
- * @param[in] drain_timeout Input parameter.
- * @details Calls: exchange(), waitAll(), notify_all(), lk(), joinable(), join(), clear().
+ * @brief Drain the queue, wake all workers, and join them.
+ * @param[in] drain_timeout Maximum time to wait for pending items to drain.
  */
 void WorkStealingThreadPool::shutdown(std::chrono::milliseconds drain_timeout) {
     if (shutdown_.exchange(true, std::memory_order_acq_rel)) {

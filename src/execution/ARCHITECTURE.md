@@ -1,197 +1,137 @@
-# Execution Module — Architecture
+**Author:** ThemisDB Contributors  
+**Created:** 2026-09-21  
+**Last Updated:** 2026-09-21  
+**Status:** active
 
-<!-- Status: PRODUCTION_READY | validated: 2026-08-08 -->
+# Execution Module — Architecture
 
 ## Overview
 
-The execution module provides the runtime execution substrate for ThemisDB query processing, combining deadline-driven query scheduling with adaptive work-stealing thread pooling. The architecture separates concerns between query scheduling (priority, deadlines, SLAs) and execution (worker threads, load balancing, resource utilization).
+The execution module is a small in-process runtime layer for bounded admission and bounded execution. It is currently composed of:
+
+1. `themis::execution::QueryScheduler` — admits work into a deadline-ordered queue.
+2. `themis::resource::WorkStealingThreadPool` — runs submitted work on a fixed set of worker threads.
+
+Despite the thread-pool type name, the live implementation currently operates as a **central-queue worker pool**. Per-thread queues exist only as reserved internal structure for future work-stealing work.
 
 ## Design Principles
 
-1. **Deadline-Driven Scheduling:** Queries carry SLA deadlines; scheduler enforces deadline constraints through priority queuing and timeout mechanisms
-2. **Work-Stealing Parallelism:** Idle workers steal work from busy workers to balance load and maximize throughput
-3. **Adaptive Resource Management:** Thread pool sizing adapts dynamically to workload; memory and CPU constraints are enforced
-4. **Fail-Closed Degradation:** Resource exhaustion triggers structured errors, not undefined behavior
-5. **Observable:** All scheduling decisions and resource state changes are logged with diagnostic context
+1. **Bounded Admission:** callers must supply finite timeouts when waiting for queue capacity.
+2. **Deterministic Ordering:** scheduler dequeue order is earliest-deadline-first with FIFO tie-breaking by query id.
+3. **Fail-Closed Overload Handling:** low-priority scheduler entries are rejected once the shed threshold is reached; post-shutdown submissions are rejected.
+4. **Graceful Teardown:** both execution primitives wake blocked waiters during shutdown and stop accepting new work.
+5. **Minimal Shared State:** metrics are maintained in-memory behind small critical sections and atomics.
 
 ## Architecture Diagram
 
-```
+```text
 ┌─────────────────────────────────────────────────────────────┐
-│  Query Scheduler (SLA-Aware)                                │
-│  • Priority Queue: CRITICAL > HIGH > NORMAL > LOW            │
-│  • Deadline Tracking: enqueue_time + sla_deadline_ms         │
-│  • Backpressure: max_queue_depth enforcement                 │
-│  • Timeout Handling: on enqueue/dequeue operations           │
+│ QueryScheduler                                              │
+│ • enqueue(fn, priority, sla_ms, timeout)                   │
+│ • queue depth backpressure via condition_variable           │
+│ • absolute deadline = enqueue_time + sla_ms                │
+│ • LOW-priority shedding at/above shed_threshold            │
+│ • metrics for depth, counts, average enqueue/dequeue cost  │
 └──────────────────────┬──────────────────────────────────────┘
-                       │
+                       │ dequeued QueryEntry
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Thread Pool Manager (Adaptive)                             │
-│  • Worker Threads: min_threads to max_threads               │
-│  • Per-Thread Task Queue: work-stealing enabled             │
-│  • Adaptive Spawning: scale workers based on queue depth    │
-│  • Graceful Shutdown: complete in-flight work               │
+│ Integration layer / caller                                 │
+│ • executes QueryEntry::execute() or forwards to executor   │
+│ • optionally calls reportCompletion(query_id)              │
 └──────────────────────┬──────────────────────────────────────┘
-                       │
+                       │ submits work items
                        ▼
 ┌─────────────────────────────────────────────────────────────┐
-│  Work Distribution & Execution                              │
-│  • FIFO Dispatch: within priority level                     │
-│  • Work Stealing: idle workers steal from busy peers        │
-│  • Resource Accounting: CPU, memory per query               │
-│  • Timeout Enforcement: deadline-based cancellation         │
+│ WorkStealingThreadPool (current behavior)                  │
+│ • central dispatch_queue_ guarded by dispatch_mutex_       │
+│ • fixed worker count = min_threads                         │
+│ • bounded pending queue via max_queue_depth                │
+│ • waitAll() drains queue; shutdown() joins all workers     │
+│ • task exceptions counted in failed_                       │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Core Components
+## Component Contracts
 
-### Query Scheduler
+### QueryScheduler
 
-**Purpose:** Manage query entry points with SLA deadline enforcement and priority-based dispatch.
+**Public surface:** `include/execution/query_scheduler.h`
 
-**Responsibilities:**
-- Enqueue queries with deadline computation (relative to SLA policy)
-- Dequeue queries respecting priority order and deadline constraints
-- Track queue depth and apply backpressure when limits exceeded
-- Report deadline violations and queue saturation events
-- Support graceful shutdown with remaining query completion
+**State:**
+- `queue_`: `std::priority_queue<QueryEntry, ..., EarliestDeadlineFirst>`
+- `pending_deadlines_`: maps query id to deadline for later SLA-completion accounting
+- `count_high_`, `count_medium_`, `count_low_`: metric-only depth counters
 
-**Key Contracts:**
-- `enqueue(query, sla_deadline_ms) → Result<QueueToken>`
-  - Computes absolute deadline = now() + sla_deadline_ms
-  - Returns error if queue full or deadline already expired
-  - Thread-safe; lock-free for query entry reads
-  
-- `dequeue() → Result<Query>`
-  - Returns highest-priority query within deadline
-  - Returns empty if queue empty or all queries expired
-  - Atomic state transition to "executing"
-  
-- `get_queue_depth() → size_t`
-  - Returns current queue size
-  - No locking required (atomic read)
+**Behavioral contract:**
+- `enqueue()` waits for `queue_.size() < max_queue_depth` until timeout.
+- `enqueue()` assigns a new id, records the deadline, and returns that id on success.
+- `dequeue()` waits for non-empty queue until timeout, then pops the earliest deadline entry.
+- `reportCompletion()` increments completion counters and classifies whether the completion happened before the recorded deadline.
+- `shutdown()` flips the shutdown flag and wakes enqueue/dequeue waiters.
 
-**Error Codes (E7100–E7199):**
-- E7100: Queue depth exceeded
-- E7101: Enqueue timeout (deadline expired during wait)
-- E7102: Thread spawn failure (max_threads limit)
-- E7103: Work steal timeout
-- E7104: Shutdown in progress
+**Important live-implementation notes:**
+- `urgent_window_ms` and `default_sla_ms` are stored in `Config` but unused today.
+- The comparator does not inspect `SLAPriority`; a LOW-priority query with a shorter SLA can still dequeue before a HIGH-priority query.
+- No automatic expiry removal or cancellation exists for stale queue entries.
 
-### Thread Pool Manager
+### WorkStealingThreadPool
 
-**Purpose:** Manage worker threads with adaptive scaling and work-stealing load balancing.
+**Public surface:** `include/execution/thread_pool_manager.h`
 
-**Responsibilities:**
-- Spawn and terminate worker threads based on queue depth
-- Implement per-thread task queues with work-stealing capability
-- Balance load across workers via work-stealing algorithm
-- Track worker utilization and scale limits
-- Support graceful shutdown with task completion
+**State:**
+- `dispatch_queue_`: central queue of pending `WorkItem`s
+- `workers_`: worker threads created during construction
+- `queued_count_`, `completed_`, `failed_`: atomically updated counters
+- `latency_samples_us_`: bounded in-memory sample buffer used for p50/p99 snapshots
 
-**Key Contracts:**
-- `create(min_threads, max_threads) → ThreadPoolManager*`
-  - Creates thread pool with adaptive scaling bounds
-  - Initially spawns min_threads workers
-  
-- `schedule(task) → Result<TaskToken>`
-  - Submits task for execution
-  - Returns token for cancellation/monitoring
-  - May spawn new worker if queue depth exceeds threshold
-  
-- `shutdown(wait_ms) → Result<>`
-  - Stops accepting new tasks
-  - Completes in-flight work within wait_ms timeout
-  - Returns error if timeout exceeded
+**Behavioral contract:**
+- Construction pre-allocates per-thread queue objects up to `max_threads` and spawns exactly `min_threads` workers.
+- `submit()` waits for queue capacity and then pushes into the shared dispatch queue.
+- `tryGetWork()` currently reads **only** from `dispatch_queue_`; reserved per-thread queues are not yet a live data path.
+- `workerLoop()` waits up to `idle_timeout_ms` for new work, executes it, and records completion/failure latency.
+- `shutdown()` waits for the queue to drain, wakes all workers, joins them, and clears the worker list.
 
-**Scaling Strategy:**
-```
-if queue_depth > high_watermark && active_threads < max_threads:
-  spawn_new_worker()
-if queue_depth < low_watermark && active_threads > min_threads:
-  signal_worker_shutdown()
-```
+**Important live-implementation notes:**
+- There is no elastic worker growth or shrinkage during steady-state execution.
+- `idle_timeout_ms` is a wake-up cadence, not an idle-worker retirement threshold.
+- `waitAll()` observes queue emptiness plus pending count; it does not inspect whether client code has externally observed the task side effects yet.
+
+## Failure Paths
+
+| Failure case | Current behavior |
+|---|---|
+| scheduler full before caller timeout | `enqueue()` returns `0` after timeout |
+| scheduler shut down | `enqueue()` returns `0`; `dequeue()` returns `false` once the queue is empty |
+| scheduler overload beyond shed threshold | incoming LOW-priority item is rejected and `total_shed_` increments |
+| thread-pool queue full before caller timeout | `submit()` returns `false` |
+| task throws exception | worker catches the exception, increments `failed_`, and continues servicing later work |
+| thread-pool shutdown | new submissions are rejected; workers are woken and joined |
 
 ## Concurrency Model
 
-### Thread Safety
+### Scheduler synchronization
+- `mutex_` protects queue contents, per-priority counters, latency sums, and deadline map updates.
+- `enqueue_cv_` wakes blocked producers when capacity becomes available.
+- `dequeue_cv_` wakes blocked consumers when new work arrives.
 
-1. **Query Queue:** Protected by single spinlock for enqueue/dequeue operations
-   - Lock held only for queue state update (< 1 µs)
-   - Query entries themselves are lock-free (atomic reads)
+### Thread-pool synchronization
+- `dispatch_mutex_` protects `dispatch_queue_`.
+- `capacity_cv_` wakes blocked submitters when queue depth decreases.
+- `dispatch_cv_` wakes workers when new tasks arrive or shutdown begins.
+- `latency_mutex_` protects the rolling latency sample buffer.
 
-2. **Thread Pool State:** Atomic flags for shutdown and scaling decisions
-   - No mutex for thread count updates (atomic increment/decrement)
-   - Worker termination signaled via atomic flag
+## Downstream Consumers
 
-3. **Per-Thread Task Queues:** Lock-free with compare-and-swap operations
-   - Only touched by owning thread (no contention for common case)
-   - Work-stealing uses non-blocking dequeue for competing threads
+| Module | Integration point | Current state |
+|---|---|---|
+| `server` | `include/server/http_server.h`, `src/server/http_server.cpp` | Instantiates `QueryScheduler` and `WorkStealingThreadPool` under `THEMIS_EXECUTION_MODULE`; request-path wiring remains a higher-level concern |
+| integration tests | `tests/integration/test_load_balancing.cpp`, `tests/integration/test_resource_pooling.cpp` | Active focused regression coverage |
+| stress / benchmark evidence | `tests/execution/test_execution_highcardinality_stress.cpp`, `benchmarks/execution/bench_execution_dedicated_gates.cpp` | Active Wave-D and benchmark evidence |
 
-### Synchronization Primitives
+## Non-Goals
 
-- `std::atomic<size_t>` for queue depth (reader-optimal)
-- `std::mutex` + `std::condition_variable` for queue notification
-- Per-thread `std::atomic<bool>` for shutdown signals
-
-## Performance Characteristics
-
-### Target Latencies (P99)
-
-- **Enqueue:** < 5 ms (99th percentile)
-- **Dequeue:** < 100 µs
-- **Work-Steal:** < 200 µs
-- **Thread Spawn:** < 10 ms per worker
-- **Queue Throughput:** ≥ 10k queries/sec at 16 threads
-
-### Scaling Behavior
-
-- **Vertical Scaling:** Nearly linear speedup up to available CPUs
-- **Horizontal Scaling:** Supports cross-node coordination via distributed task queue (future)
-
-### Resource Consumption
-
-- **Per-Worker Memory:** ~2 MB (task queue, TLS)
-- **Queue Overhead:** O(queue_depth) memory
-
-## SLA Enforcement
-
-### Deadline Computation
-
-```cpp
-absolute_deadline = now_ms + sla_deadline_ms
-if (absolute_deadline <= now_ms):
-  return error(E7101); // Deadline already expired
-if (queue_depth >= max_queue_depth):
-  apply_backpressure();
-```
-
-### Violation Detection
-
-- Scheduler tracks deadline violations for reporting
-- Violating queries are prioritized for execution or rejected
-- Operator runbook: increase `min_threads` or reduce `max_queue_depth`
-
-## See Also
-
-- [`ROADMAP.md`](ROADMAP.md) — Implementation phases and deliverables
-- [`FUTURE_ENHANCEMENTS.md`](FUTURE_ENHANCEMENTS.md) — Planned features
-- [`../../include/execution/query_scheduler.h`](../../include/execution/query_scheduler.h) — Public API
-- [`../../include/execution/thread_pool_manager.h`](../../include/execution/thread_pool_manager.h) — Public API
-
----
-
-### Direct Downstream Consumers (modules that use this module)
-
-> **Production consumer route: `server` — WIRED (guarded by `THEMIS_EXECUTION_MODULE`)**
-> `include/execution/query_scheduler.h` and `include/execution/thread_pool_manager.h`
-> are now included in `include/server/http_server.h`. `HttpServer` holds
-> `query_scheduler_` and `execution_thread_pool_` members initialised in the
-> constructor when `THEMIS_EXECUTION_MODULE` is ON. Full dispatch wiring
-> (routing inbound query work items through `QueryScheduler`) is the next step.
-
-| Module | Via | Notes |
-|--------|-----|-------|
-| `server` | `include/execution/query_scheduler.h` → `HttpServer::query_scheduler_`; `include/execution/thread_pool_manager.h` → `HttpServer::execution_thread_pool_` | Members declared and initialised in `http_server.h`/`http_server.cpp` under `#ifdef THEMIS_EXECUTION_MODULE`. SLA-aware EDF dispatch and work-stealing pool available; per-request enqueue wiring is the remaining step. |
-| _(tests)_ | `include/execution/thread_pool_manager.h`, `include/execution/query_scheduler.h` | `tests/integration/test_resource_pooling.cpp`, `tests/integration/test_load_balancing.cpp` — verified consumers. |
+- distributed query ownership, remote queue handoff, or sharded execution
+- cooperative cancellation or deadline-based eviction of queued work
+- priority inheritance, starvation prevention buckets, or learning-based reprioritization
+- dynamic runtime thread-count management
