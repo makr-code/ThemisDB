@@ -158,10 +158,11 @@ using namespace rocksdb;
 template <typename DBType = rocksdb::DB>
 Status openDbCompat(const Options& options, const std::string& db_path, DBType** out_db) {
     static_assert(std::is_same_v<DBType, rocksdb::DB>, "This generated helper targets the default RocksDB DB type.");
-    std::unique_ptr<DBType> db_uptr;
-    Status status = DBType::Open(options, db_path, &db_uptr);
+    DBType* db_raw = nullptr;
+    Status status = DBType::Open(options, db_path, &db_raw);
+    std::unique_ptr<DBType> db_guard(db_raw);
     if (status.ok()) {
-        *out_db = db_uptr.release();
+        *out_db = db_guard.release();
     }
     return status;
 }
