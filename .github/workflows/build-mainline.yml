@@ -175,7 +175,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ -n "$VCPKG_BASELINE" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" 2>/dev/null || true; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+        set -euo pipefail; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --no-checkout https://github.com/microsoft/vcpkg.git vcpkg; if [ -n "${VCPKG_BASELINE}" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" && git -C vcpkg checkout FETCH_HEAD; else git -C vcpkg checkout master; fi; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
       configure_command: >-
         cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF
       build_command: >-
