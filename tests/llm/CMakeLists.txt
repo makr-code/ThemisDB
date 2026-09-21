@@ -689,6 +689,9 @@ if(THEMIS_LLM_INFERENCE_TESTS)
             spdlog::spdlog
             Threads::Threads
         )
+        if(TARGET themis_sharding)
+            target_link_libraries(${_tgt} PRIVATE themis_sharding)
+        endif()
         target_compile_definitions(${_tgt} PRIVATE THEMIS_TEST_BUILD=1)
         if(WIN32)
             themis_llm_sync_runtime_dlls(${_tgt})

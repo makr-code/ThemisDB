@@ -137,7 +137,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
       configure_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-amd64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
@@ -156,7 +156,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
+        set -euo pipefail; sudo apt-get update -qq; sudo apt-get install -y --no-install-recommends build-essential cmake ninja-build pkg-config sccache librocksdb-dev libfmt-dev libspdlog-dev nlohmann-json3-dev libssl-dev zlib1g-dev libzstd-dev libtbb-dev libyaml-cpp-dev; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.sh -disableMetrics
       configure_command: >-
         export VCPKG_ROOT="${GITHUB_WORKSPACE}/vcpkg"; export PATH="${VCPKG_ROOT}:${PATH}"; cmake -S . -B build-step2-linux-arm64 -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DCMAKE_C_COMPILER_LAUNCHER=sccache -DCMAKE_CXX_COMPILER_LAUNCHER=sccache
       build_command: >-
@@ -175,7 +175,7 @@ jobs:
       submodules: false
       working_directory: .
       setup_command: >-
-        set -euo pipefail; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
+        set -euo pipefail; if [ ! -f vcpkg/scripts/buildsystems/vcpkg.cmake ]; then rm -rf vcpkg; git clone --depth 1 https://github.com/microsoft/vcpkg.git vcpkg; fi; VCPKG_BASELINE=$(python3 -c "import json; print(json.load(open('vcpkg.json')).get('builtin-baseline',''))" 2>/dev/null || echo ''); if [ -n "$VCPKG_BASELINE" ]; then git -C vcpkg fetch --depth=1 origin "${VCPKG_BASELINE}" 2>/dev/null || true; fi; ./vcpkg/bootstrap-vcpkg.bat -disableMetrics
       configure_command: >-
         cmake --preset windows-release -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF
       build_command: >-
@@ -196,7 +196,7 @@ jobs:
       setup_command: >-
         set -euo pipefail; brew update --quiet; brew install cmake ninja sccache
       configure_command: >-
-        cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON
+        cmake -S . -B build-step2-macos -G Ninja -DTHEMIS_BUILD_TESTS=OFF -DTHEMIS_BUILD_BENCHMARKS=OFF -DTHEMIS_ENABLE_LLM=OFF -DTHEMIS_ENABLE_GPU=OFF -DTHEMIS_ALLOW_MISSING_ROCKSDB=ON -DTHEMIS_DIAGNOSTIC_MODE=ON
       build_command: >-
         cmake --build build-step2-macos --target themis_core --parallel 8
       summary_title: "Step 2 · macOS"

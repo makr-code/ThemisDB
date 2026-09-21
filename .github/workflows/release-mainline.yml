@@ -489,7 +489,7 @@ jobs:
           script: |
             const fs = require('fs');
             const path = require('path');
-            const tag = context.ref.startsWith('refs/tags/')
+            let tag = context.ref.startsWith('refs/tags/')
               ? context.ref.replace('refs/tags/', '')
               : ('${{ inputs.tag_name }}' || '');
             if (/^\d+\.\d+\.\d+(?:-[0-9A-Za-z][0-9A-Za-z.-]*)?$/.test(tag)) {
