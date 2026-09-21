@@ -196,6 +196,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [x] Stable p95/p99 and bounded memory confirmed on representative hardware (VERIFIED 2026-08-17) ✅
 - [x] Benchmark and observability gates closed with reproducible evidence (GATE-ACM-01..06 DEFINED) ✅
 - [x] Release decisions based on representative hardware baselines, not scaffolding benchmarks only (FRAMEWORK DOCUMENTED) ✅
+- [~] Representative-hardware baseline re-capture for GATE-ACM-01..06 — see [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md) for checklist and run instructions (pending Q4 2026)
 
 ### Dependencies on Later Waves
 - Wave C security validation depends on stable Wave B performance baselines.

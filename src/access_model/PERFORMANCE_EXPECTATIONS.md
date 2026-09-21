@@ -41,6 +41,8 @@
 - Gates GATE-ACM-01..06 are defined in `bench_access_coordinator_gates.cpp`; re-capture on
   representative hardware is required before Wave B GA promotion.
 - Regression baseline: ±10% tolerance on all mapped benchmark cases.
+- Full hardware run instructions and Wave B exit checklist:
+  [`WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md`](./WAVE_B_BENCHMARK_EVIDENCE_BUNDLE.md)
 
 ## Sourcecode Verification (Module: access_model/performance)
 
