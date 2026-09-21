@@ -1,0 +1,334 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1LatencyHistogram" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::LatencyHistogram</compoundname>
+    <includes refid="access__metrics_8h" local="no">access_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1aa79b66a4ddaf76b077df4756d24c67ba" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::sum_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>sum_latency_us_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::sum_latency_us_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="78" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="78" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1acfef36b86c53c69da1d9d54689da8795" prot="private" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::access_model::LatencyHistogram::num_buckets_</definition>
+        <argsstring></argsstring>
+        <name>num_buckets_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::num_buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="81" column="17" bodyfile="include/access_model/access_metrics.h" bodystart="81" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1adbf84f63a1e716be8e46a53a568df0d9" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::max_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>max_latency_us_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::max_latency_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="82" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="82" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1a4b967f89ad848a6a9e9162aab4a4b1b9" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::bucket_width_us_</definition>
+        <argsstring></argsstring>
+        <name>bucket_width_us_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::bucket_width_us_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="83" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="83" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1aaa03f6bb98f5f0fccc350fcf3f8e13f0" prot="private" static="no" mutable="no">
+        <type>std::vector&lt; uint64_t &gt;</type>
+        <definition>std::vector&lt;uint64_t&gt; themis::access_model::LatencyHistogram::buckets_</definition>
+        <argsstring></argsstring>
+        <name>buckets_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::buckets_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="84" column="17" bodyfile="include/access_model/access_metrics.h" bodystart="84" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1a5061920847d2e2c91766716145f86eff" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::count_</definition>
+        <argsstring></argsstring>
+        <name>count_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::count_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="85" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="85" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1a8e4f1c55793a377bc52a92b53e2a46fa" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::min_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>min_latency_us_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::min_latency_us_</qualifiedname>
+        <initializer>= UINT64_MAX</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="86" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="86" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1LatencyHistogram_1a3f993b17c6b3ffd68a06dd43768933ae" prot="private" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::max_observed_latency_us_</definition>
+        <argsstring></argsstring>
+        <name>max_observed_latency_us_</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::max_observed_latency_us_</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="87" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="87" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1a88b7f0b7095e43e4c3e5632aeef8bf62" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::LatencyHistogram::LatencyHistogram</definition>
+        <argsstring>(std::size_t num_buckets=1000, uint64_t max_latency_us=100000)</argsstring>
+        <name>LatencyHistogram</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::LatencyHistogram</qualifiedname>
+        <param>
+          <type>std::size_t</type>
+          <declname>num_buckets</declname>
+          <defval>1000</defval>
+        </param>
+        <param>
+          <type>uint64_t</type>
+          <declname>max_latency_us</declname>
+          <defval>100000</defval>
+        </param>
+        <briefdescription>
+<para>Construct a latency histogram with configurable bucket count and range. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">num_buckets</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of histogram buckets (default: 1000). </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">max_latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Maximum latency in microseconds before overflow bucket (default: 100 000). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="37" column="14" bodyfile="src/access_model/access_metrics.cpp" bodystart="30" bodyend="39"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1aeacd965ebcd05b212bd70d57f352e3d1" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::LatencyHistogram::record</definition>
+        <argsstring>(uint64_t latency_us)</argsstring>
+        <name>record</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::record</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <briefdescription>
+<para>Record. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::min(), std::max(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="44" column="10" bodyfile="src/access_model/access_metrics.cpp" bodystart="46" bodyend="57"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1a533b1918d4f98b11de56c0ec61ed614a" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::percentile</definition>
+        <argsstring>(double p) const</argsstring>
+        <name>percentile</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::percentile</qualifiedname>
+        <param>
+          <type>double</type>
+          <declname>p</declname>
+        </param>
+        <briefdescription>
+<para>Compute the p-th percentile latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">p</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Percentile in the range [0.0, 100.0] (e.g., 99.0 for p99). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Latency in microseconds at the requested percentile; 0 if no samples. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="51" column="15" bodyfile="src/access_model/access_metrics.cpp" bodystart="59" bodyend="79"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1a0b189085172f5b5e9368e94a14512923" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::access_model::LatencyHistogram::mean</definition>
+        <argsstring>() const</argsstring>
+        <name>mean</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::mean</qualifiedname>
+        <briefdescription>
+<para>Compute the mean latency. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Mean latency in microseconds; 0 if no samples recorded. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="57" column="13" bodyfile="src/access_model/access_metrics.cpp" bodystart="81" bodyend="86"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1aaf5d791a997eddfcb66f577952b26866" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::access_model::LatencyHistogram::stdDev</definition>
+        <argsstring>() const</argsstring>
+        <name>stdDev</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::stdDev</qualifiedname>
+        <briefdescription>
+<para>Compute the standard deviation of recorded latencies. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Standard deviation in microseconds; 0 if fewer than two samples. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="63" column="13" bodyfile="src/access_model/access_metrics.cpp" bodystart="88" bodyend="109"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1a74d2a3d033223f0ba29110a4e50fce92" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::LatencyHistogram::count</definition>
+        <argsstring>() const noexcept</argsstring>
+        <name>count</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::count</qualifiedname>
+        <briefdescription>
+<para>Return the number of samples recorded. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Total number of latency samples stored in this histogram. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="69" column="15" bodyfile="include/access_model/access_metrics.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1LatencyHistogram_1ae1cf8343c2602e44bd219836d17b3bd2" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::LatencyHistogram::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::access_model::LatencyHistogram::describe</qualifiedname>
+        <briefdescription>
+<para>Return a human-readable summary of the histogram (min/mean/p99/max). </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Formatted string with key percentile values. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="75" column="18" bodyfile="src/access_model/access_metrics.cpp" bodystart="111" bodyend="123"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_metrics.h" line="30" column="1" bodyfile="include/access_model/access_metrics.h" bodystart="30" bodyend="88"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a4b967f89ad848a6a9e9162aab4a4b1b9" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>bucket_width_us_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1aaa03f6bb98f5f0fccc350fcf3f8e13f0" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>buckets_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a74d2a3d033223f0ba29110a4e50fce92" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>count</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a5061920847d2e2c91766716145f86eff" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>count_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1ae1cf8343c2602e44bd219836d17b3bd2" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>describe</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a88b7f0b7095e43e4c3e5632aeef8bf62" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>LatencyHistogram</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1adbf84f63a1e716be8e46a53a568df0d9" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>max_latency_us_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a3f993b17c6b3ffd68a06dd43768933ae" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>max_observed_latency_us_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a0b189085172f5b5e9368e94a14512923" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>mean</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a8e4f1c55793a377bc52a92b53e2a46fa" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>min_latency_us_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1acfef36b86c53c69da1d9d54689da8795" prot="private" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>num_buckets_</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1a533b1918d4f98b11de56c0ec61ed614a" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>percentile</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1aeacd965ebcd05b212bd70d57f352e3d1" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>record</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1aaf5d791a997eddfcb66f577952b26866" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>stdDev</name></member>
+      <member refid="classthemis_1_1access__model_1_1LatencyHistogram_1aa79b66a4ddaf76b077df4756d24c67ba" prot="public" virt="non-virtual"><scope>themis::access_model::LatencyHistogram</scope><name>sum_latency_us_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

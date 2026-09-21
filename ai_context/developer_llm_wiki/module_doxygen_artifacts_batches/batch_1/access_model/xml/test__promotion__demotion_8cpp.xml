@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="test__promotion__demotion_8cpp" kind="file" language="C++">
     <compoundname>test_promotion_demotion.cpp</compoundname>
     <includes local="no">gmock/gmock.h</includes>
@@ -116,7 +116,7 @@
         <label>vector</label>
       </node>
     </incdepgraph>
-    <innerclass refid="classthemis_1_1access__model_1_1_promotion_demotion_test" prot="public">themis::access_model::PromotionDemotionTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1PromotionDemotionTest" prot="public">themis::access_model::PromotionDemotionTest</innerclass>
     <innernamespace refid="namespacethemis">themis</innernamespace>
     <innernamespace refid="namespacethemis_1_1access__model">themis::access_model</innernamespace>
     <briefdescription>
@@ -127,7 +127,6 @@
     </detaileddescription>
     <programlisting>
 <codeline lineno="1"><highlight class="normal"></highlight></codeline>
-<codeline lineno="7"><highlight class="normal"></highlight></codeline>
 <codeline lineno="8"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gmock/gmock.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="9"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;gtest/gtest.h&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="10"><highlight class="normal"></highlight></codeline>
@@ -138,18 +137,18 @@
 <codeline lineno="15"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&quot;<ref refid="promotion__demotion_8h" kindref="compound">access_model/promotion_demotion.h</ref>&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model" kindref="compound">access_model</ref><sp/>{</highlight></codeline>
+<codeline lineno="18"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">access_model<sp/>{</highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="21"><highlight class="normal"></highlight><highlight class="comment">//<sp/>§<sp/>1<sp/><sp/>Tests:<sp/>Demotion<sp/>Plan</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="22"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="23"><highlight class="normal"></highlight></codeline>
-<codeline lineno="24" refid="classthemis_1_1access__model_1_1_promotion_demotion_test" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
+<codeline lineno="24" refid="classthemis_1_1access__model_1_1PromotionDemotionTest" refkind="compound"><highlight class="normal"></highlight><highlight class="keyword">class<sp/></highlight><highlight class="normal"><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref><sp/>:<sp/></highlight><highlight class="keyword">public</highlight><highlight class="normal"><sp/>::testing::Test<sp/>{};</highlight></codeline>
 <codeline lineno="25"><highlight class="normal"></highlight></codeline>
 <codeline lineno="26"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-01:<sp/>Create<sp/>demotion<sp/>plan<sp/>with<sp/>all<sp/>fields</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="27"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_01_CreateDemotionPlan)<sp/>{</highlight></codeline>
-<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref><sp/>plan{</highlight></codeline>
-<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.plan_id<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plan-123&quot;</highlight><highlight class="normal">,</highlight></codeline>
+<codeline lineno="27"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_01_CreateDemotionPlan)<sp/>{</highlight></codeline>
+<codeline lineno="28"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1DemotionPlan" kindref="compound">DemotionPlan</ref><sp/>plan{</highlight></codeline>
+<codeline lineno="29"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.<ref refid="structthemis_1_1access__model_1_1DemotionPlan_1a558fbc48e0d85c0d47c3e767bec5edd0" kindref="member">plan_id</ref><sp/>=<sp/></highlight><highlight class="stringliteral">&quot;plan-123&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="30"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.key<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;test_key&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.from_tier<sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">TierLevel::L1_WORKING</ref>,</highlight></codeline>
 <codeline lineno="32"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.to_tier<sp/>=<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">TierLevel::L2_EPISODIC</ref>,</highlight></codeline>
@@ -160,11 +159,11 @@
 <codeline lineno="37"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.is_scheduled<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="38"><highlight class="normal"><sp/><sp/><sp/><sp/>};</highlight></codeline>
 <codeline lineno="39"><highlight class="normal"></highlight></codeline>
-<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1access__model_1_1_demotion_plan_1aaff07a27a9ab82fd0809dfb2d64420ea" kindref="member">key</ref>,<sp/></highlight><highlight class="stringliteral">&quot;test_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
-<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a9b1d54b0ad4b893a67bbab5a5ff0abb1" kindref="member">from_tier</ref>,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">TierLevel::L1_WORKING</ref>);</highlight></codeline>
-<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1access__model_1_1_demotion_plan_1aac60612e47a85045cf67ce523591784d" kindref="member">to_tier</ref>,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">TierLevel::L2_EPISODIC</ref>);</highlight></codeline>
-<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a32b38fcff8749d302998a75277730828" kindref="member">data_size_bytes</ref>,<sp/>4096);</highlight></codeline>
-<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.<ref refid="structthemis_1_1access__model_1_1_demotion_plan_1a60588eec284e431b79546a0b94c70f4e" kindref="member">access_count_at_plan</ref>,<sp/>42);</highlight></codeline>
+<codeline lineno="40"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.key,<sp/></highlight><highlight class="stringliteral">&quot;test_key&quot;</highlight><highlight class="normal">);</highlight></codeline>
+<codeline lineno="41"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.from_tier,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" kindref="member">TierLevel::L1_WORKING</ref>);</highlight></codeline>
+<codeline lineno="42"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.to_tier,<sp/><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" kindref="member">TierLevel::L2_EPISODIC</ref>);</highlight></codeline>
+<codeline lineno="43"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.data_size_bytes,<sp/>4096);</highlight></codeline>
+<codeline lineno="44"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_EQ(plan.access_count_at_plan,<sp/>42);</highlight></codeline>
 <codeline lineno="45"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="46"><highlight class="normal"></highlight></codeline>
 <codeline lineno="47"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-02:<sp/>Demotion<sp/>plan<sp/>grace<sp/>period<sp/>calculation</highlight><highlight class="normal"></highlight></codeline>
@@ -194,8 +193,8 @@
 <codeline lineno="71"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="72"><highlight class="normal"></highlight></codeline>
 <codeline lineno="73"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-03:<sp/>Successful<sp/>demotion<sp/>result</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_03_SuccessfulDemotionResult)<sp/>{</highlight></codeline>
-<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref><sp/>result{</highlight></codeline>
+<codeline lineno="74"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_03_SuccessfulDemotionResult)<sp/>{</highlight></codeline>
+<codeline lineno="75"><highlight class="normal"><sp/><sp/><sp/><sp/>DemotionResult<sp/>result{</highlight></codeline>
 <codeline lineno="76"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.success<sp/>=<sp/></highlight><highlight class="keyword">true</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="77"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="78"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.size_bytes<sp/>=<sp/>8192,</highlight></codeline>
@@ -212,8 +211,8 @@
 <codeline lineno="89"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="90"><highlight class="normal"></highlight></codeline>
 <codeline lineno="91"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-04:<sp/>Failed<sp/>demotion<sp/>result<sp/>with<sp/>error<sp/>message</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="92"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_04_FailedDemotionResult)<sp/>{</highlight></codeline>
-<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref><sp/>result{</highlight></codeline>
+<codeline lineno="92"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_04_FailedDemotionResult)<sp/>{</highlight></codeline>
+<codeline lineno="93"><highlight class="normal"><sp/><sp/><sp/><sp/>DemotionResult<sp/>result{</highlight></codeline>
 <codeline lineno="94"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.success<sp/>=<sp/></highlight><highlight class="keyword">false</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="95"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.error_message<sp/>=<sp/></highlight><highlight class="stringliteral">&quot;destination<sp/>tier<sp/>not<sp/>available&quot;</highlight><highlight class="normal">,</highlight></codeline>
 <codeline lineno="96"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>.size_bytes<sp/>=<sp/>0,</highlight></codeline>
@@ -232,9 +231,9 @@
 <codeline lineno="109"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="110"><highlight class="normal"></highlight></codeline>
 <codeline lineno="111"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-05:<sp/>L1→L2<sp/>demotion<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_05_ShouldDemoteL1ToL2)<sp/>{</highlight></codeline>
-<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref><sp/>policy;</highlight></codeline>
-<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1a5807edbdb1c367284169666e61bbfb0a" kindref="member">l1_zero_access_days</ref><sp/>=<sp/>1;</highlight></codeline>
+<codeline lineno="112"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_05_ShouldDemoteL1ToL2)<sp/>{</highlight></codeline>
+<codeline lineno="113"><highlight class="normal"><sp/><sp/><sp/><sp/>AgeBasedPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="114"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.l1_zero_access_days<sp/>=<sp/>1;</highlight></codeline>
 <codeline lineno="115"><highlight class="normal"></highlight></codeline>
 <codeline lineno="116"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Not<sp/>yet<sp/>old<sp/>enough</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="117"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldDemoteL1ToL2(43200));<sp/><sp/></highlight><highlight class="comment">//<sp/>12<sp/>hours</highlight><highlight class="normal"></highlight></codeline>
@@ -244,9 +243,9 @@
 <codeline lineno="121"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="122"><highlight class="normal"></highlight></codeline>
 <codeline lineno="123"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-06:<sp/>Hot→warm<sp/>storage<sp/>demotion<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_06_ShouldDemoteHotToWarm)<sp/>{</highlight></codeline>
-<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref><sp/>policy;</highlight></codeline>
-<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1af94c5124bed8e7e226e313e94a9e3630" kindref="member">hot_zero_access_days</ref><sp/>=<sp/>14;</highlight></codeline>
+<codeline lineno="124"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_06_ShouldDemoteHotToWarm)<sp/>{</highlight></codeline>
+<codeline lineno="125"><highlight class="normal"><sp/><sp/><sp/><sp/>AgeBasedPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="126"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.hot_zero_access_days<sp/>=<sp/>14;</highlight></codeline>
 <codeline lineno="127"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.hot_to_warm_days<sp/>=<sp/>30;</highlight></codeline>
 <codeline lineno="128"><highlight class="normal"></highlight></codeline>
 <codeline lineno="129"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="comment">//<sp/>Too<sp/>fresh</highlight><highlight class="normal"></highlight></codeline>
@@ -260,9 +259,9 @@
 <codeline lineno="137"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="138"><highlight class="normal"></highlight></codeline>
 <codeline lineno="139"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-07:<sp/>Storage→cache<sp/>promotion<sp/>decision</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="140"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_07_ShouldPromoteStorageToCache)<sp/>{</highlight></codeline>
-<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref><sp/>policy;</highlight></codeline>
-<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ada4da854baffa54a979667e515eb3944" kindref="member">storage_promotion_threshold</ref><sp/>=<sp/>3;</highlight></codeline>
+<codeline lineno="140"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_07_ShouldPromoteStorageToCache)<sp/>{</highlight></codeline>
+<codeline lineno="141"><highlight class="normal"><sp/><sp/><sp/><sp/>AgeBasedPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="142"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.storage_promotion_threshold<sp/>=<sp/>3;</highlight></codeline>
 <codeline lineno="143"><highlight class="normal"></highlight></codeline>
 <codeline lineno="144"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldPromoteStorageToCache(1));</highlight></codeline>
 <codeline lineno="145"><highlight class="normal"><sp/><sp/><sp/><sp/>EXPECT_FALSE(policy.shouldPromoteStorageToCache(2));</highlight></codeline>
@@ -271,9 +270,9 @@
 <codeline lineno="148"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="149"><highlight class="normal"></highlight></codeline>
 <codeline lineno="150"><highlight class="normal"></highlight><highlight class="comment">//<sp/>APD-08:<sp/>Policy<sp/>description</highlight><highlight class="normal"></highlight></codeline>
-<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(<ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref>,<sp/>APD_08_PolicyDescription)<sp/>{</highlight></codeline>
-<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/><ref refid="structthemis_1_1access__model_1_1_age_based_policy" kindref="compound">AgeBasedPolicy</ref><sp/>policy;</highlight></codeline>
-<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.<ref refid="structthemis_1_1access__model_1_1_age_based_policy_1ae50362ca5cfef286e73db8a2ede85c75" kindref="member">hot_to_warm_days</ref><sp/>=<sp/>30;</highlight></codeline>
+<codeline lineno="151"><highlight class="normal"><ref refid="namespacethemis_1_1access__model_1a61b06e265097af5a2567e459575f2e26" kindref="member">TEST_F</ref>(PromotionDemotionTest,<sp/>APD_08_PolicyDescription)<sp/>{</highlight></codeline>
+<codeline lineno="152"><highlight class="normal"><sp/><sp/><sp/><sp/>AgeBasedPolicy<sp/>policy;</highlight></codeline>
+<codeline lineno="153"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.hot_to_warm_days<sp/>=<sp/>30;</highlight></codeline>
 <codeline lineno="154"><highlight class="normal"><sp/><sp/><sp/><sp/>policy.warm_to_cold_days<sp/>=<sp/>90;</highlight></codeline>
 <codeline lineno="155"><highlight class="normal"></highlight></codeline>
 <codeline lineno="156"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keyword">auto</highlight><highlight class="normal"><sp/>desc<sp/>=<sp/>policy.describe();</highlight></codeline>

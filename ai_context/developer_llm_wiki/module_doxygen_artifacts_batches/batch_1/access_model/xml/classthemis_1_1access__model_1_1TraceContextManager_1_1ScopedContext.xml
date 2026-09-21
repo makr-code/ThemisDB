@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::TraceContextManager::ScopedContext</compoundname>
+    <includes refid="access__model__trace_8h" local="no">access_model_trace.h</includes>
+    <sectiondef kind="private-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a90a08e3f2c76a73f7e916c9da9884525" prot="private" static="no" mutable="no">
+        <type><ref refid="structthemis_1_1access__model_1_1TraceContext" kindref="compound">TraceContext</ref></type>
+        <definition>TraceContext themis::access_model::TraceContextManager::ScopedContext::previous_context_</definition>
+        <argsstring></argsstring>
+        <name>previous_context_</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::previous_context_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="162" column="22" bodyfile="include/access_model/access_model_trace.h" bodystart="162" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a6af1ca8e616591a98475741564604782" prot="private" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::access_model::TraceContextManager::ScopedContext::context_set_</definition>
+        <argsstring></argsstring>
+        <name>context_set_</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::context_set_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="163" column="14" bodyfile="include/access_model/access_model_trace.h" bodystart="163" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a7d54b88a203705332cdd3ad6e917ecb3" prot="public" static="no" const="no" explicit="yes" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContextManager::ScopedContext::ScopedContext</definition>
+        <argsstring>(const TraceContext &amp;ctx)</argsstring>
+        <name>ScopedContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::ScopedContext</qualifiedname>
+        <param>
+          <type>const <ref refid="structthemis_1_1access__model_1_1TraceContext" kindref="compound">TraceContext</ref> &amp;</type>
+          <declname>ctx</declname>
+        </param>
+        <briefdescription>
+<para>Activate <computeroutput>ctx</computeroutput> as the thread-local trace context for the duration of this object. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>The previous context is saved and restored on destruction. <parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">ctx</parametername>
+</parameternamelist>
+<parameterdescription>
+<para><ref refid="structthemis_1_1access__model_1_1TraceContext" kindref="compound">TraceContext</ref> to push onto the thread-local stack. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="123" column="18" bodyfile="src/access_model/access_model_trace.cpp" bodystart="98" bodyend="102"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1abdc0178ded0818c1dfd4d30a62270855" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContextManager::ScopedContext::~ScopedContext</definition>
+        <argsstring>()</argsstring>
+        <name>~ScopedContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::~ScopedContext</qualifiedname>
+        <briefdescription>
+<para>Restore the previous thread-local trace context. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="126" column="9" bodyfile="src/access_model/access_model_trace.cpp" bodystart="104" bodyend="108"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a5198af90ed7455833d259d5d11ffd3ba" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type></type>
+        <definition>themis::access_model::TraceContextManager::ScopedContext::ScopedContext</definition>
+        <argsstring>(ScopedContext &amp;&amp;other) noexcept</argsstring>
+        <name>ScopedContext</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::ScopedContext</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move-construct, transferring ownership of the saved context. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source <ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref>; left in a no-restore state after move. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="138" column="9" bodyfile="include/access_model/access_model_trace.h" bodystart="138" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a71ebae929098cb1bd447b25b067f672d" prot="public" static="no" const="no" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type><ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref> &amp;</type>
+        <definition>ScopedContext &amp; themis::access_model::TraceContextManager::ScopedContext::operator=</definition>
+        <argsstring>(ScopedContext &amp;&amp;other) noexcept</argsstring>
+        <name>operator=</name>
+        <qualifiedname>themis::access_model::TraceContextManager::ScopedContext::operator=</qualifiedname>
+        <param>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref> &amp;&amp;</type>
+          <declname>other</declname>
+        </param>
+        <briefdescription>
+<para>Move-assign, restoring any currently active context before taking ownership. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">other</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Source <ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref>; left in a no-restore state after move. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Reference to this <ref refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext" kindref="compound">ScopedContext</ref>. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_model_trace.h" line="149" column="23" bodyfile="include/access_model/access_model_trace.h" bodystart="149" bodyend="159"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_model_trace.h" line="116" column="5" bodyfile="include/access_model/access_model_trace.h" bodystart="116" bodyend="164"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a6af1ca8e616591a98475741564604782" prot="private" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>context_set_</name></member>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a71ebae929098cb1bd447b25b067f672d" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>operator=</name></member>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a90a08e3f2c76a73f7e916c9da9884525" prot="private" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>previous_context_</name></member>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a7d54b88a203705332cdd3ad6e917ecb3" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>ScopedContext</name></member>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1a5198af90ed7455833d259d5d11ffd3ba" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>ScopedContext</name></member>
+      <member refid="classthemis_1_1access__model_1_1TraceContextManager_1_1ScopedContext_1abdc0178ded0818c1dfd4d30a62270855" prot="public" virt="non-virtual"><scope>themis::access_model::TraceContextManager::ScopedContext</scope><name>~ScopedContext</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

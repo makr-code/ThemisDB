@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1access__model_1_1test" kind="namespace" language="C++">
     <compoundname>themis::access_model::test</compoundname>
-    <innerclass refid="classthemis_1_1access__model_1_1test_1_1_mock_eviction_listener" prot="public">themis::access_model::test::MockEvictionListener</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1test_1_1_mock_promotion_listener" prot="public">themis::access_model::test::MockPromotionListener</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1test_1_1_mock_access_tier" prot="public">themis::access_model::test::MockAccessTier</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" prot="public">themis::access_model::test::CacheStorageIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" prot="public">themis::access_model::test::CacheStorageIntegrationTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1test_1_1MockAccessTier" prot="public">themis::access_model::test::MockAccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1test_1_1MockEvictionListener" prot="public">themis::access_model::test::MockEvictionListener</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1test_1_1MockPromotionListener" prot="public">themis::access_model::test::MockPromotionListener</innerclass>
     <sectiondef kind="func">
       <memberdef kind="function" id="namespacethemis_1_1access__model_1_1test_1a403dd9200deb8fbe493d5f62cf103c85" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
         <type></type>
@@ -14,7 +14,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI01_L1EvictionNotification</type>
@@ -34,7 +34,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI02_L2EvictionNotification</type>
@@ -54,7 +54,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI03_HighAccessPromotion</type>
@@ -74,7 +74,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI04_LowAccessDemotion</type>
@@ -94,7 +94,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI05_SharedAgePolicy</type>
@@ -114,7 +114,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI06_ConcurrentTransitions</type>
@@ -134,7 +134,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI07_StorageWarmTierAccessEmitsPromotion</type>
@@ -154,7 +154,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI08_ColdToWarmPromotion</type>
@@ -174,7 +174,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI09_ListenerStability</type>
@@ -194,7 +194,7 @@
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::test::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1test_1_1_cache_storage_integration_test" kindref="compound">CacheStorageIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kindref="compound">CacheStorageIntegrationTest</ref></type>
         </param>
         <param>
           <type>CAI10_NullListenerSafety</type>

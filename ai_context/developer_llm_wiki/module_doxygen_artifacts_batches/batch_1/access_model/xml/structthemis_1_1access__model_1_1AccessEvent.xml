@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1AccessEvent" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::AccessEvent</compoundname>
+    <includes refid="access__coordinator_8h" local="no">access_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessEvent_1a6d4472d32caf1f2f14e130f93b9372f0" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::access_model::AccessEvent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="112" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="112" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessEvent_1a471787517e77f4af804ab87dc3a5018d" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::AccessEvent::current_tier</definition>
+        <argsstring></argsstring>
+        <name>current_tier</name>
+        <qualifiedname>themis::access_model::AccessEvent::current_tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="114" column="15" bodyfile="include/access_model/access_coordinator.h" bodystart="114" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessEvent_1a9e4a9feb48e0f0acadb45e8da656264a" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessEvent::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::access_model::AccessEvent::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="116" column="14" bodyfile="include/access_model/access_coordinator.h" bodystart="116" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessEvent_1ab4ba550a084c5969cc3f5938148ad9af" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::access_model::AccessEvent::access_window</definition>
+        <argsstring></argsstring>
+        <name>access_window</name>
+        <qualifiedname>themis::access_model::AccessEvent::access_window</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="118" column="26" bodyfile="include/access_model/access_coordinator.h" bodystart="118" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessEvent_1ac777350145c09b1c65ed8e70d8e4bc4b" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessEvent::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::AccessEvent::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="120" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="120" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_coordinator.h" line="111" column="1" bodyfile="include/access_model/access_coordinator.h" bodystart="111" bodyend="121"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1AccessEvent_1a9e4a9feb48e0f0acadb45e8da656264a" prot="public" virt="non-virtual"><scope>themis::access_model::AccessEvent</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessEvent_1ab4ba550a084c5969cc3f5938148ad9af" prot="public" virt="non-virtual"><scope>themis::access_model::AccessEvent</scope><name>access_window</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessEvent_1ac777350145c09b1c65ed8e70d8e4bc4b" prot="public" virt="non-virtual"><scope>themis::access_model::AccessEvent</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessEvent_1a471787517e77f4af804ab87dc3a5018d" prot="public" virt="non-virtual"><scope>themis::access_model::AccessEvent</scope><name>current_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessEvent_1a6d4472d32caf1f2f14e130f93b9372f0" prot="public" virt="non-virtual"><scope>themis::access_model::AccessEvent</scope><name>key</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

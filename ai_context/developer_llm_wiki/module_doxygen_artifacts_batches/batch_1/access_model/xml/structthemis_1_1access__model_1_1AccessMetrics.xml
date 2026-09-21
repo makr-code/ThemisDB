@@ -1,0 +1,297 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1AccessMetrics" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::AccessMetrics</compoundname>
+    <includes refid="access__metrics_8h" local="no">access_metrics.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a538481aefefd58d1097fc130f44044f1" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::access_model::AccessMetrics::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Total get/put accesses. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="95" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="95" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a040cdf4f0920bcb39bf5dc185d963c2e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::cache_hits</definition>
+        <argsstring></argsstring>
+        <name>cache_hits</name>
+        <qualifiedname>themis::access_model::AccessMetrics::cache_hits</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Accesses satisfied from cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="96" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a47198d5e3c6ad5e8ddcd792463dcd27f" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::cache_misses</definition>
+        <argsstring></argsstring>
+        <name>cache_misses</name>
+        <qualifiedname>themis::access_model::AccessMetrics::cache_misses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Accesses that missed cache. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="97" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="97" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a0472a16fd4914c0cc6bb2f7885262375" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::total_accesses</definition>
+        <argsstring></argsstring>
+        <name>total_accesses</name>
+        <qualifiedname>themis::access_model::AccessMetrics::total_accesses</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Combined hit + miss counter. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="98" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a78912d0360b4d6c136385939e7c6631d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::evictions</definition>
+        <argsstring></argsstring>
+        <name>evictions</name>
+        <qualifiedname>themis::access_model::AccessMetrics::evictions</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of evictions observed. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="99" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="99" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a13f0c94d98b4367277ce20aabe84456c" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::promotion_count</definition>
+        <argsstring></argsstring>
+        <name>promotion_count</name>
+        <qualifiedname>themis::access_model::AccessMetrics::promotion_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of promotions triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="100" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a145b1a7aa655e656c9d4ed7781cdf59b" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AccessMetrics::demotion_count</definition>
+        <argsstring></argsstring>
+        <name>demotion_count</name>
+        <qualifiedname>themis::access_model::AccessMetrics::demotion_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+<para>Number of demotions triggered. </para>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="101" column="14" bodyfile="include/access_model/access_metrics.h" bodystart="101" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a4d084a28e0451d05a5c62893b73135fc" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::access_model::AccessMetrics::last_access_time</definition>
+        <argsstring></argsstring>
+        <name>last_access_time</name>
+        <qualifiedname>themis::access_model::AccessMetrics::last_access_time</qualifiedname>
+        <initializer>=
+        std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="103" column="43" bodyfile="include/access_model/access_metrics.h" bodystart="103" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessMetrics_1a079338a3ddf661c03feadb64d934427b" prot="public" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1LatencyHistogram" kindref="compound">LatencyHistogram</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;LatencyHistogram&gt; themis::access_model::AccessMetrics::latency_histogram</definition>
+        <argsstring></argsstring>
+        <name>latency_histogram</name>
+        <qualifiedname>themis::access_model::AccessMetrics::latency_histogram</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="106" column="21" bodyfile="include/access_model/access_metrics.h" bodystart="106" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1aee0e6275e98fce11d00e7b67549a7ed0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessMetrics::recordAccess</definition>
+        <argsstring>(uint64_t latency_us)</argsstring>
+        <name>recordAccess</name>
+        <qualifiedname>themis::access_model::AccessMetrics::recordAccess</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>latency_us</declname>
+        </param>
+        <briefdescription>
+<para>Record Access. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>============================================================================ § 2 Access Metrics (Per-Key / Per-Tier) ============================================================================</para>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">latency_us</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter.</para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+Calls: std::chrono::system_clock::now(), record(). </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="112" column="10" bodyfile="src/access_model/access_metrics.cpp" bodystart="131" bodyend="138"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1a914d7cbd3dd94aa9594a0404106f6ef0" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessMetrics::recordCacheHit</definition>
+        <argsstring>()</argsstring>
+        <name>recordCacheHit</name>
+        <qualifiedname>themis::access_model::AccessMetrics::recordCacheHit</qualifiedname>
+        <briefdescription>
+<para>Record Cache Hit. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordCacheHit without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="117" column="10" bodyfile="src/access_model/access_metrics.cpp" bodystart="144" bodyend="147"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1a99f061930ea14305d7fd9615086cc94d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessMetrics::recordCacheMiss</definition>
+        <argsstring>()</argsstring>
+        <name>recordCacheMiss</name>
+        <qualifiedname>themis::access_model::AccessMetrics::recordCacheMiss</qualifiedname>
+        <briefdescription>
+<para>Record Cache Miss. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordCacheMiss without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="122" column="10" bodyfile="src/access_model/access_metrics.cpp" bodystart="153" bodyend="156"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1a186861b7ec1fdd4bd6dc1bb8dac278ff" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessMetrics::recordEviction</definition>
+        <argsstring>()</argsstring>
+        <name>recordEviction</name>
+        <qualifiedname>themis::access_model::AccessMetrics::recordEviction</qualifiedname>
+        <briefdescription>
+<para>Record Eviction. </para>
+        </briefdescription>
+        <detaileddescription>
+<para>Implements recordEviction without additional internal calls. </para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="127" column="10" bodyfile="src/access_model/access_metrics.cpp" bodystart="162" bodyend="164"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1ade408849c0279da9fd0e599f6e48c69b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>double</type>
+        <definition>double themis::access_model::AccessMetrics::cacheHitRate</definition>
+        <argsstring>() const</argsstring>
+        <name>cacheHitRate</name>
+        <qualifiedname>themis::access_model::AccessMetrics::cacheHitRate</qualifiedname>
+        <briefdescription>
+<para>Compute the cache hit rate. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Ratio of cache_hits to total_accesses in [0.0, 1.0]; 0.0 if no accesses. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="133" column="13" bodyfile="src/access_model/access_metrics.cpp" bodystart="166" bodyend="171"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AccessMetrics_1a9bcb20cbcabe4e4865ed636ffd29fdf0" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessMetrics::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::access_model::AccessMetrics::describe</qualifiedname>
+        <briefdescription>
+<para>Return a human-readable summary of this <ref refid="structthemis_1_1access__model_1_1AccessMetrics" kindref="compound">AccessMetrics</ref> instance. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Formatted string with hit rate and access counts. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_metrics.h" line="139" column="18" bodyfile="src/access_model/access_metrics.cpp" bodystart="173" bodyend="186"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_metrics.h" line="94" column="1" bodyfile="include/access_model/access_metrics.h" bodystart="94" bodyend="140"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a538481aefefd58d1097fc130f44044f1" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a040cdf4f0920bcb39bf5dc185d963c2e" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>cache_hits</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a47198d5e3c6ad5e8ddcd792463dcd27f" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>cache_misses</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1ade408849c0279da9fd0e599f6e48c69b" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>cacheHitRate</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a145b1a7aa655e656c9d4ed7781cdf59b" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>demotion_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a9bcb20cbcabe4e4865ed636ffd29fdf0" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>describe</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a78912d0360b4d6c136385939e7c6631d" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>evictions</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a4d084a28e0451d05a5c62893b73135fc" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>last_access_time</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a079338a3ddf661c03feadb64d934427b" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>latency_histogram</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a13f0c94d98b4367277ce20aabe84456c" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>promotion_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1aee0e6275e98fce11d00e7b67549a7ed0" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>recordAccess</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a914d7cbd3dd94aa9594a0404106f6ef0" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>recordCacheHit</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a99f061930ea14305d7fd9615086cc94d" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>recordCacheMiss</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a186861b7ec1fdd4bd6dc1bb8dac278ff" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>recordEviction</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessMetrics_1a0472a16fd4914c0cc6bb2f7885262375" prot="public" virt="non-virtual"><scope>themis::access_model::AccessMetrics</scope><name>total_accesses</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

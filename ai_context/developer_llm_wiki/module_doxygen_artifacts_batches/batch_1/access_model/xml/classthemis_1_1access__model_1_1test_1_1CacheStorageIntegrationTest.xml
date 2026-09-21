@@ -1,0 +1,115 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::test::CacheStorageIntegrationTest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a4644003052d02746b5cec09b3b3282aa" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; AdaptiveQueryCache &gt;</type>
+        <definition>std::shared_ptr&lt;AdaptiveQueryCache&gt; themis::access_model::test::CacheStorageIntegrationTest::cache_</definition>
+        <argsstring></argsstring>
+        <name>cache_</name>
+        <qualifiedname>themis::access_model::test::CacheStorageIntegrationTest::cache_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_cache_storage_integration.cpp" line="124" column="21" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="124" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a379901d4ca268ee036ea3ee632a68bb2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1access__model_1_1test_1_1MockEvictionListener" kindref="compound">MockEvictionListener</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockEvictionListener&gt; themis::access_model::test::CacheStorageIntegrationTest::mock_eviction_listener_</definition>
+        <argsstring></argsstring>
+        <name>mock_eviction_listener_</name>
+        <qualifiedname>themis::access_model::test::CacheStorageIntegrationTest::mock_eviction_listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_cache_storage_integration.cpp" line="125" column="21" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="125" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a2fcdcbea3e629f06d98a5f601ca6d6d2" prot="protected" static="no" mutable="no">
+        <type>std::unique_ptr&lt; <ref refid="classthemis_1_1access__model_1_1test_1_1MockPromotionListener" kindref="compound">MockPromotionListener</ref> &gt;</type>
+        <definition>std::unique_ptr&lt;MockPromotionListener&gt; themis::access_model::test::CacheStorageIntegrationTest::mock_promotion_listener_</definition>
+        <argsstring></argsstring>
+        <name>mock_promotion_listener_</name>
+        <qualifiedname>themis::access_model::test::CacheStorageIntegrationTest::mock_promotion_listener_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_cache_storage_integration.cpp" line="126" column="21" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a63a5839d076add2cdb27bd5f9f821681" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::test::CacheStorageIntegrationTest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::access_model::test::CacheStorageIntegrationTest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_cache_storage_integration.cpp" line="102" column="10" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="102" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a88ec74df4f9eb702e0157c13b78792d6" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::test::CacheStorageIntegrationTest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::access_model::test::CacheStorageIntegrationTest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_cache_storage_integration.cpp" line="117" column="10" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="117" bodyend="122"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::test::CacheStorageIntegrationTest</label>
+        <link refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::test::CacheStorageIntegrationTest</label>
+        <link refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/access_model/test_cache_storage_integration.cpp" line="100" column="1" bodyfile="tests/access_model/test_cache_storage_integration.cpp" bodystart="100" bodyend="127"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a4644003052d02746b5cec09b3b3282aa" prot="protected" virt="non-virtual"><scope>themis::access_model::test::CacheStorageIntegrationTest</scope><name>cache_</name></member>
+      <member refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a379901d4ca268ee036ea3ee632a68bb2" prot="protected" virt="non-virtual"><scope>themis::access_model::test::CacheStorageIntegrationTest</scope><name>mock_eviction_listener_</name></member>
+      <member refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a2fcdcbea3e629f06d98a5f601ca6d6d2" prot="protected" virt="non-virtual"><scope>themis::access_model::test::CacheStorageIntegrationTest</scope><name>mock_promotion_listener_</name></member>
+      <member refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a63a5839d076add2cdb27bd5f9f821681" prot="protected" virt="non-virtual"><scope>themis::access_model::test::CacheStorageIntegrationTest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1access__model_1_1test_1_1CacheStorageIntegrationTest_1a88ec74df4f9eb702e0157c13b78792d6" prot="protected" virt="non-virtual"><scope>themis::access_model::test::CacheStorageIntegrationTest</scope><name>TearDown</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

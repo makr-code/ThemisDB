@@ -171,6 +171,12 @@ public:
     virtual ~AccessCoordinator() = default;
 
 
+    /**
+     * @brief Initialize the coordinator with the full tier registry.
+     * @param[in] all_tiers Map from TierLevel to the corresponding AccessTier instance.
+     *            Must contain at least one cache tier and one storage tier.
+     * @return true on success; false if any tier reference is null or configuration is invalid.
+     */
     virtual bool initialize(
         const std::map<TierLevel, std::shared_ptr<AccessTier>>& all_tiers) = 0;
 
@@ -317,6 +323,11 @@ public:
      */
     virtual AccessModelMetrics getAccessModelMetrics() = 0;
 
+    /**
+     * @brief Return the most recent tier transition events.
+     * @param[in] limit Maximum number of events to return (default: 100).
+     * @return Vector of AccessTransitionEvent records, ordered newest-first.
+     */
     virtual std::vector<AccessTransitionEvent> getRecentTransitions(
         std::size_t limit = 100) = 0;
 };
@@ -325,6 +336,12 @@ public:
 // § 4  Factory Function
 // ============================================================================
 
+/**
+ * @brief Create a new AccessCoordinator instance backed by a thread pool.
+ * @param[in] thread_pool_size Number of background worker threads for async
+ *            promotion/demotion processing (default: 4).
+ * @return Shared pointer to the created AccessCoordinator; never null.
+ */
 std::shared_ptr<AccessCoordinator> createAccessCoordinator(
     std::size_t thread_pool_size = 4);
 
