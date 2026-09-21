@@ -1773,3 +1773,77 @@
 | Gaps-Nr. | Pfad | Dateiname | Zeile |
 |----------|------|-----------|------:|
 ~~| GAP-0001 | `src/network/` | `wire_protocol_server.cpp` | 1253 |~~
+
+---
+
+## Reality Check — Quellcode-Validierung (Stand: 2026-09-21)
+
+**Prüfung:** Alle 1712 Fundstellen wurden gegen ihren Kontext im Sourcecode geprüft.  
+**Commit:** `e46947c2`  
+**Ergebnis:** 1673 Einträge sind False Positives oder governance-konforme Stubs — nur **39 echte offene TODOs** verbleiben.
+
+### Klassifikation
+
+| Klasse | Anzahl | Bewertung |
+|--------|-------:|-----------|
+| `@note Gap Summary` Header (Zeile 7, auto-generiert) | 1.449 | ❌ False Positive — Doku-Leak, kein Implementierungsgap |
+| `@note Gap Summary` Header (andere Zeilen, z.B. `:10`) | 25 | ❌ False Positive — gleiche Ursache |
+| `STUB/SIMULATION NOTE` (governance-dokumentiert, STUB #xxx) | 86 | ✅ Korrekt — per Policy dokumentiert, Removal Plan vorhanden |
+| Env-gated Stubs (`THEMIS_ALLOW_HSM_STUB`, `THEMIS_ALLOW_TSA_STUB`, `THEMIS_ALLOW_MOCK`) | 53 | ✅ Korrekt — explizit env-gesteuert, Produktion geblockt |
+| `streaming_window.cpp` TODO(v1.8.0) #1–#8 | 9 | ✅ Als RESOLVED markiert im Code |
+| `graph_error_taxonomy.cpp:78` | 1 | ℹ️ Informationstext in Fehlertaxonomie, kein Gap |
+| **Echte offene actionable TODOs** | **39** | ⚠️ Offene Implementierung — Handlungsbedarf |
+
+### Echte offene TODOs (39 Fundstellen)
+
+| Modul | Datei | Zeile | Beschreibung |
+|-------|-------|------:|--------------|
+| `governance` | `audit_batch_writer.cpp` | 480 | Implement proper p95/p99 tracking with histogram |
+| `governance` | `policy_change_manager.cpp` | 647 | Implement actual rollback operation with policy manager |
+| `chimera` | `mongodb_adapter.cpp` | 69 | Actual mongocxx client creation (mongocxx::client, mongocxx::uri) |
+| `chimera` | `mongodb_adapter.cpp` | 114 | Translate AQL to MongoDB aggregation pipeline and execute |
+| `chimera` | `mongodb_adapter.cpp` | 139 | Convert RelationalRow to BSON document and insert into collection |
+| `chimera` | `mongodb_adapter.cpp` | 163 | Batch insert documents into collection via bulk_write |
+| `chimera` | `mongodb_adapter.cpp` | 237 | Store node as document in nodes collection |
+| `chimera` | `mongodb_adapter.cpp` | 251 | Store edge as document with source/target node references |
+| `chimera` | `mongodb_adapter.cpp` | 311 | Serialize doc to BSON and insert into named collection |
+| `chimera` | `mongodb_adapter.cpp` | 336 | Batch insert BSON documents via insert_many |
+| `chimera` | `mongodb_adapter.cpp` | 361 | Execute find() with BSON filter and limit, map results to Documents |
+| `chimera` | `mongodb_adapter.cpp` | 387 | Execute update_many() with BSON filter and update document |
+| `chimera` | `mongodb_adapter.cpp` | 619 | Implement rollback-to-savepoint logic via mongocxx session |
+| `chimera` | `qdrant_adapter.cpp` | 68 | Actual gRPC channel creation to Qdrant endpoint |
+| `chimera` | `qdrant_adapter.cpp` | 150 | Upsert point via gRPC UpsertPoints RPC |
+| `chimera` | `qdrant_adapter.cpp` | 198 | Execute KNN search via gRPC Search RPC with payload filter |
+| `chimera` | `qdrant_adapter.cpp` | 224 | Create collection with VectorParams (size, distance metric) via gRPC |
+| `chimera` | `neo4j_adapter.cpp` | 66 | Actual neo4j::Driver creation via bolt URI |
+| `chimera` | `neo4j_adapter.cpp` | 196 | Execute CREATE (node:Label {properties}) via Cypher session |
+| `chimera` | `neo4j_adapter.cpp` | 218 | Execute CREATE (from)-[rel:TYPE]->(to) via Cypher session |
+| `chimera` | `neo4j_adapter.cpp` | 244 | Execute Cypher shortestPath() query with max_depth bound |
+| `chimera` | `neo4j_adapter.cpp` | 270 | Execute BFS/DFS Cypher traversal query up to max_depth |
+| `chimera` | `neo4j_adapter.cpp` | 295 | Execute arbitrary Cypher query and map results to GraphPath |
+| `chimera` | `neo4j_adapter.cpp` | 324 | Create node with collection label and document properties via Cypher |
+| `chimera` | `neo4j_adapter.cpp` | 349 | Batch UNWIND + CREATE nodes via Cypher |
+| `chimera` | `neo4j_adapter.cpp` | 374 | MATCH (n:collection {filter}) RETURN n LIMIT limit via Cypher |
+| `chimera` | `neo4j_adapter.cpp` | 400 | MATCH (n:collection {filter}) SET n += updates via Cypher |
+| `chimera` | `neo4j_adapter.cpp` | 445 | Commit transaction via Neo4j session |
+| `chimera` | `neo4j_adapter.cpp` | 470 | Rollback transaction via Neo4j session |
+| `server` | `timeseries_api_handler.cpp` | 39 | TODO(W9-5): Wire setAggregatesProvider() after construction |
+| `server` | `http_server.cpp` | 113 | Remove http_type_adapter.h include after migration to cpp-httplib |
+| `tensor` | `compression_strategy.cpp` | 48 | Wire to actual TensorTrainDecomposer — see src/tensor/ROADMAP.md |
+| `tensor` | `compression_strategy.cpp` | 332 | Implement strategy registry — see src/tensor/ROADMAP.md |
+| `tensor` | `tensor_routing_strategy.cpp` | 81 | Parse created_at and compute age-based freshness decay |
+| `tensor` | `tensor_routing_strategy.cpp` | 98 | Compute age-based freshness from timestamp |
+| `tensor` | `tensor_routing_strategy.cpp` | 290 | Implement adaptive learning with metrics tracking |
+| `llm` | `ssm_state_rocksdb_store.cpp` | 262 | Migrate to binary/protobuf serialization — see src/llm/ROADMAP.md |
+| `analytics` | `streaming_window.cpp` | 49 | Open TODOs section header (see TODO(v1.8.0) #1–#8, alle RESOLVED) |
+| — | — | — | (streaming_window TODO(v1.8.0) #1–#8 sind als RESOLVED markiert; kein Handlungsbedarf) |
+
+### Schwerpunkte
+
+| Priorität | Modul | Offene TODOs | Hinweis |
+|-----------|-------|-------------:|--------|
+| 🔴 Hoch | `chimera` (mongodb, qdrant, neo4j) | 29 | Adapter-Kernfunktionalität fehlt (gRPC, Driver-Init, BSON/Cypher) |
+| 🟡 Mittel | `tensor` | 4 | Als `(tracked)` markiert, in src/tensor/ROADMAP.md erfasst |
+| 🟡 Mittel | `governance` | 2 | p95/p99-Tracking, Policy-Rollback |
+| 🟢 Niedrig | `server` | 2 | Migration/Wiring, kein Blockers |
+| 🟢 Niedrig | `llm` | 1 | Serialisierungsmigration (tracked in ROADMAP.md) |
