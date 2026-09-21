@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Task Scheduler Audit Events - Quick Reference
 
 ## Enable Audit Logging

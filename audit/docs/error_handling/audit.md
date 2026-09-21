@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Error-Handling Audit – Usage Guide
 
 The audit tool (`tools/error_handling_audit.py`) checks source files for compliance with the rules defined in [`docs/error_handling/checklist.md`](/docs/error_handling/checklist.md).

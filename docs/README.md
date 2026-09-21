@@ -32,6 +32,7 @@ Use these links for day-to-day product usage and operations:
 - Topic index: [CATEGORY_INDEX.md](CATEGORY_INDEX.md)
 - Structure rules: [DOCS_ORGANIZATION_PLAN.md](ARCHIVED/implementation-summaries/DOCS_ORGANIZATION_PLAN.md)
 - Docs PR policy: [governance/DOCS_PR_POLICY.md](governance/DOCS_PR_POLICY.md)
+- **Documentation restructuring plan (As-Is → To-Be, migration roadmap):** [../DOCUMENTATION_RESTRUCTURING_PLAN.md](../DOCUMENTATION_RESTRUCTURING_PLAN.md)
 
 ## Root cleanup rule
 ## Dokumentations-Toolchain

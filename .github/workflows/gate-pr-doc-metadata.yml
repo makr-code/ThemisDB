@@ -222,6 +222,56 @@ jobs:
           source-run-id: ${{ github.run_id }}
           source-sha: ${{ github.sha }}
 
+      - name: Open tracker issue on metadata FAIL
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'FAIL'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] Metadata gate failure — PR #${{ github.event.pull_request.number }} (${{ github.head_ref }})'
+          issue-marker: '<!-- doc-metadata-gate:pr:${{ github.event.pull_request.number }} -->'
+          issue-body: |
+            <!-- doc-metadata-gate:pr:${{ github.event.pull_request.number }} -->
+            ## Doc Metadata Gate — FAIL
+
+            PR: #${{ github.event.pull_request.number }} (`${{ github.head_ref }}`)
+
+            ${{ steps.gate_result.outputs.summary }}
+
+            ---
+            - Workflow: `${{ github.workflow }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Commit: `${{ github.sha }}`
+          labels-to-add: 'quality/doc-metadata-failed,status/needs-attention'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/resolved'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
+      - name: Close tracker issue on metadata PASS
+        if: always() && github.event_name == 'pull_request' && steps.gate_result.outputs.verdict == 'PASS'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: upsert_issue
+          issue-title: '[Docs] Metadata gate failure — PR #${{ github.event.pull_request.number }} (${{ github.head_ref }})'
+          issue-marker: '<!-- doc-metadata-gate:pr:${{ github.event.pull_request.number }} -->'
+          issue-body: |
+            <!-- doc-metadata-gate:pr:${{ github.event.pull_request.number }} -->
+            ## Doc Metadata Gate — ✅ PASS (recovered)
+
+            PR #${{ github.event.pull_request.number }} (`${{ github.head_ref }}`) now passes all metadata checks.
+
+            - Workflow: `${{ github.workflow }}`
+            - Run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+            - Commit: `${{ github.sha }}`
+          labels-to-add: 'status/resolved'
+          status-group: 'quality/doc-metadata-failed,status/needs-attention,status/resolved'
+          allow-missing: 'true'
+          source-workflow: ${{ github.workflow }}
+          source-run-id: ${{ github.run_id }}
+          source-sha: ${{ github.sha }}
+
       - name: Upload metadata gate artifacts
         if: always()
         uses: actions/upload-artifact@v4  # v7.0.1

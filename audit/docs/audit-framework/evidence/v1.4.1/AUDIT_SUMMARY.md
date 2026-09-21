@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB v1.4.1 - Audit Summary
 
 **Audit Date:** January 25, 2026  

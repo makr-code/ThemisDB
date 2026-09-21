@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Acceleration ROADMAP Audit Report
 
 > Generated: 2026-03-09T12:26:36Z (updated)

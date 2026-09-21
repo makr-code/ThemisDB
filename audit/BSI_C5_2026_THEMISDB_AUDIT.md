@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB Audit Update — BSI C5 (Stand 2026)
 
 **Datum:** 2026-04-21  

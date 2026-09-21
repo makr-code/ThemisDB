@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB — EU AI Act Risk Mapping & Classification
 
 **Datum:** 2026-08-08  

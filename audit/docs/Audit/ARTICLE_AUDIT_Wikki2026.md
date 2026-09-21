@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Artikel-Audit: Wikki2026 – Konvergente Datenarchitekturen für souveräne KI-Systeme
 
 **Auditierter Artikel:** `docs/Wikki2026 - ThemisDB - Konvergente Datenarchitekturen.md`  

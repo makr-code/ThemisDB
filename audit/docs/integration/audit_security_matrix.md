@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Audit-Security Integration Matrix
 
 **Document Status:** Finalized (2026-08-18)  
