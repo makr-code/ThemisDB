@@ -160,8 +160,9 @@ Status openDbCompat(const Options& options, const std::string& db_path, DBType**
     static_assert(std::is_same_v<DBType, rocksdb::DB>, "This generated helper targets the default RocksDB DB type.");
     DBType* db_raw = nullptr;
     Status status = DBType::Open(options, db_path, &db_raw);
+    std::unique_ptr<DBType> db_guard(db_raw);
     if (status.ok()) {
-        *out_db = db_raw;
+        *out_db = db_guard.release();
     }
     return status;
 }
