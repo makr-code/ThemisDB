@@ -75,7 +75,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: private-plugin-boundary-${{ github.event.pull_request.number || github.ref }}
+  group: private-plugin-boundary-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 permissions:
