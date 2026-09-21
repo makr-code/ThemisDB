@@ -1,28 +1,31 @@
-# ai_working — MODULE_GAPS.md (Phase 5 Verified)
+# ai_working — MODULE_GAPS.md
 
-This file documents all documentation and code quality gaps in the **ai_working** module, as identified by the gap scanner (Phase 5 with external submodule filtering).
+<!-- Status: current | validated: 2026-09-21 -->
+
+This file documents all documentation and code quality gaps in the **ai_working** module.
 
 ## Summary
 
-- **Total Gaps**: 1
-- **Status**: Verified (Phase 1: file existence, Phase 2: classification, Phase 5: external module filtering)
-- **Last Updated**: C:\Projects\ThemisDB (L0 full scan with Phase 5)
+- **Total Open Gaps**: 0
+- **Status**: Resolved (2026-09-21)
+- **Last Updated**: governance documentation restoration PR
 
 ### By Severity
 
 - **CRITICAL**: 0
 - **HIGH**: 0
-- **MEDIUM**: 1
+- **MEDIUM**: 0
 - **LOW**: 0
 
 ### By Type
 
-- missing_module_doc: 1
+- missing_module_doc: 0 (resolved: full governance doc set delivered)
 
-## Top 1 Gaps
+## Resolved Gaps
 
-- [missing_module_doc] ai_working:1 (MEDIUM)
+- [missing_module_doc] ai_working:1 (MEDIUM) — resolved by creating README.md, ARCHITECTURE.md, AUDIT.md, CHANGELOG.md, FUTURE_ENHANCEMENTS.md, PERFORMANCE_EXPECTATIONS.md, PRODUCTION_REQUIREMENTS.md, ROADMAP.md, SECURITY.md in `src/ai_working/`.
 
----
+## Open Follow-ups
 
-**Phase 5 Verification Notes**: External GitHub submodules (llama.cpp, whisper.cpp, vcpkg, etc.) are explicitly excluded from this analysis via Phase 5 filtering. This ensures all gaps are from themis_core (100% scope accuracy).
+- [AW-AUD-01] Archival automation script (planned Q4 2026) — see FUTURE_ENHANCEMENTS.md.
+- [AW-AUD-02] CI artifact freshness gate (planned Q4 2026) — see FUTURE_ENHANCEMENTS.md.
