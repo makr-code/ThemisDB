@@ -7,8 +7,8 @@ Status: active
 
 ## Source
 - This file is generated from module-scoped Doxygen XML.
-- XML index: `/tmp/module-doxygen-execution/artifacts/execution/xml/index.xml`
-- Warnings log: `/tmp/module-doxygen-execution/artifacts/execution/doxygen-warnings.log`
+- XML index: `/tmp/module-doxygen-execution/execution/xml/index.xml`
+- Warnings log: `/tmp/module-doxygen-execution/execution/doxygen-warnings.log`
 
 ## Structure Metrics
 - C/C++ Files (scanned): 6
