@@ -1,0 +1,25 @@
+{
+  "generated_at": "2026-09-21T05:05:33.546203+00:00",
+  "release_id": "v2.4.0",
+  "workflow": "compliance-supply-chain.yml",
+  "run_id": "manual-2026-09-21",
+  "ref": "develop",
+  "scope": "bsi-c5-2026-delta",
+  "control_status": {
+    "OPS-04": "pass",
+    "SEC-01": "pass",
+    "IAM-02": "pass",
+    "BCM-03": "partial",
+    "LGM-01": "pass",
+    "SCM-01": "pass"
+  },
+  "evidence_references": {
+    "sanitizer_evidence": "docs/security/GA_SANITIZER_EVIDENCE_BUNDLE.md",
+    "pentest_evidence": "security/pentest/GA_PENTEST_EVIDENCE_BUNDLE.md",
+    "key_lifecycle_events": "audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md",
+    "incident_drill_index": "audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md",
+    "sbom_supply_chain": ".github/workflows/compliance-supply-chain.yml",
+    "shared_responsibility": "audit/evidence/c5/SHARED_RESPONSIBILITY_MATRIX.md"
+  },
+  "notes": "v2.4.0 baseline manifest. All C5 control infrastructure is in place. BCM-03 drill records pending Q4 2026 quarterly cadence."
+}

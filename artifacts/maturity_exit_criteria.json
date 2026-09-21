@@ -1,0 +1,151 @@
+{
+  "repo_root": "/home/runner/work/ThemisDB/ThemisDB",
+  "maturity_report": "/home/runner/work/ThemisDB/ThemisDB/audit/MATURITY_REPORT_2026-08.md",
+  "pass": false,
+  "checks": [
+    {
+      "name": "ga_blockers_technical",
+      "passed": true,
+      "value": 0,
+      "target": 0,
+      "details": "GA-Blocker (technisch) must be 0."
+    },
+    {
+      "name": "ga_blockers_governance",
+      "passed": false,
+      "value": 1,
+      "target": 0,
+      "details": "GA-Blocker (Governance) must be 0, including §9 sign-off closure."
+    },
+    {
+      "name": "modules_with_zero_tests",
+      "passed": false,
+      "value": 5,
+      "target": 0,
+      "details": "All modules require automated tests."
+    },
+    {
+      "name": "modules_with_zero_benchmarks",
+      "passed": false,
+      "value": 7,
+      "target": 0,
+      "details": "All modules require benchmark coverage."
+    },
+    {
+      "name": "placeholder_scaffold_modules",
+      "passed": false,
+      "value": 2,
+      "target": 0,
+      "details": "No module may remain in D1 placeholder/scaffold status."
+    },
+    {
+      "name": "roadmap_open_items",
+      "passed": false,
+      "value": 612,
+      "target": 0,
+      "details": "Root and src/*/ROADMAP.md must not contain open [ ] items."
+    },
+    {
+      "name": "roadmap_in_progress_items",
+      "passed": false,
+      "value": 688,
+      "target": 0,
+      "details": "Root and src/*/ROADMAP.md must not contain in-progress [~] items."
+    },
+    {
+      "name": "compliance_gap_markers",
+      "passed": true,
+      "value": 0,
+      "target": 0,
+      "details": "Compliance section should not contain open/missing markers."
+    },
+    {
+      "name": "wave_a_evidence_blocks",
+      "passed": true,
+      "value": 0,
+      "target": 0,
+      "details": "Wave A modules must contain a local closure evidence block with regression, chaos, fail-closed, p95/p99, and release_critical markers."
+    }
+  ],
+  "details": {
+    "placeholder_modules": [
+      "document",
+      "retrieval"
+    ],
+    "wave_a_evidence_gaps": {},
+    "roadmap_files_checked": [
+      "/home/runner/work/ThemisDB/ThemisDB/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/acceleration/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/access_model/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/ai/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/analytics/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/api/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/aql/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/auth/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/base/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/cache/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/cdc/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/chaos/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/chimera/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/config/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/content/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/core/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/distributed_knowledge/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/distributed_tensor/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/document/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/ethics_ai/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/evaluation/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/execution/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/exporters/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/failover/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/geo/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/governance/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/gpu/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/graph/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/image_analysis/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/importers/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/index/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/ingestion/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/llama_cpp/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/llm/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/llm_streaming/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/llm_wiki/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/maintenance/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/metadata/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/network/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/observability/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/onnx_clip/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/performance/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/plugins/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/process/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/projects/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/prompt_engineering/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/query/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/rag/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/replication/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/retrieval/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/rpc_grpc/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/scheduler/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/scraper/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/search/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/security/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/server/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/sharding/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/stable_diffusion/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/storage/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/temporal/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/tensor/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/themis/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/timeseries/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/toolbox/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/training/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/transaction/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/updates/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/user_storage_encrypted/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/utils/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/vector_search/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/voice/ROADMAP.md",
+      "/home/runner/work/ThemisDB/ThemisDB/src/whisper/ROADMAP.md"
+    ]
+  }
+}

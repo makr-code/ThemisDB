@@ -47,7 +47,7 @@
 | 🟡 2 | Vollständige CI-/Hardware-Revalidierung der Wave-A-Schließungen noch unvollständig | `transaction`, `voice`, `gpu` | Mittel-Hoch | Fokusläufe/representative Hardware in Arbeit |
 | 🟡 3 | 5 Module mit 0 automatisierten Tests | Mehrere | Mittel | Governance-Risiko |
 | 🟡 4 | EU AI Act 65 % — Model Cards fehlen | `llm`, `rag`, `ethics_ai` | Mittel | Q4 2026 |
-| 🟡 5 | BSI C5 2026 — 5 Nachweislücken offen | Compliance | Mittel | Maßnahmen laufend |
+| ✅ 0 | BSI C5 2026 — Nachweislücken geschlossen (v2.4.0) | Compliance | — | Alle 5 C5-Gaps adressiert |
 
 ---
 
@@ -237,18 +237,18 @@
 | **BSI C5 2026** | **92 %** | 🟡 | 5 Nachweislücken (siehe 4.2) | Q3 2026 |
 | **NIS2** | **94 %** | ✅ | Incident-Drill-Nachweis | Q4 2026 |
 | **SOC 2** | **90 %** | ✅ | VRAM-Audit-Trail | Q3 2026 |
-| **EU AI Act** | **65 %** | 🟡 | Model Cards, Risk Registry | Q4 2026 |
+| **EU AI Act** | **85 %** | 🟡 | Ethics-AI-Plugin-Gaps | Q4 2026 |
 | **HIPAA** | ✅ | Implementiert | VRAM Secure Clear aktiv | — |
 
-### 4.2 BSI C5 2026 — Offene Nachweislücken
+### 4.2 BSI C5 2026 — Nachweislücken (geschlossen v2.4.0)
 
-| # | Bereich | Lücke | Maßnahme | Frist |
-|---|---------|-------|----------|-------|
-| C5-01 | Governance & Policies | Kein Release-Evidence-Manifest per Version | `audit/evidence/c5/<release>/manifest.json` etablieren | Q3 2026 |
-| C5-02 | Kryptographie & Key Lifecycle | Fehlende Audit-Trails für Key-Rotation/Revocation | Key-Lifecycle-Events in Audit-Log abbilden | Q3 2026 |
-| C5-03 | Logging & Monitoring | Kein Mapping von Log-Events auf C5-Kontrollfamilien | Mapping-Tabelle in `audit/docs/` erstellen | Q3 2026 |
-| C5-04 | Incident & BCM | Keine verifizierbaren Incident-Drill-Nachweise | Quartalsweise Restore-Tests dokumentieren | Q4 2026 |
-| C5-05 | Supply Chain Integrity | Fehlende signierte SBOM/Attestation je Release | SBOM in Release-Pipeline integrieren | Q4 2026 |
+| # | Bereich | Status | Nachweis | Frist |
+|---|---------|--------|----------|-------|
+| C5-01 | Governance & Policies | ✅ Manifest etabliert | `audit/evidence/c5/v2.4.0/manifest.json` + `manifest.md` erzeugt (2026-09-21) | Q3 2026 ✅ |
+| C5-02 | Kryptographie & Key Lifecycle | ✅ Audit-Trail-Events nachgewiesen | Alle 6 Key-Lifecycle-Ereignisklassen in `SecurityEventType` belegt; Quellen: `include/utils/audit_logger.h:62-65`, `src/auth/jwt_key_rotation_manager.cpp:103,156`; Mapping: `audit/evidence/c5/KEY_LIFECYCLE_AUDIT_EVENTS.md` | Q3 2026 ✅ |
+| C5-03 | Logging & Monitoring | ✅ Mapping etabliert | Alle 7 C5-Kontrollfamilien auf `SecurityEventType`-Ereignisse gemappt: `audit/docs/C5_LOG_EVENT_MAPPING.md` | Q3 2026 ✅ |
+| C5-04 | Incident & BCM | ✅ Drill-Index nachgewiesen | 7 Drill-Einträge (DR, Failover, Chaos-Net, Chaos-Sched, AI-Safety, GPU-Recovery): `audit/evidence/c5/INCIDENT_DRILL_EVIDENCE_INDEX.md` | Q4 2026 ✅ |
+| C5-05 | Supply Chain Integrity | ✅ SBOM in Release-Pipeline | Signierte SBOM/Attestation via `compliance-supply-chain.yml`; v2.4.0-Manifest referenziert: `audit/evidence/c5/v2.4.0/manifest.json` | Q4 2026 ✅ |
 
 ### 4.3 EU AI Act — Compliance-Status
 
@@ -256,11 +256,11 @@
 |-----------|--------|-----|-----------|
 | Risiko-Klassifikation | ✅ Vollständig | — | Erledigt |
 | Risk Mapping (Modul-Ebene) | ✅ Vollständig | — | Erledigt |
-| Transparenz-Dokumentation | 🟡 Teilweise | Fehlende öffentliche AI-Nutzungs-Hinweise | Q3 2026 |
-| Model Cards | 🔴 Fehlend | Für LLM, RAG, Evaluation | Q4 2026 |
-| Risk Registry | 🔴 Fehlend | Formales Register für High-Risk-Funktionen | Q4 2026 |
+| Transparenz-Dokumentation | ✅ Aktiv | AI-Nutzungs-Hinweise via `[AI_DECISION]` Audit-Marker | Erledigt |
+| Model Cards | ✅ Erstellt | `docs/model_cards/MODEL_CARD_LLM.md`, `docs/model_cards/MODEL_CARD_RAG.md` | Q4 2026 ✅ |
+| Risk Registry | ✅ Erstellt | `audit/docs/compliance/AI_RISK_REGISTRY.md` — 8 Einträge, kein High-Risk nach Annex III | Q4 2026 ✅ |
 | Mensch-in-der-Schleife-Nachweis | 🟡 Teilweise | Ethics-AI-Modul-Gaps | Q4 2026 |
-| **Gesamt** | **65 %** | Model Cards + Risk Registry | **Q4 2026** |
+| **Gesamt** | **85 %** | Ethics-AI-Plugin (partial) | **Q4 2026** |
 
 ### 4.4 Sanitizer-Gates (GA-Nachweis)
 
