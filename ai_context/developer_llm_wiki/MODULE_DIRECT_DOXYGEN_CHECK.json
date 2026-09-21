@@ -1,0 +1,387 @@
+{
+  "module": "access_model",
+  "source_mode": "direct_doxygen_markers",
+  "source_graph_used": false,
+  "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
+  "source_files_scanned": 21,
+  "source_symbols_total": 95,
+  "source_symbols_after_filter": 95,
+  "doxygen_members_total": 396,
+  "doxygen_members_after_filter": 241,
+  "source_symbol_names": 64,
+  "doxygen_symbol_names": 149,
+  "source_not_in_doxygen_count": 2,
+  "doxygen_not_in_source_count": 87,
+  "coverage": {
+    "symbol_presence_ratio": 0.9688,
+    "missing_symbol_count": 2,
+    "missing_brief_count": 89,
+    "missing_param_docs_count": 25,
+    "missing_return_docs_count": 26
+  },
+  "ownership": {
+    "path_policy": {
+      "internal_roots": [
+        "src",
+        "include",
+        "tests",
+        "benchmarks",
+        "examples",
+        "tools",
+        "scripts",
+        "cmake",
+        "ai_context",
+        "ai_working",
+        "docs",
+        ".github"
+      ],
+      "external_hints": [
+        "vcpkg",
+        "vcpkg_installed",
+        "third_party",
+        "external",
+        "vendor",
+        "deps",
+        "submodules",
+        "packages",
+        "libs"
+      ],
+      "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
+    },
+    "source_symbols": {
+      "internal": 95,
+      "external": 0
+    },
+    "doxygen_members": {
+      "internal": 193,
+      "external": 48
+    },
+    "externally_scoped_symbols": []
+  },
+  "by_rule": {
+    "missing_symbol": 2,
+    "missing_brief": 89,
+    "missing_param_docs": 25,
+    "missing_return_docs": 26
+  },
+  "by_rule_scope": {
+    "missing_symbol": {
+      "src": 1,
+      "include": 1
+    },
+    "missing_brief": {
+      "include": 30,
+      "other": 46,
+      "src": 4,
+      "tests": 3,
+      "benchmarks": 6
+    },
+    "missing_param_docs": {
+      "include": 16,
+      "src": 1,
+      "benchmarks": 6,
+      "tests": 2
+    },
+    "missing_return_docs": {
+      "include": 23,
+      "tests": 1,
+      "benchmarks": 2
+    }
+  },
+  "by_scope": {
+    "src": 6,
+    "tests": 6,
+    "benchmarks": 14,
+    "include": 70,
+    "other": 46
+  },
+  "samples": {
+    "source_not_in_doxygen": [
+      "lock",
+      "now"
+    ],
+    "doxygen_not_in_source": [
+      "AccessCoordinator",
+      "AccessCoordinatorConcurrencyTest",
+      "AccessCoordinatorFocusedTest",
+      "AccessCoordinatorImpl",
+      "AccessCoordinatorTest",
+      "AccessEvent",
+      "AccessMetrics",
+      "AccessModelE2ETest",
+      "AccessModelLogger",
+      "AccessModelMetrics",
+      "AccessOperationCounters",
+      "AccessTier",
+      "AccessTransitionEvent",
+      "AgeBasedPolicy",
+      "BenchAccessCoordinator",
+      "BenchmarkAccessTier",
+      "CacheStorageIntegrationTest",
+      "CacheTier",
+      "CoordinatorLifecycleLog",
+      "DefaultAccessModelLogger",
+      "DemotionEvent",
+      "EvictionEvent",
+      "EvictionEventLog",
+      "EvictionListener",
+      "LatencyHistogram"
+    ],
+    "findings": [
+      {
+        "rule": "missing_symbol",
+        "symbol": "lock",
+        "count": 14,
+        "scope": "src",
+        "scope_breakdown": {
+          "src": 14
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+            "line": 70,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+            "line": 82,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+            "line": 115,
+            "kind": "function",
+            "name": "lock",
+            "scope": "src"
+          }
+        ]
+      },
+      {
+        "rule": "missing_symbol",
+        "symbol": "now",
+        "count": 3,
+        "scope": "include",
+        "scope_breakdown": {
+          "include": 3
+        },
+        "source_examples": [
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+            "line": 65,
+            "kind": "function",
+            "name": "now",
+            "scope": "include"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+            "line": 68,
+            "kind": "function",
+            "name": "now",
+            "scope": "include"
+          },
+          {
+            "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+            "line": 97,
+            "kind": "function",
+            "name": "now",
+            "scope": "include"
+          }
+        ]
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "initialize",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 174,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "initialize",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 174,
+        "scope": "include",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "initialize",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 174,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "getRecentTransitions",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 320,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "getRecentTransitions",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 320,
+        "scope": "include",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "getRecentTransitions",
+        "kind": "function",
+        "file": "include/access_model/access_coordinator.h",
+        "line": 320,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinator",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinatorConcurrencyTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinatorFocusedTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinatorImpl",
+        "kind": "function",
+        "file": "src/access_model/access_coordinator.cpp",
+        "line": 50,
+        "scope": "src"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "AccessCoordinatorImpl",
+        "kind": "function",
+        "file": "src/access_model/access_coordinator.cpp",
+        "line": 50,
+        "scope": "src",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "~AccessCoordinatorImpl",
+        "kind": "function",
+        "file": "src/access_model/access_coordinator.cpp",
+        "line": 56,
+        "scope": "src"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "initialize",
+        "kind": "function",
+        "file": "src/access_model/access_coordinator.cpp",
+        "line": 63,
+        "scope": "src"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "getRecentTransitions",
+        "kind": "function",
+        "file": "src/access_model/access_coordinator.cpp",
+        "line": 545,
+        "scope": "src"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinatorImpl",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "allTiers",
+        "kind": "function",
+        "file": "tests/access_model/test_access_coordinator.cpp",
+        "line": 104,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "allTiers",
+        "kind": "function",
+        "file": "tests/access_model/test_access_coordinator.cpp",
+        "line": 104,
+        "scope": "tests"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessCoordinatorTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessModelE2ETest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessModelLogger",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "AccessModelMetrics",
+        "kind": "function",
+        "file": "include/access_model/access_metrics.h",
+        "line": 125,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "coordinationOverheadPercent",
+        "kind": "function",
+        "file": "include/access_model/access_metrics.h",
+        "line": 148,
+        "scope": "include"
+      },
+      {
+        "rule": "missing_return_docs",
+        "symbol": "coordinationOverheadPercent",
+        "kind": "function",
+        "file": "include/access_model/access_metrics.h",
+        "line": 148,
+        "scope": "include"
+      }
+    ]
+  }
+}

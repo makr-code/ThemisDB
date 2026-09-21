@@ -204,6 +204,15 @@ ctest -R "test_access_model_e2e" -V
 
 ## See Also
 
+- [`ARCHITECTURE.md`](./ARCHITECTURE.md) — Component and data-flow details
+- [`ROADMAP.md`](./ROADMAP.md) — Delivery phases and readiness checklist
+- [`CHANGELOG.md`](./CHANGELOG.md) — Version history
+- [`FUTURE_ENHANCEMENTS.md`](./FUTURE_ENHANCEMENTS.md) — Planned enhancements
+- [`AUDIT.md`](./AUDIT.md) — Code quality audit baseline
+- [`SECURITY.md`](./SECURITY.md) — Threat model and security controls
+- [`PERFORMANCE_EXPECTATIONS.md`](./PERFORMANCE_EXPECTATIONS.md) — Benchmark gates
+- [`PRODUCTION_REQUIREMENTS.md`](./PRODUCTION_REQUIREMENTS.md) — Production readiness requirements
+- [`MODULE_GAPS.md`](./MODULE_GAPS.md) — Open gap tracking
 - [`docs/architecture/UNIFIED_ACCESS_MODEL.md`](../../docs/architecture/UNIFIED_ACCESS_MODEL.md) — Architectural overview
 - [`docs/architecture/CACHE_STORAGE_INTEGRATION.md`](../../docs/architecture/CACHE_STORAGE_INTEGRATION.md) — Integration patterns
 - [`src/cache/ROADMAP.md`](../cache/ROADMAP.md) — Cache module roadmap

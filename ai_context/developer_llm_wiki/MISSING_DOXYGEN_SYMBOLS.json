@@ -1,539 +1,127 @@
 {
-  "module": "retrieval",
+  "module": "access_model",
   "generated_from": "check_module_direct_doxygen.py",
   "source_mode": "direct_doxygen_markers",
   "findings": [
     {
       "rule": "missing_symbol",
-      "symbol": "AdapterTrustRegistry",
-      "count": 1,
+      "symbol": "lock",
+      "count": 14,
+      "scope": "src",
+      "scope_breakdown": {
+        "src": 14
+      },
       "source_examples": [
         {
-          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
-          "line": 47,
-          "kind": "class",
-          "name": "AdapterTrustRegistry",
-          "scope": "tests"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "isTrusted",
-      "count": 1,
-      "source_examples": [
-        {
-          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
-          "line": 64,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 70,
           "kind": "function",
-          "name": "isTrusted",
-          "scope": "tests"
-        }
-      ]
-    },
-    {
-      "rule": "missing_symbol",
-      "symbol": "lk",
-      "count": 13,
-      "source_examples": [
-        {
-          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
-          "line": 693,
-          "kind": "function",
-          "name": "lk",
+          "name": "lock",
           "scope": "src"
         },
         {
-          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
-          "line": 718,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 82,
           "kind": "function",
-          "name": "lk",
+          "name": "lock",
           "scope": "src"
         },
         {
-          "file": "C:\\Projects\\ThemisDB\\src\\retrieval\\src\\lora_package.cc",
-          "line": 735,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
+          "line": 115,
           "kind": "function",
-          "name": "lk",
+          "name": "lock",
           "scope": "src"
         }
       ]
     },
     {
       "rule": "missing_symbol",
-      "symbol": "makePayload",
-      "count": 1,
+      "symbol": "now",
+      "count": 3,
+      "scope": "include",
+      "scope_breakdown": {
+        "include": 3
+      },
       "source_examples": [
         {
-          "file": "C:\\Projects\\ThemisDB\\tests\\retrieval\\test_retrieval_lora_trust_boundary_focused.cpp",
-          "line": 89,
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 65,
           "kind": "function",
-          "name": "makePayload",
-          "scope": "tests"
+          "name": "now",
+          "scope": "include"
+        },
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 68,
+          "kind": "function",
+          "name": "now",
+          "scope": "include"
+        },
+        {
+          "file": "/home/runner/work/ThemisDB/ThemisDB/include/access_model/promotion_demotion.h",
+          "line": 97,
+          "kind": "function",
+          "name": "now",
+          "scope": "include"
         }
       ]
     },
     {
       "rule": "missing_brief",
-      "symbol": "routeKey",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 35,
-      "scope": "benchmarks"
+      "file": "include/access_model/access_coordinator.h",
+      "line": 174,
+      "scope": "include"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "routeKey",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 35,
-      "scope": "benchmarks",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "routeKey",
-      "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 35,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "stubGpuQuery",
-      "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 78,
-      "scope": "benchmarks"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "stubGpuQuery",
-      "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 78,
-      "scope": "benchmarks",
+      "file": "include/access_model/access_coordinator.h",
+      "line": 174,
+      "scope": "include",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "stubGpuQuery",
+      "symbol": "initialize",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 78,
-      "scope": "benchmarks"
+      "file": "include/access_model/access_coordinator.h",
+      "line": 174,
+      "scope": "include"
     },
     {
       "rule": "missing_brief",
-      "symbol": "stubCpuQuery",
+      "symbol": "getRecentTransitions",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 85,
-      "scope": "benchmarks"
+      "file": "include/access_model/access_coordinator.h",
+      "line": 320,
+      "scope": "include"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "stubCpuQuery",
+      "symbol": "getRecentTransitions",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 85,
-      "scope": "benchmarks",
+      "file": "include/access_model/access_coordinator.h",
+      "line": 320,
+      "scope": "include",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "stubCpuQuery",
+      "symbol": "getRecentTransitions",
       "kind": "function",
-      "file": "benchmarks/retrieval/bench_retrieval_dedicated_gates.cpp",
-      "line": 85,
-      "scope": "benchmarks"
+      "file": "include/access_model/access_coordinator.h",
+      "line": 320,
+      "scope": "include"
     },
     {
       "rule": "missing_brief",
-      "symbol": "StubRoutingTable",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 40,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "StubRoutingTable",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 40,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "route",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 42,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "route",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 42,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "route",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 42,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "corrupt",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 46,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "corrupt",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 46,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "heal",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 51,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "routeWithOverride",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 56,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "routeWithOverride",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 56,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "routeWithOverride",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 56,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "numShards",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 63,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "numShards",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 63,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "insert",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 74,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "insert",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 74,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "contains",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 79,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "contains",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 79,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "contains",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 79,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "size",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 84,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "size",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_highcardinality_stress.cpp",
-      "line": 84,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 302,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "~LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 303,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 306,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 306,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 307,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 307,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 307,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 308,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "LoRAManifestStore",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 308,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 309,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 309,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 309,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "loadPackage",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 326,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "listPackageIds",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 336,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "listPackagesByStatus",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 338,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "loadProduct",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 349,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "listProductIds",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 359,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "listProductsByPackage",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 361,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "listProductsByStatus",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 364,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "verifyPackageIntegrity",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 369,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "verifyProductIntegrity",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 371,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "exportPackages",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 375,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "exportProducts",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 384,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "packageCount",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 395,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "productCount",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 397,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAManifestStore",
+      "symbol": "AccessCoordinator",
       "kind": "class",
       "file": "",
       "line": 0,
@@ -541,117 +129,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "HybridRetrieverEngine",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 190,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "retrieve",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 198,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "retrieve",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 198,
-      "scope": "tests",
-      "param_total": 3,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "retrieve",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 198,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "setMode",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 230,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "setMode",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 230,
-      "scope": "tests",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "getMode",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 231,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "getMode",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 231,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "addDocument",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 233,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "addDocument",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 233,
-      "scope": "tests",
-      "param_total": 3,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "clearData",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 240,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "getDocumentCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 245,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "getDocumentCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 245,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "HybridRetrieverParityContractTest",
+      "symbol": "AccessCoordinatorConcurrencyTest",
       "kind": "class",
       "file": "",
       "line": 0,
@@ -659,325 +137,971 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "HybridRetrieverParityTest",
+      "symbol": "AccessCoordinatorFocusedTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessCoordinatorImpl",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 263,
+      "file": "src/access_model/access_coordinator.cpp",
+      "line": 50,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "AccessCoordinatorImpl",
+      "kind": "function",
+      "file": "src/access_model/access_coordinator.cpp",
+      "line": 50,
+      "scope": "src",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~AccessCoordinatorImpl",
+      "kind": "function",
+      "file": "src/access_model/access_coordinator.cpp",
+      "line": 56,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "initialize",
+      "kind": "function",
+      "file": "src/access_model/access_coordinator.cpp",
+      "line": 63,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "getRecentTransitions",
+      "kind": "function",
+      "file": "src/access_model/access_coordinator.cpp",
+      "line": 545,
+      "scope": "src"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessCoordinatorImpl",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "allTiers",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 104,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "allTiers",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 104,
       "scope": "tests"
     },
     {
       "rule": "missing_brief",
-      "symbol": "computeSpearmanCorrelation",
+      "symbol": "AccessCoordinatorTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelE2ETest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelLogger",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelMetrics",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 272,
-      "scope": "tests"
+      "file": "include/access_model/access_metrics.h",
+      "line": 125,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "coordinationOverheadPercent",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 148,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "coordinationOverheadPercent",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 148,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 150,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 150,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "detailedReport",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 152,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "detailedReport",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 152,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessModelMetrics",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "supportsPromotion",
+      "kind": "function",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 284,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "supportsPromotion",
+      "kind": "function",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 284,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "supportsDemotion",
+      "kind": "function",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 286,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "supportsDemotion",
+      "kind": "function",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 286,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "estimatePromotionLatency",
+      "kind": "function",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 288,
+      "scope": "include"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "computeSpearmanCorrelation",
+      "symbol": "estimatePromotionLatency",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 272,
-      "scope": "tests",
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 288,
+      "scope": "include",
       "param_total": 2,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "computeSpearmanCorrelation",
+      "symbol": "estimatePromotionLatency",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 272,
-      "scope": "tests"
+      "file": "include/access_model/access_tier_interface.h",
+      "line": 288,
+      "scope": "include"
     },
     {
       "rule": "missing_brief",
-      "symbol": "MockANNRetriever",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 109,
-      "scope": "tests"
+      "symbol": "AccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "retrieveANN",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 115,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "retrieveANN",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 115,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "retrieveANN",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 115,
-      "scope": "tests"
+      "symbol": "BenchAccessCoordinator",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     },
     {
       "rule": "missing_brief",
-      "symbol": "addVector",
+      "symbol": "BenchmarkAccessTier",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 147,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "addVector",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 147,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "clearVectors",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
       "line": 151,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "vectorCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 155,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "vectorCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 155,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "computeDistance",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 163,
-      "scope": "tests"
+      "scope": "benchmarks"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "computeDistance",
+      "symbol": "BenchmarkAccessTier",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 163,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "computeDistance",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 163,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "MockExactRetriever",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 54,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "retrieveExact",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 59,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "retrieveExact",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 59,
-      "scope": "tests",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "retrieveExact",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 59,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "addDocument",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 85,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "addDocument",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 85,
-      "scope": "tests",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 151,
+      "scope": "benchmarks",
       "param_total": 2,
       "param_docs_count": 0
     },
     {
       "rule": "missing_brief",
-      "symbol": "clearDocuments",
+      "symbol": "setCurrentSize",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 154,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "setCurrentSize",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 154,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "BenchmarkAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "CacheTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "DefaultAccessModelLogger",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LatencyHistogram",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 32,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "LatencyHistogram",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 32,
+      "scope": "include",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "percentile",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 41,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "percentile",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 41,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "percentile",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 41,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "mean",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 43,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "mean",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 43,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "stdDev",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 45,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "stdDev",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 45,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "count",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 47,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "count",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 47,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 49,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 49,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LatencyHistogram",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "LoggingTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ObservabilityIntegrationTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PromotionDemotionTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "StorageTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 33,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator.cpp",
+      "line": 33,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator_focused.cpp",
+      "line": 39,
+      "scope": "tests"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "TestAccessTier",
+      "kind": "function",
+      "file": "tests/access_model/test_access_coordinator_focused.cpp",
+      "line": 39,
+      "scope": "tests",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TestAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContextManager",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "~ScopedContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 120,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ScopedContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 123,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "ScopedContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 123,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 124,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 124,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 124,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ScopedContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 127,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "ScopedContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 127,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 133,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 133,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "operator=",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 133,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "ScopedContext",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContextTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "CacheStorageIntegrationTest",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockAccessTier",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockEvictionListener",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "MockPromotionListener",
+      "kind": "class",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "createAccessCoordinator",
+      "kind": "function",
+      "file": "include/access_model/access_coordinator.h",
+      "line": 328,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "createAccessCoordinator",
+      "kind": "function",
+      "file": "include/access_model/access_coordinator.h",
+      "line": 328,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "createAccessCoordinator",
+      "kind": "function",
+      "file": "include/access_model/access_coordinator.h",
+      "line": 328,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "key_dist",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "key_dist",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
+      "scope": "benchmarks",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "key_dist",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 221,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 225,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "for",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 225,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "SetItemsProcessed",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 244,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "reportViolation",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 57,
+      "scope": "benchmarks"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "reportViolation",
+      "kind": "function",
+      "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+      "line": 57,
+      "scope": "benchmarks",
+      "param_total": 5,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "DemotionEvent",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessEvent",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "cacheHitRate",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 103,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "cacheHitRate",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 103,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 105,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "describe",
+      "kind": "function",
+      "file": "include/access_model/access_metrics.h",
+      "line": 105,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessMetrics",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessOperationCounters",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "AccessTransitionEvent",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shouldDemoteL1ToL2",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 75,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "shouldDemoteL1ToL2",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 75,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "shouldDemoteL1ToL2",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 75,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shouldDemoteL2ToL3",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 82,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "shouldDemoteL2ToL3",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 82,
+      "scope": "include",
+      "param_total": 1,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "shouldDemoteL2ToL3",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 82,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shouldDemoteHotToWarm",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
       "line": 89,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "documentCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 93,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "documentCount",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 93,
-      "scope": "tests"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 111,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 111,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AdapterUsagePolicy",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 145,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 145,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ArtifactIntegrity",
-      "kind": "struct",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 189,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 189,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "supportsArchitecture",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 199,
-      "scope": "src"
+      "scope": "include"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "supportsArchitecture",
+      "symbol": "shouldDemoteHotToWarm",
       "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 199,
-      "scope": "src",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 89,
+      "scope": "include",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "shouldDemoteHotToWarm",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 89,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shouldDemoteWarmToCold",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 101,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "shouldDemoteWarmToCold",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 101,
+      "scope": "include",
+      "param_total": 2,
+      "param_docs_count": 0
+    },
+    {
+      "rule": "missing_return_docs",
+      "symbol": "shouldDemoteWarmToCold",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 101,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "shouldPromoteStorageToCache",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 114,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_param_docs",
+      "symbol": "shouldPromoteStorageToCache",
+      "kind": "function",
+      "file": "include/access_model/age_based_policy.h",
+      "line": 114,
+      "scope": "include",
       "param_total": 1,
       "param_docs_count": 0
     },
     {
       "rule": "missing_return_docs",
-      "symbol": "supportsArchitecture",
+      "symbol": "shouldPromoteStorageToCache",
       "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 199,
-      "scope": "src"
+      "file": "include/access_model/age_based_policy.h",
+      "line": 114,
+      "scope": "include"
     },
     {
       "rule": "missing_brief",
-      "symbol": "statusToString",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 201,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "statusToString",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 201,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAPackage",
+      "symbol": "AgeBasedPolicy",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -985,23 +1109,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 129,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 129,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LoRAPackageProvenance",
+      "symbol": "CoordinatorLifecycleLog",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -1009,39 +1117,7 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 253,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "to_json",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 253,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "statusToString",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 263,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "statusToString",
-      "kind": "function",
-      "file": "src/retrieval/include/lora_package.h",
-      "line": 263,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "PortableAdapterProduct",
+      "symbol": "EvictionEvent",
       "kind": "struct",
       "file": "",
       "line": 0,
@@ -1049,29 +1125,117 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "operator==",
+      "symbol": "EvictionEventLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "EvictionListener",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PromotionDecisionLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PromotionListener",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "PromotionResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TierAccessOptions",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TierGetResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TierPromotionResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TierPutResult",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TierTransitionLog",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContext",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 43,
-      "scope": "tests"
+      "file": "include/access_model/access_model_trace.h",
+      "line": 54,
+      "scope": "include"
+    },
+    {
+      "rule": "missing_brief",
+      "symbol": "TraceContext",
+      "kind": "function",
+      "file": "include/access_model/access_model_trace.h",
+      "line": 69,
+      "scope": "include"
     },
     {
       "rule": "missing_param_docs",
-      "symbol": "operator==",
+      "symbol": "TraceContext",
       "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 43,
-      "scope": "tests",
-      "param_total": 1,
+      "file": "include/access_model/access_model_trace.h",
+      "line": 69,
+      "scope": "include",
+      "param_total": 2,
       "param_docs_count": 0
     },
     {
-      "rule": "missing_return_docs",
-      "symbol": "operator==",
-      "kind": "function",
-      "file": "tests/retrieval/test_retrieval_hybrid_parity_focused.cpp",
-      "line": 43,
-      "scope": "tests"
+      "rule": "missing_brief",
+      "symbol": "TraceContext",
+      "kind": "struct",
+      "file": "",
+      "line": 0,
+      "scope": "other"
     }
   ]
 }
