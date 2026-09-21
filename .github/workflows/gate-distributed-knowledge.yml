@@ -8,7 +8,7 @@ name: "Gate: Module Validation [distributed_knowledge]"
 on:
   push:
     branches:
-      - copilot/implement-gaps-closing-again
+      - develop
     paths:
       - 'src/distributed_knowledge/**/*.c'
       - 'src/distributed_knowledge/**/*.cc'

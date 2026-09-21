@@ -133,7 +133,18 @@ jobs:
           import os
           from pathlib import Path
 
-          report = json.loads(Path('/tmp/doxygen-gate/report.json').read_text(encoding='utf-8'))
+          report_path = Path('/tmp/doxygen-gate/report.json')
+          if not report_path.exists():
+              # Gate script crashed before writing the report — treat as FAIL
+              report = {
+                  'verdict': 'FAIL',
+                  'coverage_enforced': False,
+                  'coverage_waived': False,
+                  'changed_code_files': [],
+                  'summary_markdown': 'Doxygen governance gate failed before producing a report.',
+              }
+          else:
+              report = json.loads(report_path.read_text(encoding='utf-8'))
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
               fh.write(f"verdict={report['verdict']}\n")
               fh.write(f"coverage_enforced={'true' if report['coverage_enforced'] else 'false'}\n")
