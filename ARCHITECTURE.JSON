@@ -337,6 +337,18 @@
       "type": "wave_report"
     },
     {
+      "name": "doxygen_dryrun_include_public.txt",
+      "sha256_prefix": "b43bba9ddac84d87",
+      "size_bytes": "144032",
+      "type": "report"
+    },
+    {
+      "name": "doxygen_dryrun_src.txt",
+      "sha256_prefix": "9dab31a9da3594b7",
+      "size_bytes": "153821",
+      "type": "report"
+    },
+    {
       "name": "gap_scanner_verified_llm.json",
       "sha256_prefix": "b12f36fec487aa67",
       "size_bytes": "7933",
@@ -382,6 +394,18 @@
       "name": "gap_verifier_report_transaction.md",
       "sha256_prefix": "0a5e2a5a5641d28b",
       "size_bytes": "13820",
+      "type": "report"
+    },
+    {
+      "name": "gs3_scan_current.json",
+      "sha256_prefix": "19fdac91fe7903da",
+      "size_bytes": "23722655",
+      "type": "json"
+    },
+    {
+      "name": "gs3_scan_current.md",
+      "sha256_prefix": "d984e1f9e6776ce4",
+      "size_bytes": "3194469",
       "type": "report"
     }
   ],
@@ -961,12 +985,12 @@
     {
       "category": "governance",
       "path": "ARCHITECTURE.md",
-      "sha256_prefix": "6b74efb4ae754830"
+      "sha256_prefix": "cb412dcabd4fcbb4"
     },
     {
       "category": "governance",
       "path": "ROADMAP.md",
-      "sha256_prefix": "68686ad1ed1a0a21"
+      "sha256_prefix": "ff88365b88af13a4"
     },
     {
       "category": "governance",
@@ -981,12 +1005,12 @@
     {
       "category": "governance",
       "path": "RELEASE_STRATEGY.md",
-      "sha256_prefix": "5e6e3f4ae2fd4145"
+      "sha256_prefix": "80f9b3c0de685a81"
     },
     {
       "category": "governance",
       "path": "DOCUMENTATION_GOVERNANCE.md",
-      "sha256_prefix": "4b0c28204a0b5bc2"
+      "sha256_prefix": "eb47bc3807975c3b"
     },
     {
       "category": "governance",
@@ -1331,12 +1355,12 @@
     {
       "category": "docs",
       "path": "docs/RELEASE_ARTIFACT_LOCATIONS.md",
-      "sha256_prefix": "8c0dc43618a941ec"
+      "sha256_prefix": "a3875b2dedf9a2fb"
     },
     {
       "category": "docs",
       "path": "docs/RELEASE_PROCESS_QUICKREF.md",
-      "sha256_prefix": "39389cc89457f653"
+      "sha256_prefix": "51c92db6eef266f3"
     },
     {
       "category": "docs",
@@ -1617,6 +1641,11 @@
       "category": "docs",
       "path": "docs/ai_working/ROADMAP.md",
       "sha256_prefix": "f7026e3df5baf461"
+    },
+    {
+      "category": "docs",
+      "path": "docs/analysis/ANALYSE_IMPLEMENTIERUNGS_ROADMAP.md",
+      "sha256_prefix": "11d23ccad2142b71"
     },
     {
       "category": "docs",
@@ -2681,7 +2710,12 @@
     {
       "category": "docs",
       "path": "docs/code_maturity_report.md",
-      "sha256_prefix": "af23a268c09aa2a6"
+      "sha256_prefix": "0e60e1c3a23beddc"
+    },
+    {
+      "category": "docs",
+      "path": "docs/community/Supporters.md",
+      "sha256_prefix": "24e94104f29f3e71"
     },
     {
       "category": "docs",
@@ -3691,7 +3725,7 @@
     {
       "category": "docs",
       "path": "docs/governance/README.md",
-      "sha256_prefix": "e4b29bb344a77d7a"
+      "sha256_prefix": "16f923896b427b76"
     },
     {
       "category": "docs",
@@ -3702,6 +3736,11 @@
       "category": "docs",
       "path": "docs/governance/RELEASE_VALIDATION_CHECKLIST.md",
       "sha256_prefix": "5ad558f5a3048f23"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/ROOT_HYGIENE_POLICY.md",
+      "sha256_prefix": "e86b8057edb1d425"
     },
     {
       "category": "docs",
@@ -3727,6 +3766,11 @@
       "category": "docs",
       "path": "docs/governance/SOURCECODE_COMPLIANCE_GOVERNANCE.md",
       "sha256_prefix": "84b7afb92e84fd54"
+    },
+    {
+      "category": "docs",
+      "path": "docs/governance/SRC_MODULE_DOCUMENTATION_COMPLIANCE_2026-09-20.md",
+      "sha256_prefix": "e77864ce45b357b3"
     },
     {
       "category": "docs",
@@ -4506,7 +4550,7 @@
     {
       "category": "docs",
       "path": "docs/implementation-history/SETUP_COPILOT_CROSS_COMPILE_REVIEW.md",
-      "sha256_prefix": "48b0c2bb27e0b2e2"
+      "sha256_prefix": "fa7f8973f18b597f"
     },
     {
       "category": "docs",
@@ -5040,8 +5084,73 @@
     },
     {
       "category": "docs",
+      "path": "docs/operability/RUNBOOK_ACCELERATION.md",
+      "sha256_prefix": "2b1db2bd77887f3c"
+    },
+    {
+      "category": "docs",
       "path": "docs/operability/RUNBOOK_ACCESS_MODEL_PROMOTION.md",
       "sha256_prefix": "65facc3644957b41"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_AI_GENERATION.md",
+      "sha256_prefix": "13ea8a6954619ab5"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_ANALYTICS_PIPELINE.md",
+      "sha256_prefix": "b0118ce3e4e2990c"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_AQL_ASSISTANCE.md",
+      "sha256_prefix": "894898846cdb5524"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_CACHE_SLO.md",
+      "sha256_prefix": "0285d169db10d622"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_CHAOS_FAULT_INJECTION.md",
+      "sha256_prefix": "c408647c3d97d452"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_CHIMERA.md",
+      "sha256_prefix": "e7204c223f4f6cdc"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_CORE.md",
+      "sha256_prefix": "a6bf3f74f4405b8f"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_DISTRIBUTED_TENSOR.md",
+      "sha256_prefix": "4cc020a13ac604d2"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_DOCUMENT_STORE.md",
+      "sha256_prefix": "385dfce7723f8f41"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_EVALUATION_FRAMEWORK.md",
+      "sha256_prefix": "ead7f778c1ad0441"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_EXECUTION_ENGINE.md",
+      "sha256_prefix": "997d09f8955323e7"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_EXPORTERS.md",
+      "sha256_prefix": "d2f81a487d28dbbd"
     },
     {
       "category": "docs",
@@ -5050,8 +5159,123 @@
     },
     {
       "category": "docs",
+      "path": "docs/operability/RUNBOOK_GPU_MANAGER.md",
+      "sha256_prefix": "cfa7d490c2abcbd9"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_GRAPH_ENGINE.md",
+      "sha256_prefix": "7650553760f21703"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_IMAGE_ANALYSIS.md",
+      "sha256_prefix": "d6a4f9e88479b00a"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_INDEX_ENGINE.md",
+      "sha256_prefix": "0b9cc164b06d3ccb"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_INGESTION_PIPELINE.md",
+      "sha256_prefix": "e33625f43b8d30af"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_LLAMA_CPP.md",
+      "sha256_prefix": "69cb1d07f7c9f953"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_LLM_PIPELINE.md",
+      "sha256_prefix": "284ebd1db2296373"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_LLM_STREAMING.md",
+      "sha256_prefix": "f6d9d038ed665a95"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_LLM_WIKI.md",
+      "sha256_prefix": "371828d2d6e5aa75"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_MAINTENANCE.md",
+      "sha256_prefix": "2d9a3ce85662f565"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_METADATA_STORE.md",
+      "sha256_prefix": "8aa5550e5e5a8184"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_NETWORK_TRANSPORT.md",
+      "sha256_prefix": "e4b9c03db35ecbb1"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_PROCESS_MANAGER.md",
+      "sha256_prefix": "4632aea2f31014ea"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_QUERY_ENGINE.md",
+      "sha256_prefix": "68e09a2217ebfaee"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_RAG_PIPELINE.md",
+      "sha256_prefix": "74d39b186694ae61"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_REPLICATION.md",
+      "sha256_prefix": "b429ce4a62508b58"
+    },
+    {
+      "category": "docs",
       "path": "docs/operability/RUNBOOK_REPLICATION_LAG_FAILOVER.md",
       "sha256_prefix": "411375454ff67ba7"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_RETRIEVAL_ENGINE.md",
+      "sha256_prefix": "27986b815b23c05b"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_RPC_GRPC.md",
+      "sha256_prefix": "4e0e1dc5174d7943"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_SCHEDULER.md",
+      "sha256_prefix": "ce2a990a41d820bb"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_SCRAPER_INGESTION.md",
+      "sha256_prefix": "a00557d3f5df5031"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_SEARCH_ENGINE.md",
+      "sha256_prefix": "44eb3c0b3d12bdb1"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_SERVER_CORE.md",
+      "sha256_prefix": "f8f5c7e7906022f7"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_SHARDING.md",
+      "sha256_prefix": "1ecabfb964b5caa2"
     },
     {
       "category": "docs",
@@ -5060,8 +5284,78 @@
     },
     {
       "category": "docs",
+      "path": "docs/operability/RUNBOOK_STABLE_DIFFUSION.md",
+      "sha256_prefix": "e04cb0fea2acae08"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_STORAGE_ENGINE.md",
+      "sha256_prefix": "71eadd77fa5acf53"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TEMPORAL_STORE.md",
+      "sha256_prefix": "137a52c945e26774"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TENSOR_STORE.md",
+      "sha256_prefix": "8691e108e779910b"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_THEMIS_CORE.md",
+      "sha256_prefix": "e4c184744de81792"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TIMESERIES_STORE.md",
+      "sha256_prefix": "15449a4ad16f94aa"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TOOLBOX.md",
+      "sha256_prefix": "328dcb5dba19ea5b"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TRAINING_PIPELINE.md",
+      "sha256_prefix": "4a627a76bb306c46"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_TRANSACTION_ENGINE.md",
+      "sha256_prefix": "92572852ab79f1c6"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_UPDATES_ENGINE.md",
+      "sha256_prefix": "4865f0c70893adc1"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_USER_STORAGE_ENCRYPTED.md",
+      "sha256_prefix": "c55def3ecbdc5c04"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_VECTOR_SEARCH.md",
+      "sha256_prefix": "92590608739ab7c4"
+    },
+    {
+      "category": "docs",
       "path": "docs/operability/RUNBOOK_VOICE_INCIDENT_TRIAGE.md",
       "sha256_prefix": "2ae285b392f7e25d"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_VOICE_PIPELINE.md",
+      "sha256_prefix": "934f20c3394a2469"
+    },
+    {
+      "category": "docs",
+      "path": "docs/operability/RUNBOOK_WHISPER_TRANSCRIPTION.md",
+      "sha256_prefix": "212f18b59fb46f0f"
     },
     {
       "category": "docs",
@@ -5071,12 +5365,12 @@
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_ROADMAP.md",
-      "sha256_prefix": "b95f95210d82d431"
+      "sha256_prefix": "76cc36b297755f03"
     },
     {
       "category": "docs",
       "path": "docs/operability/WAVE_D_SIGN_OFF.md",
-      "sha256_prefix": "f5ad5b035a2c4acb"
+      "sha256_prefix": "ede4163ceb1bc84f"
     },
     {
       "category": "docs",
@@ -5550,8 +5844,18 @@
     },
     {
       "category": "docs",
+      "path": "docs/release/MACOS_LANE_GA_CHECKLIST.md",
+      "sha256_prefix": "49ec4645d72eabd0"
+    },
+    {
+      "category": "docs",
       "path": "docs/release/QUERY_MODULE_GA_READINESS.md",
       "sha256_prefix": "a8ac6a743c831e81"
+    },
+    {
+      "category": "docs",
+      "path": "docs/release/RELEASE_TARGET_ARCHITECTURE.md",
+      "sha256_prefix": "d45b5ceafd72d360"
     },
     {
       "category": "docs",
@@ -6425,8 +6729,13 @@
     },
     {
       "category": "docs",
+      "path": "docs/troubleshooting/analytics_operability_runbook.md",
+      "sha256_prefix": "771de887e7dfcc45"
+    },
+    {
+      "category": "docs",
       "path": "docs/troubleshooting/analytics_troubleshooting.md",
-      "sha256_prefix": "d1e731f3b391e6a5"
+      "sha256_prefix": "ca763191e67235bf"
     },
     {
       "category": "docs",
@@ -6814,7 +7123,7 @@
       "sha256_prefix": "25c1add109b01f99"
     }
   ],
-  "generated_at": "2026-09-16T08:08:19.700786+00:00",
+  "generated_at": "2026-09-21T02:06:38.965856+00:00",
   "generator": "tools/architecture-generator/generate_architecture.py",
   "llm_wiki": {
     "governance_summary_preview": "# Developer LLM Wiki — Governance and Roadmap\nDatum: 2026-09-14\nStatus: Active\n## AI_WIKI_INTEGRATION_PLAYBOOK.md\n- Kategorie: governance_and_docs\n- Hash: `bc0ab72465c851ff`\n- Titel: AI Wiki Integration Playbook fuer ThemisDB\n- Auszug:",
@@ -8890,19 +9199,19 @@
   ],
   "schema_version": "1.0.0",
   "source_hashes": {
-    "ARCHITECTURE.md": "6b74efb4ae754830",
+    "ARCHITECTURE.md": "cb412dcabd4fcbb4",
     "FUTURE_ENHANCEMENTS.md": "de552eeef9d1ac51",
-    "ROADMAP.md": "68686ad1ed1a0a21",
+    "ROADMAP.md": "ff88365b88af13a4",
     "ai_context/ARCHITECTURE_CLASSIFICATION.md": "57a7f2182a1193c8",
     "ai_context/MODULES_AND_NAMESPACES.md": "bf42dba44a39f8cb",
     "ai_context/api_contracts/": "327db5382688c4b9",
-    "ai_context/developer_llm_wiki/": "6c2652743c56fea9",
-    "ai_working/": "23010ee516eb01da",
-    "docs/": "ae477f85ddf020df"
+    "ai_context/developer_llm_wiki/": "ad03442f6966f378",
+    "ai_working/": "aab8e13a407c24a2",
+    "docs/": "847e0f858a020bcb"
   },
   "statistics": {
-    "ai_working_artifact_count": 64,
-    "documentation_source_count": 1171,
+    "ai_working_artifact_count": 68,
+    "documentation_source_count": 1228,
     "isolated_module_count": 30,
     "modules_with_api_contracts": 6,
     "modules_with_private_plugin": 4,
