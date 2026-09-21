@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # C++ Code Audit Report - February 2026
 
 **Date:** 2026-02-02  

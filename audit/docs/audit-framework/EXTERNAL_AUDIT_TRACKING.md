@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # External Security Audit Tracking - ThemisDB
 
 **Created:** February 3, 2026  

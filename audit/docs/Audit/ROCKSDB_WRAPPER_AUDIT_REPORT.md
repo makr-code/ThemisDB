@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # RocksDB Wrapper - Systematische Fehleranalyse
 **Audit-Datum**: 2. Januar 2026  
 **Datei**: `src/storage/rocksdb_wrapper.cpp` (1460 Zeilen)  

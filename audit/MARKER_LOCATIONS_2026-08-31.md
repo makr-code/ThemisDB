@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB — Marker-Fundstellen in `src/` (Gaps-Liste)
 
 **Erstellt:** 2026-08-31T06:44:28Z  

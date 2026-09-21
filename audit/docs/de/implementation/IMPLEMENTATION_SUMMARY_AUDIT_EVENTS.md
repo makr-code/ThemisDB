@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Implementation Summary: Audit Events & Anomaly Detection für Trigger-Execution
 
 ## Status: ✅ COMPLETE - Production Ready

@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # What's Missing to Reach 100% Implementation Completeness
 ## ThemisDB v2.4.0-rc1 Gap Analysis
 **Date:** 2026-08-18  

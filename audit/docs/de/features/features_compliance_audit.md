@@ -1,8 +1,8 @@
 ---
-category: "🛡️ Security/Compliance"
-version: "v1.3.0"
-status: "✅"
-date: "22.12.2025"
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
 ---
 
 # 📋 Compliance Audit
