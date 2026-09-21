@@ -13,7 +13,7 @@ The format is based on Keep a Changelog.
 ### Changed
 - Documentation governance sync: CHANGELOG.md, FUTURE_ENHANCEMENTS.md, AUDIT.md, SECURITY.md, MODULE_GAPS.md, PERFORMANCE_EXPECTATIONS.md, and PRODUCTION_REQUIREMENTS.md added to align with repository compliance requirements.
 
-## [1.0.0] - 2026-08
+## [1.0.0] - 2026-08-10
 
 ### Added
 - **Phase 1–3 delivery (Q3 2026)** — Full image analysis infrastructure implemented and deployed to production.
