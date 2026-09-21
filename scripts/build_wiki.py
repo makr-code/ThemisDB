@@ -118,7 +118,19 @@ PRIVATE_PATH_PATTERNS: list[re.Pattern[str]] = [
 
 PRIVATE_SECRET_PATTERNS: list[re.Pattern[str]] = [
     re.compile(r"private_api_key\s*=", re.IGNORECASE),
-    re.compile(r"SECRET\s*=\s*['\"][^'\"]+['\"]", re.IGNORECASE),
+    # Match SECRET = "value" assignments that look like real credentials.
+    # Exclusions to reduce false positives on documentation examples:
+    #   - shell substitutions starting with "$(" (e.g. JWT_SECRET="$(openssl rand ...)")
+    #   - all-lowercase hyphen-separated descriptor strings with 3+ segments
+    #     (e.g. "your-secret-key", "jwt-secret-key-base64", "secret-key-material")
+    #   - cross-line matches (newlines excluded from the value character class)
+    re.compile(
+        r"SECRET\s*=\s*['\"]"
+        r"(?!\$\()"
+        r"(?![a-z][a-z0-9]*(?:-[a-z][a-z0-9]*){2,}['\"])"
+        r"[^'\"\n]+['\"]",
+        re.IGNORECASE,
+    ),
 ]
 
 # Doxygen tag patterns to strip from output
