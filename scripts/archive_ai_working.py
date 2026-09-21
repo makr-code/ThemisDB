@@ -244,6 +244,15 @@ def archive_stale(dry_run: bool) -> int:
     moved = 0
     for src in candidates:
         dest = archive_dir / src.name
+        if not dry_run and dest.exists():
+            # Avoid clobbering an existing archive entry on same-day re-runs
+            stem = src.stem
+            suffix = src.suffix
+            counter = 1
+            while dest.exists():
+                dest = archive_dir / f"{stem}_{counter}{suffix}"
+                counter += 1
+            print(f"  [archive] collision avoided, renamed to: {dest.name}")
         if dry_run:
             print(f"  [dry-run] would archive: {src.relative_to(REPO_ROOT)} → {dest.relative_to(REPO_ROOT)}")
         else:
