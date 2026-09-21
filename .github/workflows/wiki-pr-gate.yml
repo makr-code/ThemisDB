@@ -74,16 +74,22 @@ jobs:
       - name: Build wiki staging
         id: build
         continue-on-error: true
+        env:
+          _RAW_SOURCE_BRANCH: ${{ github.event.inputs.source_branch }}
+          _RAW_HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          _RAW_REF_NAME: ${{ github.ref_name }}
+          _RAW_EVENT_NAME: ${{ github.event_name }}
+          _RAW_FAIL_ON_BLOCKED_PRIVATE: ${{ github.event.inputs.fail_on_blocked_private }}
         run: |
-          SOURCE_BRANCH="${{ github.event.inputs.source_branch || github.event.workflow_run.head_branch || github.ref_name }}"
+          SOURCE_BRANCH="${_RAW_SOURCE_BRANCH:-${_RAW_HEAD_BRANCH:-$_RAW_REF_NAME}}"
           if [ -z "$SOURCE_BRANCH" ]; then
             SOURCE_BRANCH="develop"
           fi
 
           # Automation policy: workflow_run/schedule warn on blocked-private instead of failing.
           FAIL_ON_BLOCKED_PRIVATE="false"
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            FAIL_ON_BLOCKED_PRIVATE="${{ github.event.inputs.fail_on_blocked_private }}"
+          if [ "$_RAW_EVENT_NAME" = "workflow_dispatch" ]; then
+            FAIL_ON_BLOCKED_PRIVATE="${_RAW_FAIL_ON_BLOCKED_PRIVATE}"
           fi
 
           build_args=(
