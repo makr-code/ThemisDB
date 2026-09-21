@@ -27,5 +27,4 @@ This file documents all documentation and code quality gaps in the **ai_working*
 
 ## Open Follow-ups
 
-- [AW-AUD-01] Archival automation script (planned Q4 2026) — see FUTURE_ENHANCEMENTS.md.
-- [AW-AUD-02] CI artifact freshness gate (planned Q4 2026) — see FUTURE_ENHANCEMENTS.md.
+None. AW-AUD-01 and AW-AUD-02 are both resolved — see AUDIT.md for details.

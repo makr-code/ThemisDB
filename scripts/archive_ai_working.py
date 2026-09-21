@@ -65,8 +65,7 @@ REQUIRED_GOVERNANCE_DOCS: set[str] = {
 
 # Strings that indicate a file is still a placeholder and has not been filled in
 PLACEHOLDER_PATTERNS: list[re.Pattern[str]] = [
-    re.compile(r"^#[^\n]+\n+\s*Module placeholder for mirrored", re.IGNORECASE),
-    re.compile(r"^#[^\n]+\n+\s*module placeholder for mirrored", re.IGNORECASE),
+    re.compile(r"^#[^\n]+\n+\s*[Mm]odule placeholder for mirrored", re.IGNORECASE),
 ]
 
 # Files that are always kept and never archived from src/ai_working/

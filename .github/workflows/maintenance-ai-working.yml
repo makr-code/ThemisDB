@@ -140,18 +140,18 @@ jobs:
       - name: Check governance doc freshness (AW-AUD-02)
         id: freshness_check
         run: |
+          set -o pipefail
           python scripts/archive_ai_working.py --check-freshness \
             --report-json /tmp/ai_working_freshness_report.json \
             2>&1 | tee /tmp/freshness_check.log
-          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Archive stale src/ai_working/ files (AW-AUD-01)
         if: steps.opts.outputs.dry_run != 'true'
         id: archive_stale
         run: |
+          set -o pipefail
           python scripts/archive_ai_working.py --archive-stale \
             2>&1 | tee /tmp/archive_stale.log
-          echo "exit_code=${PIPESTATUS[0]}" >> "$GITHUB_OUTPUT"
 
       - name: Upload compact run log
         if: always()
