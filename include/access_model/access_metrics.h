@@ -29,11 +29,11 @@ namespace access_model {
 
 class LatencyHistogram {
 public:
-/**
- * @brief Construct a latency histogram with configurable bucket count and range.
- * @param[in] num_buckets Number of histogram buckets (default: 1000).
- * @param[in] max_latency_us Maximum latency in microseconds before overflow bucket (default: 100 000).
- */
+    /**
+     * @brief Construct a latency histogram with configurable bucket count and range.
+     * @param[in] num_buckets Number of histogram buckets (default: 1000).
+     * @param[in] max_latency_us Maximum latency in microseconds before overflow bucket (default: 100 000).
+     */
     explicit LatencyHistogram(std::size_t num_buckets = 1000,
                               uint64_t max_latency_us = 100000);
 
