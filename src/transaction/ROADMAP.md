@@ -295,6 +295,7 @@ See [`../../ROADMAP.md`](../../ROADMAP.md) for the full Wave A → B → C → D
 - [~] Build/run confirmation note (2026-09-09): dedicated Wave-B CI is green again and now includes explicit chaos/recovery evidence plus Phase 4 baseline artifact jobs; run `34322902518` failed because the new jobs violated the repository-wide sccache requirement during `Configure CMake`, and a rerun has been prepared with that fix.
 - [~] Representative-hardware p95/p99 baselines: `benchmarks/transaction/bench_transaction_phase4.cpp` is now CMake/CTest-wired and exported by the dedicated workflow; baseline capture and gate refresh remain open until the patched rerun produces verified artifacts.
 - [x] Dedicated transaction CI lane green on `develop`: run `34313051247` restored the Wave-B workflow to PASS.
+- [~] `release_critical` coverage: 15 Wave A closure tests (TXN-RECOVERY-01..04, TXN-SAGA-HARDENING-01..04, TXN-BYZANTINE-01..02, TXN-XSHARD-01..02) registered `release_critical` in `tests/transaction/CMakeLists.txt`; green-on-`develop` execution evidence pending final chaos/Phase 4 rerun.
 - [~] Next closure item: execute the new chaos/recovery and Phase 4 artifact jobs on `develop`, then promote the resulting hardware-backed evidence into the roadmap/gate record.
 
 ### Dependencies on Later Waves
