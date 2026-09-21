@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 <!-- Development audit generated: 2025-11-16 -->
 # Development Audit — ThemisDB (Kurzbericht)
 

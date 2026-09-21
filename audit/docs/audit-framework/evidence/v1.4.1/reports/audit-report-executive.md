@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB Security Audit - Executive Summary
 # Version 1.4.1 | January 25, 2026
 

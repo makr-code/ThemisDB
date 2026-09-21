@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # LLM Core Implementation - Comprehensive Audit Report
 
 **Audit Date:** January 19, 2026  

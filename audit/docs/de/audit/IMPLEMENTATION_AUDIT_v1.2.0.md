@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # ThemisDB Implementation Audit v1.2.0
 
 **Audit Date:** 2025-12-15  

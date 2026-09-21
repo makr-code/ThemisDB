@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Docker Security Audit Report
 **Date:** 2026-01-08  
 **Version:** ThemisDB 1.4.0  

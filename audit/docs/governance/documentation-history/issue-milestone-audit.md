@@ -1,3 +1,9 @@
+---
+Author: ThemisDB Maintainers
+Created: 2026-08-31
+Last Updated: 2026-09-21
+Status: active
+---
 # Issue–Milestone Audit Report
 
 > **Auto-generated** by `scripts/sync-milestones-from-roadmap.py`.
