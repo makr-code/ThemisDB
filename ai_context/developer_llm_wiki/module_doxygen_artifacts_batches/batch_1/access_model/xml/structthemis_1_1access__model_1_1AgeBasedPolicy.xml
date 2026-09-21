@@ -1,0 +1,839 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1AgeBasedPolicy" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::AgeBasedPolicy</compoundname>
+    <includes refid="age__based__policy_8h" local="no">age_based_policy.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a5807edbdb1c367284169666e61bbfb0a" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::l1_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>l1_zero_access_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l1_zero_access_days</qualifiedname>
+        <initializer>= 1</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="45" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="45" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae0bb23a701c9252a493829e4571e98e7" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::l2_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>l2_zero_access_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l2_zero_access_days</qualifiedname>
+        <initializer>= 7</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="47" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="47" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1af88c778d67cf36deb306e39212f6bdbb" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::l3_to_storage_days</definition>
+        <argsstring></argsstring>
+        <name>l3_to_storage_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l3_to_storage_days</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="49" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="49" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1af94c5124bed8e7e226e313e94a9e3630" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::hot_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>hot_zero_access_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::hot_zero_access_days</qualifiedname>
+        <initializer>= 14</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="52" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="52" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae50362ca5cfef286e73db8a2ede85c75" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::hot_to_warm_days</definition>
+        <argsstring></argsstring>
+        <name>hot_to_warm_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::hot_to_warm_days</qualifiedname>
+        <initializer>= 30</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="54" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="54" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::warm_zero_access_days</definition>
+        <argsstring></argsstring>
+        <name>warm_zero_access_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::warm_zero_access_days</qualifiedname>
+        <initializer>= 45</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="56" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="56" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ab2ced86afba356d93e2d6f7e63c6a378" prot="public" static="no" mutable="no">
+        <type>uint32_t</type>
+        <definition>uint32_t themis::access_model::AgeBasedPolicy::warm_to_cold_days</definition>
+        <argsstring></argsstring>
+        <name>warm_to_cold_days</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::warm_to_cold_days</qualifiedname>
+        <initializer>= 90</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="58" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="58" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a484cb6d9a75d0abd9b2bc58eadbd410e" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AgeBasedPolicy::l1_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>l1_promotion_threshold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l1_promotion_threshold</qualifiedname>
+        <initializer>= 10</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="61" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="61" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a55cfcce4fa8e5dd14f80cb56ca0e854d" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AgeBasedPolicy::l2_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>l2_promotion_threshold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l2_promotion_threshold</qualifiedname>
+        <initializer>= 5</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="63" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="63" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a07a43ecca73742587a0be1976cfaba91" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AgeBasedPolicy::l3_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>l3_promotion_threshold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::l3_promotion_threshold</qualifiedname>
+        <initializer>= 2</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="65" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="65" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ada4da854baffa54a979667e515eb3944" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AgeBasedPolicy::storage_promotion_threshold</definition>
+        <argsstring></argsstring>
+        <name>storage_promotion_threshold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::storage_promotion_threshold</qualifiedname>
+        <initializer>= 3</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="67" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="67" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a1d71845c2dec6cf90eb5ce78d6caabbc" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::access_model::AgeBasedPolicy::storage_promotion_window</definition>
+        <argsstring></argsstring>
+        <name>storage_promotion_window</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::storage_promotion_window</qualifiedname>
+        <initializer>{86400}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="69" column="26" bodyfile="include/access_model/age_based_policy.h" bodystart="69" bodyend="69"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae294cede4b374c4d64151ed655c37b66" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::AgeBasedPolicy::cache_warmup_grace_period_ms</definition>
+        <argsstring></argsstring>
+        <name>cache_warmup_grace_period_ms</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::cache_warmup_grace_period_ms</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="71" column="14" bodyfile="include/access_model/age_based_policy.h" bodystart="71" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="public-func">
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1afd52e1f31256b1bdbf9ea8041582b691" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldDemoteL1ToL2</definition>
+        <argsstring>(uint32_t seconds_since_access) const noexcept</argsstring>
+        <name>shouldDemoteL1ToL2</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldDemoteL1ToL2</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_access</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an L1 cache entry should be demoted to L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the last access on this key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entry has exceeded the L1 zero-access threshold. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="80" column="10" bodyfile="include/access_model/age_based_policy.h" bodystart="80" bodyend="85"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a27c23f825660c9d83b2dc91ec2f3dc62" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldDemoteL2ToL3</definition>
+        <argsstring>(uint32_t seconds_since_access) const noexcept</argsstring>
+        <name>shouldDemoteL2ToL3</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldDemoteL2ToL3</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_access</declname>
+        </param>
+        <briefdescription>
+<para>Check whether an L2 cache entry should be demoted to L3. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the last access on this key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entry has exceeded the L2 zero-access threshold. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="92" column="10" bodyfile="include/access_model/age_based_policy.h" bodystart="92" bodyend="97"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a3d4150312a52e0c2525acbee6f7a49a2" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldDemoteHotToWarm</definition>
+        <argsstring>(uint32_t seconds_since_access, uint32_t seconds_since_write) const noexcept</argsstring>
+        <name>shouldDemoteHotToWarm</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldDemoteHotToWarm</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_access</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_write</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a hot storage entry should be demoted to warm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the last access. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the entry was written. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entry meets either the zero-access or age threshold for hot→warm demotion. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="105" column="10" bodyfile="include/access_model/age_based_policy.h" bodystart="105" bodyend="115"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a54460ac142962b8e0c894b35e1381ed3" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldDemoteWarmToCold</definition>
+        <argsstring>(uint32_t seconds_since_access, uint32_t seconds_since_write) const noexcept</argsstring>
+        <name>shouldDemoteWarmToCold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldDemoteWarmToCold</qualifiedname>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_access</declname>
+        </param>
+        <param>
+          <type>uint32_t</type>
+          <declname>seconds_since_write</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a warm storage entry should be demoted to cold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the last access. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">seconds_since_write</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Elapsed seconds since the entry was written. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if the entry meets either the zero-access or age threshold for warm→cold demotion. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="123" column="10" bodyfile="include/access_model/age_based_policy.h" bodystart="123" bodyend="134"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1aff36cfd90927dbd9a8b4e824ad1e925c" prot="public" static="no" const="yes" explicit="no" inline="yes" noexcept="yes" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteStorageToCache</definition>
+        <argsstring>(uint64_t access_count) const noexcept</argsstring>
+        <name>shouldPromoteStorageToCache</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteStorageToCache</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <briefdescription>
+<para>Check whether a storage entry&apos;s access count qualifies it for cache promotion. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Total number of observed accesses for this key. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>true if access_count meets or exceeds storage_promotion_threshold. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="141" column="10" bodyfile="include/access_model/age_based_policy.h" bodystart="141" bodyend="143"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ad3841875d2484db300dc43f57c9433d1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteL1ToL2</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>shouldPromoteL1ToL2</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteL1ToL2</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote L1 To L2. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="152" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="54" bodyend="70"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a8e301776de61285f878169ab840a225b" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteL2ToL3</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>shouldPromoteL2ToL3</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteL2ToL3</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote L2 To L3. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="161" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="72" bodyend="88"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a49f1a65057aa9fdad63af2a3407d7882" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteL3ToStorage</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>shouldPromoteL3ToStorage</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteL3ToStorage</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote L3 To Storage. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="170" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="90" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a75a9e8e2e5a1aa4716eca1004f8b95bd" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteStorageWarmToCold</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>shouldPromoteStorageWarmToCold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteStorageWarmToCold</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote Storage Warm To Cold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="179" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="108" bodyend="124"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a8f0c45e21e807778cf4b427c286aae75" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldDemoteStorageCold</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>shouldDemoteStorageCold</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldDemoteStorageCold</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Should Demote Storage Cold. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="189" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="126" bodyend="142"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a869afe43e72e8f512e062bb3f006ab63" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteStorageColdToWarm</definition>
+        <argsstring>(uint64_t access_count) const</argsstring>
+        <name>shouldPromoteStorageColdToWarm</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteStorageColdToWarm</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote Storage Cold To Warm. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="198" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="144" bodyend="150"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1afcb372c4bf3acecc8226333ce603ced9" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::shouldPromoteStorageWarmToL3Cache</definition>
+        <argsstring>(uint64_t access_count) const</argsstring>
+        <name>shouldPromoteStorageWarmToL3Cache</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::shouldPromoteStorageWarmToL3Cache</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <briefdescription>
+<para>Should Promote Storage Warm To L3 Cache. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="205" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="152" bodyend="158"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a39a6776cdec7a9ebf32c0f219384fdc5" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1a99eaa17605689e748fabd6223fde9cc0" kindref="member">DataHotnessLevel</ref></type>
+        <definition>DataHotnessLevel themis::access_model::AgeBasedPolicy::classifyHotness</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>classifyHotness</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::classifyHotness</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Classify Hotness. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="213" column="22" bodyfile="src/access_model/age_based_policy.cpp" bodystart="164" bodyend="188"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1ac060e87c854028a8d0a9b8e8a9ab736d" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::AgeBasedPolicy::recommendTierForData</definition>
+        <argsstring>(uint64_t access_count, const std::chrono::seconds &amp;time_since_last_access) const</argsstring>
+        <name>recommendTierForData</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::recommendTierForData</qualifiedname>
+        <param>
+          <type>uint64_t</type>
+          <declname>access_count</declname>
+        </param>
+        <param>
+          <type>const std::chrono::seconds &amp;</type>
+          <declname>time_since_last_access</declname>
+        </param>
+        <briefdescription>
+<para>Recommend Tier For Data. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">access_count</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+<parameteritem>
+<parameternamelist>
+<parametername direction="in">time_since_last_access</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Input parameter. </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="223" column="15" bodyfile="src/access_model/age_based_policy.cpp" bodystart="190" bodyend="221"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a56843fd30d4983b794c5fcaa77c03b42" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>bool</type>
+        <definition>bool themis::access_model::AgeBasedPolicy::isValid</definition>
+        <argsstring>() const</argsstring>
+        <name>isValid</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::isValid</qualifiedname>
+        <briefdescription>
+<para>Is Valid. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>True when the operation succeeds. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="231" column="10" bodyfile="src/access_model/age_based_policy.cpp" bodystart="227" bodyend="266"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1adcf71167a0c884d229f4c5b2c6423ec1" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AgeBasedPolicy::toJson</definition>
+        <argsstring>() const</argsstring>
+        <name>toJson</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::toJson</qualifiedname>
+        <briefdescription>
+<para>To Json. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="237" column="17" bodyfile="src/access_model/age_based_policy.cpp" bodystart="272" bodyend="291"/>
+      </memberdef>
+      <memberdef kind="function" id="structthemis_1_1access__model_1_1AgeBasedPolicy_1a6a71e8ae1089b0e8105be9636894be17" prot="public" static="no" const="yes" explicit="no" inline="no" virt="non-virtual">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AgeBasedPolicy::describe</definition>
+        <argsstring>() const</argsstring>
+        <name>describe</name>
+        <qualifiedname>themis::access_model::AgeBasedPolicy::describe</qualifiedname>
+        <briefdescription>
+<para>Describe. </para>
+        </briefdescription>
+        <detaileddescription>
+<para><simplesect kind="return"><para>Return value. </para>
+</simplesect>
+</para>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/age_based_policy.h" line="243" column="17" bodyfile="src/access_model/age_based_policy.cpp" bodystart="29" bodyend="48"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/age_based_policy.h" line="43" column="1" bodyfile="include/access_model/age_based_policy.h" bodystart="43" bodyend="244"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae294cede4b374c4d64151ed655c37b66" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>cache_warmup_grace_period_ms</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a39a6776cdec7a9ebf32c0f219384fdc5" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>classifyHotness</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a6a71e8ae1089b0e8105be9636894be17" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>describe</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae50362ca5cfef286e73db8a2ede85c75" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>hot_to_warm_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1af94c5124bed8e7e226e313e94a9e3630" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>hot_zero_access_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a56843fd30d4983b794c5fcaa77c03b42" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>isValid</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a484cb6d9a75d0abd9b2bc58eadbd410e" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l1_promotion_threshold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a5807edbdb1c367284169666e61bbfb0a" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l1_zero_access_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a55cfcce4fa8e5dd14f80cb56ca0e854d" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l2_promotion_threshold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ae0bb23a701c9252a493829e4571e98e7" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l2_zero_access_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a07a43ecca73742587a0be1976cfaba91" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l3_promotion_threshold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1af88c778d67cf36deb306e39212f6bdbb" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>l3_to_storage_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ac060e87c854028a8d0a9b8e8a9ab736d" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>recommendTierForData</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a3d4150312a52e0c2525acbee6f7a49a2" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldDemoteHotToWarm</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1afd52e1f31256b1bdbf9ea8041582b691" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldDemoteL1ToL2</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a27c23f825660c9d83b2dc91ec2f3dc62" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldDemoteL2ToL3</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a8f0c45e21e807778cf4b427c286aae75" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldDemoteStorageCold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a54460ac142962b8e0c894b35e1381ed3" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldDemoteWarmToCold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ad3841875d2484db300dc43f57c9433d1" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteL1ToL2</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a8e301776de61285f878169ab840a225b" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteL2ToL3</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a49f1a65057aa9fdad63af2a3407d7882" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteL3ToStorage</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a869afe43e72e8f512e062bb3f006ab63" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteStorageColdToWarm</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1aff36cfd90927dbd9a8b4e824ad1e925c" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteStorageToCache</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a75a9e8e2e5a1aa4716eca1004f8b95bd" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteStorageWarmToCold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1afcb372c4bf3acecc8226333ce603ced9" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>shouldPromoteStorageWarmToL3Cache</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ada4da854baffa54a979667e515eb3944" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>storage_promotion_threshold</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a1d71845c2dec6cf90eb5ce78d6caabbc" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>storage_promotion_window</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1adcf71167a0c884d229f4c5b2c6423ec1" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>toJson</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1ab2ced86afba356d93e2d6f7e63c6a378" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>warm_to_cold_days</name></member>
+      <member refid="structthemis_1_1access__model_1_1AgeBasedPolicy_1a2c8d39ebed95bcc36f85fe98b2ebbd24" prot="public" virt="non-virtual"><scope>themis::access_model::AgeBasedPolicy</scope><name>warm_zero_access_days</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

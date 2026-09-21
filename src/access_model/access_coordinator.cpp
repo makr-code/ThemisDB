@@ -47,12 +47,17 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         std::weak_ptr<std::promise<PromotionResult>> promise{};
     };
 
+    /**
+     * @brief Construct AccessCoordinatorImpl with a given background worker thread count.
+     * @param[in] thread_pool_size Number of worker threads to spawn on start() (default: 4).
+     */
     explicit AccessCoordinatorImpl(size_t thread_pool_size = 4)
         : thread_pool_size_(thread_pool_size),
           running_(false),
                     policy_set_(false),
                     pending_demotions_(0) {}
 
+    /// Shut down worker threads and release resources if still running.
     ~AccessCoordinatorImpl() {
         if (running_) {
             shutdown();
@@ -60,6 +65,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
     }
 
     // Lifecycle management
+    /**
+     * @brief Register all tier instances and prepare the coordinator for start().
+     * @param[in] tiers Map from TierLevel to the owning AccessTier instance.
+     * @return true on success; false if the tier map is empty or initialization fails.
+     */
     bool initialize(const std::map<TierLevel, std::shared_ptr<AccessTier>>& tiers)
         override {
         /**
@@ -542,6 +552,11 @@ class AccessCoordinatorImpl : public AccessCoordinator {
         return metrics_;
     }
 
+    /**
+     * @brief Return up to @p limit of the most recent tier transition events.
+     * @param[in] limit Maximum number of events to return (default: 100).
+     * @return Vector of AccessTransitionEvent records, ordered newest-first.
+     */
     std::vector<AccessTransitionEvent> getRecentTransitions(size_t limit = 100)
         override {
 

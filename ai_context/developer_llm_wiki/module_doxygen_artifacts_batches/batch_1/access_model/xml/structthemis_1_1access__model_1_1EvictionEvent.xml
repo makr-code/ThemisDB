@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1EvictionEvent" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::EvictionEvent</compoundname>
+    <includes refid="access__coordinator_8h" local="no">access_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a89e925cd4750f4f97330deb517a95fdc" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::access_model::EvictionEvent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="96" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="96" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a640c80c0cc37d6c763832d48084cda0f" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::EvictionEvent::tier</definition>
+        <argsstring></argsstring>
+        <name>tier</name>
+        <qualifiedname>themis::access_model::EvictionEvent::tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="98" column="15" bodyfile="include/access_model/access_coordinator.h" bodystart="98" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a28b507f09007bcb8735f192def7facab" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::access_model::EvictionEvent::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="100" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="100" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a2a36feb1b6667db49902817c0e36661b" prot="public" static="no" mutable="no">
+        <type>std::size_t</type>
+        <definition>std::size_t themis::access_model::EvictionEvent::evicted_size_bytes</definition>
+        <argsstring></argsstring>
+        <name>evicted_size_bytes</name>
+        <qualifiedname>themis::access_model::EvictionEvent::evicted_size_bytes</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="102" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="102" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a8b83f7cf8bba8c4be7f0498e822a6250" prot="public" static="no" mutable="no">
+        <type>uint64_t</type>
+        <definition>uint64_t themis::access_model::EvictionEvent::access_count</definition>
+        <argsstring></argsstring>
+        <name>access_count</name>
+        <qualifiedname>themis::access_model::EvictionEvent::access_count</qualifiedname>
+        <initializer>= 0</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="104" column="14" bodyfile="include/access_model/access_coordinator.h" bodystart="104" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1a553f583bb983e10f06e8850ab4d598dd" prot="public" static="no" mutable="no">
+        <type>std::chrono::seconds</type>
+        <definition>std::chrono::seconds themis::access_model::EvictionEvent::last_access_age_secs</definition>
+        <argsstring></argsstring>
+        <name>last_access_age_secs</name>
+        <qualifiedname>themis::access_model::EvictionEvent::last_access_age_secs</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="106" column="26" bodyfile="include/access_model/access_coordinator.h" bodystart="106" bodyend="106"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1EvictionEvent_1aef1c79c1f12f27df6383fbbf218e0161" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::EvictionEvent::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::EvictionEvent::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="108" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="108" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_coordinator.h" line="95" column="1" bodyfile="include/access_model/access_coordinator.h" bodystart="95" bodyend="109"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a8b83f7cf8bba8c4be7f0498e822a6250" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>access_count</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1aef1c79c1f12f27df6383fbbf218e0161" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a2a36feb1b6667db49902817c0e36661b" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>evicted_size_bytes</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a89e925cd4750f4f97330deb517a95fdc" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a553f583bb983e10f06e8850ab4d598dd" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>last_access_age_secs</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a28b507f09007bcb8735f192def7facab" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1access__model_1_1EvictionEvent_1a640c80c0cc37d6c763832d48084cda0f" prot="public" virt="non-virtual"><scope>themis::access_model::EvictionEvent</scope><name>tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

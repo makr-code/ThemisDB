@@ -29,6 +29,11 @@ namespace access_model {
 
 class LatencyHistogram {
 public:
+/**
+ * @brief Construct a latency histogram with configurable bucket count and range.
+ * @param[in] num_buckets Number of histogram buckets (default: 1000).
+ * @param[in] max_latency_us Maximum latency in microseconds before overflow bucket (default: 100 000).
+ */
     explicit LatencyHistogram(std::size_t num_buckets = 1000,
                               uint64_t max_latency_us = 100000);
 
@@ -38,14 +43,35 @@ public:
      */
     void record(uint64_t latency_us);
 
+    /**
+     * @brief Compute the p-th percentile latency.
+     * @param[in] p Percentile in the range [0.0, 100.0] (e.g., 99.0 for p99).
+     * @return Latency in microseconds at the requested percentile; 0 if no samples.
+     */
     [[nodiscard]] uint64_t percentile(double p) const;
 
+    /**
+     * @brief Compute the mean latency.
+     * @return Mean latency in microseconds; 0 if no samples recorded.
+     */
     [[nodiscard]] double mean() const;
 
+    /**
+     * @brief Compute the standard deviation of recorded latencies.
+     * @return Standard deviation in microseconds; 0 if fewer than two samples.
+     */
     [[nodiscard]] double stdDev() const;
 
+    /**
+     * @brief Return the number of samples recorded.
+     * @return Total number of latency samples stored in this histogram.
+     */
     [[nodiscard]] uint64_t count() const noexcept { return count_; }
 
+    /**
+     * @brief Return a human-readable summary of the histogram (min/mean/p99/max).
+     * @return Formatted string with key percentile values.
+     */
     [[nodiscard]] std::string describe() const;
 
     // Accessible to AccessModelMetrics for coordination overhead calculation
@@ -100,8 +126,16 @@ struct AccessMetrics {
      */
     void recordEviction();
 
+    /**
+     * @brief Compute the cache hit rate.
+     * @return Ratio of cache_hits to total_accesses in [0.0, 1.0]; 0.0 if no accesses.
+     */
     [[nodiscard]] double cacheHitRate() const;
 
+    /**
+     * @brief Return a human-readable summary of this AccessMetrics instance.
+     * @return Formatted string with hit rate and access counts.
+     */
     [[nodiscard]] std::string describe() const;
 };
 
@@ -120,8 +154,16 @@ struct AccessOperationCounters {
     uint64_t storage_hot_accesses_observed = 0; ///< Hot-access signals received
 };
 
+/**
+ * @brief Aggregated coordinator-level metrics for access model operations.
+ *
+ * Collects operation counters and latency histograms across the full
+ * promotion/demotion pipeline. Thread-safe per-histogram recording via
+ * atomic increments in the underlying LatencyHistogram buckets.
+ */
 class AccessModelMetrics {
 public:
+    /// @brief Default-construct and zero-initialize all counters and histograms.
     AccessModelMetrics();
 
 
@@ -145,10 +187,22 @@ public:
 
     // ── Queries ─────────────────────────────────────────────────────────────
 
+    /**
+     * @brief Estimate coordinator processing overhead as a fraction of total event time.
+     * @return Overhead percentage in [0.0, 100.0]; 0.0 if no events recorded.
+     */
     [[nodiscard]] double coordinationOverheadPercent() const;
 
+    /**
+     * @brief Return a concise human-readable summary of coordinator metrics.
+     * @return Formatted string with counters and p99 latency values.
+     */
     [[nodiscard]] std::string describe() const;
 
+    /**
+     * @brief Return a detailed multi-section report including histogram breakdowns.
+     * @return Formatted string with full histogram statistics per operation type.
+     */
     [[nodiscard]] std::string detailedReport() const;
 
     // ── Public data ──────────────────────────────────────────────────────────

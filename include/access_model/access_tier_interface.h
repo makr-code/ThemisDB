@@ -281,10 +281,24 @@ public:
     virtual std::chrono::seconds getKeyAge(std::string_view key) const = 0;
 
 
+    /**
+     * @brief Return whether this tier supports incoming promotions (accepts data from lower tiers).
+     * @return true if the tier can receive promoted data; false by default.
+     */
     virtual bool supportsPromotion() const { return false; }
 
+    /**
+     * @brief Return whether this tier supports outgoing demotions (sends data to lower tiers).
+     * @return true if the tier can source demoted data; false by default.
+     */
     virtual bool supportsDemotion() const { return false; }
 
+    /**
+     * @brief Estimate the latency to promote data of a given size from another tier.
+     * @param[in] from_tier The source tier level whose data would be promoted.
+     * @param[in] data_size_bytes Approximate size of the data to be promoted in bytes.
+     * @return Estimated promotion latency; negative duration (-1 ms) if unknown or unsupported.
+     */
     virtual std::chrono::milliseconds estimatePromotionLatency(
         TierLevel from_tier, std::size_t data_size_bytes) const {
         (void)from_tier;

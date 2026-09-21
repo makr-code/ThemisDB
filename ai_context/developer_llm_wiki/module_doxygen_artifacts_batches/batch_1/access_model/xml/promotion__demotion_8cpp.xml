@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="promotion__demotion_8cpp" kind="file" language="C++">
     <compoundname>promotion_demotion.cpp</compoundname>
     <includes refid="promotion__demotion_8h" local="yes">access_model/promotion_demotion.h</includes>
@@ -116,13 +116,13 @@
 <codeline lineno="12"><highlight class="normal"></highlight><highlight class="preprocessor">#include<sp/>&lt;string&gt;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="13"><highlight class="normal"></highlight></codeline>
 <codeline lineno="14"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis" kindref="compound">themis</ref><sp/>{</highlight></codeline>
-<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal"><ref refid="namespacethemis_1_1access__model" kindref="compound">access_model</ref><sp/>{</highlight></codeline>
+<codeline lineno="15"><highlight class="normal"></highlight><highlight class="keyword">namespace<sp/></highlight><highlight class="normal">access_model<sp/>{</highlight></codeline>
 <codeline lineno="16"><highlight class="normal"></highlight></codeline>
 <codeline lineno="17"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="18"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DemotionPlan<sp/>utilities</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="19"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="20"><highlight class="normal"></highlight></codeline>
-<codeline lineno="30"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/>isPlanExecutable(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref>&amp;<sp/>plan)<sp/>{</highlight></codeline>
+<codeline lineno="30"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/></highlight><highlight class="keywordtype">bool</highlight><highlight class="normal"><sp/><ref refid="namespacethemis_1_1access__model_1a4710a2bcdca479d114ed285996f7b8bf" kindref="member">isPlanExecutable</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DemotionPlan&amp;<sp/>plan)<sp/>{</highlight></codeline>
 <codeline lineno="31"><highlight class="normal"><sp/><sp/><sp/><sp/></highlight><highlight class="keywordflow">return</highlight><highlight class="normal"><sp/>std::chrono::system_clock::now()<sp/>&gt;=<sp/>plan.scheduled_execution_time;</highlight></codeline>
 <codeline lineno="32"><highlight class="normal">}</highlight></codeline>
 <codeline lineno="33"><highlight class="normal"></highlight></codeline>
@@ -130,7 +130,7 @@
 <codeline lineno="35"><highlight class="normal"></highlight><highlight class="comment">//<sp/>DemotionResult<sp/>helpers</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="36"><highlight class="normal"></highlight><highlight class="comment">//<sp/>============================================================================</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="37"><highlight class="normal"></highlight></codeline>
-<codeline lineno="46"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/>describeResult(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/><ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref>&amp;<sp/>result)<sp/>{</highlight></codeline>
+<codeline lineno="46"><highlight class="normal">[[maybe_unused]]<sp/></highlight><highlight class="keyword">static</highlight><highlight class="normal"><sp/>std::string<sp/><ref refid="namespacethemis_1_1access__model_1afa806e316bf1577a9d3dedfb37b0cc16" kindref="member">describeResult</ref>(</highlight><highlight class="keyword">const</highlight><highlight class="normal"><sp/>DemotionResult&amp;<sp/>result)<sp/>{</highlight></codeline>
 <codeline lineno="47"><highlight class="normal"><sp/><sp/><sp/><sp/>std::ostringstream<sp/>oss<sp/>=<sp/>{};</highlight></codeline>
 <codeline lineno="48"><highlight class="normal"><sp/><sp/><sp/><sp/>oss<sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;DemotionResult{&quot;</highlight><highlight class="normal"></highlight></codeline>
 <codeline lineno="49"><highlight class="normal"><sp/><sp/><sp/><sp/><sp/><sp/><sp/><sp/>&lt;&lt;<sp/></highlight><highlight class="stringliteral">&quot;success=&quot;</highlight><highlight class="normal"><sp/>&lt;&lt;<sp/>(result.success<sp/>?<sp/></highlight><highlight class="stringliteral">&quot;true&quot;</highlight><highlight class="normal"><sp/>:<sp/></highlight><highlight class="stringliteral">&quot;false&quot;</highlight><highlight class="normal">)</highlight></codeline>

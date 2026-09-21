@@ -1,0 +1,175 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="classthemis_1_1access__model_1_1AccessModelE2ETest" kind="class" language="C++" prot="public">
+    <compoundname>themis::access_model::AccessModelE2ETest</compoundname>
+    <basecompoundref prot="public" virt="non-virtual">testing::Test</basecompoundref>
+    <sectiondef kind="protected-attrib">
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1adc7f24f6caf5cc9d620a567911b52462" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1AccessCoordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;AccessCoordinator&gt; themis::access_model::AccessModelE2ETest::coordinator_</definition>
+        <argsstring></argsstring>
+        <name>coordinator_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::coordinator_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="126" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="126" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1a189b90bbf2efe6a6ff6724b13148eb11" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1MockAccessTier" kindref="compound">MockAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockAccessTier&gt; themis::access_model::AccessModelE2ETest::l1_tier_</definition>
+        <argsstring></argsstring>
+        <name>l1_tier_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::l1_tier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="127" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="127" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1a03e4339ee46c943113f67fa88d2358fd" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1MockAccessTier" kindref="compound">MockAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockAccessTier&gt; themis::access_model::AccessModelE2ETest::l2_tier_</definition>
+        <argsstring></argsstring>
+        <name>l2_tier_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::l2_tier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="128" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="128" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1acca5762ebde99ab50fb84fd767c199a2" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1MockAccessTier" kindref="compound">MockAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockAccessTier&gt; themis::access_model::AccessModelE2ETest::l3_tier_</definition>
+        <argsstring></argsstring>
+        <name>l3_tier_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::l3_tier_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="129" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="129" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1a1cba7ef8a05ee2e3af79e5e504fb16ea" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1MockAccessTier" kindref="compound">MockAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockAccessTier&gt; themis::access_model::AccessModelE2ETest::warm_storage_</definition>
+        <argsstring></argsstring>
+        <name>warm_storage_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::warm_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="130" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="130" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1afff66abdc6a2c04e152e9ed8028777ef" prot="protected" static="no" mutable="no">
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1MockAccessTier" kindref="compound">MockAccessTier</ref> &gt;</type>
+        <definition>std::shared_ptr&lt;MockAccessTier&gt; themis::access_model::AccessModelE2ETest::cold_storage_</definition>
+        <argsstring></argsstring>
+        <name>cold_storage_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::cold_storage_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="131" column="21" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="131" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1a62fdad3616876cc9cec2b31a7cf0ec06" prot="protected" static="no" mutable="no">
+        <type>std::map&lt; <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref>, std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1AccessTier" kindref="compound">AccessTier</ref> &gt; &gt;</type>
+        <definition>std::map&lt;TierLevel, std::shared_ptr&lt;AccessTier&gt; &gt; themis::access_model::AccessModelE2ETest::tiers_map_</definition>
+        <argsstring></argsstring>
+        <name>tiers_map_</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::tiers_map_</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="132" column="14" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="132" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <sectiondef kind="protected-func">
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1a225eebb0c9eb8aa040025edfa6cd7668" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessModelE2ETest::SetUp</definition>
+        <argsstring>() override</argsstring>
+        <name>SetUp</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::SetUp</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="69" column="10" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="69" bodyend="118"/>
+      </memberdef>
+      <memberdef kind="function" id="classthemis_1_1access__model_1_1AccessModelE2ETest_1aa2ba14cd7e7aba58465245fbc6843e7d" prot="protected" static="no" const="no" explicit="no" inline="yes" virt="non-virtual">
+        <type>void</type>
+        <definition>void themis::access_model::AccessModelE2ETest::TearDown</definition>
+        <argsstring>() override</argsstring>
+        <name>TearDown</name>
+        <qualifiedname>themis::access_model::AccessModelE2ETest::TearDown</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="tests/access_model/test_access_model_e2e.cpp" line="120" column="10" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="120" bodyend="124"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <inheritancegraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::AccessModelE2ETest</label>
+        <link refid="classthemis_1_1access__model_1_1AccessModelE2ETest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </inheritancegraph>
+    <collaborationgraph>
+      <node id="2">
+        <label>testing::Test</label>
+      </node>
+      <node id="1">
+        <label>themis::access_model::AccessModelE2ETest</label>
+        <link refid="classthemis_1_1access__model_1_1AccessModelE2ETest"/>
+        <childnode refid="2" relation="public-inheritance">
+        </childnode>
+      </node>
+    </collaborationgraph>
+    <location file="tests/access_model/test_access_model_e2e.cpp" line="67" column="1" bodyfile="tests/access_model/test_access_model_e2e.cpp" bodystart="67" bodyend="133"/>
+    <listofallmembers>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1afff66abdc6a2c04e152e9ed8028777ef" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>cold_storage_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1adc7f24f6caf5cc9d620a567911b52462" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>coordinator_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1a189b90bbf2efe6a6ff6724b13148eb11" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>l1_tier_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1a03e4339ee46c943113f67fa88d2358fd" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>l2_tier_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1acca5762ebde99ab50fb84fd767c199a2" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>l3_tier_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1a225eebb0c9eb8aa040025edfa6cd7668" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>SetUp</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1aa2ba14cd7e7aba58465245fbc6843e7d" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>TearDown</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1a62fdad3616876cc9cec2b31a7cf0ec06" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>tiers_map_</name></member>
+      <member refid="classthemis_1_1access__model_1_1AccessModelE2ETest_1a1cba7ef8a05ee2e3af79e5e504fb16ea" prot="protected" virt="non-virtual"><scope>themis::access_model::AccessModelE2ETest</scope><name>warm_storage_</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

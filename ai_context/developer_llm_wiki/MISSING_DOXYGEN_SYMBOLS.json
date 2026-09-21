@@ -14,21 +14,21 @@
       "source_examples": [
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 70,
+          "line": 80,
           "kind": "function",
           "name": "lock",
           "scope": "src"
         },
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 82,
+          "line": 92,
           "kind": "function",
           "name": "lock",
           "scope": "src"
         },
         {
           "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-          "line": 115,
+          "line": 125,
           "kind": "function",
           "name": "lock",
           "scope": "src"
@@ -69,58 +69,6 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "initialize",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 174,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "initialize",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 174,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "initialize",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 174,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "getRecentTransitions",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 320,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "getRecentTransitions",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 320,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "getRecentTransitions",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 320,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
       "symbol": "AccessCoordinator",
       "kind": "class",
       "file": "",
@@ -142,48 +90,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessCoordinatorImpl",
-      "kind": "function",
-      "file": "src/access_model/access_coordinator.cpp",
-      "line": 50,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "AccessCoordinatorImpl",
-      "kind": "function",
-      "file": "src/access_model/access_coordinator.cpp",
-      "line": 50,
-      "scope": "src",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "~AccessCoordinatorImpl",
-      "kind": "function",
-      "file": "src/access_model/access_coordinator.cpp",
-      "line": 56,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "initialize",
-      "kind": "function",
-      "file": "src/access_model/access_coordinator.cpp",
-      "line": 63,
-      "scope": "src"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "getRecentTransitions",
-      "kind": "function",
-      "file": "src/access_model/access_coordinator.cpp",
-      "line": 545,
-      "scope": "src"
     },
     {
       "rule": "missing_brief",
@@ -232,128 +138,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelMetrics",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 125,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "coordinationOverheadPercent",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 148,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "coordinationOverheadPercent",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 148,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 150,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 150,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "detailedReport",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 152,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "detailedReport",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 152,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "AccessModelMetrics",
-      "kind": "class",
-      "file": "",
-      "line": 0,
-      "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "supportsPromotion",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 284,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "supportsPromotion",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 284,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "supportsDemotion",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 286,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "supportsDemotion",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 286,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "estimatePromotionLatency",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 288,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "estimatePromotionLatency",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 288,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "estimatePromotionLatency",
-      "kind": "function",
-      "file": "include/access_model/access_tier_interface.h",
-      "line": 288,
-      "scope": "include"
     },
     {
       "rule": "missing_brief",
@@ -430,114 +214,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "LatencyHistogram",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 32,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "LatencyHistogram",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 32,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "percentile",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 41,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "percentile",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 41,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "percentile",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 41,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "mean",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 43,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "mean",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 43,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "stdDev",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 45,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "stdDev",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 45,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "count",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 47,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "count",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 47,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 49,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 49,
-      "scope": "include"
     },
     {
       "rule": "missing_brief",
@@ -641,102 +317,6 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "~ScopedContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 120,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ScopedContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 123,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "ScopedContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 123,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 124,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 124,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 124,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "ScopedContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 127,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "ScopedContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 127,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 133,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 133,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "operator=",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 133,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
       "symbol": "ScopedContext",
       "kind": "class",
       "file": "",
@@ -782,32 +362,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "createAccessCoordinator",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 328,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "createAccessCoordinator",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 328,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "createAccessCoordinator",
-      "kind": "function",
-      "file": "include/access_model/access_coordinator.h",
-      "line": 328,
-      "scope": "include"
     },
     {
       "rule": "missing_brief",
@@ -915,38 +469,6 @@
     },
     {
       "rule": "missing_brief",
-      "symbol": "cacheHitRate",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 103,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "cacheHitRate",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 103,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 105,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "describe",
-      "kind": "function",
-      "file": "include/access_model/access_metrics.h",
-      "line": 105,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
       "symbol": "AccessMetrics",
       "kind": "struct",
       "file": "",
@@ -968,136 +490,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "shouldDemoteL1ToL2",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 75,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "shouldDemoteL1ToL2",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 75,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "shouldDemoteL1ToL2",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 75,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "shouldDemoteL2ToL3",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 82,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "shouldDemoteL2ToL3",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 82,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "shouldDemoteL2ToL3",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 82,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "shouldDemoteHotToWarm",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 89,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "shouldDemoteHotToWarm",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 89,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "shouldDemoteHotToWarm",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 89,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "shouldDemoteWarmToCold",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 101,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "shouldDemoteWarmToCold",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 101,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "shouldDemoteWarmToCold",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 101,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "shouldPromoteStorageToCache",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 114,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "shouldPromoteStorageToCache",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 114,
-      "scope": "include",
-      "param_total": 1,
-      "param_docs_count": 0
-    },
-    {
-      "rule": "missing_return_docs",
-      "symbol": "shouldPromoteStorageToCache",
-      "kind": "function",
-      "file": "include/access_model/age_based_policy.h",
-      "line": 114,
-      "scope": "include"
     },
     {
       "rule": "missing_brief",
@@ -1202,32 +594,6 @@
       "file": "",
       "line": 0,
       "scope": "other"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 54,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_brief",
-      "symbol": "TraceContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 69,
-      "scope": "include"
-    },
-    {
-      "rule": "missing_param_docs",
-      "symbol": "TraceContext",
-      "kind": "function",
-      "file": "include/access_model/access_model_trace.h",
-      "line": 69,
-      "scope": "include",
-      "param_total": 2,
-      "param_docs_count": 0
     },
     {
       "rule": "missing_brief",

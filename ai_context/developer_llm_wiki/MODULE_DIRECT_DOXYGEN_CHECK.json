@@ -4,20 +4,20 @@
   "source_graph_used": false,
   "source_graph_path": "/home/runner/work/ThemisDB/ThemisDB/ai_working/sourcecode_graph.json",
   "source_files_scanned": 21,
-  "source_symbols_total": 95,
-  "source_symbols_after_filter": 95,
-  "doxygen_members_total": 396,
-  "doxygen_members_after_filter": 241,
-  "source_symbol_names": 64,
+  "source_symbols_total": 115,
+  "source_symbols_after_filter": 115,
+  "doxygen_members_total": 394,
+  "doxygen_members_after_filter": 239,
+  "source_symbol_names": 79,
   "doxygen_symbol_names": 149,
   "source_not_in_doxygen_count": 2,
-  "doxygen_not_in_source_count": 87,
+  "doxygen_not_in_source_count": 72,
   "coverage": {
-    "symbol_presence_ratio": 0.9688,
+    "symbol_presence_ratio": 0.9747,
     "missing_symbol_count": 2,
-    "missing_brief_count": 89,
-    "missing_param_docs_count": 25,
-    "missing_return_docs_count": 26
+    "missing_brief_count": 54,
+    "missing_param_docs_count": 8,
+    "missing_return_docs_count": 3
   },
   "ownership": {
     "path_policy": {
@@ -49,20 +49,20 @@
       "classification_rule": "everything outside internal roots is treated as external / third-party boundary"
     },
     "source_symbols": {
-      "internal": 95,
+      "internal": 115,
       "external": 0
     },
     "doxygen_members": {
-      "internal": 193,
+      "internal": 191,
       "external": 48
     },
     "externally_scoped_symbols": []
   },
   "by_rule": {
     "missing_symbol": 2,
-    "missing_brief": 89,
-    "missing_param_docs": 25,
-    "missing_return_docs": 26
+    "missing_brief": 54,
+    "missing_return_docs": 3,
+    "missing_param_docs": 8
   },
   "by_rule_scope": {
     "missing_symbol": {
@@ -70,30 +70,25 @@
       "include": 1
     },
     "missing_brief": {
-      "include": 30,
-      "other": 46,
-      "src": 4,
+      "other": 45,
       "tests": 3,
       "benchmarks": 6
     },
-    "missing_param_docs": {
-      "include": 16,
-      "src": 1,
-      "benchmarks": 6,
-      "tests": 2
-    },
     "missing_return_docs": {
-      "include": 23,
       "tests": 1,
       "benchmarks": 2
+    },
+    "missing_param_docs": {
+      "benchmarks": 6,
+      "tests": 2
     }
   },
   "by_scope": {
-    "src": 6,
+    "src": 1,
     "tests": 6,
     "benchmarks": 14,
-    "include": 70,
-    "other": 46
+    "include": 1,
+    "other": 45
   },
   "samples": {
     "source_not_in_doxygen": [
@@ -110,7 +105,6 @@
       "AccessMetrics",
       "AccessModelE2ETest",
       "AccessModelLogger",
-      "AccessModelMetrics",
       "AccessOperationCounters",
       "AccessTier",
       "AccessTransitionEvent",
@@ -125,7 +119,8 @@
       "EvictionEvent",
       "EvictionEventLog",
       "EvictionListener",
-      "LatencyHistogram"
+      "LatencyHistogram",
+      "LoggingTest"
     ],
     "findings": [
       {
@@ -139,21 +134,21 @@
         "source_examples": [
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 70,
+            "line": 80,
             "kind": "function",
             "name": "lock",
             "scope": "src"
           },
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 82,
+            "line": 92,
             "kind": "function",
             "name": "lock",
             "scope": "src"
           },
           {
             "file": "/home/runner/work/ThemisDB/ThemisDB/src/access_model/access_coordinator.cpp",
-            "line": 115,
+            "line": 125,
             "kind": "function",
             "name": "lock",
             "scope": "src"
@@ -194,58 +189,6 @@
       },
       {
         "rule": "missing_brief",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 174,
-        "scope": "include"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 174,
-        "scope": "include",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 174,
-        "scope": "include"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "getRecentTransitions",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 320,
-        "scope": "include"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "getRecentTransitions",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 320,
-        "scope": "include",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_return_docs",
-        "symbol": "getRecentTransitions",
-        "kind": "function",
-        "file": "include/access_model/access_coordinator.h",
-        "line": 320,
-        "scope": "include"
-      },
-      {
-        "rule": "missing_brief",
         "symbol": "AccessCoordinator",
         "kind": "class",
         "file": "",
@@ -267,48 +210,6 @@
         "file": "",
         "line": 0,
         "scope": "other"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "AccessCoordinatorImpl",
-        "kind": "function",
-        "file": "src/access_model/access_coordinator.cpp",
-        "line": 50,
-        "scope": "src"
-      },
-      {
-        "rule": "missing_param_docs",
-        "symbol": "AccessCoordinatorImpl",
-        "kind": "function",
-        "file": "src/access_model/access_coordinator.cpp",
-        "line": 50,
-        "scope": "src",
-        "param_total": 1,
-        "param_docs_count": 0
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "~AccessCoordinatorImpl",
-        "kind": "function",
-        "file": "src/access_model/access_coordinator.cpp",
-        "line": 56,
-        "scope": "src"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "initialize",
-        "kind": "function",
-        "file": "src/access_model/access_coordinator.cpp",
-        "line": 63,
-        "scope": "src"
-      },
-      {
-        "rule": "missing_brief",
-        "symbol": "getRecentTransitions",
-        "kind": "function",
-        "file": "src/access_model/access_coordinator.cpp",
-        "line": 545,
-        "scope": "src"
       },
       {
         "rule": "missing_brief",
@@ -360,27 +261,119 @@
       },
       {
         "rule": "missing_brief",
-        "symbol": "AccessModelMetrics",
-        "kind": "function",
-        "file": "include/access_model/access_metrics.h",
-        "line": 125,
-        "scope": "include"
+        "symbol": "AccessTier",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
       },
       {
         "rule": "missing_brief",
-        "symbol": "coordinationOverheadPercent",
-        "kind": "function",
-        "file": "include/access_model/access_metrics.h",
-        "line": 148,
-        "scope": "include"
+        "symbol": "BenchAccessCoordinator",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
       },
       {
-        "rule": "missing_return_docs",
-        "symbol": "coordinationOverheadPercent",
+        "rule": "missing_brief",
+        "symbol": "BenchmarkAccessTier",
         "kind": "function",
-        "file": "include/access_model/access_metrics.h",
-        "line": 148,
-        "scope": "include"
+        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+        "line": 151,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "BenchmarkAccessTier",
+        "kind": "function",
+        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+        "line": 151,
+        "scope": "benchmarks",
+        "param_total": 2,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "setCurrentSize",
+        "kind": "function",
+        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+        "line": 154,
+        "scope": "benchmarks"
+      },
+      {
+        "rule": "missing_param_docs",
+        "symbol": "setCurrentSize",
+        "kind": "function",
+        "file": "benchmarks/access_model/bench_access_coordinator_gates.cpp",
+        "line": 154,
+        "scope": "benchmarks",
+        "param_total": 1,
+        "param_docs_count": 0
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "BenchmarkAccessTier",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "CacheTier",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "DefaultAccessModelLogger",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "LatencyHistogram",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "LoggingTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "MockAccessTier",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "ObservabilityIntegrationTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
+      },
+      {
+        "rule": "missing_brief",
+        "symbol": "PromotionDemotionTest",
+        "kind": "class",
+        "file": "",
+        "line": 0,
+        "scope": "other"
       }
     ]
   }

@@ -51,21 +51,26 @@ struct TraceContext {
     
     std::chrono::system_clock::time_point start_time;
     
+    /// Default constructor: generates an empty correlation ID and records start time.
     TraceContext()
         : correlation_id(),
           parent_span_id(std::nullopt),
           start_time(std::chrono::system_clock::now()) {}
     
     /**
-     * @brief Trace Context.
-     * @param[in] id Input parameter.
-     * @return Return value.
+     * @brief Construct a trace context with a known correlation ID.
+     * @param[in] id Correlation ID string to associate with this trace context.
      */
     explicit TraceContext(const CorrelationID& id)
         : correlation_id(id),
           parent_span_id(std::nullopt),
           start_time(std::chrono::system_clock::now()) {}
     
+    /**
+     * @brief Construct a trace context with a correlation ID and a parent span reference.
+     * @param[in] id        Correlation ID string for this context.
+     * @param[in] parent_id Parent span ID for distributed-trace hierarchy linkage.
+     */
     TraceContext(const CorrelationID& id, const std::string& parent_id)
         : correlation_id(id),
           parent_span_id(parent_id),
@@ -111,25 +116,36 @@ public:
     class ScopedContext {
     public:
         /**
-         * @brief Scoped Context.
-         * @param[in] ctx Input parameter.
-         * @return Return value.
+         * @brief Activate @p ctx as the thread-local trace context for the duration of this object.
+         *        The previous context is saved and restored on destruction.
+         * @param[in] ctx TraceContext to push onto the thread-local stack.
          */
         explicit ScopedContext(const TraceContext& ctx);
         
+        /// Restore the previous thread-local trace context.
         ~ScopedContext();
         
         // Disable copy
+        /// @cond INTERNAL
         ScopedContext(const ScopedContext&) = delete;
         ScopedContext& operator=(const ScopedContext&) = delete;
+        /// @endcond
         
-        // Allow move
+        /**
+         * @brief Move-construct, transferring ownership of the saved context.
+         * @param[in] other Source ScopedContext; left in a no-restore state after move.
+         */
         ScopedContext(ScopedContext&& other) noexcept
             : previous_context_(std::move(other.previous_context_)),
               context_set_(other.context_set_) {
             other.context_set_ = false;
         }
         
+        /**
+         * @brief Move-assign, restoring any currently active context before taking ownership.
+         * @param[in] other Source ScopedContext; left in a no-restore state after move.
+         * @return Reference to this ScopedContext.
+         */
         ScopedContext& operator=(ScopedContext&& other) noexcept {
             if (this != &other) {
                 if (context_set_) {

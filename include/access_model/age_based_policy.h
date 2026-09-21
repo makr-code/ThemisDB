@@ -72,6 +72,11 @@ struct AgeBasedPolicy {
 
     // ── Inline Age-Check Helpers (fast path, called from hot loops) ──────────
 
+    /**
+     * @brief Check whether an L1 cache entry should be demoted to L2.
+     * @param[in] seconds_since_access Elapsed seconds since the last access on this key.
+     * @return true if the entry has exceeded the L1 zero-access threshold.
+     */
     bool shouldDemoteL1ToL2(uint32_t seconds_since_access) const noexcept {
         if (l1_zero_access_days == 0) {
           return false;
@@ -79,6 +84,11 @@ struct AgeBasedPolicy {
         return seconds_since_access > (l1_zero_access_days * 86400u);
     }
 
+    /**
+     * @brief Check whether an L2 cache entry should be demoted to L3.
+     * @param[in] seconds_since_access Elapsed seconds since the last access on this key.
+     * @return true if the entry has exceeded the L2 zero-access threshold.
+     */
     bool shouldDemoteL2ToL3(uint32_t seconds_since_access) const noexcept {
         if (l2_zero_access_days == 0) {
           return false;
@@ -86,6 +96,12 @@ struct AgeBasedPolicy {
         return seconds_since_access > (l2_zero_access_days * 86400u);
     }
 
+    /**
+     * @brief Check whether a hot storage entry should be demoted to warm.
+     * @param[in] seconds_since_access Elapsed seconds since the last access.
+     * @param[in] seconds_since_write  Elapsed seconds since the entry was written.
+     * @return true if the entry meets either the zero-access or age threshold for hot→warm demotion.
+     */
     bool shouldDemoteHotToWarm(uint32_t seconds_since_access,
                                uint32_t seconds_since_write) const noexcept {
         if (hot_zero_access_days > 0 &&
@@ -98,6 +114,12 @@ struct AgeBasedPolicy {
         return false;
     }
 
+    /**
+     * @brief Check whether a warm storage entry should be demoted to cold.
+     * @param[in] seconds_since_access Elapsed seconds since the last access.
+     * @param[in] seconds_since_write  Elapsed seconds since the entry was written.
+     * @return true if the entry meets either the zero-access or age threshold for warm→cold demotion.
+     */
     bool shouldDemoteWarmToCold(uint32_t seconds_since_access,
                                 uint32_t seconds_since_write) const noexcept {
         if (warm_zero_access_days > 0 &&
@@ -111,6 +133,11 @@ struct AgeBasedPolicy {
         return false;
     }
 
+    /**
+     * @brief Check whether a storage entry's access count qualifies it for cache promotion.
+     * @param[in] access_count Total number of observed accesses for this key.
+     * @return true if access_count meets or exceeds storage_promotion_threshold.
+     */
     bool shouldPromoteStorageToCache(uint64_t access_count) const noexcept {
         return access_count >= storage_promotion_threshold;
     }

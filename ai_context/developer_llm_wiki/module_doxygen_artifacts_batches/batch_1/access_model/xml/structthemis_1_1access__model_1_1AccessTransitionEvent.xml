@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' standalone='no'?>
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
+  <compounddef id="structthemis_1_1access__model_1_1AccessTransitionEvent" kind="struct" language="C++" prot="public">
+    <compoundname>themis::access_model::AccessTransitionEvent</compoundname>
+    <includes refid="access__coordinator_8h" local="no">access_coordinator.h</includes>
+    <sectiondef kind="public-attrib">
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a13ad0d5de26caf047101fc297666a004" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessTransitionEvent::key</definition>
+        <argsstring></argsstring>
+        <name>key</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::key</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="142" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="142" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a8341e04f98576512e463f72d9ac5b99e" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::AccessTransitionEvent::from_tier</definition>
+        <argsstring></argsstring>
+        <name>from_tier</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::from_tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="144" column="15" bodyfile="include/access_model/access_coordinator.h" bodystart="144" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1aabec7cdc299fab4e9fb57ca88b472709" prot="public" static="no" mutable="no">
+        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>TierLevel themis::access_model::AccessTransitionEvent::to_tier</definition>
+        <argsstring></argsstring>
+        <name>to_tier</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::to_tier</qualifiedname>
+        <initializer>= <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a696b031073e74bf2cb98e5ef201d4aa3" kindref="member">TierLevel::UNKNOWN</ref></initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="146" column="15" bodyfile="include/access_model/access_coordinator.h" bodystart="146" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a395c1e52442d0f0e58c79d7ea7cbbef7" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessTransitionEvent::reason</definition>
+        <argsstring></argsstring>
+        <name>reason</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::reason</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="148" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="148" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a24dc0538da9ed07e692b32c7873f8ef0" prot="public" static="no" mutable="no">
+        <type>std::chrono::system_clock::time_point</type>
+        <definition>std::chrono::system_clock::time_point themis::access_model::AccessTransitionEvent::timestamp</definition>
+        <argsstring></argsstring>
+        <name>timestamp</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::timestamp</qualifiedname>
+        <initializer>= std::chrono::system_clock::now()</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="150" column="43" bodyfile="include/access_model/access_coordinator.h" bodystart="150" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a8c688a1d4696276e520041d743a5b9ae" prot="public" static="no" mutable="no">
+        <type>std::chrono::milliseconds</type>
+        <definition>std::chrono::milliseconds themis::access_model::AccessTransitionEvent::latency_ms</definition>
+        <argsstring></argsstring>
+        <name>latency_ms</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::latency_ms</qualifiedname>
+        <initializer>{0}</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="152" column="31" bodyfile="include/access_model/access_coordinator.h" bodystart="152" bodyend="152"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a52f21d413fc95c45134cb4b030ba1974" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessTransitionEvent::correlation_id</definition>
+        <argsstring></argsstring>
+        <name>correlation_id</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::correlation_id</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="154" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="154" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1a1a580e58de1093c2132860b10f8daae3" prot="public" static="no" mutable="no">
+        <type>bool</type>
+        <definition>bool themis::access_model::AccessTransitionEvent::success</definition>
+        <argsstring></argsstring>
+        <name>success</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::success</qualifiedname>
+        <initializer>= true</initializer>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="156" column="10" bodyfile="include/access_model/access_coordinator.h" bodystart="156" bodyend="-1"/>
+      </memberdef>
+      <memberdef kind="variable" id="structthemis_1_1access__model_1_1AccessTransitionEvent_1aa773f4f0711cfabb51e23a07452b52a4" prot="public" static="no" mutable="no">
+        <type>std::string</type>
+        <definition>std::string themis::access_model::AccessTransitionEvent::error_message</definition>
+        <argsstring></argsstring>
+        <name>error_message</name>
+        <qualifiedname>themis::access_model::AccessTransitionEvent::error_message</qualifiedname>
+        <briefdescription>
+        </briefdescription>
+        <detaileddescription>
+        </detaileddescription>
+        <inbodydescription>
+        </inbodydescription>
+        <location file="include/access_model/access_coordinator.h" line="158" column="17" bodyfile="include/access_model/access_coordinator.h" bodystart="158" bodyend="-1"/>
+      </memberdef>
+    </sectiondef>
+    <briefdescription>
+    </briefdescription>
+    <detaileddescription>
+    </detaileddescription>
+    <location file="include/access_model/access_coordinator.h" line="141" column="1" bodyfile="include/access_model/access_coordinator.h" bodystart="141" bodyend="159"/>
+    <listofallmembers>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a52f21d413fc95c45134cb4b030ba1974" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>correlation_id</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1aa773f4f0711cfabb51e23a07452b52a4" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>error_message</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a8341e04f98576512e463f72d9ac5b99e" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>from_tier</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a13ad0d5de26caf047101fc297666a004" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>key</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a8c688a1d4696276e520041d743a5b9ae" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>latency_ms</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a395c1e52442d0f0e58c79d7ea7cbbef7" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>reason</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a1a580e58de1093c2132860b10f8daae3" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>success</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1a24dc0538da9ed07e692b32c7873f8ef0" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>timestamp</name></member>
+      <member refid="structthemis_1_1access__model_1_1AccessTransitionEvent_1aabec7cdc299fab4e9fb57ca88b472709" prot="public" virt="non-virtual"><scope>themis::access_model::AccessTransitionEvent</scope><name>to_tier</name></member>
+    </listofallmembers>
+  </compounddef>
+</doxygen>

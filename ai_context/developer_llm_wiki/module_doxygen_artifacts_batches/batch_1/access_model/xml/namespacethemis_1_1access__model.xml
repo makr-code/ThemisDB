@@ -1,49 +1,49 @@
 <?xml version='1.0' encoding='UTF-8' standalone='no'?>
-<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.17.0" xml:lang="en-US">
+<doxygen xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="compound.xsd" version="1.9.8" xml:lang="en-US">
   <compounddef id="namespacethemis_1_1access__model" kind="namespace" language="C++">
     <compoundname>themis::access_model</compoundname>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator" prot="public">themis::access_model::AccessCoordinator</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" prot="public">themis::access_model::AccessCoordinatorConcurrencyTest</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" prot="public">themis::access_model::AccessCoordinatorFocusedTest</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_impl" prot="public">themis::access_model::AccessCoordinatorImpl</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_coordinator_test" prot="public">themis::access_model::AccessCoordinatorTest</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_access_event" prot="public">themis::access_model::AccessEvent</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_access_metrics" prot="public">themis::access_model::AccessMetrics</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" prot="public">themis::access_model::AccessModelE2ETest</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_model_logger" prot="public">themis::access_model::AccessModelLogger</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_model_metrics" prot="public">themis::access_model::AccessModelMetrics</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_access_operation_counters" prot="public">themis::access_model::AccessOperationCounters</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_access_tier" prot="public">themis::access_model::AccessTier</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_access_transition_event" prot="public">themis::access_model::AccessTransitionEvent</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_age_based_policy" prot="public">themis::access_model::AgeBasedPolicy</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_bench_access_coordinator" prot="public">themis::access_model::BenchAccessCoordinator</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_benchmark_access_tier" prot="public">themis::access_model::BenchmarkAccessTier</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_cache_tier" prot="public">themis::access_model::CacheTier</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_coordinator_lifecycle_log" prot="public">themis::access_model::CoordinatorLifecycleLog</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_default_access_model_logger" prot="public">themis::access_model::DefaultAccessModelLogger</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_demotion_plan" prot="public">themis::access_model::DemotionPlan</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_demotion_result" prot="public">themis::access_model::DemotionResult</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_eviction_event" prot="public">themis::access_model::EvictionEvent</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_eviction_event_log" prot="public">themis::access_model::EvictionEventLog</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_eviction_listener" prot="public">themis::access_model::EvictionListener</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_latency_histogram" prot="public">themis::access_model::LatencyHistogram</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_logging_test" prot="public">themis::access_model::LoggingTest</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_mock_access_tier" prot="public">themis::access_model::MockAccessTier</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_observability_integration_test" prot="public">themis::access_model::ObservabilityIntegrationTest</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_promotion_decision_log" prot="public">themis::access_model::PromotionDecisionLog</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_promotion_demotion_test" prot="public">themis::access_model::PromotionDemotionTest</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_promotion_listener" prot="public">themis::access_model::PromotionListener</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_promotion_result" prot="public">themis::access_model::PromotionResult</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_storage_tier" prot="public">themis::access_model::StorageTier</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_test_access_tier" prot="public">themis::access_model::TestAccessTier</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_tier_access_options" prot="public">themis::access_model::TierAccessOptions</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_tier_get_result" prot="public">themis::access_model::TierGetResult</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_tier_promotion_result" prot="public">themis::access_model::TierPromotionResult</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_tier_put_result" prot="public">themis::access_model::TierPutResult</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_tier_transition_log" prot="public">themis::access_model::TierTransitionLog</innerclass>
-    <innerclass refid="structthemis_1_1access__model_1_1_trace_context" prot="public">themis::access_model::TraceContext</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_trace_context_manager" prot="public">themis::access_model::TraceContextManager</innerclass>
-    <innerclass refid="classthemis_1_1access__model_1_1_trace_context_test" prot="public">themis::access_model::TraceContextTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessCoordinator" prot="public">themis::access_model::AccessCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" prot="public">themis::access_model::AccessCoordinatorConcurrencyTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" prot="public">themis::access_model::AccessCoordinatorFocusedTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessCoordinatorImpl" prot="public">themis::access_model::AccessCoordinatorImpl</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" prot="public">themis::access_model::AccessCoordinatorTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1AccessEvent" prot="public">themis::access_model::AccessEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1AccessMetrics" prot="public">themis::access_model::AccessMetrics</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessModelE2ETest" prot="public">themis::access_model::AccessModelE2ETest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessModelLogger" prot="public">themis::access_model::AccessModelLogger</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessModelMetrics" prot="public">themis::access_model::AccessModelMetrics</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1AccessOperationCounters" prot="public">themis::access_model::AccessOperationCounters</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1AccessTier" prot="public">themis::access_model::AccessTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1AccessTransitionEvent" prot="public">themis::access_model::AccessTransitionEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1AgeBasedPolicy" prot="public">themis::access_model::AgeBasedPolicy</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1BenchAccessCoordinator" prot="public">themis::access_model::BenchAccessCoordinator</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1BenchmarkAccessTier" prot="public">themis::access_model::BenchmarkAccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1CacheTier" prot="public">themis::access_model::CacheTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1CoordinatorLifecycleLog" prot="public">themis::access_model::CoordinatorLifecycleLog</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1DefaultAccessModelLogger" prot="public">themis::access_model::DefaultAccessModelLogger</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1DemotionPlan" prot="public">themis::access_model::DemotionPlan</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1DemotionResult" prot="public">themis::access_model::DemotionResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1EvictionEvent" prot="public">themis::access_model::EvictionEvent</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1EvictionEventLog" prot="public">themis::access_model::EvictionEventLog</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1EvictionListener" prot="public">themis::access_model::EvictionListener</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1LatencyHistogram" prot="public">themis::access_model::LatencyHistogram</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1LoggingTest" prot="public">themis::access_model::LoggingTest</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1MockAccessTier" prot="public">themis::access_model::MockAccessTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1ObservabilityIntegrationTest" prot="public">themis::access_model::ObservabilityIntegrationTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1PromotionDecisionLog" prot="public">themis::access_model::PromotionDecisionLog</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1PromotionDemotionTest" prot="public">themis::access_model::PromotionDemotionTest</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1PromotionListener" prot="public">themis::access_model::PromotionListener</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1PromotionResult" prot="public">themis::access_model::PromotionResult</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1StorageTier" prot="public">themis::access_model::StorageTier</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1TestAccessTier" prot="public">themis::access_model::TestAccessTier</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TierAccessOptions" prot="public">themis::access_model::TierAccessOptions</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TierGetResult" prot="public">themis::access_model::TierGetResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TierPromotionResult" prot="public">themis::access_model::TierPromotionResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TierPutResult" prot="public">themis::access_model::TierPutResult</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TierTransitionLog" prot="public">themis::access_model::TierTransitionLog</innerclass>
+    <innerclass refid="structthemis_1_1access__model_1_1TraceContext" prot="public">themis::access_model::TraceContext</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1TraceContextManager" prot="public">themis::access_model::TraceContextManager</innerclass>
+    <innerclass refid="classthemis_1_1access__model_1_1TraceContextTest" prot="public">themis::access_model::TraceContextTest</innerclass>
     <innernamespace refid="namespacethemis_1_1access__model_1_1gates">themis::access_model::gates</innernamespace>
     <innernamespace refid="namespacethemis_1_1access__model_1_1test">themis::access_model::test</innernamespace>
     <sectiondef kind="enum">
@@ -54,7 +54,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a76af21ee6d887a8835430a0ab5545cfe" prot="public">
           <name>L1_WORKING</name>
           <briefdescription>
-<para>Cache: Working memory (register-like, &lt;1µs latency). </para>
+<para>Cache: Working memory (register-like, &lt;1µs latency) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -62,7 +62,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a5ca54551257176a0a9d2feab971c35ab" prot="public">
           <name>L2_EPISODIC</name>
           <briefdescription>
-<para>Cache: Episodic/result-set memory (1-10µs). </para>
+<para>Cache: Episodic/result-set memory (1-10µs) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -70,7 +70,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad2a2dc333458714fced472d9e54543d8" prot="public">
           <name>L3_SEMANTIC</name>
           <briefdescription>
-<para>Cache: Semantic/RAG index memory (10-100µs). </para>
+<para>Cache: Semantic/RAG index memory (10-100µs) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -78,7 +78,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ade4d685b730efe177401248677a6ac93" prot="public">
           <name>STORAGE_HOT</name>
           <briefdescription>
-<para>Storage: NVMe-backed tier (1-10ms). </para>
+<para>Storage: NVMe-backed tier (1-10ms) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -86,7 +86,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7a7b8382acfc182c62a04eda7fad995451" prot="public">
           <name>STORAGE_WARM</name>
           <briefdescription>
-<para>Storage: HDD-backed tier (10-100ms). </para>
+<para>Storage: HDD-backed tier (10-100ms) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -94,7 +94,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7ad604dd45c3a16f03da7f92cb85203073" prot="public">
           <name>STORAGE_COLD</name>
           <briefdescription>
-<para>Storage: Object-store tier (100ms-1s). </para>
+<para>Storage: Object-store tier (100ms-1s) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -122,7 +122,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba08e1be4b785493d9fc2ae52c5ba9ab2e" prot="public">
           <name>CACHE</name>
           <briefdescription>
-<para>In-memory tier (L1/L2/L3). </para>
+<para>In-memory tier (L1/L2/L3) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -130,7 +130,7 @@
         <enumvalue id="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbba754a5d433173b5ddc7debc2110ac575f" prot="public">
           <name>STORAGE</name>
           <briefdescription>
-<para>Persistent tier (hot/warm/cold). </para>
+<para>Persistent tier (hot/warm/cold) </para>
           </briefdescription>
           <detaileddescription>
           </detaileddescription>
@@ -189,9 +189,9 @@
       </memberdef>
     </sectiondef>
     <sectiondef kind="typedef">
-      <memberdef kind="typedef" id="namespacethemis_1_1access__model_1ab01a4801866919f23f947fd47e2a6619" prot="public" static="no">
+      <memberdef kind="typedef" id="namespacethemis_1_1access__model_1ae4e5b627b047b215ba2e7ad2efce0ce6" prot="public" static="no">
         <type>std::string</type>
-        <definition>using themis::access_model::CorrelationID = std::string</definition>
+        <definition>using themis::access_model::CorrelationID = typedef std::string</definition>
         <argsstring></argsstring>
         <name>CorrelationID</name>
         <qualifiedname>themis::access_model::CorrelationID</qualifiedname>
@@ -206,8 +206,8 @@
     </sectiondef>
     <sectiondef kind="var">
       <memberdef kind="variable" id="namespacethemis_1_1access__model_1a0fe83c062f8c9780c1eac6142e22c8d7" prot="public" static="no" constexpr="yes" mutable="no">
-        <type>std::size_t</type>
-        <definition>std::size_t themis::access_model::kMaxTierCapacity</definition>
+        <type>constexpr std::size_t</type>
+        <definition>constexpr std::size_t themis::access_model::kMaxTierCapacity</definition>
         <argsstring></argsstring>
         <name>kMaxTierCapacity</name>
         <qualifiedname>themis::access_model::kMaxTierCapacity</qualifiedname>
@@ -218,11 +218,11 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/access_model/access_tier_interface.h" line="346" column="30" bodyfile="include/access_model/access_tier_interface.h" bodystart="346" bodyend="-1"/>
+        <location file="include/access_model/access_tier_interface.h" line="360" column="30" bodyfile="include/access_model/access_tier_interface.h" bodystart="360" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1access__model_1ae5f0a5dcca7d14ba087a0cd84ba5bffc" prot="public" static="no" constexpr="yes" mutable="no">
-        <type><ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
-        <definition>TierLevel themis::access_model::kNoTier</definition>
+        <type>constexpr <ref refid="namespacethemis_1_1access__model_1a3a036708a175ebcc1f2b8b120b0dc1f7" kindref="member">TierLevel</ref></type>
+        <definition>constexpr TierLevel themis::access_model::kNoTier</definition>
         <argsstring></argsstring>
         <name>kNoTier</name>
         <qualifiedname>themis::access_model::kNoTier</qualifiedname>
@@ -233,10 +233,10 @@
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/access_model/access_tier_interface.h" line="348" column="28" bodyfile="include/access_model/access_tier_interface.h" bodystart="348" bodyend="-1"/>
+        <location file="include/access_model/access_tier_interface.h" line="362" column="28" bodyfile="include/access_model/access_tier_interface.h" bodystart="362" bodyend="-1"/>
       </memberdef>
       <memberdef kind="variable" id="namespacethemis_1_1access__model_1a833ad5d3e42b6e31543df7c95ccdbc22" prot="public" static="yes" mutable="no">
-        <type><ref refid="classthemis_1_1access__model_1_1_default_access_model_logger" kindref="compound">DefaultAccessModelLogger</ref></type>
+        <type><ref refid="classthemis_1_1access__model_1_1DefaultAccessModelLogger" kindref="compound">DefaultAccessModelLogger</ref></type>
         <definition>DefaultAccessModelLogger themis::access_model::g_default_logger</definition>
         <argsstring></argsstring>
         <name>g_default_logger</name>
@@ -249,9 +249,9 @@
         </inbodydescription>
         <location file="src/access_model/access_model_logging.cpp" line="132" column="33" bodyfile="src/access_model/access_model_logging.cpp" bodystart="132" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a9e3c51a3dfb745b3f217798c6eb70aed" prot="public" static="no" mutable="no" thread_local="yes">
-        <type><ref refid="structthemis_1_1access__model_1_1_trace_context" kindref="compound">TraceContext</ref></type>
-        <definition>TraceContext themis::access_model::g_thread_local_context</definition>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1aaed429fed3a2f3b0a87a1bf58db22470" prot="public" static="no" mutable="no">
+        <type>thread_local <ref refid="structthemis_1_1access__model_1_1TraceContext" kindref="compound">TraceContext</ref></type>
+        <definition>thread_local TraceContext themis::access_model::g_thread_local_context</definition>
         <argsstring></argsstring>
         <name>g_thread_local_context</name>
         <qualifiedname>themis::access_model::g_thread_local_context</qualifiedname>
@@ -263,9 +263,9 @@
         </inbodydescription>
         <location file="src/access_model/access_model_trace.cpp" line="21" column="27" bodyfile="src/access_model/access_model_trace.cpp" bodystart="21" bodyend="-1"/>
       </memberdef>
-      <memberdef kind="variable" id="namespacethemis_1_1access__model_1ae80f59efef5ffb980dccafbb3e3f0a57" prot="public" static="no" mutable="no" thread_local="yes">
-        <type>bool</type>
-        <definition>bool themis::access_model::g_context_initialized</definition>
+      <memberdef kind="variable" id="namespacethemis_1_1access__model_1a84f79378fbcc7dadda304f354843daf0" prot="public" static="no" mutable="no">
+        <type>thread_local bool</type>
+        <definition>thread_local bool themis::access_model::g_context_initialized</definition>
         <argsstring></argsstring>
         <name>g_context_initialized</name>
         <qualifiedname>themis::access_model::g_context_initialized</qualifiedname>
@@ -286,7 +286,7 @@
         <qualifiedname>themis::access_model::state</qualifiedname>
         <initializer>{
     
-    std::mt19937 rng(<ref refid="classthemis_1_1access__model_1_1_bench_access_coordinator_1a12d4bb41d1b47170496a725afadac57a" kindref="member">BenchAccessCoordinator::kCanonicalSeed</ref>)</initializer>
+    std::mt19937 rng(<ref refid="classthemis_1_1access__model_1_1BenchAccessCoordinator_1a12d4bb41d1b47170496a725afadac57a" kindref="member">BenchAccessCoordinator::kCanonicalSeed</ref>)</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -317,9 +317,9 @@
         <name>us</name>
         <qualifiedname>themis::access_model::us</qualifiedname>
         <initializer>= state.iterations()
- ? state.elapsed_real_time() * 1e6 /
-       static_cast&lt;double&gt;(state.iterations())
- : 0.0</initializer>
+               ? state.elapsed_real_time() * 1e6 /
+                     static_cast&lt;double&gt;(state.iterations())
+               : 0.0</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -335,9 +335,9 @@
         <name>ms</name>
         <qualifiedname>themis::access_model::ms</qualifiedname>
         <initializer>= state.iterations()
- ? state.elapsed_real_time() * 1e3 /
-       static_cast&lt;double&gt;(state.iterations())
- : 0.0</initializer>
+               ? state.elapsed_real_time() * 1e3 /
+                     static_cast&lt;double&gt;(state.iterations())
+               : 0.0</initializer>
         <briefdescription>
         </briefdescription>
         <detaileddescription>
@@ -379,7 +379,7 @@
     </sectiondef>
     <sectiondef kind="func">
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a69604678d6a13ced9a8332dbcc0a3145" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1AccessCoordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
         <definition>std::shared_ptr&lt; AccessCoordinator &gt; themis::access_model::createAccessCoordinator</definition>
         <argsstring>(std::size_t thread_pool_size=4)</argsstring>
         <name>createAccessCoordinator</name>
@@ -390,15 +390,28 @@
           <defval>4</defval>
         </param>
         <briefdescription>
+<para>Create a new <ref refid="classthemis_1_1access__model_1_1AccessCoordinator" kindref="compound">AccessCoordinator</ref> instance backed by a thread pool. </para>
         </briefdescription>
         <detaileddescription>
+<para><parameterlist kind="param"><parameteritem>
+<parameternamelist>
+<parametername direction="in">thread_pool_size</parametername>
+</parameternamelist>
+<parameterdescription>
+<para>Number of background worker threads for async promotion/demotion processing (default: 4). </para>
+</parameterdescription>
+</parameteritem>
+</parameterlist>
+<simplesect kind="return"><para>Shared pointer to the created <ref refid="classthemis_1_1access__model_1_1AccessCoordinator" kindref="compound">AccessCoordinator</ref>; never null. </para>
+</simplesect>
+</para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="include/access_model/access_coordinator.h" line="328" column="17" declfile="include/access_model/access_coordinator.h" declline="328" declcolumn="17"/>
+        <location file="include/access_model/access_coordinator.h" line="345" column="17" declfile="include/access_model/access_coordinator.h" declline="345" declcolumn="17"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a3660a45eab4812682bdc078ffe03991a" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="classthemis_1_1access__model_1_1_access_model_logger" kindref="compound">AccessModelLogger</ref> &amp;</type>
+        <type><ref refid="classthemis_1_1access__model_1_1AccessModelLogger" kindref="compound">AccessModelLogger</ref> &amp;</type>
         <definition>AccessModelLogger &amp; themis::access_model::accessModelLogger</definition>
         <argsstring>()</argsstring>
         <name>accessModelLogger</name>
@@ -418,8 +431,8 @@ Implements accessModelLogger without additional internal calls. </para>
         <location file="src/access_model/access_model_logging.cpp" line="139" column="19" bodyfile="src/access_model/access_model_logging.cpp" bodystart="139" bodyend="141" declfile="include/access_model/access_model_logging.h" declline="172" declcolumn="19"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a065b1f8455f2a9abc2d58764b8b1551f" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type><ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" kindref="member">TierClassification</ref></type>
-        <definition>TierClassification themis::access_model::classifyTier</definition>
+        <type>constexpr <ref refid="namespacethemis_1_1access__model_1a173b9e13e9393b11e27589a8e332bbbb" kindref="member">TierClassification</ref></type>
+        <definition>constexpr TierClassification themis::access_model::classifyTier</definition>
         <argsstring>(TierLevel level)</argsstring>
         <name>classifyTier</name>
         <qualifiedname>themis::access_model::classifyTier</qualifiedname>
@@ -449,8 +462,8 @@ Calls: <ref refid="access__tier__interface_8h_1a7ee3ac13fd32fe14752456d3b5c81c37
         <location file="include/access_model/access_tier_interface.h" line="67" column="30" bodyfile="include/access_model/access_tier_interface.h" bodystart="67" bodyend="80"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a85f72306bf9b8d3b7bd1edc45037206c" prot="public" static="no" constexpr="yes" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::string_view</type>
-        <definition>std::string_view themis::access_model::tierLevelName</definition>
+        <type>constexpr std::string_view</type>
+        <definition>constexpr std::string_view themis::access_model::tierLevelName</definition>
         <argsstring>(TierLevel level)</argsstring>
         <name>tierLevelName</name>
         <qualifiedname>themis::access_model::tierLevelName</qualifiedname>
@@ -480,7 +493,7 @@ Implements tierLevelName without additional internal calls. </para>
         <location file="include/access_model/access_tier_interface.h" line="88" column="28" bodyfile="include/access_model/access_tier_interface.h" bodystart="88" bodyend="106"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a98b660a0ab050742c0f03b4c9c214d7d" prot="public" static="no" const="no" explicit="no" inline="no" virt="non-virtual">
-        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1_access_coordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
+        <type>std::shared_ptr&lt; <ref refid="classthemis_1_1access__model_1_1AccessCoordinator" kindref="compound">AccessCoordinator</ref> &gt;</type>
         <definition>std::shared_ptr&lt; AccessCoordinator &gt; themis::access_model::createAccessCoordinator</definition>
         <argsstring>(size_t thread_pool_size)</argsstring>
         <name>createAccessCoordinator</name>
@@ -508,7 +521,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         </detaileddescription>
         <inbodydescription>
         </inbodydescription>
-        <location file="src/access_model/access_coordinator.cpp" line="722" column="17" bodyfile="src/access_model/access_coordinator.cpp" bodystart="722" bodyend="725"/>
+        <location file="src/access_model/access_coordinator.cpp" line="737" column="17" bodyfile="src/access_model/access_coordinator.cpp" bodystart="737" bodyend="740"/>
       </memberdef>
       <memberdef kind="function" id="namespacethemis_1_1access__model_1a4710a2bcdca479d114ed285996f7b8bf" prot="public" static="yes" const="no" explicit="no" inline="no" virt="non-virtual">
         <type>bool</type>
@@ -517,20 +530,20 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>isPlanExecutable</name>
         <qualifiedname>themis::access_model::isPlanExecutable</qualifiedname>
         <param>
-          <type>const <ref refid="structthemis_1_1access__model_1_1_demotion_plan" kindref="compound">DemotionPlan</ref> &amp;</type>
+          <type>const <ref refid="structthemis_1_1access__model_1_1DemotionPlan" kindref="compound">DemotionPlan</ref> &amp;</type>
           <declname>plan</declname>
         </param>
         <briefdescription>
 <para>Returns true when the grace period has elapsed and the plan is ready for execution. </para>
         </briefdescription>
         <detaileddescription>
-<para>Used by <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1a2ced68a9ad581ce5d3888388757ac808" kindref="member">AccessCoordinator::executeDemotion()</ref> to guard against early execution.</para>
+<para>Used by <ref refid="classthemis_1_1access__model_1_1AccessCoordinator_1a2ced68a9ad581ce5d3888388757ac808" kindref="member">AccessCoordinator::executeDemotion()</ref> to guard against early execution.</para>
 <para><parameterlist kind="param"><parameteritem>
 <parameternamelist>
 <parametername>plan</parametername>
 </parameternamelist>
 <parameterdescription>
-<para>Demotion plan created by <ref refid="classthemis_1_1access__model_1_1_access_coordinator_1ae703dd886f984b8b2339785807ef345c" kindref="member">AccessCoordinator::planDemotion()</ref> </para>
+<para>Demotion plan created by <ref refid="classthemis_1_1access__model_1_1AccessCoordinator_1ae703dd886f984b8b2339785807ef345c" kindref="member">AccessCoordinator::planDemotion()</ref> </para>
 </parameterdescription>
 </parameteritem>
 </parameterlist>
@@ -549,11 +562,11 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>describeResult</name>
         <qualifiedname>themis::access_model::describeResult</qualifiedname>
         <param>
-          <type>const <ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref> &amp;</type>
+          <type>const <ref refid="structthemis_1_1access__model_1_1DemotionResult" kindref="compound">DemotionResult</ref> &amp;</type>
           <declname>result</declname>
         </param>
         <briefdescription>
-<para>Returns a human-readable description of a <ref refid="structthemis_1_1access__model_1_1_demotion_result" kindref="compound">DemotionResult</ref>. </para>
+<para>Returns a human-readable description of a <ref refid="structthemis_1_1access__model_1_1DemotionResult" kindref="compound">DemotionResult</ref>. </para>
         </briefdescription>
         <detaileddescription>
 <para>Intended for logging and diagnostic output.</para>
@@ -581,7 +594,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_01_InitializeWithTiers</type>
@@ -601,7 +614,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_02_InitializeEmptyTiers</type>
@@ -621,7 +634,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_03_SetAgePolicy</type>
@@ -641,7 +654,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_04_OnEvictionLowAccessCount</type>
@@ -661,7 +674,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_05_OnEvictionHighAccessCount</type>
@@ -681,7 +694,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_06_OnHotAccessAboveThreshold</type>
@@ -701,7 +714,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_07_OnHotAccessColdTierPromotesToWarm</type>
@@ -721,7 +734,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_08_PromoteAsyncReturnsCorrectTiers</type>
@@ -741,7 +754,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_09_PromoteAsyncNotRunning</type>
@@ -761,7 +774,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_10_PlanDemotionReturnsValidPlan</type>
@@ -781,7 +794,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_11_ExecuteDemotionValidPlan</type>
@@ -801,7 +814,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_12_ExecuteDemotionUnknownPlan</type>
@@ -821,7 +834,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_13_GetMetricsReturnsSaneValues</type>
@@ -841,7 +854,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_14_GetRecentTransitionsAfterEviction</type>
@@ -861,7 +874,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_test" kindref="compound">AccessCoordinatorTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorTest" kindref="compound">AccessCoordinatorTest</ref></type>
         </param>
         <param>
           <type>ACM_15_SetPromotionThresholds</type>
@@ -881,7 +894,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM01_TierRegistryInitialization</type>
@@ -901,7 +914,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM01_MultipleTiersRegistration</type>
@@ -921,7 +934,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM02_CacheEvictionEventProcessing</type>
@@ -941,7 +954,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM02_HotAccessEventProcessing</type>
@@ -961,7 +974,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM02_MultipleEventsProcessing</type>
@@ -981,7 +994,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM03_L1ToL2Promotion</type>
@@ -1001,7 +1014,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM03_HotnessClassification</type>
@@ -1021,7 +1034,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM03_TierRecommendation</type>
@@ -1041,7 +1054,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM04_AsyncPromotionExecution</type>
@@ -1061,7 +1074,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM04_MultipleAsyncPromotions</type>
@@ -1081,7 +1094,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM05_DemotionPlanCreation</type>
@@ -1101,7 +1114,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM05_DemotionPlanExecution</type>
@@ -1121,7 +1134,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM06_CorrelationIDGeneration</type>
@@ -1141,7 +1154,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM07_MetricsCollection</type>
@@ -1161,7 +1174,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM07_LatencyHistogramTracking</type>
@@ -1181,7 +1194,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM08_ConcurrentEvictionAndPromotion</type>
@@ -1201,7 +1214,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_focused_test" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorFocusedTest" kindref="compound">AccessCoordinatorFocusedTest</ref></type>
         </param>
         <param>
           <type>ACM08_ConcurrentPromotionAndMetricsRead</type>
@@ -1221,7 +1234,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T1_SingleKeyColdToWarmOnThreeAccesses</type>
@@ -1241,7 +1254,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T2_MultipleKeysLRUOrderPreservation</type>
@@ -1261,7 +1274,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T3_ConcurrentPromotions_10KeysParallelAccess</type>
@@ -1281,7 +1294,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T4_PromotionCascades_L3ToL2ToL1BackToBackWithin1s</type>
@@ -1301,7 +1314,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T5_CacheL1FullL2EvictionStorageColdFeedback</type>
@@ -1321,7 +1334,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T6_DemotionRejection_TierAlreadyFullBackpressure</type>
@@ -1341,7 +1354,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T7_CascadingDemotions_L1FillL2FillL3Eviction</type>
@@ -1361,7 +1374,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T8_AgeBasedAutomaticDemotion_AgeExceedsPolicy</type>
@@ -1381,7 +1394,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T9_SizeBasedBlockingFromL1_LargeObjectL2OnlyPath</type>
@@ -1401,7 +1414,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T10_HotHotspot_Single1000xAccessPriorityPromotion</type>
@@ -1421,7 +1434,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T11_EmptyCoordinator_NoTiersRegistered</type>
@@ -1441,7 +1454,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T12_SingleTierPromotion_DemotionNOP</type>
@@ -1461,7 +1474,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T13_RapidFireEvents_100EventsIn10ms_QueueBackpressure</type>
@@ -1481,7 +1494,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T14_WorkerThreadFailureRecovery_OneThreadDiesOthersContinue</type>
@@ -1501,7 +1514,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_model_e2_e_test" kindref="compound">AccessModelE2ETest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessModelE2ETest" kindref="compound">AccessModelE2ETest</ref></type>
         </param>
         <param>
           <type>T15_LongRunning_1000OperationsOver10sWithoutDeadlock</type>
@@ -1521,7 +1534,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextTest" kindref="compound">TraceContextTest</ref></type>
         </param>
         <param>
           <type>GenerateCorrelationID</type>
@@ -1541,7 +1554,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextTest" kindref="compound">TraceContextTest</ref></type>
         </param>
         <param>
           <type>SetAndGetContext</type>
@@ -1561,7 +1574,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextTest" kindref="compound">TraceContextTest</ref></type>
         </param>
         <param>
           <type>CurrentCorrelationID</type>
@@ -1581,7 +1594,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextTest" kindref="compound">TraceContextTest</ref></type>
         </param>
         <param>
           <type>ScopedContextRAII</type>
@@ -1601,7 +1614,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_trace_context_test" kindref="compound">TraceContextTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1TraceContextTest" kindref="compound">TraceContextTest</ref></type>
         </param>
         <param>
           <type>ThreadLocalIsolation</type>
@@ -1621,7 +1634,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1LoggingTest" kindref="compound">LoggingTest</ref></type>
         </param>
         <param>
           <type>LogTierTransition</type>
@@ -1641,7 +1654,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1LoggingTest" kindref="compound">LoggingTest</ref></type>
         </param>
         <param>
           <type>LogEvictionEvent</type>
@@ -1661,7 +1674,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1LoggingTest" kindref="compound">LoggingTest</ref></type>
         </param>
         <param>
           <type>LogPromotionDecision</type>
@@ -1681,7 +1694,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_logging_test" kindref="compound">LoggingTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1LoggingTest" kindref="compound">LoggingTest</ref></type>
         </param>
         <param>
           <type>LogCoordinatorLifecycle</type>
@@ -1701,7 +1714,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_observability_integration_test" kindref="compound">ObservabilityIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1ObservabilityIntegrationTest" kindref="compound">ObservabilityIntegrationTest</ref></type>
         </param>
         <param>
           <type>CorrelationPropagation</type>
@@ -1721,7 +1734,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_observability_integration_test" kindref="compound">ObservabilityIntegrationTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1ObservabilityIntegrationTest" kindref="compound">ObservabilityIntegrationTest</ref></type>
         </param>
         <param>
           <type>HierarchicalTracing</type>
@@ -1741,7 +1754,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C1_ConcurrentEvictionEvents_10Threads_100Each</type>
@@ -1761,7 +1774,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C2_ConcurrentPromotionEvents_5Threads_200Each</type>
@@ -1781,7 +1794,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C3_MixedConcurrentEvents_5Threads_AlternatingEvictionPromotion</type>
@@ -1801,7 +1814,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C4_ConcurrentPromoteCallsOnSameKey_Idempotent</type>
@@ -1821,7 +1834,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C5_ConcurrentDemotePromoteOnSameKey_NoDataLoss</type>
@@ -1841,7 +1854,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C6_ConcurrentTierRegistration_AddRemoveDynamic</type>
@@ -1861,7 +1874,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C7_WorkerThreadScaling_1To8ThreadsThroughputCheck</type>
@@ -1881,7 +1894,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C8_WorkerUnderprovisioningWith1000Events_QueueStability</type>
@@ -1901,7 +1914,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C9_WorkerShutdownDuringInflightEvents_GracefulDrain</type>
@@ -1921,7 +1934,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_access_coordinator_concurrency_test" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1AccessCoordinatorConcurrencyTest" kindref="compound">AccessCoordinatorConcurrencyTest</ref></type>
         </param>
         <param>
           <type>C10_MetricsAtomicity_100ThreadsDecrementCounter</type>
@@ -1941,7 +1954,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_01_CreateDemotionPlan</type>
@@ -1961,7 +1974,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_02_GracePeriodCalculation</type>
@@ -1981,7 +1994,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_03_SuccessfulDemotionResult</type>
@@ -2001,7 +2014,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_04_FailedDemotionResult</type>
@@ -2021,7 +2034,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_05_ShouldDemoteL1ToL2</type>
@@ -2041,7 +2054,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_06_ShouldDemoteHotToWarm</type>
@@ -2061,7 +2074,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_07_ShouldPromoteStorageToCache</type>
@@ -2081,7 +2094,7 @@ Implements createAccessCoordinator without additional internal calls. </para>
         <name>TEST_F</name>
         <qualifiedname>themis::access_model::TEST_F</qualifiedname>
         <param>
-          <type><ref refid="classthemis_1_1access__model_1_1_promotion_demotion_test" kindref="compound">PromotionDemotionTest</ref></type>
+          <type><ref refid="classthemis_1_1access__model_1_1PromotionDemotionTest" kindref="compound">PromotionDemotionTest</ref></type>
         </param>
         <param>
           <type>APD_08_PolicyDescription</type>

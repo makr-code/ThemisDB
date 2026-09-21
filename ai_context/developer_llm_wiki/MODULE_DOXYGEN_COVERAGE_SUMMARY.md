@@ -2,9 +2,9 @@
 
 - Module: access_model
 - Source mode: direct_doxygen_markers
-- Symbol presence ratio: 0.9688
-- Ownership: {'internal': 95, 'external': 0}
+- Symbol presence ratio: 0.9747
+- Ownership: {'internal': 115, 'external': 0}
 - missing_symbol: 2
-- missing_brief: 89
-- missing_param_docs: 25
-- missing_return_docs: 26
+- missing_brief: 54
+- missing_param_docs: 8
+- missing_return_docs: 3
