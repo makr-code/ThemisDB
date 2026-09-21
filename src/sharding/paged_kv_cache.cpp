@@ -6,7 +6,6 @@
  * @brief Implementation of Paged KV Cache for LLM Inference
  * @version 0.0.47
  * @note Maturity: PRODUCTION-READY | Score: 100/100
- * @note Gap Summary: total=0; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=0
  */
 
 #include "sharding/paged_kv_cache.h"

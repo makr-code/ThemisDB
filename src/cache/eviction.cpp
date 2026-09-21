@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2C
  *   Gap B012: unsigned arithmetic wraparound in candidate selection — FIXED
  *   Gap B013: past-end dereference after manual size arithmetic — FIXED
  * @note Status: Production Ready

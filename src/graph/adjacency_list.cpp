@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2B
  *   Gap A003: vector push_back inside edge-list iterator loop — FIXED
  *   Gap A006: clear() + re-append while holding edge list iterator — FIXED
  *   Gap B009: neighbour_at() index without bounds check — FIXED

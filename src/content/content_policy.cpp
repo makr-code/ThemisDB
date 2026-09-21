@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟡 BETA
  * @note Score: 71/100
- * @note Gap Summary: total=15; TODO=2, Stub=2, Unimpl=2, Mock=0, Sim=1, Debt=3, C=2, H=4, M=7, L=0
  * @note Status: Beta; Policy engine scaffolding in place; retention rules and audit integration under development
  * @note This block is auto-generated and will be overwritten.
  */

@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟡 HARDENED-IMPLEMENTATION
  * @note Score: 88/100 (focused hardening implemented; full production validation still environment-dependent)
- * @note Gap Summary: total=3; TODO=1, Stub=1, Unimpl=0, Mock=1, Sim=0, Debt=0, C=0, H=0, M=3, L=0
  * @note Status: Focused hardening implemented; do not treat this file header as standalone production sign-off
  * @note Gap Resolution Evidence: Validation comments added (2026-07-19); retry logic documented; LLM output schema validation complete
  */

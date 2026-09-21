@@ -4,7 +4,6 @@
  * @version 0.0.15
  * @note Maturity: 🟡 BETA
  * @note Score: 80/100
- * @note Gap Summary: total=8; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=4, C=1, H=2, M=5, L=0
  * @note Status: Production Ready; Hash-based dedup working; advanced similarity detection deferred
  * @note This block is auto-generated and will be overwritten.
  */

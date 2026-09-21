@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: total=5; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=2, C=0, H=1, M=4, L=0
  * @note Status: Production Ready; DWG/STEP/IGES parsing working; advanced geometry analysis deferred
  * @note This block is auto-generated and will be overwritten.
  */

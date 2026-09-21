@@ -7,7 +7,6 @@
  * @note Maturity: 🟡 RELEASE-CANDIDATE
  * @note Score: 78/100
  * @note Lines: 150
- * @note Gap Summary: total=7; TODO=1, Stub=4, Unimpl=0, Mock=1, Sim=1, Debt=0, C=n/a, H=n/a, M=n/a, L=n/a
  * @note PR History (last 5): #4330 feat(cache): network-backed... (2026-03-19)
  * @note Status: Release Candidate
  * @note This block is auto-generated and will be overwritten.

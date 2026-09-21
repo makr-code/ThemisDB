@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 92/100
- * @note Gap Summary: total=3; TODO=0, Stub=0, Unimpl=0, Mock=0, Sim=0, Debt=1, C=0, H=1, M=2, L=0
  * @note Status: Production Ready; ZIP/TAR/7Z extraction functional; nested depth limits enforced
  * @note This block is auto-generated and will be overwritten.
  */

@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2B+2D
  *   Gap A004: push_back() during iterator loop (aggregation merge) — FIXED
  *   Gap C001: std::advance() with user-supplied offset in page() — FIXED
  *   Gap C002: std::advance() in key serialisation — FIXED

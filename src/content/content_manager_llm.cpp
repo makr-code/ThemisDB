@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🟡 BETA
  * @note Score: 74/100
- * @note Gap Summary: total=14; TODO=3, Stub=1, Unimpl=2, Mock=0, Sim=0, Debt=2, C=1, H=4, M=7, L=0
  * @note Status: Beta; LLM integration in progress; prompt engineering and response validation under review
  * @note This block is auto-generated and will be overwritten.
  */

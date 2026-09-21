@@ -4,7 +4,6 @@
  * @version 0.0.47
  * @note Maturity: 🔴 ALPHA
  * @note Score: 69/100
- * @note Gap Summary: total=16; TODO=3, Stub=2, Unimpl=2, Mock=1, Sim=0, Debt=2, C=2, H=4, M=8, L=0
  * @note Status: Beta; Plugin loading framework in place; dynamic configuration and hot-reload under development
  * @note This block is auto-generated and will be overwritten.
  */

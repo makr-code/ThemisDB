@@ -2,20 +2,25 @@
 
 **Erstellt:** 2026-08-31T06:44:28Z  
 **Commit:** `e46947c2`  
-**Aktualisiert:** 2026-09-21T04:09:07Z  
+**Aktualisiert:** 2026-09-21T04:49:00Z  
 **Branch:** `develop`  
 **Werkzeug:** `grep -rn --include='*.{cpp,cc,c,h,hpp}' -E 'TODO|STUB|MOCK|FIXME' src/`  
-**Gesamt:** 1712 Fundstellen (Stand: 2026-09-21 | 181 Einträge aufgelöst, durchgestrichen)  
+**Gesamt nach Cleanup:** 239 Fundstellen (Stand: 2026-09-21 | 1473 `@note Gap Summary` False-Positives entfernt via `scripts/remove_gap_summary_headers.py`)  
+**Actionable TODOs:** 39 echte offene Einträge — siehe `audit/ACTIONABLE_TODOS_2026-09-21.md`
 
-## Zusammenfassung
+## Zusammenfassung (nach @note Gap Summary Cleanup)
 
 | Marker | Anzahl |
 |--------|-------:|
-| TODO | 1521 |
-| STUB | 188 |
+| TODO | 48 |
+| STUB | 199 |
 | MOCK | 3 |
 | FIXME | 0 |
-| **Gesamt** | **1712** |
+| **Gesamt** | **239** |
+
+> Hinweis: Diese Datei dokumentiert den historischen Baseline-Scan vom 2026-08-31.
+> Für den aktuellen bereinigten Stand und echte actionable TODOs siehe
+> `audit/ACTIONABLE_TODOS_2026-09-21.md`.
 
 ---
 

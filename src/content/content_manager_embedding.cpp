@@ -4,7 +4,6 @@
  * @version 0.0.15
  * @note Maturity: 🟡 BETA
  * @note Score: 76/100
- * @note Gap Summary: total=12; TODO=2, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0
  * @note Status: Beta; Embedding pipeline in progress; model loading and caching under test
  * @note This block is auto-generated and will be overwritten.
  */

@@ -4,7 +4,6 @@
  * @version 0.1.0
  * @note Maturity: 🟢 PRODUCTION-READY
  * @note Score: 88/100
- * @note Gap Summary: CWE-416/CWE-129 iterator safety — Sprint 7 Batch C Phase 2C
  *   Gap B011: user-supplied offset without validation in page() — FIXED
  *   Gap B012: query_window() sub-range without RangeValidator — FIXED
  *   Gap B013: dereference after lower_bound without end check — FIXED

@@ -4,7 +4,6 @@
  * @version 0.0.15
  * @note Maturity: 🟡 BETA
  * @note Score: 72/100
- * @note Gap Summary: total=11; TODO=1, Stub=1, Unimpl=1, Mock=0, Sim=0, Debt=2, C=1, H=3, M=6, L=0
  * @note Status: Beta; HTML parsing working; CSS selector extraction and advanced DOM analysis deferred
  * @note This block is auto-generated and will be overwritten.
  */
