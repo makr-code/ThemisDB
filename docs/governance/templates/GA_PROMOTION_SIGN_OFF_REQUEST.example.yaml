@@ -1,0 +1,24 @@
+schema_version: 1
+ga_name: "ThemisDB v2.4.0 GA"
+target_version: "v2.4.0"
+release_tag: "v2.4.0"
+sponsor:
+  name: "Platform Release"
+  team: "Core Maintainers"
+requested_by:
+  github: "release-requester"
+approver:
+  github: "__GITHUB_ACTOR__"
+  role: "authorized-maintainer"
+signoff:
+  signed_at: "__GITHUB_REVIEW_SUBMITTED_AT__"
+  rationale: "Wave D and GA governance gates are complete; approve promotion to the community lane."
+repository_state:
+  repository: "makr-code/ThemisDB"
+  ref: "__GITHUB_REF__"
+  sha: "__GITHUB_SHA__"
+  source_document: "docs/governance/GA_PROMOTION_SIGN_OFF.md"
+references:
+  issue_or_pr: "PR #0000"
+  evidence_path: "docs/governance/GA_PROMOTION_SIGN_OFF.md#9-human-ga-approval--signature-block"
+notes: "Generated manifest + SHA-256 hash are uploaded by the GA sign-off workflow; the repository stores the request payload only."

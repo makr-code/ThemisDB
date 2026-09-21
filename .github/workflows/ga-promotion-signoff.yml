@@ -1,0 +1,280 @@
+name: "Governance: GA Promotion Sign-Off"
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches:
+      - develop
+      - community
+      - enterprise
+      - hyperscaler
+      - military
+      - minimal
+    paths:
+      - 'docs/governance/ga_signoff_requests/**'
+      - 'docs/governance/templates/GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml'
+      - 'docs/governance/GA_PROMOTION_SIGN_OFF.md'
+      - '.github/ga-signoff-authorized-maintainers.json'
+      - 'scripts/ga_signoff.py'
+      - 'tests/test_ga_signoff.py'
+      - '.github/workflows/ga-promotion-signoff.yml'
+  pull_request_review:
+    types: [submitted]
+  workflow_dispatch:
+    inputs:
+      payload_path:
+        description: 'Repo-relative path to the GA sign-off request payload (JSON or YAML).'
+        required: true
+      ref:
+        description: 'Branch or ref to validate/sign (defaults to current ref).'
+        required: false
+      signed_at:
+        description: 'Optional ISO 8601 signer timestamp override for manual runs.'
+        required: false
+
+concurrency:
+  group: ga-promotion-signoff-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  request-validation:
+    name: ga-signoff-request-validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4  # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install YAML support
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Collect changed GA sign-off request payloads
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE_REF="${{ github.base_ref }}"
+          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" \
+            | grep -E '^docs/governance/ga_signoff_requests/.*\.(json|ya?ml)$' > /tmp/ga-signoff-files.txt || true
+          if [ ! -s /tmp/ga-signoff-files.txt ]; then
+            echo "No GA sign-off payload changes detected."
+          fi
+
+      - name: Validate request payloads and emit preview manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ga-signoff-preview /tmp/ga-signoff-preview-results
+          if [ ! -s /tmp/ga-signoff-files.txt ]; then
+            exit 0
+          fi
+          while IFS= read -r payload; do
+            [ -z "${payload}" ] && continue
+            stem="$(basename "${payload}")"
+            python3 scripts/ga_signoff.py \
+              --payload "${payload}" \
+              --authorized-maintainers .github/ga-signoff-authorized-maintainers.json \
+              --output-dir "/tmp/ga-signoff-preview/${stem}" \
+              --result-json "/tmp/ga-signoff-preview-results/${stem}.json" \
+              --allow-unresolved-placeholders \
+              --github-repository "${{ github.repository }}" \
+              --github-ref "refs/pull/${{ github.event.pull_request.number }}/head" \
+              --github-sha "${{ github.event.pull_request.head.sha }}" \
+              --github-event-name "${{ github.event_name }}" \
+              --github-run-id "${{ github.run_id }}"
+          done < /tmp/ga-signoff-files.txt
+
+      - name: Summarize preview validation
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          results_dir = Path('/tmp/ga-signoff-preview-results')
+          print('## GA Sign-Off Request Validation')
+          print()
+          if not results_dir.exists():
+              print('- Result: no changed GA sign-off request payloads detected')
+              raise SystemExit(0)
+          results = sorted(results_dir.glob('*.json'))
+          if not results:
+              print('- Result: no preview artifacts generated')
+              raise SystemExit(0)
+          print('| Payload | Preview manifest SHA-256 |')
+          print('|---|---|')
+          for path in results:
+              payload = json.loads(path.read_text(encoding='utf-8'))
+              print(f"| `{payload['payload_path']}` | `{payload['manifest_sha256']}` |")
+          PY
+
+      - name: Upload preview artifacts
+        if: always()
+        uses: actions/upload-artifact@v4  # v7.0.1
+        with:
+          name: ga-signoff-preview-${{ github.run_number }}
+          path: |
+            /tmp/ga-signoff-preview
+            /tmp/ga-signoff-preview-results
+          retention-days: 30
+          if-no-files-found: ignore
+
+  finalize-signoff:
+    name: ga-signoff-finalize
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'pull_request_review' &&
+       github.event.review.state == 'approved' &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    steps:
+      - uses: actions/checkout@v4  # v7.0.1
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event_name == 'workflow_dispatch' && (inputs.ref != '' && inputs.ref || github.ref) || format('refs/pull/{0}/head', github.event.pull_request.number) }}
+
+      - uses: actions/setup-python@v5  # v5.3.0
+        with:
+          python-version: '3.11'
+
+      - name: Install YAML support
+        run: python3 -m pip install --disable-pip-version-check pyyaml
+
+      - name: Resolve payload list
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/ga-signoff-final /tmp/ga-signoff-final-results
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            printf '%s\n' "${{ inputs.payload_path }}" > /tmp/ga-signoff-files.txt
+            exit 0
+          fi
+
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          git fetch origin "${BASE_REF}:refs/remotes/origin/${BASE_REF}"
+          git diff --name-only --diff-filter=ACMR "origin/${BASE_REF}...HEAD" \
+            | grep -E '^docs/governance/ga_signoff_requests/.*\.(json|ya?ml)$' > /tmp/ga-signoff-files.txt || true
+          if [ ! -s /tmp/ga-signoff-files.txt ]; then
+            echo "::error::No GA sign-off request payload changes were found in this PR."
+            exit 1
+          fi
+
+      - name: Validate signer and generate final manifests
+        shell: bash
+        env:
+          EVENT_SIGNED_AT: ${{ github.event_name == 'pull_request_review' && github.event.review.submitted_at || inputs.signed_at }}
+          GA_SIGNOFF_REF: ${{ github.event_name == 'workflow_dispatch' && (inputs.ref || github.ref) || github.event.pull_request.head.ref }}
+          GA_SIGNOFF_SHA: ${{ github.event_name == 'workflow_dispatch' && github.sha || github.event.pull_request.head.sha }}
+        run: |
+          set -euo pipefail
+          while IFS= read -r payload; do
+            [ -z "${payload}" ] && continue
+            stem="$(basename "${payload}")"
+            cmd=(
+              python3 scripts/ga_signoff.py
+              --payload "${payload}"
+              --authorized-maintainers .github/ga-signoff-authorized-maintainers.json
+              --output-dir "/tmp/ga-signoff-final/${stem}"
+              --result-json "/tmp/ga-signoff-final-results/${stem}.json"
+              --github-actor "${{ github.actor }}"
+              --github-repository "${{ github.repository }}"
+              --github-ref "${GA_SIGNOFF_REF}"
+              --github-sha "${GA_SIGNOFF_SHA}"
+              --github-event-name "${{ github.event_name }}"
+              --github-run-id "${{ github.run_id }}"
+            )
+            if [ -n "${EVENT_SIGNED_AT}" ]; then
+              cmd+=(--signed-at "${EVENT_SIGNED_AT}")
+            fi
+            "${cmd[@]}"
+          done < /tmp/ga-signoff-files.txt
+
+      - name: Build PR comment body
+        if: always() && github.event_name == 'pull_request_review'
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          results_dir = Path('/tmp/ga-signoff-final-results')
+          lines = [
+              '<!-- ga-promotion-signoff -->',
+              '## GA Promotion Sign-Off',
+              '',
+              f"- Signer: `@{os.environ.get('GITHUB_ACTOR', '')}`",
+              f"- Workflow run: https://github.com/{os.environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{os.environ.get('GITHUB_RUN_ID', '')}",
+              '',
+              '| Payload | Manifest SHA-256 | Signed at |',
+              '|---|---|---|',
+          ]
+          if results_dir.exists():
+              for path in sorted(results_dir.glob('*.json')):
+                  payload = json.loads(path.read_text(encoding='utf-8'))
+                  lines.append(
+                      f"| `{payload['payload_path']}` | `{payload['manifest_sha256']}` | `{payload['signed_at']}` |"
+                  )
+          else:
+              lines.append('| n/a | n/a | n/a |')
+          Path('/tmp/ga-signoff-pr-comment.md').write_text('\n'.join(lines) + '\n', encoding='utf-8')
+          PY
+
+      - name: Comment final hash on PR
+        if: always() && github.event_name == 'pull_request_review'
+        uses: ./.github/actions/status-flags-and-issues
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          operation: comment_issue
+          issue-number: ${{ github.event.pull_request.number }}
+          target-type: pr
+          issue-marker: '<!-- ga-promotion-signoff -->'
+          issue-body-file: /tmp/ga-signoff-pr-comment.md
+
+      - name: Summarize final sign-off
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          results_dir = Path('/tmp/ga-signoff-final-results')
+          print('## GA Promotion Sign-Off')
+          print()
+          if not results_dir.exists():
+              print('- Result: no final manifest artifacts generated')
+              raise SystemExit(0)
+          results = sorted(results_dir.glob('*.json'))
+          if not results:
+              print('- Result: no final manifest artifacts generated')
+              raise SystemExit(0)
+          print('| Payload | Manifest SHA-256 | Signed at |')
+          print('|---|---|---|')
+          for path in results:
+              payload = json.loads(path.read_text(encoding='utf-8'))
+              print(f"| `{payload['payload_path']}` | `{payload['manifest_sha256']}` | `{payload['signed_at']}` |")
+          PY
+
+      - name: Upload final sign-off artifacts
+        if: always()
+        uses: actions/upload-artifact@v4  # v7.0.1
+        with:
+          name: ga-signoff-${{ github.run_number }}
+          path: |
+            /tmp/ga-signoff-final
+            /tmp/ga-signoff-final-results
+          retention-days: 90
+          if-no-files-found: error

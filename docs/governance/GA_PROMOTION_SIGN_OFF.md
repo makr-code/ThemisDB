@@ -371,7 +371,24 @@ APPROVED:  [ ] YES — proceed with develop → community merge and v2.4.0 tag
            [ ] NO  — open items: ______________________________
 ```
 
+### 9.1 CI-backed sign-off record (required for auditable approval)
+
+For every new GA promotion approval request, use the GitHub-native sign-off flow below:
+
+1. Open an issue or PR initiated by a human maintainer/release owner.
+2. Add a repo-local request payload under `docs/governance/ga_signoff_requests/` using `docs/governance/templates/GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml`.
+3. Keep CI-bound fields (`approver.github`, `signoff.signed_at`, `repository_state.ref`, `repository_state.sha`) as the documented `__GITHUB_*__` placeholders unless a manual dispatch run is intentionally filling them.
+4. The policy file `.github/ga-signoff-authorized-maintainers.json` defines which GitHub handles may approve/sign GA promotions.
+5. `.github/workflows/ga-promotion-signoff.yml` validates the request on PR updates and, after an authorized maintainer review approval or explicit `workflow_dispatch`, runs `scripts/ga_signoff.py` to generate:
+   - a canonical GA promotion manifest JSON
+   - a detached SHA-256 file over the exact manifest content
+   - a machine-readable result summary for CI/audit tooling
+6. For security, the review-triggered finalization lane only posts PR comments for same-repository branches; fork-originated sign-off requests must use the manual `workflow_dispatch` lane after a maintainer checks out the reviewed branch/ref.
+7. The generated manifest and hash are uploaded as GitHub Actions artifacts (90-day retention for the final sign-off lane), and the final manifest hash is posted back to the PR as an audit pointer when the sign-off ran from a same-repository PR.
+
+**Storage / trust model:** The repository stores the reviewable request payload only. The authoritative machine record is the generated manifest artifact plus its detached SHA-256 and the PR comment/run URL created by GitHub Actions. This provides integrity and auditability bound to GitHub identity and repository permissions; it is **not** presented as an external PKI-style cryptographic signature.
+
 ---
 
-_Document last updated: 2026-08-07 by Batch E closure synchronization and GA blocker reaffirmation._  
-_Human sign-off in Section 9 is required before any promotion action._
+_Document last updated: 2026-09-21 by GA sign-off workflow automation update._  
+_Human sign-off in Section 9 remains required before any promotion action._
