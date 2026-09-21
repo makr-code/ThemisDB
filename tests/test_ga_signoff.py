@@ -11,6 +11,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 SCRIPT_PATH = REPO_ROOT / "scripts" / "ga_signoff.py"
 WORKFLOW_PATH = REPO_ROOT / ".github" / "workflows" / "ga-promotion-signoff.yml"
+ISSUE_TEMPLATE_PATH = REPO_ROOT / ".github" / "ISSUE_TEMPLATE" / "ga_promotion_signoff.md"
 
 
 def load_module():
@@ -177,6 +178,13 @@ class GASignoffTests(unittest.TestCase):
         self.assertIn("docs/governance/ga_signoff_requests/**", workflow)
         self.assertIn("actions/upload-artifact@v4", workflow)
         self.assertIn("comment_issue", workflow)
+
+    def test_issue_template_links_issue_to_payload_and_pr_flow(self) -> None:
+        template = ISSUE_TEMPLATE_PATH.read_text(encoding="utf-8")
+        self.assertIn("docs/governance/ga_signoff_requests/", template)
+        self.assertIn("GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml", template)
+        self.assertIn("Handoff to PR", template)
+        self.assertIn("authorized maintainer", template)
 
 
 if __name__ == "__main__":

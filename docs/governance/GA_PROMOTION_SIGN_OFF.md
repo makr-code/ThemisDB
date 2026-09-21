@@ -375,8 +375,8 @@ APPROVED:  [ ] YES — proceed with develop → community merge and v2.4.0 tag
 
 For every new GA promotion approval request, use the GitHub-native sign-off flow below:
 
-1. Open an issue or PR initiated by a human maintainer/release owner.
-2. Add a repo-local request payload under `docs/governance/ga_signoff_requests/` using `docs/governance/templates/GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml`.
+1. Open an issue or PR initiated by a human maintainer/release owner. For issue-first requests, start from `.github/ISSUE_TEMPLATE/ga_promotion_signoff.md`.
+2. Add a repo-local request payload under `docs/governance/ga_signoff_requests/` using `docs/governance/templates/GA_PROMOTION_SIGN_OFF_REQUEST.example.yaml`, then move or link that payload into the human-reviewed PR that will carry the final sign-off.
 3. Keep CI-bound fields (`approver.github`, `signoff.signed_at`, `repository_state.ref`, `repository_state.sha`) as the documented `__GITHUB_*__` placeholders unless a manual dispatch run is intentionally filling them.
 4. The policy file `.github/ga-signoff-authorized-maintainers.json` defines which GitHub handles may approve/sign GA promotions.
 5. `.github/workflows/ga-promotion-signoff.yml` validates the request on PR updates and, after an authorized maintainer review approval or explicit `workflow_dispatch`, runs `scripts/ga_signoff.py` to generate:
