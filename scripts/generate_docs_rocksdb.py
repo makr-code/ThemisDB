@@ -162,6 +162,8 @@ Status openDbCompat(const Options& options, const std::string& db_path, DBType**
     Status status = DBType::Open(options, db_path, &db_raw);
     if (status.ok()) {
         *out_db = db_raw;
+    } else {
+        delete db_raw;
     }
     return status;
 }
