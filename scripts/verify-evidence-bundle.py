@@ -47,7 +47,7 @@ def main() -> None:
 
     try:
         bundle = json.loads(bundle_path.read_text(encoding="utf-8"))
-    except json.JSONDecodeError as exc:
+    except (json.JSONDecodeError, ValueError, UnicodeDecodeError) as exc:
         fail(f"Bundle JSON is malformed: {exc}")
 
     if not isinstance(bundle, dict):
